@@ -71,6 +71,7 @@ dependencies:
   firebase_analytics: ^10.9.0
   cloud_functions: ^4.7.1
   material_color_utilities: ^0.8.0
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
 
@@ -111,6 +112,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/graphics/login_welcome.svg
+    - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

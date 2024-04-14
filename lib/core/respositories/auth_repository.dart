@@ -1,3 +1,4 @@
+import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -16,8 +17,7 @@ abstract class BaseAuthRepository {
 class FirebaseAuthRepository implements BaseAuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-      serverClientId: const String.fromEnvironment("GOOGLE_CLIENT_ID"),
-      scopes: ['email', 'openid']);
+      serverClientId: "GOOGLE_CLIENT_ID".fromEnv, scopes: ['email', 'openid']);
 
   @override
   Future<void> signInWithGoogle() async {
@@ -87,7 +87,7 @@ class FirebaseAuthRepository implements BaseAuthRepository {
         await user.updatePhotoURL(photoURL);
       }
     } catch (error) {
-      // Handle error
+      rethrow;
     }
   }
 
@@ -96,27 +96,21 @@ class FirebaseAuthRepository implements BaseAuthRepository {
     try {
       return _firebaseAuth.currentUser;
     } catch (e) {
-      //ignore
+      rethrow;
     }
-    return null;
   }
 
   @override
   Future<void> verifyOtp(
       {required String verificationId, required String otp}) async {
-    try {
-      // Create a PhoneAuthCredential using the verification ID and OTP
-      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId,
-        smsCode: otp,
-      );
+    // Create a PhoneAuthCredential using the verification ID and OTP
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: verificationId,
+      smsCode: otp,
+    );
 
-      // Sign in the user with the credential
-      await _firebaseAuth.signInWithCredential(credential);
-    } catch (error) {
-      print(error);
-      // Handle error
-    }
+    // Sign in the user with the credential
+    await _firebaseAuth.signInWithCredential(credential);
   }
 }
 

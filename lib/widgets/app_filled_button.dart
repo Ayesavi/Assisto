@@ -23,7 +23,6 @@ class AppFilledButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Check if progress is ongoing
     final isProgress = ref.watch(progressIndicatorProvider);
-    final size = MediaQuery.sizeOf(context);
     return SizedBox(
       width: double.infinity,
       child: FilledButton(
@@ -37,13 +36,17 @@ class AppFilledButton extends ConsumerWidget {
               onTap!();
             } else if (asyncTap != null && isProgress == false) {
               // Start showing CircularProgressIndicator
-              ref
-                  .read(progressIndicatorProvider.notifier)
-                  .update((state) => true);
-              // Call the asyncTap
-              asyncTap!().then((value) {
-                ref.read(progressIndicatorProvider.notifier).state = false;
-              });
+              if (ref.context.mounted) {
+                ref
+                    .read(progressIndicatorProvider.notifier)
+                    .update((state) => true);
+                // Call the asyncTap
+                asyncTap!().then((value) {
+                  if (ref.context.mounted) {
+                    ref.read(progressIndicatorProvider.notifier).state = false;
+                  }
+                });
+              }
               // Stop showing CircularProgressIndicator
             }
           },

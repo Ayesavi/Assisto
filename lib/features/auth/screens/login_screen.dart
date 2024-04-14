@@ -129,7 +129,7 @@ class LoginScreen extends ConsumerWidget {
                   ),
                   AppFilledButton(
                       asyncTap: () async {
-                        await Future.delayed(const Duration(seconds: 2), () {});
+                        await controller.continueWithGoogle();
                       },
                       label: LoginScreenText.continueWithGoogleButtonLabel),
                   const SizedBox(

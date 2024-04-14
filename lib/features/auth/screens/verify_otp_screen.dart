@@ -14,7 +14,7 @@ class VerifyOtpScreenConstants {
   static const String verificationCode = 'Verification Code';
   static const String confirm = 'Confirm';
   static const String sentCode =
-      'We have sent the verification code to your phone number';
+      'We have sent the verification code to your phone number ';
 }
 
 final otpControllerProvider = StateProvider<TextEditingController>((ref) {
@@ -55,7 +55,7 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
             const Padding(padding: kWidgetVerticalPadding),
             BodyLarge(
               color: Theme.of(context).colorScheme.outline.tone(60),
-              text: VerifyOtpScreenConstants.sentCode + widget.verificationId,
+              text: VerifyOtpScreenConstants.sentCode + widget.phone,
               maxLines: 2,
             ),
             const Padding(padding: kWidgetVerticalPadding),

@@ -26,4 +26,8 @@ class LoginPageController extends _$LoginPageController {
   Future<void> verifyOtp(String verificationId, String otp) async {
     await _repo.verifyOtp(verificationId: verificationId, otp: otp);
   }
+
+  Future<void> continueWithGoogle() async {
+    await _repo.signInWithGoogle();
+  }
 }
