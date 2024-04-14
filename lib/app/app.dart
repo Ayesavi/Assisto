@@ -16,6 +16,7 @@ class MyApp extends ConsumerWidget {
     final theme = MaterialTheme(GoogleFonts.interTextTheme(textTheme));
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       theme: theme.lightContrast(),
       darkTheme: theme.darkMediumContrast(),
       routerConfig: router,

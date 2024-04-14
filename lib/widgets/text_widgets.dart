@@ -148,11 +148,13 @@ class BodyLarge extends StatelessWidget {
   final Color? color;
   final FontWeight? weight;
   final int? maxLines;
+  final TextAlign? align;
 
   const BodyLarge(
       {super.key,
       required this.text,
       this.color,
+      this.align,
       this.maxLines,
       this.weight,
       this.overflow = TextOverflow.ellipsis});
@@ -163,6 +165,7 @@ class BodyLarge extends StatelessWidget {
       text,
       maxLines: maxLines,
       overflow: overflow,
+      textAlign: align,
       style: Theme.of(context)
           .textTheme
           .bodyLarge
