@@ -24,6 +24,7 @@ enum AppAuthState {
   loading,
   unauthenticated,
   anonymous,
+
   /// When user is authenticated but profile details are not filled
   /// which is required
   unfulfilledProfile
@@ -34,7 +35,7 @@ class AuthController {
 
   const AuthController(this.state);
 
-  AuthRepository get _repo => AuthRepository();
+  BaseAuthRepository get _repo => FirebaseAuthRepository();
 
   Future<User?> get user => _repo.getUser();
 

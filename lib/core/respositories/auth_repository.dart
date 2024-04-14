@@ -3,14 +3,17 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class BaseAuthRepository {
   Future<void> signInWithGoogle();
-  Future<void> signInWithPhoneNumber(String phoneNumber);
+  Future<void> signInWithPhoneNumber(String phoneNumber,
+      {void Function(String vId, int? resToken)? onCodeSent,
+      void Function(FirebaseAuthException exception)? onFailed,
+      void Function(String vId)? onTimeOut});
   Future<void> signOut();
   Future<void> updateProfile({String? displayName, String? photoURL});
   Future<User?> getUser();
   Future<void> verifyOtp({required String verificationId, required String otp});
 }
 
-class AuthRepository implements BaseAuthRepository {
+class FirebaseAuthRepository implements BaseAuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
       serverClientId: const String.fromEnvironment("GOOGLE_CLIENT_ID"),
@@ -37,7 +40,10 @@ class AuthRepository implements BaseAuthRepository {
   }
 
   @override
-  Future<void> signInWithPhoneNumber(String phoneNumber) async {
+  Future<void> signInWithPhoneNumber(String phoneNumber,
+      {void Function(String vId, int? resToken)? onCodeSent,
+      void Function(FirebaseAuthException exception)? onFailed,
+      void Function(String vId)? onTimeOut}) async {
     try {
       await _firebaseAuth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
@@ -46,12 +52,15 @@ class AuthRepository implements BaseAuthRepository {
         },
         verificationFailed: (FirebaseAuthException e) {},
         codeSent: (String verificationId, int? resendToken) {
+          onCodeSent?.call(verificationId, resendToken);
           // Handle code sent
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           // Handle timeout
         },
       );
+
+      // _firebaseAuth.signInWithPhoneNumber(phoneNumber)
     } catch (error) {
       return;
     }
@@ -105,7 +114,50 @@ class AuthRepository implements BaseAuthRepository {
       // Sign in the user with the credential
       await _firebaseAuth.signInWithCredential(credential);
     } catch (error) {
+      print(error);
       // Handle error
     }
+  }
+}
+
+class FakeAuthRepository implements BaseAuthRepository {
+  @override
+  Future<User?> getUser() {
+    // TODO: implement getUser
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> signInWithGoogle() {
+    // TODO: implement signInWithGoogle
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> signOut() {
+    // TODO: implement signOut
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateProfile({String? displayName, String? photoURL}) {
+    // TODO: implement updateProfile
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> verifyOtp(
+      {required String verificationId, required String otp}) {
+    // TODO: implement verifyOtp
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> signInWithPhoneNumber(String phoneNumber,
+      {void Function(String vId, int? resToken)? onCodeSent,
+      void Function(FirebaseAuthException exception)? onFailed,
+      void Function(String vId)? onTimeOut}) {
+    // TODO: implement signInWithPhoneNumber
+    throw UnimplementedError();
   }
 }
