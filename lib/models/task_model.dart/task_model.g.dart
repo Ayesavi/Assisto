@@ -9,13 +9,19 @@ part of 'task_model.dart';
 _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
     _$TaskModelImpl(
       ownerId: json['ownerId'] as String,
-      locationId: json['locationId'] as String?,
+      attachedLocation: _$recordConvertNullable(
+        json['attachedLocation'],
+        ($jsonValue) => (
+          lat: ($jsonValue['lat'] as num).toDouble(),
+          lng: ($jsonValue['lng'] as num).toDouble(),
+        ),
+      ),
       relevantCategories: (json['relevantCategories'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
-      milestoneTime: json['milestoneTime'] == null
+      taskDeadline: json['taskDeadline'] == null
           ? null
-          : DateTime.parse(json['milestoneTime'] as String),
+          : DateTime.parse(json['taskDeadline'] as String),
       title: json['title'] as String,
       description: json['description'] as String,
       gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
@@ -31,9 +37,14 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
     <String, dynamic>{
       'ownerId': instance.ownerId,
-      'locationId': instance.locationId,
+      'attachedLocation': instance.attachedLocation == null
+          ? null
+          : {
+              'lat': instance.attachedLocation!.lat,
+              'lng': instance.attachedLocation!.lng,
+            },
       'relevantCategories': instance.relevantCategories,
-      'milestoneTime': instance.milestoneTime?.toIso8601String(),
+      'taskDeadline': instance.taskDeadline?.toIso8601String(),
       'title': instance.title,
       'description': instance.description,
       'gender': _$GenderEnumMap[instance.gender],
@@ -44,6 +55,12 @@ Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
       'assigned': instance.assigned,
       'createdAt': instance.createdAt.toIso8601String(),
     };
+
+$Rec? _$recordConvertNullable<$Rec>(
+  Object? value,
+  $Rec Function(Map) convert,
+) =>
+    value == null ? null : convert(value as Map<String, dynamic>);
 
 const _$GenderEnumMap = {
   Gender.male: 'male',
