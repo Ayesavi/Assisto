@@ -45,15 +45,18 @@
         "firebase-debug.log",
         "firebase-debug.*.log"
       ]
-    },{
-      "source": "api/express-api",
-      "codebase": "express-routing",
+    },
+    {
+      "source": "api/assisto-v1",
+      "codebase": "assisto-v1",
       "ignore": [
         "node_modules",
         ".git",
-        ".env",
         "firebase-debug.log",
         "firebase-debug.*.log"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run build"
       ]
     }
   ]
