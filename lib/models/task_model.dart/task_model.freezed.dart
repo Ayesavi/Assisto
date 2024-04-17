@@ -20,13 +20,14 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskModel {
-//
   String get ownerId =>
       throw _privateConstructorUsedError; // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
-  String? get locationId => throw _privateConstructorUsedError;
+// attachedLocation
+  ({double lat, double lng})? get attachedLocation =>
+      throw _privateConstructorUsedError;
   List<String> get relevantCategories => throw _privateConstructorUsedError;
-  DateTime? get milestoneTime => throw _privateConstructorUsedError;
+  DateTime? get taskDeadline => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   Gender? get gender => throw _privateConstructorUsedError;
@@ -52,9 +53,9 @@ abstract class $TaskModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String ownerId,
-      String? locationId,
+      ({double lat, double lng})? attachedLocation,
       List<String> relevantCategories,
-      DateTime? milestoneTime,
+      DateTime? taskDeadline,
       String title,
       String description,
       Gender? gender,
@@ -80,9 +81,9 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
   @override
   $Res call({
     Object? ownerId = null,
-    Object? locationId = freezed,
+    Object? attachedLocation = freezed,
     Object? relevantCategories = null,
-    Object? milestoneTime = freezed,
+    Object? taskDeadline = freezed,
     Object? title = null,
     Object? description = null,
     Object? gender = freezed,
@@ -98,17 +99,17 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
               as String,
-      locationId: freezed == locationId
-          ? _value.locationId
-          : locationId // ignore: cast_nullable_to_non_nullable
-              as String?,
+      attachedLocation: freezed == attachedLocation
+          ? _value.attachedLocation
+          : attachedLocation // ignore: cast_nullable_to_non_nullable
+              as ({double lat, double lng})?,
       relevantCategories: null == relevantCategories
           ? _value.relevantCategories
           : relevantCategories // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      milestoneTime: freezed == milestoneTime
-          ? _value.milestoneTime
-          : milestoneTime // ignore: cast_nullable_to_non_nullable
+      taskDeadline: freezed == taskDeadline
+          ? _value.taskDeadline
+          : taskDeadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       title: null == title
           ? _value.title
@@ -160,9 +161,9 @@ abstract class _$$TaskModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String ownerId,
-      String? locationId,
+      ({double lat, double lng})? attachedLocation,
       List<String> relevantCategories,
-      DateTime? milestoneTime,
+      DateTime? taskDeadline,
       String title,
       String description,
       Gender? gender,
@@ -186,9 +187,9 @@ class __$$TaskModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? ownerId = null,
-    Object? locationId = freezed,
+    Object? attachedLocation = freezed,
     Object? relevantCategories = null,
-    Object? milestoneTime = freezed,
+    Object? taskDeadline = freezed,
     Object? title = null,
     Object? description = null,
     Object? gender = freezed,
@@ -204,17 +205,17 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
               as String,
-      locationId: freezed == locationId
-          ? _value.locationId
-          : locationId // ignore: cast_nullable_to_non_nullable
-              as String?,
+      attachedLocation: freezed == attachedLocation
+          ? _value.attachedLocation
+          : attachedLocation // ignore: cast_nullable_to_non_nullable
+              as ({double lat, double lng})?,
       relevantCategories: null == relevantCategories
           ? _value._relevantCategories
           : relevantCategories // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      milestoneTime: freezed == milestoneTime
-          ? _value.milestoneTime
-          : milestoneTime // ignore: cast_nullable_to_non_nullable
+      taskDeadline: freezed == taskDeadline
+          ? _value.taskDeadline
+          : taskDeadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       title: null == title
           ? _value.title
@@ -261,9 +262,9 @@ class __$$TaskModelImplCopyWithImpl<$Res>
 class _$TaskModelImpl implements _TaskModel {
   const _$TaskModelImpl(
       {required this.ownerId,
-      this.locationId,
+      this.attachedLocation,
       required final List<String> relevantCategories,
-      this.milestoneTime,
+      this.taskDeadline,
       required this.title,
       required this.description,
       this.gender,
@@ -278,13 +279,13 @@ class _$TaskModelImpl implements _TaskModel {
   factory _$TaskModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskModelImplFromJson(json);
 
-//
   @override
   final String ownerId;
 // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
+// attachedLocation
   @override
-  final String? locationId;
+  final ({double lat, double lng})? attachedLocation;
   final List<String> _relevantCategories;
   @override
   List<String> get relevantCategories {
@@ -295,7 +296,7 @@ class _$TaskModelImpl implements _TaskModel {
   }
 
   @override
-  final DateTime? milestoneTime;
+  final DateTime? taskDeadline;
   @override
   final String title;
   @override
@@ -321,7 +322,7 @@ class _$TaskModelImpl implements _TaskModel {
 
   @override
   String toString() {
-    return 'TaskModel(ownerId: $ownerId, locationId: $locationId, relevantCategories: $relevantCategories, milestoneTime: $milestoneTime, title: $title, description: $description, gender: $gender, age: $age, expectedPrice: $expectedPrice, status: $status, id: $id, assigned: $assigned, createdAt: $createdAt)';
+    return 'TaskModel(ownerId: $ownerId, attachedLocation: $attachedLocation, relevantCategories: $relevantCategories, taskDeadline: $taskDeadline, title: $title, description: $description, gender: $gender, age: $age, expectedPrice: $expectedPrice, status: $status, id: $id, assigned: $assigned, createdAt: $createdAt)';
   }
 
   @override
@@ -330,12 +331,12 @@ class _$TaskModelImpl implements _TaskModel {
         (other.runtimeType == runtimeType &&
             other is _$TaskModelImpl &&
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
-            (identical(other.locationId, locationId) ||
-                other.locationId == locationId) &&
+            (identical(other.attachedLocation, attachedLocation) ||
+                other.attachedLocation == attachedLocation) &&
             const DeepCollectionEquality()
                 .equals(other._relevantCategories, _relevantCategories) &&
-            (identical(other.milestoneTime, milestoneTime) ||
-                other.milestoneTime == milestoneTime) &&
+            (identical(other.taskDeadline, taskDeadline) ||
+                other.taskDeadline == taskDeadline) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -356,9 +357,9 @@ class _$TaskModelImpl implements _TaskModel {
   int get hashCode => Object.hash(
       runtimeType,
       ownerId,
-      locationId,
+      attachedLocation,
       const DeepCollectionEquality().hash(_relevantCategories),
-      milestoneTime,
+      taskDeadline,
       title,
       description,
       gender,
@@ -386,9 +387,9 @@ class _$TaskModelImpl implements _TaskModel {
 abstract class _TaskModel implements TaskModel {
   const factory _TaskModel(
       {required final String ownerId,
-      final String? locationId,
+      final ({double lat, double lng})? attachedLocation,
       required final List<String> relevantCategories,
-      final DateTime? milestoneTime,
+      final DateTime? taskDeadline,
       required final String title,
       required final String description,
       final Gender? gender,
@@ -402,15 +403,16 @@ abstract class _TaskModel implements TaskModel {
   factory _TaskModel.fromJson(Map<String, dynamic> json) =
       _$TaskModelImpl.fromJson;
 
-  @override //
+  @override
   String get ownerId;
   @override // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
-  String? get locationId;
+// attachedLocation
+  ({double lat, double lng})? get attachedLocation;
   @override
   List<String> get relevantCategories;
   @override
-  DateTime? get milestoneTime;
+  DateTime? get taskDeadline;
   @override
   String get title;
   @override
