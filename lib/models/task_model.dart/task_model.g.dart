@@ -8,7 +8,7 @@ part of 'task_model.dart';
 
 _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
     _$TaskModelImpl(
-      ownerId: json['ownerId'] as String,
+      ownerId: json['ownerId'] as String? ?? '',
       attachedLocation: _$recordConvertNullable(
         json['attachedLocation'],
         ($jsonValue) => (
@@ -16,7 +16,7 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
           lng: ($jsonValue['lng'] as num).toDouble(),
         ),
       ),
-      relevantCategories: (json['relevantCategories'] as List<dynamic>)
+      relevantTags: (json['relevantTags'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
       taskDeadline: json['taskDeadline'] == null
@@ -43,7 +43,7 @@ Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
               'lat': instance.attachedLocation!.lat,
               'lng': instance.attachedLocation!.lng,
             },
-      'relevantCategories': instance.relevantCategories,
+      'relevantTags': instance.relevantTags,
       'taskDeadline': instance.taskDeadline?.toIso8601String(),
       'title': instance.title,
       'description': instance.description,

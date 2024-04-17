@@ -33,7 +33,7 @@ class HomeRoute extends GoRouteData {
   const HomeRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const HomeScreen();
+  Widget build(BuildContext context, GoRouterState state) => HomeScreen();
 
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
@@ -42,7 +42,6 @@ class HomeRoute extends GoRouteData {
 }
 
 class OtpPageRoute extends GoRouteData {
-  
   const OtpPageRoute({required this.phoneNumber, required this.verificationId});
 
   /// The phone number associated with the OTP page.
