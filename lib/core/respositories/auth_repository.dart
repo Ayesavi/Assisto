@@ -1,5 +1,6 @@
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class BaseAuthRepository {
@@ -16,22 +17,35 @@ abstract class BaseAuthRepository {
 
 class FirebaseAuthRepository implements BaseAuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-      serverClientId: "GOOGLE_CLIENT_ID".fromEnv, scopes: ['email', 'openid']);
 
   @override
   Future<void> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn();
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
-        await _firebaseAuth.signInWithCredential(credential);
+      if (!kIsWeb) {
+        final GoogleSignIn googleSignIn = GoogleSignIn(
+            serverClientId: !kIsWeb ? "GOOGLE_CLIENT_ID".fromEnv : null,
+            clientId: kIsWeb ? "GOOGLE_CLIENT_ID".fromEnv : null,
+            scopes: ['email', 'openid']);
+        final GoogleSignInAccount? googleSignInAccount =
+            await googleSignIn.signIn();
+        if (googleSignInAccount != null) {
+          final GoogleSignInAuthentication googleSignInAuthentication =
+              await googleSignInAccount.authentication;
+          final AuthCredential credential = GoogleAuthProvider.credential(
+            accessToken: googleSignInAuthentication.accessToken,
+            idToken: googleSignInAuthentication.idToken,
+          );
+          await _firebaseAuth.signInWithCredential(credential);
+        }
+      } else {
+        // Create a new provider
+        GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+        // Once signed in, return the UserCredential
+        await FirebaseAuth.instance.signInWithPopup(googleProvider);
+
+        // Or use signInWithRedirect
+        // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
       }
     } catch (error) {
       return;

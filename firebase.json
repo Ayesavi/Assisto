@@ -30,6 +30,28 @@
       "ignore": [
         "node_modules",
         ".git",
+        ".env",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ]
+    },
+    {
+      "source": "api/get_categories",
+      "codebase": "get_categories",
+      "ignore": [
+        "node_modules",
+        ".git",
+        ".env",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ]
+    },{
+      "source": "api/express-api",
+      "codebase": "express-routing",
+      "ignore": [
+        "node_modules",
+        ".git",
+        ".env",
         "firebase-debug.log",
         "firebase-debug.*.log"
       ]

@@ -2,8 +2,9 @@ const logger = require("firebase-functions/logger");
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 
-admin.initializeApp();
-exports.onUserCreated = functions.auth.user().onCreate(async (user) => {
+admin.initializeApp(); 
+
+exports.onUserCreated = functions.region('asia-south1').auth.user().onCreate(async (user) => {
   try {
     logger.info(`User created: ${user.uid}`, { structuredData: true });
 
@@ -43,3 +44,51 @@ exports.onUserCreated = functions.auth.user().onCreate(async (user) => {
     );
   }
 });
+// call this function everytime you update some user details.
+// exports.onUserUpdate = functions.region('asia-south1').auth.user().beforeSignIn(async (change) => {
+//   try {
+//     const { before, after } = change;
+
+//     const promises = [];
+
+//     const newData = {
+//       displayName: after.displayName || null,
+//       email: after.email || null,
+//       phoneNumber: after.phoneNumber || null
+//       // You can add more fields here as needed
+//     };
+
+//     // Check if displayName has been updated
+//     if (before.displayName !== after.displayName) {
+//       promises.push(
+//         admin.firestore().collection("profiles").doc(after.uid).update({ displayName: after.displayName })
+//       );
+//     }
+
+//     // Check if email has been updated
+//     if (before.email !== after.email) {
+//       promises.push(
+//         admin.firestore().collection("users").doc(after.uid).update({ email: after.email })
+//       );
+//     }
+
+//     // Check if phoneNumber has been updated
+//     if (before.phoneNumber !== after.phoneNumber) {
+//       promises.push(
+//         admin.firestore().collection("users").doc(after.uid).update({ phoneNumber: after.phoneNumber })
+//       );
+//     }
+
+//     // Wait for all updates to complete
+//     await Promise.all(promises);
+
+//     return null;
+//   } catch (error) {
+//     console.error("Error during user update:", error);
+//     throw new functions.https.HttpsError(
+//       "internal",
+//       "Error during user update",
+//       error
+//     );
+//   }
+// });

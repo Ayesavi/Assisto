@@ -59,4 +59,7 @@ class AuthController {
   Future<User?> getUser() async {
     return await _repo.getUser();
   }
+
+  
+
 }

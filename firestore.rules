@@ -10,7 +10,14 @@ service cloud.firestore {
       allow read: if request.auth != null // Anyone authenticated can read
       allow write, update, delete: if request.auth != null && request.auth.uid == userId;
     }
+
+    match /categories/{name}/{document=**} {
+      allow create: if request.auth.uid != null;
+      allow create ,update, delete: if false; // Disallow updates and deletes
+    }
+    
   }
+
   
 }
 

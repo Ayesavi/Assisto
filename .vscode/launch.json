@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Assisto dev",
+            "request": "launch",
+            "type": "dart",
+            
+        },
+        {
+            "name": "Assisto Production",
+            "request": "launch",
+            "type": "dart",
+            
+        },
+    ]
+}
