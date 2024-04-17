@@ -7,13 +7,13 @@ part 'task_model.freezed.dart';
 @freezed
 class TaskModel with _$TaskModel {
   const factory TaskModel({
-    // 
     required String ownerId,
     // where the task has to be performed or the assigned 
     // user has to be report when the task is completed.
-    String? locationId,
+    // attachedLocation
+    LatLng? attachedLocation,
     required List<String> relevantCategories,
-    DateTime? milestoneTime,
+    DateTime? taskDeadline,
     required String title,
     required String description,
     Gender? gender,
@@ -34,3 +34,6 @@ class TaskModel with _$TaskModel {
 enum Gender { male, female, other, any }
 
 enum TaskStatus { unassigned, paid, assigned, completed }
+
+
+typedef LatLng = ({double lat, double lng});
