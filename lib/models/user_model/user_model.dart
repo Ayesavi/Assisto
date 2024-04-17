@@ -7,7 +7,10 @@ part 'user_model.g.dart';
 abstract class UserModel with _$UserModel {
   const factory UserModel({
     required String userId,
-    required PublicUserData publicData,
+    required String name,
+    required String imageUrl,
+    required String gender,
+    required int age,
     PrivateUserData? privateData,
   }) = _UserModel;
 
@@ -15,37 +18,15 @@ abstract class UserModel with _$UserModel {
       _$UserModelFromJson(json);
 }
 
-@JsonSerializable()
-class PublicUserData {
-  final String name;
-  final String imageUrl;
-  final String gender;
-  final int age;
 
-  PublicUserData({
-    required this.name,
-    required this.imageUrl,
-    required this.gender,
-    required this.age,
-  });
-
-  factory PublicUserData.fromJson(Map<String, dynamic> json) =>
-      _$PublicUserDataFromJson(json);
-}
-
-@JsonSerializable()
-class PrivateUserData {
-  final List<String> categories;
-  final String? email;
-  final String? phone;
-  final String? dob;
-
-  PrivateUserData({
-    required this.categories,
-    this.email,
-    this.phone,
-    this.dob,
-  });
+@freezed
+class PrivateUserData with _$PrivateUserData {
+  const factory PrivateUserData({
+    required List<String> categories,
+    String? email,
+    String? phone,
+    String? dob,
+  }) = _PrivateUserData;
 
   factory PrivateUserData.fromJson(Map<String, dynamic> json) =>
       _$PrivateUserDataFromJson(json);
