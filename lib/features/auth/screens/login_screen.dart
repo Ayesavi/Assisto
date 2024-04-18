@@ -13,6 +13,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreenText {
   static const String logInTitle = 'Log In';
@@ -32,10 +33,10 @@ class LoginScreen extends ConsumerWidget {
   final TextEditingController phoneController = TextEditingController();
 
   String getPhoneNumber(context) {
-    String phoneNumber = '+91${phoneController.text.trim()}';
+    String phoneNumber = '91${phoneController.text.trim()}';
 
     // Regular expression to match a phone number with country code
-    RegExp phoneRegex = RegExp(r'^\+[1-9]\d{10,14}$');
+    RegExp phoneRegex = RegExp(r'^\d{10,12}$');
 
     if (phoneRegex.hasMatch(phoneNumber)) {
       // Phone number is valid
@@ -91,20 +92,11 @@ class LoginScreen extends ConsumerWidget {
                       asyncTap: () async {
                         try {
                           final phone = getPhoneNumber(context);
-                          await controller.continueWithPhone(phone,
-                              onCodeSent: (vId, resToken) {
-                            OtpPageRoute(
-                                    verificationId: vId,
-                                    phoneNumber: getPhoneNumber(context))
-                                .push(context);
-                          }, onFailed: (e) {
-                            showSnackBar(context, appErrorHandler(e).message);
-                          }, onTimeOut: (verificationId) {
-                            OtpPageRoute(
-                                    verificationId: verificationId,
-                                    phoneNumber: getPhoneNumber(context))
-                                .push(context);
-                          });
+                          await controller.continueWithPhone(phone);
+                          OtpPageRoute(
+                                  phoneNumber: getPhoneNumber(context),
+                                  otpType: OtpType.sms.name)
+                              .push(context);
 
                           if (context.mounted) {}
                         } catch (e) {

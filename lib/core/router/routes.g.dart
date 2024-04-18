@@ -41,7 +41,7 @@ RouteBase get $authRoute => GoRouteData.$route(
       factory: $AuthRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
-          path: 'otp/:phoneNumber/:verificationId',
+          path: 'otp/:phoneNumber/:otpType',
           name: 'otp',
           factory: $OtpPageRouteExtension._fromState,
         ),
@@ -68,11 +68,11 @@ extension $AuthRouteExtension on AuthRoute {
 extension $OtpPageRouteExtension on OtpPageRoute {
   static OtpPageRoute _fromState(GoRouterState state) => OtpPageRoute(
         phoneNumber: state.pathParameters['phoneNumber']!,
-        verificationId: state.pathParameters['verificationId']!,
+        otpType: state.pathParameters['otpType']!,
       );
 
   String get location => GoRouteData.$location(
-        '/auth/otp/${Uri.encodeComponent(phoneNumber)}/${Uri.encodeComponent(verificationId)}',
+        '/auth/otp/${Uri.encodeComponent(phoneNumber)}/${Uri.encodeComponent(otpType)}',
       );
 
   void go(BuildContext context) => context.go(location);

@@ -1,4 +1,5 @@
 import 'package:assisto/core/error/handler.dart';
+import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/auth/controllers/login_page_controller.dart';
@@ -23,9 +24,9 @@ final otpControllerProvider = StateProvider<TextEditingController>((ref) {
 
 class VerifyOtpScreen extends ConsumerStatefulWidget {
   const VerifyOtpScreen(
-      {required this.verificationId, required this.phone, super.key});
+      {required this.otpType, required this.phone, super.key});
 
-  final String verificationId;
+  final String otpType;
   final String phone;
 
   @override
@@ -104,7 +105,7 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
               asyncTap: () async {
                 try {
                   await loginController.verifyOtp(
-                      widget.verificationId, otpController.text);
+                      otpController.text, widget.phone, widget.otpType.otpType);
                 } catch (e) {
                   if (context.mounted) {
                     showSnackBar(context, appErrorHandler(e).message);
