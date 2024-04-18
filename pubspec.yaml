@@ -59,7 +59,6 @@ dependencies:
   uuid: ^4.3.3
   pinput: ^4.0.0
   sms_autofill: ^2.3.1
-  rich_readmore: ^1.1.1
   google_maps_flutter: ^2.6.0
   dio: ^5.4.3+1
   flutter_native_splash: ^2.4.0
@@ -69,7 +68,6 @@ dependencies:
   awesome_notifications: ^0.8.2
   firebase_crashlytics: ^3.4.20
   firebase_analytics: ^10.9.0
-  cloud_functions: ^4.7.1
   material_color_utilities: ^0.8.0
   flutter_dotenv: ^5.1.0
 

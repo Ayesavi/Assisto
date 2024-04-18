@@ -26,8 +26,8 @@ mixin _$TaskModel {
 // attachedLocation
   ({double lat, double lng})? get attachedLocation =>
       throw _privateConstructorUsedError;
-  List<String> get relevantTags => throw _privateConstructorUsedError;
-  DateTime? get taskDeadline => throw _privateConstructorUsedError;
+  List<String> get tags => throw _privateConstructorUsedError;
+  DateTime? get deadline => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   Gender? get gender => throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$TaskModel {
   TaskStatus get status =>
       throw _privateConstructorUsedError; // id stays an empty string when a new task is created
 // id will be assigned by the server.
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String? get assigned => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
@@ -54,15 +54,15 @@ abstract class $TaskModelCopyWith<$Res> {
   $Res call(
       {String ownerId,
       ({double lat, double lng})? attachedLocation,
-      List<String> relevantTags,
-      DateTime? taskDeadline,
+      List<String> tags,
+      DateTime? deadline,
       String title,
       String description,
       Gender? gender,
       int? age,
       double? expectedPrice,
       TaskStatus status,
-      String id,
+      int id,
       String? assigned,
       DateTime createdAt});
 }
@@ -82,8 +82,8 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
   $Res call({
     Object? ownerId = null,
     Object? attachedLocation = freezed,
-    Object? relevantTags = null,
-    Object? taskDeadline = freezed,
+    Object? tags = null,
+    Object? deadline = freezed,
     Object? title = null,
     Object? description = null,
     Object? gender = freezed,
@@ -103,13 +103,13 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.attachedLocation
           : attachedLocation // ignore: cast_nullable_to_non_nullable
               as ({double lat, double lng})?,
-      relevantTags: null == relevantTags
-          ? _value.relevantTags
-          : relevantTags // ignore: cast_nullable_to_non_nullable
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      taskDeadline: freezed == taskDeadline
-          ? _value.taskDeadline
-          : taskDeadline // ignore: cast_nullable_to_non_nullable
+      deadline: freezed == deadline
+          ? _value.deadline
+          : deadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       title: null == title
           ? _value.title
@@ -138,7 +138,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       assigned: freezed == assigned
           ? _value.assigned
           : assigned // ignore: cast_nullable_to_non_nullable
@@ -162,15 +162,15 @@ abstract class _$$TaskModelImplCopyWith<$Res>
   $Res call(
       {String ownerId,
       ({double lat, double lng})? attachedLocation,
-      List<String> relevantTags,
-      DateTime? taskDeadline,
+      List<String> tags,
+      DateTime? deadline,
       String title,
       String description,
       Gender? gender,
       int? age,
       double? expectedPrice,
       TaskStatus status,
-      String id,
+      int id,
       String? assigned,
       DateTime createdAt});
 }
@@ -188,8 +188,8 @@ class __$$TaskModelImplCopyWithImpl<$Res>
   $Res call({
     Object? ownerId = null,
     Object? attachedLocation = freezed,
-    Object? relevantTags = null,
-    Object? taskDeadline = freezed,
+    Object? tags = null,
+    Object? deadline = freezed,
     Object? title = null,
     Object? description = null,
     Object? gender = freezed,
@@ -209,13 +209,13 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.attachedLocation
           : attachedLocation // ignore: cast_nullable_to_non_nullable
               as ({double lat, double lng})?,
-      relevantTags: null == relevantTags
-          ? _value._relevantTags
-          : relevantTags // ignore: cast_nullable_to_non_nullable
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      taskDeadline: freezed == taskDeadline
-          ? _value.taskDeadline
-          : taskDeadline // ignore: cast_nullable_to_non_nullable
+      deadline: freezed == deadline
+          ? _value.deadline
+          : deadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       title: null == title
           ? _value.title
@@ -244,7 +244,7 @@ class __$$TaskModelImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       assigned: freezed == assigned
           ? _value.assigned
           : assigned // ignore: cast_nullable_to_non_nullable
@@ -263,18 +263,18 @@ class _$TaskModelImpl implements _TaskModel {
   const _$TaskModelImpl(
       {this.ownerId = '',
       this.attachedLocation,
-      required final List<String> relevantTags,
-      this.taskDeadline,
+      required final List<String> tags,
+      this.deadline,
       required this.title,
       required this.description,
       this.gender,
       this.age,
       this.expectedPrice,
       this.status = TaskStatus.unassigned,
-      this.id = '',
+      this.id = 0,
       this.assigned,
       required this.createdAt})
-      : _relevantTags = relevantTags;
+      : _tags = tags;
 
   factory _$TaskModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskModelImplFromJson(json);
@@ -287,16 +287,16 @@ class _$TaskModelImpl implements _TaskModel {
 // attachedLocation
   @override
   final ({double lat, double lng})? attachedLocation;
-  final List<String> _relevantTags;
+  final List<String> _tags;
   @override
-  List<String> get relevantTags {
-    if (_relevantTags is EqualUnmodifiableListView) return _relevantTags;
+  List<String> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_relevantTags);
+    return EqualUnmodifiableListView(_tags);
   }
 
   @override
-  final DateTime? taskDeadline;
+  final DateTime? deadline;
   @override
   final String title;
   @override
@@ -314,7 +314,7 @@ class _$TaskModelImpl implements _TaskModel {
 // id will be assigned by the server.
   @override
   @JsonKey()
-  final String id;
+  final int id;
   @override
   final String? assigned;
   @override
@@ -322,7 +322,7 @@ class _$TaskModelImpl implements _TaskModel {
 
   @override
   String toString() {
-    return 'TaskModel(ownerId: $ownerId, attachedLocation: $attachedLocation, relevantTags: $relevantTags, taskDeadline: $taskDeadline, title: $title, description: $description, gender: $gender, age: $age, expectedPrice: $expectedPrice, status: $status, id: $id, assigned: $assigned, createdAt: $createdAt)';
+    return 'TaskModel(ownerId: $ownerId, attachedLocation: $attachedLocation, tags: $tags, deadline: $deadline, title: $title, description: $description, gender: $gender, age: $age, expectedPrice: $expectedPrice, status: $status, id: $id, assigned: $assigned, createdAt: $createdAt)';
   }
 
   @override
@@ -333,10 +333,9 @@ class _$TaskModelImpl implements _TaskModel {
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
             (identical(other.attachedLocation, attachedLocation) ||
                 other.attachedLocation == attachedLocation) &&
-            const DeepCollectionEquality()
-                .equals(other._relevantTags, _relevantTags) &&
-            (identical(other.taskDeadline, taskDeadline) ||
-                other.taskDeadline == taskDeadline) &&
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.deadline, deadline) ||
+                other.deadline == deadline) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -358,8 +357,8 @@ class _$TaskModelImpl implements _TaskModel {
       runtimeType,
       ownerId,
       attachedLocation,
-      const DeepCollectionEquality().hash(_relevantTags),
-      taskDeadline,
+      const DeepCollectionEquality().hash(_tags),
+      deadline,
       title,
       description,
       gender,
@@ -388,15 +387,15 @@ abstract class _TaskModel implements TaskModel {
   const factory _TaskModel(
       {final String ownerId,
       final ({double lat, double lng})? attachedLocation,
-      required final List<String> relevantTags,
-      final DateTime? taskDeadline,
+      required final List<String> tags,
+      final DateTime? deadline,
       required final String title,
       required final String description,
       final Gender? gender,
       final int? age,
       final double? expectedPrice,
       final TaskStatus status,
-      final String id,
+      final int id,
       final String? assigned,
       required final DateTime createdAt}) = _$TaskModelImpl;
 
@@ -410,9 +409,9 @@ abstract class _TaskModel implements TaskModel {
 // attachedLocation
   ({double lat, double lng})? get attachedLocation;
   @override
-  List<String> get relevantTags;
+  List<String> get tags;
   @override
-  DateTime? get taskDeadline;
+  DateTime? get deadline;
   @override
   String get title;
   @override
@@ -427,7 +426,7 @@ abstract class _TaskModel implements TaskModel {
   TaskStatus get status;
   @override // id stays an empty string when a new task is created
 // id will be assigned by the server.
-  String get id;
+  int get id;
   @override
   String? get assigned;
   @override
