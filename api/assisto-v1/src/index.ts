@@ -2,7 +2,6 @@ import * as cors from "cors";
 import * as express from "express";
 import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
-import createTask from "./endpoints/createTask/createTask";
 
 admin.initializeApp();
 admin.firestore().settings({ ignoreUndefinedProperties: true });
@@ -16,8 +15,6 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send({ data: "d" });
 });
-
-app.post("/createTask", createTask);
 
 // Define a 404 route handler
 app.use((req, res) => {
