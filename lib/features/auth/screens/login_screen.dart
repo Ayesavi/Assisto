@@ -9,7 +9,6 @@ import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/phone_number_textfield.dart';
 import 'package:assisto/widgets/text_widgets.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -61,18 +60,8 @@ class LoginScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  GestureDetector(
-                    onTap: () async {
-                      final data = await FirebaseFunctions.instance
-                          .httpsCallableFromUri(
-                              Uri.parse(
-                                  'http://127.0.0.1:5001/dev-assisto/asia-south1/apiv1'),
-                              options: HttpsCallableOptions())();
-                      print(data.data);
-                    },
-                    child: SizedBox.square(
-                      child: SvgPicture.asset(Assets.graphics.loginWelcome),
-                    ),
+                  SizedBox.square(
+                    child: SvgPicture.asset(Assets.graphics.loginWelcome),
                   ),
                   const Padding(padding: kWidgetVerticalPadding),
                   const TitleLarge(
