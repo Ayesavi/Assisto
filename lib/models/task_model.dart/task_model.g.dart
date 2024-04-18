@@ -16,12 +16,10 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
           lng: ($jsonValue['lng'] as num).toDouble(),
         ),
       ),
-      relevantTags: (json['relevantTags'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      taskDeadline: json['taskDeadline'] == null
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      deadline: json['deadline'] == null
           ? null
-          : DateTime.parse(json['taskDeadline'] as String),
+          : DateTime.parse(json['deadline'] as String),
       title: json['title'] as String,
       description: json['description'] as String,
       gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
@@ -29,7 +27,7 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
       expectedPrice: (json['expectedPrice'] as num?)?.toDouble(),
       status: $enumDecodeNullable(_$TaskStatusEnumMap, json['status']) ??
           TaskStatus.unassigned,
-      id: json['id'] as String? ?? '',
+      id: json['id'] as int? ?? 0,
       assigned: json['assigned'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
     );
@@ -43,8 +41,8 @@ Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
               'lat': instance.attachedLocation!.lat,
               'lng': instance.attachedLocation!.lng,
             },
-      'relevantTags': instance.relevantTags,
-      'taskDeadline': instance.taskDeadline?.toIso8601String(),
+      'tags': instance.tags,
+      'deadline': instance.deadline?.toIso8601String(),
       'title': instance.title,
       'description': instance.description,
       'gender': _$GenderEnumMap[instance.gender],

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:assisto/core/extensions/string_extension.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -48,7 +49,7 @@ class _AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User?> signInWithGoogle() async {
-    if (Platform.isAndroid) {
+    if (!kIsWeb && Platform.isAndroid) {
       final googleUser = await _googleSignIn.signIn();
       final googleAuth = await googleUser?.authentication;
       final accessToken = googleAuth?.accessToken;
@@ -64,6 +65,8 @@ class _AuthRepositoryImpl implements AuthRepository {
         }
         throw UnAuthenticatedUserException();
       }
+    } else {
+      await _supabase.auth.signInWithOAuth(OAuthProvider.google);
     }
     throw UnAuthenticatedUserException();
   }
