@@ -7,8 +7,7 @@ class RouteConstants {
 
   static const authRoute =
       TypedGoRoute<AuthRoute>(path: '/auth', name: 'auth', routes: [
-    TypedGoRoute<OtpPageRoute>(
-        path: 'otp/:phoneNumber/:verificationId', name: 'otp')
+    TypedGoRoute<OtpPageRoute>(path: 'otp/:phoneNumber/:otpType', name: 'otp')
   ]);
 
   static const homeRoute =

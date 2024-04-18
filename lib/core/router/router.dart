@@ -42,7 +42,7 @@ class RouterNotifier extends ChangeNotifier {
       }
       return '/home';
     } else if (appState == AppAuthState.unfulfilledProfile) {
-      return '/editProfile';
+      return '/home';
     } else {
       if (state.fullPath?.startsWith('/auth') ?? false) {
         return null;
