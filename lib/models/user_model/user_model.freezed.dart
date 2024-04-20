@@ -22,6 +22,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 mixin _$UserModel {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'image_url')
   String get imageUrl => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
@@ -41,7 +42,7 @@ abstract class $UserModelCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
-      String imageUrl,
+      @JsonKey(name: 'image_url') String imageUrl,
       String gender,
       int age,
       PrivateUserData? privateData});
@@ -121,7 +122,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String name,
-      String imageUrl,
+      @JsonKey(name: 'image_url') String imageUrl,
       String gender,
       int age,
       PrivateUserData? privateData});
@@ -183,7 +184,7 @@ class _$UserModelImpl implements _UserModel {
   const _$UserModelImpl(
       {required this.id,
       required this.name,
-      required this.imageUrl,
+      @JsonKey(name: 'image_url') required this.imageUrl,
       required this.gender,
       required this.age,
       this.privateData});
@@ -196,6 +197,7 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String name;
   @override
+  @JsonKey(name: 'image_url')
   final String imageUrl;
   @override
   final String gender;
@@ -247,7 +249,7 @@ abstract class _UserModel implements UserModel {
   const factory _UserModel(
       {required final String id,
       required final String name,
-      required final String imageUrl,
+      @JsonKey(name: 'image_url') required final String imageUrl,
       required final String gender,
       required final int age,
       final PrivateUserData? privateData}) = _$UserModelImpl;
@@ -260,6 +262,7 @@ abstract class _UserModel implements UserModel {
   @override
   String get name;
   @override
+  @JsonKey(name: 'image_url')
   String get imageUrl;
   @override
   String get gender;

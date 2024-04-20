@@ -52,7 +52,7 @@ class HomeScreen extends ConsumerWidget {
             print(TaskModel(
                     tags: ['service'],
                     title: 'title',
-                    attachedLocation: (lat: 6.298919, lng: 6.729334),
+                    // attachedLocation: (lat: 6.298919, lng: 6.729334),
                     description: 'description',
                     createdAt: DateTime.now())
                 .toJson());

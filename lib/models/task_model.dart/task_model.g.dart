@@ -8,14 +8,8 @@ part of 'task_model.dart';
 
 _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
     _$TaskModelImpl(
-      ownerId: json['ownerId'] as String? ?? '',
-      attachedLocation: _$recordConvertNullable(
-        json['attachedLocation'],
-        ($jsonValue) => (
-          lat: ($jsonValue['lat'] as num).toDouble(),
-          lng: ($jsonValue['lng'] as num).toDouble(),
-        ),
-      ),
+      ownerId: json['owner_id'] as String? ?? '',
+      addressId: json['address_id'],
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       deadline: json['deadline'] == null
           ? null
@@ -23,42 +17,29 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       description: json['description'] as String,
       gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
-      age: json['age'] as int?,
-      expectedPrice: (json['expectedPrice'] as num?)?.toDouble(),
+      ageGroup: json['age_group'] as String?,
+      expectedPrice: (json['expected_price'] as num?)?.toDouble(),
       status: $enumDecodeNullable(_$TaskStatusEnumMap, json['status']) ??
           TaskStatus.unassigned,
       id: json['id'] as int? ?? 0,
       assigned: json['assigned'] as String?,
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String),
     );
 
 Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
     <String, dynamic>{
-      'ownerId': instance.ownerId,
-      'attachedLocation': instance.attachedLocation == null
-          ? null
-          : {
-              'lat': instance.attachedLocation!.lat,
-              'lng': instance.attachedLocation!.lng,
-            },
+      'address_id': instance.addressId,
       'tags': instance.tags,
       'deadline': instance.deadline?.toIso8601String(),
       'title': instance.title,
       'description': instance.description,
       'gender': _$GenderEnumMap[instance.gender],
-      'age': instance.age,
-      'expectedPrice': instance.expectedPrice,
+      'age_group': instance.ageGroup,
+      'expected_price': instance.expectedPrice,
       'status': _$TaskStatusEnumMap[instance.status]!,
-      'id': instance.id,
       'assigned': instance.assigned,
-      'createdAt': instance.createdAt.toIso8601String(),
+      'created_at': instance.createdAt.toIso8601String(),
     };
-
-$Rec? _$recordConvertNullable<$Rec>(
-  Object? value,
-  $Rec Function(Map) convert,
-) =>
-    value == null ? null : convert(value as Map<String, dynamic>);
 
 const _$GenderEnumMap = {
   Gender.male: 'male',

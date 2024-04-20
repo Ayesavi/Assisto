@@ -10,7 +10,7 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
     _$UserModelImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      imageUrl: json['imageUrl'] as String,
+      imageUrl: json['image_url'] as String,
       gender: json['gender'] as String,
       age: json['age'] as int,
       privateData: json['privateData'] == null
@@ -23,7 +23,7 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'imageUrl': instance.imageUrl,
+      'image_url': instance.imageUrl,
       'gender': instance.gender,
       'age': instance.age,
       'privateData': instance.privateData,
