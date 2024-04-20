@@ -93,16 +93,15 @@ class FakeTaskRepository implements BaseTaskRepository {
     for (int i = 0; i < count; i++) {
       TaskModel task = TaskModel(
         ownerId: _generateRandomString(6),
-        attachedLocation: (
-          lat: random.nextDouble() * 180 - 90,
-          lng: random.nextDouble() * 360 - 180,
-        ),
+        // attachedLocation: (
+        //   lat: random.nextDouble() * 180 - 90,
+        //   lng: random.nextDouble() * 360 - 180,
+        // ),
         tags: _generateRandomTags(random.nextInt(5) + 1),
         deadline: DateTime.now().add(Duration(days: random.nextInt(30))),
         title: 'Task ${i + 1}',
         description: 'This is a random task description.',
         gender: Gender.values[random.nextInt(Gender.values.length)],
-        age: random.nextInt(100),
         expectedPrice: random.nextDouble() * 100,
         status: TaskStatus.values[random.nextInt(TaskStatus.values.length)],
         id: _tasks.length + 1,

@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_model.freezed.dart';
@@ -8,7 +10,7 @@ abstract class UserModel with _$UserModel {
   const factory UserModel({
     required String id,
     required String name,
-    required String imageUrl,
+    @JsonKey(name: 'image_url') required String imageUrl,
     required String gender,
     required int age,
     PrivateUserData? privateData,
@@ -17,7 +19,6 @@ abstract class UserModel with _$UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 }
-
 
 @freezed
 class PrivateUserData with _$PrivateUserData {

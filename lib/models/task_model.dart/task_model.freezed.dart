@@ -20,24 +20,29 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskModel {
+  @JsonKey(name: 'owner_id', includeToJson: false)
   String get ownerId =>
       throw _privateConstructorUsedError; // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
-  ({double lat, double lng})? get attachedLocation =>
-      throw _privateConstructorUsedError;
+  @JsonKey(name: 'address_id')
+  dynamic get addressId => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
   DateTime? get deadline => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   Gender? get gender => throw _privateConstructorUsedError;
-  int? get age => throw _privateConstructorUsedError;
+  @JsonKey(name: 'age_group')
+  String? get ageGroup => throw _privateConstructorUsedError;
+  @JsonKey(name: 'expected_price')
   double? get expectedPrice => throw _privateConstructorUsedError;
   TaskStatus get status =>
       throw _privateConstructorUsedError; // id stays an empty string when a new task is created
 // id will be assigned by the server.
+  @JsonKey(includeToJson: false)
   int get id => throw _privateConstructorUsedError;
   String? get assigned => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -52,19 +57,19 @@ abstract class $TaskModelCopyWith<$Res> {
       _$TaskModelCopyWithImpl<$Res, TaskModel>;
   @useResult
   $Res call(
-      {String ownerId,
-      ({double lat, double lng})? attachedLocation,
+      {@JsonKey(name: 'owner_id', includeToJson: false) String ownerId,
+      @JsonKey(name: 'address_id') dynamic addressId,
       List<String> tags,
       DateTime? deadline,
       String title,
       String description,
       Gender? gender,
-      int? age,
-      double? expectedPrice,
+      @JsonKey(name: 'age_group') String? ageGroup,
+      @JsonKey(name: 'expected_price') double? expectedPrice,
       TaskStatus status,
-      int id,
+      @JsonKey(includeToJson: false) int id,
       String? assigned,
-      DateTime createdAt});
+      @JsonKey(name: 'created_at') DateTime createdAt});
 }
 
 /// @nodoc
@@ -81,13 +86,13 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
   @override
   $Res call({
     Object? ownerId = null,
-    Object? attachedLocation = freezed,
+    Object? addressId = freezed,
     Object? tags = null,
     Object? deadline = freezed,
     Object? title = null,
     Object? description = null,
     Object? gender = freezed,
-    Object? age = freezed,
+    Object? ageGroup = freezed,
     Object? expectedPrice = freezed,
     Object? status = null,
     Object? id = null,
@@ -99,10 +104,10 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
               as String,
-      attachedLocation: freezed == attachedLocation
-          ? _value.attachedLocation
-          : attachedLocation // ignore: cast_nullable_to_non_nullable
-              as ({double lat, double lng})?,
+      addressId: freezed == addressId
+          ? _value.addressId
+          : addressId // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       tags: null == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -123,10 +128,10 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
               as Gender?,
-      age: freezed == age
-          ? _value.age
-          : age // ignore: cast_nullable_to_non_nullable
-              as int?,
+      ageGroup: freezed == ageGroup
+          ? _value.ageGroup
+          : ageGroup // ignore: cast_nullable_to_non_nullable
+              as String?,
       expectedPrice: freezed == expectedPrice
           ? _value.expectedPrice
           : expectedPrice // ignore: cast_nullable_to_non_nullable
@@ -160,19 +165,19 @@ abstract class _$$TaskModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String ownerId,
-      ({double lat, double lng})? attachedLocation,
+      {@JsonKey(name: 'owner_id', includeToJson: false) String ownerId,
+      @JsonKey(name: 'address_id') dynamic addressId,
       List<String> tags,
       DateTime? deadline,
       String title,
       String description,
       Gender? gender,
-      int? age,
-      double? expectedPrice,
+      @JsonKey(name: 'age_group') String? ageGroup,
+      @JsonKey(name: 'expected_price') double? expectedPrice,
       TaskStatus status,
-      int id,
+      @JsonKey(includeToJson: false) int id,
       String? assigned,
-      DateTime createdAt});
+      @JsonKey(name: 'created_at') DateTime createdAt});
 }
 
 /// @nodoc
@@ -187,13 +192,13 @@ class __$$TaskModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? ownerId = null,
-    Object? attachedLocation = freezed,
+    Object? addressId = freezed,
     Object? tags = null,
     Object? deadline = freezed,
     Object? title = null,
     Object? description = null,
     Object? gender = freezed,
-    Object? age = freezed,
+    Object? ageGroup = freezed,
     Object? expectedPrice = freezed,
     Object? status = null,
     Object? id = null,
@@ -205,10 +210,7 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
               as String,
-      attachedLocation: freezed == attachedLocation
-          ? _value.attachedLocation
-          : attachedLocation // ignore: cast_nullable_to_non_nullable
-              as ({double lat, double lng})?,
+      addressId: freezed == addressId ? _value.addressId! : addressId,
       tags: null == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -229,10 +231,10 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
               as Gender?,
-      age: freezed == age
-          ? _value.age
-          : age // ignore: cast_nullable_to_non_nullable
-              as int?,
+      ageGroup: freezed == ageGroup
+          ? _value.ageGroup
+          : ageGroup // ignore: cast_nullable_to_non_nullable
+              as String?,
       expectedPrice: freezed == expectedPrice
           ? _value.expectedPrice
           : expectedPrice // ignore: cast_nullable_to_non_nullable
@@ -261,32 +263,33 @@ class __$$TaskModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TaskModelImpl implements _TaskModel {
   const _$TaskModelImpl(
-      {this.ownerId = '',
-      this.attachedLocation,
+      {@JsonKey(name: 'owner_id', includeToJson: false) this.ownerId = '',
+      @JsonKey(name: 'address_id') this.addressId,
       required final List<String> tags,
       this.deadline,
       required this.title,
       required this.description,
       this.gender,
-      this.age,
-      this.expectedPrice,
+      @JsonKey(name: 'age_group') this.ageGroup,
+      @JsonKey(name: 'expected_price') this.expectedPrice,
       this.status = TaskStatus.unassigned,
-      this.id = 0,
+      @JsonKey(includeToJson: false) this.id = 0,
       this.assigned,
-      required this.createdAt})
+      @JsonKey(name: 'created_at') required this.createdAt})
       : _tags = tags;
 
   factory _$TaskModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskModelImplFromJson(json);
 
   @override
-  @JsonKey()
+  @JsonKey(name: 'owner_id', includeToJson: false)
   final String ownerId;
 // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
   @override
-  final ({double lat, double lng})? attachedLocation;
+  @JsonKey(name: 'address_id')
+  final dynamic addressId;
   final List<String> _tags;
   @override
   List<String> get tags {
@@ -304,8 +307,10 @@ class _$TaskModelImpl implements _TaskModel {
   @override
   final Gender? gender;
   @override
-  final int? age;
+  @JsonKey(name: 'age_group')
+  final String? ageGroup;
   @override
+  @JsonKey(name: 'expected_price')
   final double? expectedPrice;
   @override
   @JsonKey()
@@ -313,16 +318,17 @@ class _$TaskModelImpl implements _TaskModel {
 // id stays an empty string when a new task is created
 // id will be assigned by the server.
   @override
-  @JsonKey()
+  @JsonKey(includeToJson: false)
   final int id;
   @override
   final String? assigned;
   @override
+  @JsonKey(name: 'created_at')
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'TaskModel(ownerId: $ownerId, attachedLocation: $attachedLocation, tags: $tags, deadline: $deadline, title: $title, description: $description, gender: $gender, age: $age, expectedPrice: $expectedPrice, status: $status, id: $id, assigned: $assigned, createdAt: $createdAt)';
+    return 'TaskModel(ownerId: $ownerId, addressId: $addressId, tags: $tags, deadline: $deadline, title: $title, description: $description, gender: $gender, ageGroup: $ageGroup, expectedPrice: $expectedPrice, status: $status, id: $id, assigned: $assigned, createdAt: $createdAt)';
   }
 
   @override
@@ -331,8 +337,7 @@ class _$TaskModelImpl implements _TaskModel {
         (other.runtimeType == runtimeType &&
             other is _$TaskModelImpl &&
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
-            (identical(other.attachedLocation, attachedLocation) ||
-                other.attachedLocation == attachedLocation) &&
+            const DeepCollectionEquality().equals(other.addressId, addressId) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.deadline, deadline) ||
                 other.deadline == deadline) &&
@@ -340,7 +345,8 @@ class _$TaskModelImpl implements _TaskModel {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.gender, gender) || other.gender == gender) &&
-            (identical(other.age, age) || other.age == age) &&
+            (identical(other.ageGroup, ageGroup) ||
+                other.ageGroup == ageGroup) &&
             (identical(other.expectedPrice, expectedPrice) ||
                 other.expectedPrice == expectedPrice) &&
             (identical(other.status, status) || other.status == status) &&
@@ -356,13 +362,13 @@ class _$TaskModelImpl implements _TaskModel {
   int get hashCode => Object.hash(
       runtimeType,
       ownerId,
-      attachedLocation,
+      const DeepCollectionEquality().hash(addressId),
       const DeepCollectionEquality().hash(_tags),
       deadline,
       title,
       description,
       gender,
-      age,
+      ageGroup,
       expectedPrice,
       status,
       id,
@@ -385,29 +391,32 @@ class _$TaskModelImpl implements _TaskModel {
 
 abstract class _TaskModel implements TaskModel {
   const factory _TaskModel(
-      {final String ownerId,
-      final ({double lat, double lng})? attachedLocation,
+      {@JsonKey(name: 'owner_id', includeToJson: false) final String ownerId,
+      @JsonKey(name: 'address_id') final dynamic addressId,
       required final List<String> tags,
       final DateTime? deadline,
       required final String title,
       required final String description,
       final Gender? gender,
-      final int? age,
-      final double? expectedPrice,
+      @JsonKey(name: 'age_group') final String? ageGroup,
+      @JsonKey(name: 'expected_price') final double? expectedPrice,
       final TaskStatus status,
-      final int id,
+      @JsonKey(includeToJson: false) final int id,
       final String? assigned,
+      @JsonKey(name: 'created_at')
       required final DateTime createdAt}) = _$TaskModelImpl;
 
   factory _TaskModel.fromJson(Map<String, dynamic> json) =
       _$TaskModelImpl.fromJson;
 
   @override
+  @JsonKey(name: 'owner_id', includeToJson: false)
   String get ownerId;
   @override // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
-  ({double lat, double lng})? get attachedLocation;
+  @JsonKey(name: 'address_id')
+  dynamic get addressId;
   @override
   List<String> get tags;
   @override
@@ -419,17 +428,21 @@ abstract class _TaskModel implements TaskModel {
   @override
   Gender? get gender;
   @override
-  int? get age;
+  @JsonKey(name: 'age_group')
+  String? get ageGroup;
   @override
+  @JsonKey(name: 'expected_price')
   double? get expectedPrice;
   @override
   TaskStatus get status;
   @override // id stays an empty string when a new task is created
 // id will be assigned by the server.
+  @JsonKey(includeToJson: false)
   int get id;
   @override
   String? get assigned;
   @override
+  @JsonKey(name: 'created_at')
   DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
