@@ -59,7 +59,7 @@ dependencies:
   uuid: ^4.3.3
   pinput: ^4.0.0
   sms_autofill: ^2.3.1
-  google_maps_flutter: ^2.6.0
+  google_maps_flutter: ^2.6.1
   dio: ^5.4.3+1
   flutter_native_splash: ^2.4.0
   url_launcher: ^6.2.5
