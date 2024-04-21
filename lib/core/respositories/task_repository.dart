@@ -13,11 +13,14 @@ abstract class BaseTaskRepository {
   Future<void> updateTask(TaskModel task);
 
   Future<void> deleteTask(int id);
+
+  Future<void> acceptBid(int bidId);
 }
 
 class SupabaseTaskRepository implements BaseTaskRepository {
   final _supabase = Supabase.instance.client;
   final _table = 'tasks';
+
   @override
   Future<TaskModel> addTask(TaskModel task) async {
     final json = task.toSupaJson();
@@ -46,6 +49,11 @@ class SupabaseTaskRepository implements BaseTaskRepository {
     final json = newTask.toSupaJson();
     TaskModel.fromJson(
         await _supabase.from(_table).update(json).eq('id', newTask.id));
+  }
+
+  @override
+  Future<void> acceptBid(int id) async {
+    await _supabase.rpc('accept_bid', params: {'task_bid_id': id});
   }
 }
 
@@ -87,16 +95,17 @@ class FakeTaskRepository implements BaseTaskRepository {
     }
   }
 
+  @override
+  Future<void> acceptBid(int bidId) async {
+    return;
+  }
+
   void _generateRandomTasks(int count) {
     final Random random = Random();
 
     for (int i = 0; i < count; i++) {
       TaskModel task = TaskModel(
         ownerId: _generateRandomString(6),
-        // attachedLocation: (
-        //   lat: random.nextDouble() * 180 - 90,
-        //   lng: random.nextDouble() * 360 - 180,
-        // ),
         tags: _generateRandomTags(random.nextInt(5) + 1),
         deadline: DateTime.now().add(Duration(days: random.nextInt(30))),
         title: 'Task ${i + 1}',
