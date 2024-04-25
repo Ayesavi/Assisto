@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:assisto/core/extensions/string_extension.dart';
+import 'package:assisto/models/user_model/user_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -21,7 +22,10 @@ abstract class AuthRepository {
       String? email,
       required OtpType otpType});
   Future<User?> getUser();
-  Future<void> sendOtp();
+  Future<void> sendOtp({required OtpType type, String? phone, String? email});
+  Future<void> updateProfile(UserModel model);
+  Future<void> updateEmail(String email);
+  Future<void> updatePhone(String phone);
 }
 
 class UnAuthenticatedUserException implements Exception {
@@ -36,6 +40,7 @@ class _AuthRepositoryImpl implements AuthRepository {
 
   /// Sends Otp to a phonenumber against which you are
   /// doing verification.
+
   @override
   Future<void> signInWithOtp(String phone) async {
     await _supabase.auth.signInWithOtp(phone: phone);
@@ -98,7 +103,29 @@ class _AuthRepositoryImpl implements AuthRepository {
       serverClientId: "GOOGLE_SIGN_IN".fromEnv, scopes: ['email', "openid"]);
 
   @override
-  Future<void> sendOtp() async {
-    // _supabase.auth.updateUser(attributes)
+  Future<void> sendOtp(
+      {required OtpType type, String? phone, String? email}) async {
+    try {
+      await _supabase.auth.resend(type: type, phone: phone);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Future<void> updateProfile(newModel) async {
+    await _supabase.auth
+        .updateUser(UserAttributes(data: newModel.toSupaJson()));
+  }
+
+  @override
+  Future<void> updateEmail(String email) async {
+    await _supabase.auth.updateUser(UserAttributes(email: email));
+  }
+
+  @override
+  Future<void> updatePhone(String phone) async {
+    (await _supabase.auth
+        .updateUser(UserAttributes(phone: phone, data: {'phone': phone})));
   }
 }

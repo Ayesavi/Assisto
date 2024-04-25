@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:assisto/shared/show_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class AppException implements Exception {
   final String message;
@@ -48,4 +50,12 @@ AppException appErrorHandler(dynamic e) {
   }
   // Handle other unhandled exceptions here
   return const AppException('An error occurred');
+}
+
+tackleError(BuildContext context, Function func) {
+  try {
+    func();
+  } catch (e) {
+    showSnackBar(context, appErrorHandler(e).message);
+  }
 }

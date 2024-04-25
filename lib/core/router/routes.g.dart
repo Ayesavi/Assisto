@@ -89,6 +89,20 @@ RouteBase get $homeRoute => GoRouteData.$route(
       path: '/home',
       name: 'home',
       factory: $HomeRouteExtension._fromState,
+      routes: [
+        GoRouteData.$route(
+          path: 'fillProfile',
+          name: 'fillProfile',
+          factory: $FullFillProfileRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'verify/:phoneNumber/:otpType',
+              name: 'verify',
+              factory: $VerifyPageRouteExtension._fromState,
+            ),
+          ],
+        ),
+      ],
     );
 
 extension $HomeRouteExtension on HomeRoute {
@@ -96,6 +110,44 @@ extension $HomeRouteExtension on HomeRoute {
 
   String get location => GoRouteData.$location(
         '/home',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $FullFillProfileRouteExtension on FullFillProfileRoute {
+  static FullFillProfileRoute _fromState(GoRouterState state) =>
+      const FullFillProfileRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/fillProfile',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $VerifyPageRouteExtension on VerifyPageRoute {
+  static VerifyPageRoute _fromState(GoRouterState state) => VerifyPageRoute(
+        phoneNumber: state.pathParameters['phoneNumber']!,
+        otpType: state.pathParameters['otpType']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/fillProfile/verify/${Uri.encodeComponent(phoneNumber)}/${Uri.encodeComponent(otpType)}',
       );
 
   void go(BuildContext context) => context.go(location);

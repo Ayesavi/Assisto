@@ -1,3 +1,4 @@
+import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/theme/theme.dart';
@@ -24,10 +25,11 @@ final otpControllerProvider = StateProvider<TextEditingController>((ref) {
 
 class VerifyOtpScreen extends ConsumerStatefulWidget {
   const VerifyOtpScreen(
-      {required this.otpType, required this.phone, super.key});
+      {required this.otpType, this.email, this.phone, super.key});
 
   final String otpType;
-  final String phone;
+  final String? email;
+  final String? phone;
 
   @override
   _VerifyOtpScreenState createState() => _VerifyOtpScreenState();
@@ -56,7 +58,8 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
             const Padding(padding: kWidgetVerticalPadding),
             BodyLarge(
               color: Theme.of(context).colorScheme.outline.tone(60),
-              text: VerifyOtpScreenConstants.sentCode + widget.phone,
+              text:
+                  '${VerifyOtpScreenConstants.sentCode} ${widget.phone ?? widget.email}',
               maxLines: 2,
             ),
             const Padding(padding: kWidgetVerticalPadding),
@@ -105,7 +108,8 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
               asyncTap: () async {
                 try {
                   await loginController.verifyOtp(
-                      otpController.text, widget.phone, widget.otpType.otpType);
+                      otpController.text, widget.otpType.otpType,
+                      phone: widget.phone, email: widget.email);
                 } catch (e) {
                   if (context.mounted) {
                     showSnackBar(context, appErrorHandler(e).message);
@@ -120,7 +124,15 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                   isTimerFinished = true;
                 });
               }),
-            if (isTimerFinished) AppFilledButton(label: 'Resend OTP')
+            // if (isTimerFinished)
+            AppFilledButton(
+              label: 'Resend OTP',
+              onTap: () {
+                ref
+                    .read(authControllerProvider.notifier)
+                    .resendOtp(phone: widget.phone);
+              },
+            )
           ],
         ),
       ),

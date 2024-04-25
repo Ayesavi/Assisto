@@ -1,4 +1,4 @@
-import 'package:assisto/core/controllers/auth_controller.dart';
+import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 final routerProvider = Provider<GoRouter>((ref) {
   final GlobalKey<NavigatorState> rootNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'root');
-
   final router = RouterNotifier(ref);
   return GoRouter(
       navigatorKey: rootNavigatorKey,
@@ -31,34 +30,26 @@ class RouterNotifier extends ChangeNotifier {
   }
 
   String? redirectLogic(ctx, GoRouterState state) {
-    final controller = _ref.watch(authControllerProvider);
-    final appState = controller.state;
+    final appState = _ref.watch(authControllerProvider);
 
-    if (appState == AppAuthState.loading) {
+    if (appState.isLoading) {
       return '/';
-    } else if (appState == AppAuthState.authenticated) {
+    } else if (appState.isAuthenticated) {
       if (state.fullPath?.startsWith('/home') ?? false) {
         return null;
       }
       return '/home';
-    } else if (appState == AppAuthState.unfulfilledProfile) {
-      return '/home';
+    } else if (appState.isInCompleteProfile) {
+      if (state.fullPath?.startsWith('/home/fillProfile') ?? false) {
+        return null;
+      }
+      return '/home/fillProfile';
     } else {
       if (state.fullPath?.startsWith('/auth') ?? false) {
         return null;
       }
       return '/auth';
     }
-  }
-
-  Future<String?> authenticatedRedirect(ctx, GoRouterState state) async {
-    Future.delayed(const Duration(seconds: 2), () {
-      // if (chatUser.value?.isEmpty ?? true) {
-      //   return '/home/edit';
-      // }
-      return null;
-    });
-    return null;
   }
 
   List<RouteBase> get routes => $appRoutes;

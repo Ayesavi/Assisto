@@ -6,21 +6,6 @@ part of 'auth_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authControllerHash() => r'1a698f5574159413e93bcc51b10524743843a0c2';
-
-/// See also [authController].
-@ProviderFor(authController)
-final authControllerProvider = Provider<AuthController>.internal(
-  authController,
-  name: r'authControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$authControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef AuthControllerRef = ProviderRef<AuthController>;
 String _$authStateChangesHash() => r'3e55577f2087f6c030f0c985cb73f2339c38909d';
 
 /// See also [authStateChanges].
@@ -36,5 +21,21 @@ final authStateChangesProvider = StreamProvider<AuthState>.internal(
 );
 
 typedef AuthStateChangesRef = StreamProviderRef<AuthState>;
+String _$authControllerHash() => r'962b654d5a62fa263b989202cf3547bfc13e6273';
+
+/// See also [AuthController].
+@ProviderFor(AuthController)
+final authControllerProvider =
+    NotifierProvider<AuthController, AuthControllerState>.internal(
+  AuthController.new,
+  name: r'authControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$authControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$AuthController = Notifier<AuthControllerState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
