@@ -1,4 +1,4 @@
-import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
+import 'package:assisto/features/home/screens/select_categories_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,20 +36,6 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            // Navigator.push(context, MaterialPageRoute(
-            //   builder: (context) {
-            //     return const DeveloperMenuPage();
-            //   },
-            // ));
-            ref.read(authControllerProvider.notifier).signOut();
-          },
-          child: const Text('Sign Out'),
-        ),
-      ),
-    );
+    return const SelectCategoriesPage();
   }
 }

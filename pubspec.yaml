@@ -112,6 +112,7 @@ flutter:
   assets:
     - assets/graphics/login_welcome.svg
     - assets/graphics/success_check_mark.svg
+    - assets/graphics/magic_ai.svg
     - .env 
   #   - images/a_dot_ham.jpeg
 
