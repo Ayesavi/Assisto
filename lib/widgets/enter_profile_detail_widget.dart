@@ -1,52 +1,67 @@
-import 'package:assisto/core/theme/theme.dart';
-import 'package:assisto/gen/assets.gen.dart';
+import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
+import 'package:assisto/core/error/handler.dart';
+import 'package:assisto/core/utils/debouncer.dart';
+import 'package:assisto/core/utils/utils.dart';
+import 'package:assisto/features/home/screens/select_categories_page.dart';
+import 'package:assisto/models/user_model/user_model.dart';
+import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
-import 'package:assisto/widgets/text_widgets.dart';
+import 'package:assisto/widgets/profie_details_form/profile_details_form_builder.dart';
+import 'package:assisto/widgets/profie_details_form/profile_details_form_controller.dart';
+import 'package:assisto/widgets/profie_details_form/profile_form_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EnterProfileDetailWidgetConstants {
-  static const List<String> questions = [
-    "What's your name?",
-    "What's your gender?",
-    "What's your date of birth?",
-  ];
-
+  static const nameQueText = "What's your name?";
+  static const genderText = "What's your gender?";
+  static const dobText = "What's your date of birth?";
+  static const phoneText = "How can we contact you?";
+  static const emailText = "What is your email?";
   static const successText = 'Success!';
   static const profileSucessFullyCreated =
       'Congratulations! Your profile has been successfully created';
 
   // List of gender options
   static const List<String> genderOptions = [
-    'Male',
-    'Female',
-    'Other',
+    'male',
+    'female',
+    'other',
   ];
 }
 
-class EnterProfileDetailWidget extends StatefulWidget {
-  final Function(Map<String, String>) onFinish;
-
-  const EnterProfileDetailWidget({super.key, required this.onFinish});
+class EnterProfileDetailWidget extends ConsumerStatefulWidget {
+  final Function(Map<String, dynamic>) onFinish;
+  final Map<String, dynamic> userDetails;
+  const EnterProfileDetailWidget(
+      {super.key, required this.onFinish, this.userDetails = const {}});
 
   @override
+  // ignore: library_private_types_in_public_api
   _EnterProfileDetailWidgetState createState() =>
       _EnterProfileDetailWidgetState();
 }
 
-class _EnterProfileDetailWidgetState extends State<EnterProfileDetailWidget> {
+class _EnterProfileDetailWidgetState
+    extends ConsumerState<EnterProfileDetailWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  int _currentQuestionIndex = 0;
-  final Map<String, String> _userDetails = {};
+  late int _currentQuestionIndex;
+  Map<String, dynamic> _userDetails = {};
+  bool isInitialized = false;
   late final TextEditingController _dobController;
+  late final TextEditingController _phoneController;
+  late final ProfileFormController _formController;
+
   String? _selectedGender;
   bool isSuccess = false;
-
+  late final List<ProfileFormParams> differentiatedList;
   @override
   void initState() {
     super.initState();
     _dobController = TextEditingController();
+    _phoneController = TextEditingController();
+    _currentQuestionIndex = 0;
   }
 
   @override
@@ -55,12 +70,51 @@ class _EnterProfileDetailWidgetState extends State<EnterProfileDetailWidget> {
     super.dispose();
   }
 
+  String getPhoneNumber(context) {
+    String phoneNumber = '91${_phoneController.text.trim()}';
+
+    // Regular expression to match a phone number with country code
+    RegExp phoneRegex = RegExp(r'^\d{10,12}$');
+
+    if (phoneRegex.hasMatch(phoneNumber)) {
+      // Phone number is valid
+      return phoneNumber;
+    } else {
+      throw const AppException('Invalid Phone Number');
+    }
+  }
+
+  List<ProfileFormParams> getParams() {
+    return [
+      ProfileFormParams(key: 'name', builder: _nameBuilder),
+      ProfileFormParams(key: 'gender', builder: _genderBuilder),
+      ProfileFormParams(key: 'dob', builder: _dobBuilder),
+      ProfileFormParams(key: 'tags', builder: _tagsBuilder),
+    ];
+  }
+
   // Function to validate the input field
   String? _validateInput(String? value) {
     if (value == null || value.isEmpty) {
       return 'This field is required';
     }
     return null; // Return null if the input is valid
+  }
+
+  String? validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    // Regular expression to match a valid phone number format
+    // This example assumes a simple format of 10 digits without any special characters
+    // Modify the regular expression according to your specific requirements
+    RegExp phoneRegExp = RegExp(r'^[0-9]{10}$');
+
+    if (!phoneRegExp.hasMatch(value)) {
+      return 'Please enter a valid phone number';
+    }
+
+    return null; // Return null if the phone number is valid
   }
 
   String? validateDate(String? value) {
@@ -95,212 +149,268 @@ class _EnterProfileDetailWidgetState extends State<EnterProfileDetailWidget> {
       lastDate: DateTime.now(),
     );
     if (picked != null) {
-      setState(() {
-        _userDetails[EnterProfileDetailWidgetConstants
-                .questions[_currentQuestionIndex]] =
-            "${picked.day}/${picked.month}/${picked.year}";
-        _dobController.text = "${picked.day}/${picked.month}/${picked.year}";
-      });
-    }
-  }
-
-  void _handleNext(String answer) {
-    _userDetails[EnterProfileDetailWidgetConstants
-            .questions[_currentQuestionIndex]] =
-        _currentQuestionIndex == 1 ? _selectedGender ?? '' : answer;
-    if (_currentQuestionIndex <
-        EnterProfileDetailWidgetConstants.questions.length - 1) {
-    } else {
-      // All questions answered
-      if (_formKey.currentState!.validate()) {
-        // Validate the form
-        widget.onFinish(_userDetails);
-      }
+      _userDetails['dob'] = "${picked.day}/${picked.month}/${picked.year}";
+      _dobController.text = "${picked.day}/${picked.month}/${picked.year}";
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding:
-            EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top + 20),
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onInverseSurface,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0),
+    final state = ref.watch(authControllerProvider);
+    final controller = ref.read(authControllerProvider.notifier);
+    return state.when(authControllerInitial: () {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }, authenticated: (model) {
+      return const CircularProgressIndicator();
+    }, unAuthenticated: () {
+      return const CircularProgressIndicator();
+    }, inCompleteProfile: (userDetails, isPhoneVerified, isEmailVerified) {
+      if (!isInitialized) {
+        _userDetails = {...userDetails};
+        _selectedGender = userDetails.containsKey('gender')
+            ? userDetails['gender']
+            : 'female';
+        if (userDetails.containsKey('dob')) {
+          _dobController.text = (_userDetails['dob']);
+        }
+        differentiatedList = mapDifferentiator(getParams(), _userDetails);
+        _formController = ProfileFormController(differentiatedList);
+        isInitialized = true;
+      }
+      return ProfileFormBuilder(formKey: _formKey, controller: _formController);
+    });
+  }
+
+  List<ProfileFormParams> mapDifferentiator(
+      List<ProfileFormParams> map1, Map<String, dynamic> map2) {
+    // Create an empty map to store the differentiated entries
+    List<ProfileFormParams> list = [];
+
+    // Iterate over the entries of the first map
+    for (var item in map1) {
+      // Check if the key is present in the second map and its associated value is not an empty string or null
+      if (!map2.containsKey(item.key) ||
+          (map2[item.key] == null || map2[item.key] == '')) {
+        // Add the entry to the differentiated map if the conditions are met
+        list.add(item);
+      }
+    }
+
+    return list;
+  }
+
+  Widget _tagsBuilder(BuildContext context) {
+    return SelectCategoriesPage(
+      onBack: _showBackButton('tags')
+          ? () {
+              _formController.prev();
+            }
+          : null,
+      onCategorySelected: (categories) async {
+        try {
+          await ref.read(authControllerProvider.notifier).updateProfile(
+              UserModel(
+                  id: '',
+                  tags: categories.map((e) => e.label).toList(),
+                  name: _userDetails['name'],
+                  avatarUrl: _userDetails['avatar_url'],
+                  gender: _selectedGender!,
+                  age: calculateAgeFromString(_userDetails['dob']),
+                  dob: _userDetails['dob']));
+          return;
+        } catch (e) {
+          if (context.mounted) {
+            showSnackBar(context, appErrorHandler(e).message);
+          }
+        }
+      },
+    );
+  }
+
+  Widget _nameBuilder(BuildContext context) {
+    return _profileDetailCard(
+      key: 'name',
+      question: EnterProfileDetailWidgetConstants.nameQueText,
+      buttonLabel: 'Continue',
+      onNext: () {
+        _formController.next();
+      },
+      builder: (context) {
+        return TextFormField(
+          initialValue: _userDetails['name'],
+
+          decoration: InputDecoration(
+            hintText: 'Ex Tom Cruise',
+            labelText: 'Full Name',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+          onChanged: (value) {
+            if (_formKey.currentState!.validate()) {
+              _userDetails['name'] = value;
+            }
+          },
+          onFieldSubmitted: (s) {
+            if (_formKey.currentState!.validate() &&
+                _currentQuestionIndex < 2) {}
+          },
+          validator: _validateInput, // Add validator
+        );
+      },
+    );
+  }
+
+  Widget _genderBuilder(BuildContext context) {
+    return _profileDetailCard(
+        key: 'gender',
+        question: EnterProfileDetailWidgetConstants.genderText,
+        buttonLabel: 'Continue',
+        onNext: () {
+          _formController.next();
+        },
+        builder: (context) {
+          return DropdownButtonFormField<String>(
+            value: _selectedGender,
+            decoration: InputDecoration(
+              hintText: 'Select gender',
+              labelText: 'Gender',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+            items: EnterProfileDetailWidgetConstants.genderOptions
+                .map((String gender) {
+              return DropdownMenuItem<String>(
+                value: gender,
+                child: Text(gender),
+              );
+            }).toList(),
+            onChanged: (String? value) {
+              setState(() {
+                _selectedGender = value;
+              });
+              if (value != null) {
+                _userDetails['gender'] = value;
+              }
+            },
+            validator: _validateInput, // Add validator
+          );
+        });
+  }
+
+  Widget _dobBuilder(BuildContext context) {
+    return _profileDetailCard(
+        key: 'dob',
+        question: EnterProfileDetailWidgetConstants.dobText,
+        buttonLabel: 'Continue',
+        onNext: () {
+          _formController.next();
+        },
+        builder: (context) {
+          final bouncer = Debouncer(delay: const Duration(milliseconds: 800));
+          return Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  keyboardType: TextInputType.datetime,
+                  inputFormatters: [DateInputFormatter()],
+                  maxLength: 10,
+                  controller: _dobController,
+                  decoration: InputDecoration(
+                    counterText: '',
+                    hintText: 'DD/MM/YYYY',
+                    labelText: 'Date of Birth',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  padding: const EdgeInsets.all(16.0),
-                  child: !isSuccess
-                      ? Form(
-                          key: _formKey, // Assign the form key
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              if (_currentQuestionIndex != 0)
-                                BackButton(
-                                  onPressed: () {
-                                    if (_currentQuestionIndex > 0) {
-                                      setState(() {
-                                        _currentQuestionIndex--;
-                                      });
-                                    }
-                                  },
-                                ),
-                              Text(
-                                EnterProfileDetailWidgetConstants
-                                    .questions[_currentQuestionIndex],
-                                style: const TextStyle(
-                                  fontSize: 24.0,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const SizedBox(height: 20.0),
-                              _currentQuestionIndex == 1
-                                  ? DropdownButtonFormField<String>(
-                                      value: _selectedGender,
-                                      decoration: InputDecoration(
-                                        hintText: 'Select gender',
-                                        labelText: 'Gender',
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                      ),
-                                      items: EnterProfileDetailWidgetConstants
-                                          .genderOptions
-                                          .map((String gender) {
-                                        return DropdownMenuItem<String>(
-                                          value: gender,
-                                          child: Text(gender),
-                                        );
-                                      }).toList(),
-                                      onChanged: (String? value) {
-                                        setState(() {
-                                          _selectedGender = value;
-                                        });
-                                        if (value != null) {
-                                          _handleNext(value);
-                                        }
-                                      },
-                                      validator:
-                                          _validateInput, // Add validator
-                                    )
-                                  : _currentQuestionIndex == 2
-                                      ? Row(
-                                          children: [
-                                            Expanded(
-                                              child: TextFormField(
-                                                controller: _dobController,
-                                                keyboardType:
-                                                    TextInputType.datetime,
-                                                inputFormatters: [
-                                                  DateInputFormatter()
-                                                ],
-                                                maxLength: 10,
+                  onChanged: (value) {
+                    _userDetails['dob'] = value;
+                    bouncer.call(() {
+                      _formKey.currentState?.validate();
+                    });
+                  },
+                  validator: validateDate, // Add validator
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.calendar_today),
+                onPressed: () => _selectDate(context),
+              ),
+            ],
+          );
+        });
+  }
 
-                                                decoration: InputDecoration(
-                                                  counterText: '',
-                                                  hintText: 'DD/MM/YYYY',
-                                                  labelText: 'Date of Birth',
-                                                  border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                  ),
-                                                ),
-                                                onChanged: (value) {
-                                                  _userDetails[
-                                                      EnterProfileDetailWidgetConstants
-                                                              .questions[
-                                                          _currentQuestionIndex]] = value;
-                                                },
-                                                validator:
-                                                    validateDate, // Add validator
-                                              ),
-                                            ),
-                                            IconButton(
-                                              icon: const Icon(
-                                                  Icons.calendar_today),
-                                              onPressed: () =>
-                                                  _selectDate(context),
-                                            ),
-                                          ],
-                                        )
-                                      : TextFormField(
-                                          textCapitalization:
-                                              TextCapitalization.words,
-                                          initialValue: _userDetails[
-                                              EnterProfileDetailWidgetConstants
-                                                      .questions[
-                                                  _currentQuestionIndex]],
-
-                                          decoration: InputDecoration(
-                                            hintText: 'Ex Tom Cruise',
-                                            labelText: 'Full Name',
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                          ),
-                                          onChanged: _handleNext,
-                                          onFieldSubmitted: (s) {
-                                            if (_formKey.currentState!
-                                                    .validate() &&
-                                                _currentQuestionIndex < 2) {
-                                              setState(() {
-                                                _currentQuestionIndex++;
-                                              });
-                                            }
-                                          },
-                                          validator:
-                                              _validateInput, // Add validator
-                                        ),
-                              const SizedBox(height: 20.0),
-                              AppFilledButton(
-                                onTap: () {
-                                  if (_formKey.currentState!.validate() &&
-                                      _currentQuestionIndex ==
-                                          EnterProfileDetailWidgetConstants
-                                                  .questions.length -
-                                              1) {
-                                    setState(() {
-                                      isSuccess = true;
-                                    });
-                                    widget.onFinish.call(_userDetails);
-                                  } else {
-                                    if (_formKey.currentState!.validate() &&
-                                        _currentQuestionIndex < 2) {
-                                      setState(() {
-                                        _currentQuestionIndex++;
-                                      });
-                                    }
-                                  }
-                                },
-                                label: _currentQuestionIndex ==
-                                        EnterProfileDetailWidgetConstants
-                                                .questions.length -
-                                            1
-                                    ? 'Finish'
-                                    : 'Next',
-                              ),
-                            ],
-                          ),
-                        )
-                      : const SuccessScreen()),
+  Widget _profileDetailCard(
+      {required String key,
+      required String question,
+      required String buttonLabel,
+      required VoidCallback onNext,
+      required Widget Function(BuildContext context) builder}) {
+    final showBackButton = _showBackButton(key);
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).viewPadding.top + 20),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.onInverseSurface,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
+                  ),
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (showBackButton)
+                      BackButton(
+                        onPressed: () {
+                          _formController.prev();
+                        },
+                      ),
+                    Text(
+                      question,
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 20.0),
+                    builder(context),
+                    const SizedBox(height: 20.0),
+                    AppFilledButton(
+                      asyncTap: () async {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          onNext();
+                        }
+                      },
+                      label: buttonLabel,
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  bool _showBackButton(String key) {
+    final index =
+        differentiatedList.indexWhere((element) => element.key == key);
+    return index > 0;
   }
 }
 
@@ -332,77 +442,5 @@ class DateInputFormatter extends TextInputFormatter {
           '${text.substring(0, 2)}/${text.substring(2, text.length > 4 ? 4 : text.length)}${text.length > 4 ? '/${text.substring(4, text.length)}' : ''}';
     }
     return text;
-  }
-}
-
-class SuccessScreen extends StatefulWidget {
-  const SuccessScreen({super.key});
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _SuccessScreenState createState() => _SuccessScreenState();
-}
-
-class _SuccessScreenState extends State<SuccessScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500), // Adjust duration as needed
-    );
-    _animation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(_controller);
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) {
-          return Transform.scale(
-            scale: _animation.value,
-            child: child,
-          );
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              Assets.graphics.successCheckMark,
-              height: 100, // Initial height of the SVG picture
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            const TitleLarge(
-              text: EnterProfileDetailWidgetConstants.successText,
-              weight: FontWeight.bold,
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            BodyLarge(
-              color: Theme.of(context).colorScheme.outline.tone(60),
-              text: EnterProfileDetailWidgetConstants.profileSucessFullyCreated,
-              maxLines: 2,
-              align: TextAlign.center,
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            AppFilledButton(label: 'Continue')
-          ],
-        ),
-      ),
-    );
   }
 }

@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_annotation_target
 
+import 'package:assisto/core/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_model.freezed.dart';
@@ -8,27 +9,23 @@ part 'user_model.g.dart';
 @freezed
 abstract class UserModel with _$UserModel {
   const factory UserModel({
-    required String id,
+    @JsonKey(includeToJson: false) required String id,
     required String name,
-    @JsonKey(name: 'image_url') required String imageUrl,
+    @JsonKey(name: 'avatar_url') required String avatarUrl,
     required String gender,
+    required List<String> tags,   
     required int age,
-    PrivateUserData? privateData,
+    String? dob,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 }
 
-@freezed
-class PrivateUserData with _$PrivateUserData {
-  const factory PrivateUserData({
-    required List<String> categories,
-    String? email,
-    String? phone,
-    String? dob,
-  }) = _PrivateUserData;
-
-  factory PrivateUserData.fromJson(Map<String, dynamic> json) =>
-      _$PrivateUserDataFromJson(json);
+extension SupabaseUserModel on UserModel {
+  Map<String, dynamic> toSupaJson() {
+    final json = toJson();
+    final data = ignoreNullFields(json);
+    return data;
+  }
 }

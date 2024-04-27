@@ -4,6 +4,7 @@ import 'package:assisto/features/auth/screens/login_screen.dart';
 import 'package:assisto/features/auth/screens/verify_otp_screen.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/features/splash/screens/splash_screen.dart';
+import 'package:assisto/widgets/enter_profile_detail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -51,4 +52,26 @@ class OtpPageRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       VerifyOtpScreen(otpType: otpType, phone: phoneNumber);
+}
+
+class VerifyPageRoute extends GoRouteData {
+  const VerifyPageRoute({required this.phoneNumber, required this.otpType});
+
+  /// The phone number associated with the OTP page.
+  final String phoneNumber;
+  final String otpType;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      VerifyOtpScreen(otpType: otpType, phone: phoneNumber);
+}
+
+class FullFillProfileRoute extends GoRouteData {
+  const FullFillProfileRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      EnterProfileDetailWidget(
+        onFinish: (a) {},
+      );
 }

@@ -12,13 +12,10 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-
     final theme = MaterialTheme(GoogleFonts.interTextTheme(textTheme));
-
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: theme.lightContrast(),
-      // darkTheme: theme.darkMediumContrast(),
       routerConfig: router,
     );
   }

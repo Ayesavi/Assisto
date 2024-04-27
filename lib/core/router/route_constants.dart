@@ -5,11 +5,22 @@ class RouteConstants {
   static const splashRoute =
       TypedGoRoute<SplashRoute>(path: '/', name: 'splash');
 
-  static const authRoute =
-      TypedGoRoute<AuthRoute>(path: '/auth', name: 'auth', routes: [
-    TypedGoRoute<OtpPageRoute>(path: 'otp/:phoneNumber/:otpType', name: 'otp')
-  ]);
+  static const authRoute = TypedGoRoute<AuthRoute>(
+    path: '/auth',
+    name: 'auth',
+    routes: [
+      TypedGoRoute<OtpPageRoute>(path: 'otp/:phoneNumber/:otpType', name: 'otp')
+    ],
+  );
 
   static const homeRoute =
-      TypedGoRoute<HomeRoute>(path: '/home', name: 'home', routes: []);
+      TypedGoRoute<HomeRoute>(path: '/home', name: 'home', routes: [
+    TypedGoRoute<FullFillProfileRoute>(
+        path: 'fillProfile',
+        name: 'fillProfile',
+        routes: [
+          TypedGoRoute<VerifyPageRoute>(
+              path: 'verify/:phoneNumber/:otpType', name: 'verify')
+        ])
+  ]);
 }

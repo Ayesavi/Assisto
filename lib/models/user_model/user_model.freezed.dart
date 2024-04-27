@@ -20,13 +20,15 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserModel {
+  @JsonKey(includeToJson: false)
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'image_url')
-  String get imageUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'avatar_url')
+  String get avatarUrl => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
+  List<String> get tags => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
-  PrivateUserData? get privateData => throw _privateConstructorUsedError;
+  String? get dob => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,14 +42,13 @@ abstract class $UserModelCopyWith<$Res> {
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(includeToJson: false) String id,
       String name,
-      @JsonKey(name: 'image_url') String imageUrl,
+      @JsonKey(name: 'avatar_url') String avatarUrl,
       String gender,
+      List<String> tags,
       int age,
-      PrivateUserData? privateData});
-
-  $PrivateUserDataCopyWith<$Res>? get privateData;
+      String? dob});
 }
 
 /// @nodoc
@@ -65,10 +66,11 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? imageUrl = null,
+    Object? avatarUrl = null,
     Object? gender = null,
+    Object? tags = null,
     Object? age = null,
-    Object? privateData = freezed,
+    Object? dob = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -79,35 +81,27 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
+      avatarUrl: null == avatarUrl
+          ? _value.avatarUrl
+          : avatarUrl // ignore: cast_nullable_to_non_nullable
               as String,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
               as String,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       age: null == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
               as int,
-      privateData: freezed == privateData
-          ? _value.privateData
-          : privateData // ignore: cast_nullable_to_non_nullable
-              as PrivateUserData?,
+      dob: freezed == dob
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $PrivateUserDataCopyWith<$Res>? get privateData {
-    if (_value.privateData == null) {
-      return null;
-    }
-
-    return $PrivateUserDataCopyWith<$Res>(_value.privateData!, (value) {
-      return _then(_value.copyWith(privateData: value) as $Val);
-    });
   }
 }
 
@@ -120,15 +114,13 @@ abstract class _$$UserModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(includeToJson: false) String id,
       String name,
-      @JsonKey(name: 'image_url') String imageUrl,
+      @JsonKey(name: 'avatar_url') String avatarUrl,
       String gender,
+      List<String> tags,
       int age,
-      PrivateUserData? privateData});
-
-  @override
-  $PrivateUserDataCopyWith<$Res>? get privateData;
+      String? dob});
 }
 
 /// @nodoc
@@ -144,10 +136,11 @@ class __$$UserModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? imageUrl = null,
+    Object? avatarUrl = null,
     Object? gender = null,
+    Object? tags = null,
     Object? age = null,
-    Object? privateData = freezed,
+    Object? dob = freezed,
   }) {
     return _then(_$UserModelImpl(
       id: null == id
@@ -158,22 +151,26 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
+      avatarUrl: null == avatarUrl
+          ? _value.avatarUrl
+          : avatarUrl // ignore: cast_nullable_to_non_nullable
               as String,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
               as String,
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       age: null == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
               as int,
-      privateData: freezed == privateData
-          ? _value.privateData
-          : privateData // ignore: cast_nullable_to_non_nullable
-              as PrivateUserData?,
+      dob: freezed == dob
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -182,33 +179,44 @@ class __$$UserModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserModelImpl implements _UserModel {
   const _$UserModelImpl(
-      {required this.id,
+      {@JsonKey(includeToJson: false) required this.id,
       required this.name,
-      @JsonKey(name: 'image_url') required this.imageUrl,
+      @JsonKey(name: 'avatar_url') required this.avatarUrl,
       required this.gender,
+      required final List<String> tags,
       required this.age,
-      this.privateData});
+      this.dob})
+      : _tags = tags;
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
 
   @override
+  @JsonKey(includeToJson: false)
   final String id;
   @override
   final String name;
   @override
-  @JsonKey(name: 'image_url')
-  final String imageUrl;
+  @JsonKey(name: 'avatar_url')
+  final String avatarUrl;
   @override
   final String gender;
+  final List<String> _tags;
+  @override
+  List<String> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tags);
+  }
+
   @override
   final int age;
   @override
-  final PrivateUserData? privateData;
+  final String? dob;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, imageUrl: $imageUrl, gender: $gender, age: $age, privateData: $privateData)';
+    return 'UserModel(id: $id, name: $name, avatarUrl: $avatarUrl, gender: $gender, tags: $tags, age: $age, dob: $dob)';
   }
 
   @override
@@ -218,18 +226,18 @@ class _$UserModelImpl implements _UserModel {
             other is _$UserModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
+            (identical(other.avatarUrl, avatarUrl) ||
+                other.avatarUrl == avatarUrl) &&
             (identical(other.gender, gender) || other.gender == gender) &&
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.age, age) || other.age == age) &&
-            (identical(other.privateData, privateData) ||
-                other.privateData == privateData));
+            (identical(other.dob, dob) || other.dob == dob));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, imageUrl, gender, age, privateData);
+  int get hashCode => Object.hash(runtimeType, id, name, avatarUrl, gender,
+      const DeepCollectionEquality().hash(_tags), age, dob);
 
   @JsonKey(ignore: true)
   @override
@@ -247,235 +255,35 @@ class _$UserModelImpl implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
-      {required final String id,
+      {@JsonKey(includeToJson: false) required final String id,
       required final String name,
-      @JsonKey(name: 'image_url') required final String imageUrl,
+      @JsonKey(name: 'avatar_url') required final String avatarUrl,
       required final String gender,
+      required final List<String> tags,
       required final int age,
-      final PrivateUserData? privateData}) = _$UserModelImpl;
+      final String? dob}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
 
   @override
+  @JsonKey(includeToJson: false)
   String get id;
   @override
   String get name;
   @override
-  @JsonKey(name: 'image_url')
-  String get imageUrl;
+  @JsonKey(name: 'avatar_url')
+  String get avatarUrl;
   @override
   String get gender;
   @override
+  List<String> get tags;
+  @override
   int get age;
-  @override
-  PrivateUserData? get privateData;
-  @override
-  @JsonKey(ignore: true)
-  _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-PrivateUserData _$PrivateUserDataFromJson(Map<String, dynamic> json) {
-  return _PrivateUserData.fromJson(json);
-}
-
-/// @nodoc
-mixin _$PrivateUserData {
-  List<String> get categories => throw _privateConstructorUsedError;
-  String? get email => throw _privateConstructorUsedError;
-  String? get phone => throw _privateConstructorUsedError;
-  String? get dob => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $PrivateUserDataCopyWith<PrivateUserData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $PrivateUserDataCopyWith<$Res> {
-  factory $PrivateUserDataCopyWith(
-          PrivateUserData value, $Res Function(PrivateUserData) then) =
-      _$PrivateUserDataCopyWithImpl<$Res, PrivateUserData>;
-  @useResult
-  $Res call(
-      {List<String> categories, String? email, String? phone, String? dob});
-}
-
-/// @nodoc
-class _$PrivateUserDataCopyWithImpl<$Res, $Val extends PrivateUserData>
-    implements $PrivateUserDataCopyWith<$Res> {
-  _$PrivateUserDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? categories = null,
-    Object? email = freezed,
-    Object? phone = freezed,
-    Object? dob = freezed,
-  }) {
-    return _then(_value.copyWith(
-      categories: null == categories
-          ? _value.categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dob: freezed == dob
-          ? _value.dob
-          : dob // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$PrivateUserDataImplCopyWith<$Res>
-    implements $PrivateUserDataCopyWith<$Res> {
-  factory _$$PrivateUserDataImplCopyWith(_$PrivateUserDataImpl value,
-          $Res Function(_$PrivateUserDataImpl) then) =
-      __$$PrivateUserDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {List<String> categories, String? email, String? phone, String? dob});
-}
-
-/// @nodoc
-class __$$PrivateUserDataImplCopyWithImpl<$Res>
-    extends _$PrivateUserDataCopyWithImpl<$Res, _$PrivateUserDataImpl>
-    implements _$$PrivateUserDataImplCopyWith<$Res> {
-  __$$PrivateUserDataImplCopyWithImpl(
-      _$PrivateUserDataImpl _value, $Res Function(_$PrivateUserDataImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? categories = null,
-    Object? email = freezed,
-    Object? phone = freezed,
-    Object? dob = freezed,
-  }) {
-    return _then(_$PrivateUserDataImpl(
-      categories: null == categories
-          ? _value._categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      email: freezed == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phone: freezed == phone
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dob: freezed == dob
-          ? _value.dob
-          : dob // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$PrivateUserDataImpl implements _PrivateUserData {
-  const _$PrivateUserDataImpl(
-      {required final List<String> categories,
-      this.email,
-      this.phone,
-      this.dob})
-      : _categories = categories;
-
-  factory _$PrivateUserDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PrivateUserDataImplFromJson(json);
-
-  final List<String> _categories;
-  @override
-  List<String> get categories {
-    if (_categories is EqualUnmodifiableListView) return _categories;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_categories);
-  }
-
-  @override
-  final String? email;
-  @override
-  final String? phone;
-  @override
-  final String? dob;
-
-  @override
-  String toString() {
-    return 'PrivateUserData(categories: $categories, email: $email, phone: $phone, dob: $dob)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PrivateUserDataImpl &&
-            const DeepCollectionEquality()
-                .equals(other._categories, _categories) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.dob, dob) || other.dob == dob));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_categories), email, phone, dob);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PrivateUserDataImplCopyWith<_$PrivateUserDataImpl> get copyWith =>
-      __$$PrivateUserDataImplCopyWithImpl<_$PrivateUserDataImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$PrivateUserDataImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _PrivateUserData implements PrivateUserData {
-  const factory _PrivateUserData(
-      {required final List<String> categories,
-      final String? email,
-      final String? phone,
-      final String? dob}) = _$PrivateUserDataImpl;
-
-  factory _PrivateUserData.fromJson(Map<String, dynamic> json) =
-      _$PrivateUserDataImpl.fromJson;
-
-  @override
-  List<String> get categories;
-  @override
-  String? get email;
-  @override
-  String? get phone;
   @override
   String? get dob;
   @override
   @JsonKey(ignore: true)
-  _$$PrivateUserDataImplCopyWith<_$PrivateUserDataImpl> get copyWith =>
+  _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
