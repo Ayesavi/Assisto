@@ -1,5 +1,7 @@
 import 'package:assisto/core/services/app_functions.dart';
 import 'package:assisto/features/home/controllers/select_categories_controller.dart';
+import 'package:assisto/models/service_category/service_category_model.dart';
+import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/category_chip.dart';
 import 'package:assisto/widgets/search_textfield.dart';
@@ -9,17 +11,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SelectCategoriesPage extends ConsumerWidget {
-  const SelectCategoriesPage({super.key});
+  final VoidCallback? onBack;
+  final Future<void> Function(List<ServiceCategoryModel> categories)
+      onCategorySelected;
+
+  const SelectCategoriesPage(
+      {super.key, required this.onBack, required this.onCategorySelected});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // ignore: unused_local_variable
+    List<ServiceCategoryModel> selectedList = [];
     final state = ref.watch(selectCategoriesControllerProvider);
     final controller = ref.read(selectCategoriesControllerProvider.notifier);
     return Scaffold(
       appBar: AppBar(
-        title: const TitleLarge(
-          text: 'Select Services',
-          weight: FontWeight.bold,
+        automaticallyImplyLeading: false,
+        title: Row(
+          children: [
+            if (onBack != null)
+              BackButton(
+                onPressed: () {
+                  onBack?.call();
+                },
+              ),
+            const SizedBox(
+              width: 10,
+            ),
+            const TitleLarge(
+              text: 'Select Services',
+              weight: FontWeight.bold,
+            ),
+          ],
         ),
       ),
       body: Padding(
@@ -30,6 +53,7 @@ class SelectCategoriesPage extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SearchTextField(
+                hintTexts: const ['Washing', 'Driving', 'Cooking'],
                 triggerSearchOnChange: true,
                 onSearch: (key) {
                   controller.searchCategoriesByKeys(key);
@@ -42,6 +66,7 @@ class SelectCategoriesPage extends ConsumerWidget {
                   child: CircularProgressIndicator(),
                 );
               }, data: (d, selected) {
+                selectedList = selected;
                 return Wrap(
                   spacing: 8.0,
                   children: d
@@ -74,7 +99,13 @@ class SelectCategoriesPage extends ConsumerWidget {
               const SizedBox(height: 16.0),
               AppFilledButton(
                 label: 'Continue',
-                onTap: () async {},
+                asyncTap: () async {
+                  if (selectedList.length > 2) {
+                    await onCategorySelected(selectedList);
+                    return;
+                  }
+                  showSnackBar(context, 'At least select 3 categories');
+                },
               ),
               const SizedBox(height: 16.0),
             ],

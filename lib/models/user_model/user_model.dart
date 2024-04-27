@@ -13,6 +13,7 @@ abstract class UserModel with _$UserModel {
     required String name,
     @JsonKey(name: 'avatar_url') required String avatarUrl,
     required String gender,
+    required List<String> tags,   
     required int age,
     String? dob,
   }) = _UserModel;

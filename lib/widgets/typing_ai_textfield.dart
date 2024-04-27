@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 
 class TypingTextField extends StatefulWidget {
   const TypingTextField({super.key, this.controller, this.onSend});
-  final void Function(String key)? onSend;
+  final Future<void> Function(String key)? onSend;
   final TextEditingController? controller;
   @override
   // ignore: library_private_types_in_public_api
@@ -15,18 +15,17 @@ class TypingTextField extends StatefulWidget {
 }
 
 class _TypingTextFieldState extends State<TypingTextField> {
-  String _hintText = '';
   late final TextEditingController _controller;
+  late final ValueNotifier<String> _hintNotifier;
   final FocusNode _focusNode = FocusNode();
-  final List<Color> _borderColors = [Colors.pink, Colors.blue, Colors.yellow];
-  int _currentColorIndex = 0;
+  final ValueNotifier<bool> _progressNotifier = ValueNotifier(false);
 
   @override
   void initState() {
     super.initState();
     _controller = widget.controller ?? TextEditingController();
+    _hintNotifier = ValueNotifier('');
     _startTypingAnimation();
-    _startBorderAnimation();
   }
 
   @override
@@ -41,18 +40,8 @@ class _TypingTextFieldState extends State<TypingTextField> {
         'I can drive, good at cleaning and provide services like driving, househelp, homework and teaching.';
     int index = 0;
     Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      setState(() {
-        _hintText = hintText.substring(0, index + 1);
-        index = (index + 1) % hintText.length;
-      });
-    });
-  }
-
-  void _startBorderAnimation() {
-    Timer.periodic(const Duration(milliseconds: 2000), (timer) {
-      setState(() {
-        _currentColorIndex = (_currentColorIndex + 1) % _borderColors.length;
-      });
+      _hintNotifier.value = hintText.substring(0, index + 1);
+      index = (index + 1) % hintText.length;
     });
   }
 
@@ -68,22 +57,46 @@ class _TypingTextFieldState extends State<TypingTextField> {
       child: Row(
         children: [
           Expanded(
-            child: TextField(
-              controller: _controller,
-              focusNode: _focusNode,
-              maxLines: 2,
-              decoration: InputDecoration(
-                hintText: _hintText,
-                border: InputBorder.none,
-              ),
+            child: ValueListenableBuilder(
+              valueListenable: _hintNotifier,
+              builder: (BuildContext context, String hintText, Widget? child) {
+                return TextField(
+                  controller: _controller,
+                  focusNode: _focusNode,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    border: InputBorder.none,
+                  ),
+                );
+              },
             ),
           ),
           const Padding(padding: kWidgetHorizontalPadding),
-          IconButton(
-              onPressed: () => widget.onSend?.call(_controller.text),
-              icon: SizedBox.square(
-                  dimension: 35,
-                  child: SvgPicture.asset(Assets.graphics.loginWelcome))),
+          ValueListenableBuilder(
+            valueListenable: _progressNotifier,
+            builder: (BuildContext context, bool progress, Widget? child) {
+              return IconButton(
+                  onPressed: () async {
+                    try {
+                      if (_controller.text.trim().isNotEmpty) {
+                        _progressNotifier.value = true;
+                        await widget.onSend?.call(_controller.text);
+                        _progressNotifier.value = false;
+                      }
+                      _controller.clear();
+                    } catch (e) {
+                      _progressNotifier.value = false;
+                      rethrow;
+                    }
+                  },
+                  icon: SizedBox.square(
+                      dimension: 35,
+                      child: progress
+                          ? const CircularProgressIndicator()
+                          : SvgPicture.asset(Assets.graphics.loginWelcome)));
+            },
+          ),
           const Padding(padding: kWidgetHorizontalPadding),
         ],
       ),

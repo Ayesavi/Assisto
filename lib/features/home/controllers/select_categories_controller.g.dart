@@ -7,7 +7,7 @@ part of 'select_categories_controller.dart';
 // **************************************************************************
 
 String _$selectCategoriesControllerHash() =>
-    r'cdd1c4d33601a093a1822958faef675b02e643c9';
+    r'235445698506358480bb99773946247d73487171';
 
 /// See also [SelectCategoriesController].
 @ProviderFor(SelectCategoriesController)

@@ -99,6 +99,7 @@ class _SearchTextFieldState extends State<SearchTextField>
         children: [
           Expanded(
             child: TextField(
+              
               onSubmitted: (value) {
                 widget.onSearch?.call(value);
               },
