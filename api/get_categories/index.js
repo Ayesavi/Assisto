@@ -6,11 +6,10 @@ const { ChatPromptTemplate } = require("@langchain/core/prompts");
 const { JsonOutputFunctionsParser } = require("langchain/output_parsers");
 const { onRequest, onCall } = require("firebase-functions/v1/https");
 const admin = require("firebase-admin");
-
+const jwt = require('jsonwebtoken');
+const { createClient } = require('@supabase/supabase-js');
 let template = `
-
 User Bio : {question}
-
 Categories:
     driving: Ride, Safar, Commute, Carpool, Drive, Drop-off, Pick-up, सवारी
     cooking: Meal prep, Nashta, Recipe, Food, Cook, Chef, Dinner, Lunch, पकवान
@@ -51,28 +50,35 @@ let jsonSchema = {
     "required": ["categories"]
 }
 
-async function genCategories(data, context) {
-
+async function genCategories(req, res) {
     try {
+        const accessToken = req.headers.authorization.split('Bearer ').pop();
+        const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY, {
+            global: {
+                headers: {
+                    'apiKey': process.env.SUPABASE_KEY,
+                    'Authorization': `Bearer ${req.headers.access_token}`,
+                }
+            }
+        });
         const prompt = ChatPromptTemplate.fromMessages([
             ["human", template],
         ]);
-
-        if (context.auth?.uid != null) {
+        const { data, error } = await supabase.auth.getUser();
+        if (true) {
+            const { context } = req.body;
             const model = new ChatOpenAI({ openAIApiKey: process.env.OPENAI_API_KEY });
             const outputParser = new JsonOutputFunctionsParser();
-            // Also works with Zod schema
             const runnable = createStructuredOutputRunnable({
                 outputSchema: jsonSchema,
                 llm: model,
                 prompt: prompt,
                 outputParser
             });
-            let data = await runnable.invoke({ question: 'I am 20 years old male im studying' })
+            let data = await runnable.invoke({ question: context })
             logger.info(data, { structuredData: true })
-            return data;
+            return res.send(data.categories);
         } else {
-            return new functions.https.HttpsError(401, 'Forbidden')
         }
     } catch (error) {
         console.error("Error", error);
@@ -86,7 +92,5 @@ async function genCategories(data, context) {
 
 exports.getCategoriesByDescription = functions
     .region('asia-south1')
-    .https.onCall(async (data, context) => {
-        return await genCategories(data, context);
-    });
+    .https.onRequest(genCategories);
 

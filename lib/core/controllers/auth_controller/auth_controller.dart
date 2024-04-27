@@ -69,7 +69,11 @@ class AuthController extends _$AuthController {
               ? userMetadata!['phone_verified']
               : null;
 
-      if ((checkNullOrEmpty([email, name, imageUrl, gender, dob])) &&
+      final tags = userMetadata?.containsKey("tags") ?? false
+          ? userMetadata!['tags'].map((e) => e.toString()).toList()
+          : null;
+
+      if ((checkNullOrEmpty([email, name, imageUrl, gender, dob, tags])) &&
           userMetadata != null) {
         return _IncompleteProfile(userMetadata,
             isPhoneVerified: isPhoneVerified, isEmailVerified: isEmailVerified);
@@ -84,6 +88,7 @@ class AuthController extends _$AuthController {
           name: name,
           avatarUrl: imageUrl,
           gender: gender,
+          tags: [...tags],
           age: calculateAgeFromString(dob));
       _user = model;
       return _Authenticated(model);

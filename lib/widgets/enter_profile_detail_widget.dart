@@ -1,17 +1,17 @@
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/core/utils/debouncer.dart';
 import 'package:assisto/core/utils/utils.dart';
-import 'package:assisto/gen/assets.gen.dart';
+import 'package:assisto/features/home/screens/select_categories_page.dart';
 import 'package:assisto/models/user_model/user_model.dart';
+import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
-import 'package:assisto/widgets/text_widgets.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:assisto/widgets/profie_details_form/profile_details_form_builder.dart';
+import 'package:assisto/widgets/profie_details_form/profile_details_form_controller.dart';
+import 'package:assisto/widgets/profie_details_form/profile_form_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 
 class EnterProfileDetailWidgetConstants {
   static const nameQueText = "What's your name?";
@@ -51,14 +51,14 @@ class _EnterProfileDetailWidgetState
   bool isInitialized = false;
   late final TextEditingController _dobController;
   late final TextEditingController _phoneController;
-  late CarouselController _carouselController; // Carousel controller
+  late final ProfileFormController _formController;
+
   String? _selectedGender;
   bool isSuccess = false;
-  late final List<ProfileDetailCardParam> differentiatedList;
+  late final List<ProfileFormParams> differentiatedList;
   @override
   void initState() {
     super.initState();
-    _carouselController = CarouselController();
     _dobController = TextEditingController();
     _phoneController = TextEditingController();
     _currentQuestionIndex = 0;
@@ -84,155 +84,12 @@ class _EnterProfileDetailWidgetState
     }
   }
 
-  List<ProfileDetailCardParam> getParams() {
+  List<ProfileFormParams> getParams() {
     return [
-      ProfileDetailCardParam(
-        key: 'name',
-        question: EnterProfileDetailWidgetConstants.nameQueText,
-        builder: (context) {
-          return TextFormField(
-            initialValue: _userDetails['name'],
-
-            decoration: InputDecoration(
-              hintText: 'Ex Tom Cruise',
-              labelText: 'Full Name',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-            ),
-            onChanged: (value) {
-              if (_formKey.currentState!.validate()) {
-                _userDetails['name'] = value;
-              }
-            },
-            onFieldSubmitted: (s) {
-              if (_formKey.currentState!.validate() &&
-                  _currentQuestionIndex < 2) {}
-            },
-            validator: _validateInput, // Add validator
-          );
-        },
-        onNext: () {
-          _carouselController.nextPage();
-        },
-      ),
-      ProfileDetailCardParam(
-          key: 'gender',
-          question: EnterProfileDetailWidgetConstants.genderText,
-          builder: (context) {
-            return DropdownButtonFormField<String>(
-              value: _selectedGender,
-              decoration: InputDecoration(
-                hintText: 'Select gender',
-                labelText: 'Gender',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-              items: EnterProfileDetailWidgetConstants.genderOptions
-                  .map((String gender) {
-                return DropdownMenuItem<String>(
-                  value: gender,
-                  child: Text(gender),
-                );
-              }).toList(),
-              onChanged: (String? value) {
-                setState(() {
-                  _selectedGender = value;
-                });
-                if (value != null) {
-                  _userDetails['gender'] = value;
-                }
-              },
-              validator: _validateInput, // Add validator
-            );
-          },
-          onNext: () {
-            _carouselController.nextPage();
-          }),
-      ProfileDetailCardParam(
-          key: 'dob',
-          question: EnterProfileDetailWidgetConstants.dobText,
-          builder: (context) {
-            final bouncer = Debouncer(delay: const Duration(milliseconds: 800));
-            return Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    keyboardType: TextInputType.datetime,
-                    inputFormatters: [DateInputFormatter()],
-                    maxLength: 10,
-                    controller: _dobController,
-                    decoration: InputDecoration(
-                      counterText: '',
-                      hintText: 'DD/MM/YYYY',
-                      labelText: 'Date of Birth',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    onChanged: (value) {
-                      _userDetails['dob'] = value;
-                      bouncer.call(() {
-                        _formKey.currentState?.validate();
-                      });
-                    },
-                    validator: validateDate, // Add validator
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.calendar_today),
-                  onPressed: () => _selectDate(context),
-                ),
-              ],
-            );
-          },
-          onNext: () {
-            if (_formKey.currentState?.validate() ?? false) {
-              ref.read(authControllerProvider.notifier).updateProfile(UserModel(
-                  id: '',
-                  name: _userDetails['name'],
-                  avatarUrl: _userDetails['avatar_url'],
-                  gender: _selectedGender!,
-                  age: calculateAgeFromString(_userDetails['dob']),
-                  dob: _userDetails['dob']));
-            }
-          }),
-
-      // ProfileDetailCardParam(
-      //     key: 'phone',
-      //     question: EnterProfileDetailWidgetConstants.phoneText,
-      //     builder: (context) {
-      //       return TextFormField(
-      //         maxLength: 10,
-      //         controller: _phoneController,
-      //         keyboardType: TextInputType.phone,
-
-      //         decoration: InputDecoration(
-      //           hintText: 'Ex 9977373028',
-      //           labelText: 'Phone Number',
-      //           border: OutlineInputBorder(
-      //             borderRadius: BorderRadius.circular(10.0),
-      //           ),
-      //         ),
-      //         onChanged: (value) {
-      //           if (_formKey.currentState!.validate()) {
-      //             _userDetails['phone'] = value;
-      //           }
-      //         },
-
-      //         validator: validatePhoneNumber, // Add validator
-      //       );
-      //     },
-      //     onNext: () async {
-      //       if (_formKey.currentState?.validate() ?? false) {
-      //         if (context.mounted) {
-      //           await ref
-      //               .read(authControllerProvider.notifier)
-      //               .updatePhone(getPhoneNumber(context));
-      //         }
-      //       }
-      //     })
+      ProfileFormParams(key: 'name', builder: _nameBuilder),
+      ProfileFormParams(key: 'gender', builder: _genderBuilder),
+      ProfileFormParams(key: 'dob', builder: _dobBuilder),
+      ProfileFormParams(key: 'tags', builder: _tagsBuilder),
     ];
   }
 
@@ -301,110 +158,35 @@ class _EnterProfileDetailWidgetState
   Widget build(BuildContext context) {
     final state = ref.watch(authControllerProvider);
     final controller = ref.read(authControllerProvider.notifier);
-    return Scaffold(
-      body: Padding(
-        padding:
-            EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top + 20),
-        child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onInverseSurface,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0),
-                    ),
-                  ),
-                  padding: const EdgeInsets.all(16.0),
-                  child: state.when(authControllerInitial: () {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }, authenticated: (model) {
-                    return const SuccessScreen();
-                  }, unAuthenticated: () {
-                    return null;
-                  }, inCompleteProfile:
-                      (userDetails, isPhoneVerified, isEmailVerified) {
-                    if (!isInitialized) {
-                      _userDetails = {...userDetails};
-                      _selectedGender = userDetails.containsKey('gender')
-                          ? userDetails['gender']
-                          : 'female';
-                      if (userDetails.containsKey('dob')) {
-                        _dobController.text = (_userDetails['dob']);
-                      }
-                      differentiatedList =
-                          mapDifferentiator(getParams(), _userDetails);
-                      isInitialized = true;
-                    }
-
-                    return Form(
-                      key: _formKey, // Assign the form key
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CarouselSlider.builder(
-                            carouselController: _carouselController,
-                            itemCount: differentiatedList.length,
-                            options: CarouselOptions(
-                              height: 300,
-                              enableInfiniteScroll: false,
-                              viewportFraction: 1,
-                              onPageChanged: (index, _) {},
-                            ),
-                            itemBuilder: (context, index, _) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  if (index != 0)
-                                    BackButton(
-                                      onPressed: () {
-                                        _carouselController.previousPage();
-                                      },
-                                    ),
-                                  Text(
-                                    differentiatedList[index].question,
-                                    style: const TextStyle(
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 20.0),
-                                  differentiatedList[index].builder(context),
-                                  const SizedBox(height: 20.0),
-                                  AppFilledButton(
-                                    asyncTap: () async {
-                                      differentiatedList[index].onNext();
-                                    },
-                                    label:
-                                        differentiatedList.length - 1 == index
-                                            ? 'Finish'
-                                            : 'Next',
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  })),
-            ),
-          ],
-        ),
-      ),
-    );
+    return state.when(authControllerInitial: () {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }, authenticated: (model) {
+      return const CircularProgressIndicator();
+    }, unAuthenticated: () {
+      return const CircularProgressIndicator();
+    }, inCompleteProfile: (userDetails, isPhoneVerified, isEmailVerified) {
+      if (!isInitialized) {
+        _userDetails = {...userDetails};
+        _selectedGender = userDetails.containsKey('gender')
+            ? userDetails['gender']
+            : 'female';
+        if (userDetails.containsKey('dob')) {
+          _dobController.text = (_userDetails['dob']);
+        }
+        differentiatedList = mapDifferentiator(getParams(), _userDetails);
+        _formController = ProfileFormController(differentiatedList);
+        isInitialized = true;
+      }
+      return ProfileFormBuilder(formKey: _formKey, controller: _formController);
+    });
   }
 
-  List<ProfileDetailCardParam> mapDifferentiator(
-      List<ProfileDetailCardParam> map1, Map<String, dynamic> map2) {
+  List<ProfileFormParams> mapDifferentiator(
+      List<ProfileFormParams> map1, Map<String, dynamic> map2) {
     // Create an empty map to store the differentiated entries
-    List<ProfileDetailCardParam> list = [];
+    List<ProfileFormParams> list = [];
 
     // Iterate over the entries of the first map
     for (var item in map1) {
@@ -417,6 +199,218 @@ class _EnterProfileDetailWidgetState
     }
 
     return list;
+  }
+
+  Widget _tagsBuilder(BuildContext context) {
+    return SelectCategoriesPage(
+      onBack: _showBackButton('tags')
+          ? () {
+              _formController.prev();
+            }
+          : null,
+      onCategorySelected: (categories) async {
+        try {
+          await ref.read(authControllerProvider.notifier).updateProfile(
+              UserModel(
+                  id: '',
+                  tags: categories.map((e) => e.label).toList(),
+                  name: _userDetails['name'],
+                  avatarUrl: _userDetails['avatar_url'],
+                  gender: _selectedGender!,
+                  age: calculateAgeFromString(_userDetails['dob']),
+                  dob: _userDetails['dob']));
+          return;
+        } catch (e) {
+          if (context.mounted) {
+            showSnackBar(context, appErrorHandler(e).message);
+          }
+        }
+      },
+    );
+  }
+
+  Widget _nameBuilder(BuildContext context) {
+    return _profileDetailCard(
+      key: 'name',
+      question: EnterProfileDetailWidgetConstants.nameQueText,
+      buttonLabel: 'Continue',
+      onNext: () {
+        _formController.next();
+      },
+      builder: (context) {
+        return TextFormField(
+          initialValue: _userDetails['name'],
+
+          decoration: InputDecoration(
+            hintText: 'Ex Tom Cruise',
+            labelText: 'Full Name',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+          onChanged: (value) {
+            if (_formKey.currentState!.validate()) {
+              _userDetails['name'] = value;
+            }
+          },
+          onFieldSubmitted: (s) {
+            if (_formKey.currentState!.validate() &&
+                _currentQuestionIndex < 2) {}
+          },
+          validator: _validateInput, // Add validator
+        );
+      },
+    );
+  }
+
+  Widget _genderBuilder(BuildContext context) {
+    return _profileDetailCard(
+        key: 'gender',
+        question: EnterProfileDetailWidgetConstants.genderText,
+        buttonLabel: 'Continue',
+        onNext: () {
+          _formController.next();
+        },
+        builder: (context) {
+          return DropdownButtonFormField<String>(
+            value: _selectedGender,
+            decoration: InputDecoration(
+              hintText: 'Select gender',
+              labelText: 'Gender',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+            items: EnterProfileDetailWidgetConstants.genderOptions
+                .map((String gender) {
+              return DropdownMenuItem<String>(
+                value: gender,
+                child: Text(gender),
+              );
+            }).toList(),
+            onChanged: (String? value) {
+              setState(() {
+                _selectedGender = value;
+              });
+              if (value != null) {
+                _userDetails['gender'] = value;
+              }
+            },
+            validator: _validateInput, // Add validator
+          );
+        });
+  }
+
+  Widget _dobBuilder(BuildContext context) {
+    return _profileDetailCard(
+        key: 'dob',
+        question: EnterProfileDetailWidgetConstants.dobText,
+        buttonLabel: 'Continue',
+        onNext: () {
+          _formController.next();
+        },
+        builder: (context) {
+          final bouncer = Debouncer(delay: const Duration(milliseconds: 800));
+          return Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  keyboardType: TextInputType.datetime,
+                  inputFormatters: [DateInputFormatter()],
+                  maxLength: 10,
+                  controller: _dobController,
+                  decoration: InputDecoration(
+                    counterText: '',
+                    hintText: 'DD/MM/YYYY',
+                    labelText: 'Date of Birth',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    _userDetails['dob'] = value;
+                    bouncer.call(() {
+                      _formKey.currentState?.validate();
+                    });
+                  },
+                  validator: validateDate, // Add validator
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.calendar_today),
+                onPressed: () => _selectDate(context),
+              ),
+            ],
+          );
+        });
+  }
+
+  Widget _profileDetailCard(
+      {required String key,
+      required String question,
+      required String buttonLabel,
+      required VoidCallback onNext,
+      required Widget Function(BuildContext context) builder}) {
+    final showBackButton = _showBackButton(key);
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).viewPadding.top + 20),
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.onInverseSurface,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
+                  ),
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (showBackButton)
+                      BackButton(
+                        onPressed: () {
+                          _formController.prev();
+                        },
+                      ),
+                    Text(
+                      question,
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 20.0),
+                    builder(context),
+                    const SizedBox(height: 20.0),
+                    AppFilledButton(
+                      asyncTap: () async {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          onNext();
+                        }
+                      },
+                      label: buttonLabel,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  bool _showBackButton(String key) {
+    final index =
+        differentiatedList.indexWhere((element) => element.key == key);
+    return index > 0;
   }
 }
 
@@ -449,88 +443,4 @@ class DateInputFormatter extends TextInputFormatter {
     }
     return text;
   }
-}
-
-class SuccessScreen extends StatefulWidget {
-  const SuccessScreen({super.key});
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _SuccessScreenState createState() => _SuccessScreenState();
-}
-
-class _SuccessScreenState extends State<SuccessScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500), // Adjust duration as needed
-    );
-    _animation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(_controller);
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) {
-          return Transform.scale(
-            scale: _animation.value,
-            child: child,
-          );
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              Assets.graphics.successCheckMark,
-              height: 100, // Initial height of the SVG picture
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            const TitleLarge(
-              text: EnterProfileDetailWidgetConstants.successText,
-              weight: FontWeight.bold,
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-            BodyLarge(
-              color: Theme.of(context).colorScheme.outline.tone(60),
-              text: EnterProfileDetailWidgetConstants.profileSucessFullyCreated,
-              maxLines: 2,
-              align: TextAlign.center,
-            ),
-            const Padding(padding: EdgeInsets.all(8.0)),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileDetailCardParam {
-  final String key;
-  final Widget Function(BuildContext context) builder;
-  final void Function() onNext;
-  final String question;
-
-  const ProfileDetailCardParam(
-      {required this.key,
-      required this.builder,
-      required this.onNext,
-      required this.question});
 }

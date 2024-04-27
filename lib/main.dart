@@ -16,6 +16,7 @@ void main() async {
   );
   await Supabase.initialize(
       url: 'SUPABASE_URL'.fromEnv, anonKey: 'SUPABASE_KEY'.fromEnv);
+  // HttpService().usingEmulator(5001);
 
   runApp(const ProviderScope(child: MyApp()));
 }
