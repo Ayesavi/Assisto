@@ -94,13 +94,11 @@ RouteBase get $homeRoute => GoRouteData.$route(
           path: 'fillProfile',
           name: 'fillProfile',
           factory: $FullFillProfileRouteExtension._fromState,
-          routes: [
-            GoRouteData.$route(
-              path: 'verify/:phoneNumber/:otpType',
-              name: 'verify',
-              factory: $VerifyPageRouteExtension._fromState,
-            ),
-          ],
+        ),
+        GoRouteData.$route(
+          path: 'addresses',
+          name: 'addresses',
+          factory: $AddressesPageRouteExtension._fromState,
         ),
       ],
     );
@@ -140,14 +138,12 @@ extension $FullFillProfileRouteExtension on FullFillProfileRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $VerifyPageRouteExtension on VerifyPageRoute {
-  static VerifyPageRoute _fromState(GoRouterState state) => VerifyPageRoute(
-        phoneNumber: state.pathParameters['phoneNumber']!,
-        otpType: state.pathParameters['otpType']!,
-      );
+extension $AddressesPageRouteExtension on AddressesPageRoute {
+  static AddressesPageRoute _fromState(GoRouterState state) =>
+      const AddressesPageRoute();
 
   String get location => GoRouteData.$location(
-        '/home/fillProfile/verify/${Uri.encodeComponent(phoneNumber)}/${Uri.encodeComponent(otpType)}',
+        '/home/addresses',
       );
 
   void go(BuildContext context) => context.go(location);

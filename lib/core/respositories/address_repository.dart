@@ -2,7 +2,7 @@ import 'package:assisto/models/address_model/address_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class BaseAddressRepository {
-  Future<Iterable<AddressModel>> fetchAddresses();
+  Future<List<AddressModel>> fetchAddresses();
 
   Future<AddressModel> getAddressById(int id);
 
@@ -33,6 +33,8 @@ class FakeAddressRepository implements BaseAddressRepository {
         const Duration(seconds: 1),
         () => [
               AddressModel(
+                label: 'home',
+                houseNo: '4',
                 address: '123 Main St',
                 latlng: (lat: 0.0, lng: 0.0),
                 createdAt: DateTime.now(),
@@ -47,6 +49,8 @@ class FakeAddressRepository implements BaseAddressRepository {
     return Future.delayed(
         const Duration(seconds: 1),
         () => AddressModel(
+              houseNo: '2',
+              label: 'home',
               address: '123 Main St',
               latlng: (lat: 0.0, lng: 0.0),
               createdAt: DateTime.now(),
@@ -78,9 +82,10 @@ class SupabaseAddressRepository implements BaseAddressRepository {
   }
 
   @override
-  Future<Iterable<AddressModel>> fetchAddresses() async {
+  Future<List<AddressModel>> fetchAddresses() async {
     return (await _supabase.from(_table).select('*'))
-        .map((e) => AddressModel.fromJson(e));
+        .map((e) => AddressModel.fromJson(e))
+        .toList();
   }
 
   @override

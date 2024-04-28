@@ -26,7 +26,9 @@ mixin _$AddressModel {
   @JsonKey(name: 'owner_id', includeToJson: false)
   String? get ownerId => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
+  String get label => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
+  String get houseNo => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false)
   int get id => throw _privateConstructorUsedError;
 
@@ -47,7 +49,9 @@ abstract class $AddressModelCopyWith<$Res> {
       String? landmark,
       ({double lat, double lng}) latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) String? ownerId,
-      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'created_at') String label,
+      DateTime createdAt,
+      String houseNo,
       @JsonKey(includeToJson: false) int id});
 }
 
@@ -68,7 +72,9 @@ class _$AddressModelCopyWithImpl<$Res, $Val extends AddressModel>
     Object? landmark = freezed,
     Object? latlng = null,
     Object? ownerId = freezed,
+    Object? label = null,
     Object? createdAt = null,
+    Object? houseNo = null,
     Object? id = null,
   }) {
     return _then(_value.copyWith(
@@ -88,10 +94,18 @@ class _$AddressModelCopyWithImpl<$Res, $Val extends AddressModel>
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
               as String?,
+      label: null == label
+          ? _value.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      houseNo: null == houseNo
+          ? _value.houseNo
+          : houseNo // ignore: cast_nullable_to_non_nullable
+              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -113,7 +127,9 @@ abstract class _$$AddressModelImplCopyWith<$Res>
       String? landmark,
       ({double lat, double lng}) latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) String? ownerId,
-      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'created_at') String label,
+      DateTime createdAt,
+      String houseNo,
       @JsonKey(includeToJson: false) int id});
 }
 
@@ -132,7 +148,9 @@ class __$$AddressModelImplCopyWithImpl<$Res>
     Object? landmark = freezed,
     Object? latlng = null,
     Object? ownerId = freezed,
+    Object? label = null,
     Object? createdAt = null,
+    Object? houseNo = null,
     Object? id = null,
   }) {
     return _then(_$AddressModelImpl(
@@ -152,10 +170,18 @@ class __$$AddressModelImplCopyWithImpl<$Res>
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
               as String?,
+      label: null == label
+          ? _value.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as String,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      houseNo: null == houseNo
+          ? _value.houseNo
+          : houseNo // ignore: cast_nullable_to_non_nullable
+              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -172,7 +198,9 @@ class _$AddressModelImpl implements _AddressModel {
       this.landmark,
       required this.latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) this.ownerId,
-      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'created_at') required this.label,
+      required this.createdAt,
+      required this.houseNo,
       @JsonKey(includeToJson: false) required this.id});
 
   factory _$AddressModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -189,14 +217,18 @@ class _$AddressModelImpl implements _AddressModel {
   final String? ownerId;
   @override
   @JsonKey(name: 'created_at')
+  final String label;
+  @override
   final DateTime createdAt;
+  @override
+  final String houseNo;
   @override
   @JsonKey(includeToJson: false)
   final int id;
 
   @override
   String toString() {
-    return 'AddressModel(address: $address, landmark: $landmark, latlng: $latlng, ownerId: $ownerId, createdAt: $createdAt, id: $id)';
+    return 'AddressModel(address: $address, landmark: $landmark, latlng: $latlng, ownerId: $ownerId, label: $label, createdAt: $createdAt, houseNo: $houseNo, id: $id)';
   }
 
   @override
@@ -209,15 +241,17 @@ class _$AddressModelImpl implements _AddressModel {
                 other.landmark == landmark) &&
             (identical(other.latlng, latlng) || other.latlng == latlng) &&
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
+            (identical(other.label, label) || other.label == label) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.houseNo, houseNo) || other.houseNo == houseNo) &&
             (identical(other.id, id) || other.id == id));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, address, landmark, latlng, ownerId, createdAt, id);
+  int get hashCode => Object.hash(runtimeType, address, landmark, latlng,
+      ownerId, label, createdAt, houseNo, id);
 
   @JsonKey(ignore: true)
   @override
@@ -239,7 +273,9 @@ abstract class _AddressModel implements AddressModel {
       final String? landmark,
       required final ({double lat, double lng}) latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) final String? ownerId,
-      @JsonKey(name: 'created_at') required final DateTime createdAt,
+      @JsonKey(name: 'created_at') required final String label,
+      required final DateTime createdAt,
+      required final String houseNo,
       @JsonKey(includeToJson: false)
       required final int id}) = _$AddressModelImpl;
 
@@ -257,7 +293,11 @@ abstract class _AddressModel implements AddressModel {
   String? get ownerId;
   @override
   @JsonKey(name: 'created_at')
+  String get label;
+  @override
   DateTime get createdAt;
+  @override
+  String get houseNo;
   @override
   @JsonKey(includeToJson: false)
   int get id;

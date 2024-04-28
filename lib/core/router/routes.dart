@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:assisto/features/auth/screens/login_screen.dart';
 import 'package:assisto/features/auth/screens/verify_otp_screen.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
+import 'package:assisto/features/profile/screens/address_screen.dart';
 import 'package:assisto/features/splash/screens/splash_screen.dart';
 import 'package:assisto/widgets/enter_profile_detail_widget.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class HomeRoute extends GoRouteData {
   const HomeRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => HomeScreen();
+  Widget build(BuildContext context, GoRouterState state) => const HomeScreen();
 
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
@@ -74,4 +75,12 @@ class FullFillProfileRoute extends GoRouteData {
       EnterProfileDetailWidget(
         onFinish: (a) {},
       );
+}
+
+class AddressesPageRoute extends GoRouteData {
+  const AddressesPageRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const AddressesPage();
 }
