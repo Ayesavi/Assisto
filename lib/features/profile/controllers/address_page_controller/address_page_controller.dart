@@ -14,7 +14,7 @@ part 'address_page_controller_state.dart';
 @riverpod
 class AddressPageController extends _$AddressPageController {
   List<AddressModel> _addresses = [];
-  final _repo = SupabaseAddressRepository();
+  final _repo = FakeAddressRepository();
 
   @override
   AddressPageControllerState build() {

@@ -36,3 +36,9 @@ extension StringExtensions on String {
     }
   }
 }
+
+extension StringNullableExtension on String? {
+  bool get mayBeNullOrEmpty => (this == null || this!.trim().isEmpty);
+
+  bool get isNotNullAndNotEmpty => (this != null && this!.trim().isNotEmpty);
+}

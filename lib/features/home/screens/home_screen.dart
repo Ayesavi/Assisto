@@ -1,4 +1,4 @@
-import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
+import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/features/home/screens/home_appbar_title.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/user_avatar.dart';
@@ -31,21 +31,9 @@ class HomeScreen extends ConsumerWidget {
                 child: UserAvatar.currentUser(
                   ref,
                   onPressed: () async {
-                    await ref.read(authControllerProvider.notifier).signOut();
+                    const ProfilePageRoute().push(context);
                   },
-                )
-                // CircleAvatar(
-                //   backgroundColor:
-                //       Theme.of(context).colorScheme.outline.withOpacity(.3),
-                //   child: IconButton(
-                //       onPressed: () async {
-                //       },
-                //       icon: Icon(
-                //         Icons.person,
-                //         color: Theme.of(context).colorScheme.onSurface,
-                //       )),
-                // ),
-                )
+                ))
           ],
         ),
       ],

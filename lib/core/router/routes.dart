@@ -4,6 +4,8 @@ import 'package:assisto/features/auth/screens/login_screen.dart';
 import 'package:assisto/features/auth/screens/verify_otp_screen.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/features/profile/screens/address_screen.dart';
+import 'package:assisto/features/profile/screens/edit_profile_page.dart';
+import 'package:assisto/features/profile/screens/profile_screen.dart';
 import 'package:assisto/features/splash/screens/splash_screen.dart';
 import 'package:assisto/widgets/enter_profile_detail_widget.dart';
 import 'package:flutter/material.dart';
@@ -83,4 +85,19 @@ class AddressesPageRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const AddressesPage();
+}
+
+class ProfilePageRoute extends GoRouteData {
+  const ProfilePageRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ProfilePage();
+}
+class EditProfilePageRoute extends GoRouteData {
+  const EditProfilePageRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const EditProfilePage();
 }

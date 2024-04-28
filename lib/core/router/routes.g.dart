@@ -100,6 +100,18 @@ RouteBase get $homeRoute => GoRouteData.$route(
           name: 'addresses',
           factory: $AddressesPageRouteExtension._fromState,
         ),
+        GoRouteData.$route(
+          path: 'profile',
+          name: 'profile',
+          factory: $ProfilePageRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'edit',
+              name: 'edit',
+              factory: $EditProfilePageRouteExtension._fromState,
+            ),
+          ],
+        ),
       ],
     );
 
@@ -144,6 +156,42 @@ extension $AddressesPageRouteExtension on AddressesPageRoute {
 
   String get location => GoRouteData.$location(
         '/home/addresses',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ProfilePageRouteExtension on ProfilePageRoute {
+  static ProfilePageRoute _fromState(GoRouterState state) =>
+      const ProfilePageRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/profile',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $EditProfilePageRouteExtension on EditProfilePageRoute {
+  static EditProfilePageRoute _fromState(GoRouterState state) =>
+      const EditProfilePageRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/profile/edit',
       );
 
   void go(BuildContext context) => context.go(location);

@@ -35,7 +35,7 @@ class EditAddressTile extends ConsumerWidget {
           ),
           LabelMedium(
               text:
-                  '${model.houseNo.capitalize}, ${model.landmark?.capitalize}'),
+                  '${model.houseNumber.capitalize}, ${model.landmark?.capitalize}'),
           const SizedBox(
             height: 10,
           ),
@@ -84,7 +84,4 @@ class EditAddressTile extends ConsumerWidget {
       // leading: _buildLeadingIcon(context),
     );
   }
-
- 
-
 }

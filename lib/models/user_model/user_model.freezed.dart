@@ -22,12 +22,15 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 mixin _$UserModel {
   @JsonKey(includeToJson: false)
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'full_name')
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'avatar_url')
   String get avatarUrl => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get phoneNumber => throw _privateConstructorUsedError;
   String? get dob => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,11 +46,13 @@ abstract class $UserModelCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(includeToJson: false) String id,
-      String name,
+      @JsonKey(name: 'full_name') String name,
       @JsonKey(name: 'avatar_url') String avatarUrl,
       String gender,
       List<String> tags,
       int age,
+      String? email,
+      String? phoneNumber,
       String? dob});
 }
 
@@ -70,6 +75,8 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? gender = null,
     Object? tags = null,
     Object? age = null,
+    Object? email = freezed,
+    Object? phoneNumber = freezed,
     Object? dob = freezed,
   }) {
     return _then(_value.copyWith(
@@ -97,6 +104,14 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
               as int,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
       dob: freezed == dob
           ? _value.dob
           : dob // ignore: cast_nullable_to_non_nullable
@@ -115,11 +130,13 @@ abstract class _$$UserModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(includeToJson: false) String id,
-      String name,
+      @JsonKey(name: 'full_name') String name,
       @JsonKey(name: 'avatar_url') String avatarUrl,
       String gender,
       List<String> tags,
       int age,
+      String? email,
+      String? phoneNumber,
       String? dob});
 }
 
@@ -140,6 +157,8 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? gender = null,
     Object? tags = null,
     Object? age = null,
+    Object? email = freezed,
+    Object? phoneNumber = freezed,
     Object? dob = freezed,
   }) {
     return _then(_$UserModelImpl(
@@ -167,6 +186,14 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
               as int,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
       dob: freezed == dob
           ? _value.dob
           : dob // ignore: cast_nullable_to_non_nullable
@@ -180,11 +207,13 @@ class __$$UserModelImplCopyWithImpl<$Res>
 class _$UserModelImpl implements _UserModel {
   const _$UserModelImpl(
       {@JsonKey(includeToJson: false) required this.id,
-      required this.name,
+      @JsonKey(name: 'full_name') required this.name,
       @JsonKey(name: 'avatar_url') required this.avatarUrl,
       required this.gender,
       required final List<String> tags,
       required this.age,
+      this.email,
+      this.phoneNumber,
       this.dob})
       : _tags = tags;
 
@@ -195,6 +224,7 @@ class _$UserModelImpl implements _UserModel {
   @JsonKey(includeToJson: false)
   final String id;
   @override
+  @JsonKey(name: 'full_name')
   final String name;
   @override
   @JsonKey(name: 'avatar_url')
@@ -212,11 +242,15 @@ class _$UserModelImpl implements _UserModel {
   @override
   final int age;
   @override
+  final String? email;
+  @override
+  final String? phoneNumber;
+  @override
   final String? dob;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, avatarUrl: $avatarUrl, gender: $gender, tags: $tags, age: $age, dob: $dob)';
+    return 'UserModel(id: $id, name: $name, avatarUrl: $avatarUrl, gender: $gender, tags: $tags, age: $age, email: $email, phoneNumber: $phoneNumber, dob: $dob)';
   }
 
   @override
@@ -231,13 +265,16 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.gender, gender) || other.gender == gender) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.age, age) || other.age == age) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
             (identical(other.dob, dob) || other.dob == dob));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, avatarUrl, gender,
-      const DeepCollectionEquality().hash(_tags), age, dob);
+      const DeepCollectionEquality().hash(_tags), age, email, phoneNumber, dob);
 
   @JsonKey(ignore: true)
   @override
@@ -256,11 +293,13 @@ class _$UserModelImpl implements _UserModel {
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
       {@JsonKey(includeToJson: false) required final String id,
-      required final String name,
+      @JsonKey(name: 'full_name') required final String name,
       @JsonKey(name: 'avatar_url') required final String avatarUrl,
       required final String gender,
       required final List<String> tags,
       required final int age,
+      final String? email,
+      final String? phoneNumber,
       final String? dob}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -270,6 +309,7 @@ abstract class _UserModel implements UserModel {
   @JsonKey(includeToJson: false)
   String get id;
   @override
+  @JsonKey(name: 'full_name')
   String get name;
   @override
   @JsonKey(name: 'avatar_url')
@@ -280,6 +320,10 @@ abstract class _UserModel implements UserModel {
   List<String> get tags;
   @override
   int get age;
+  @override
+  String? get email;
+  @override
+  String? get phoneNumber;
   @override
   String? get dob;
   @override

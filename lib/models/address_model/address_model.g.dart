@@ -20,7 +20,7 @@ _$AddressModelImpl _$$AddressModelImplFromJson(Map<String, dynamic> json) =>
       ownerId: json['owner_id'] as String?,
       label: json['created_at'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
-      houseNo: json['houseNo'] as String,
+      houseNumber: json['house_number'] as String,
       id: json['id'] as int,
     );
 
@@ -34,7 +34,7 @@ Map<String, dynamic> _$$AddressModelImplToJson(_$AddressModelImpl instance) =>
       },
       'created_at': instance.label,
       'createdAt': instance.createdAt.toIso8601String(),
-      'houseNo': instance.houseNo,
+      'house_number': instance.houseNumber,
     };
 
 $Rec _$recordConvert<$Rec>(
