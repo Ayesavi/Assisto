@@ -34,8 +34,16 @@ class FakeAddressRepository implements BaseAddressRepository {
         () => [
               AddressModel(
                 label: 'home',
-                houseNo: '4',
+                houseNumber: '4',
                 address: '123 Main St',
+                latlng: (lat: 0.0, lng: 0.0),
+                createdAt: DateTime.now(),
+                id: 1,
+              ),
+              AddressModel(
+                label: 'home',
+                houseNumber: '90',
+                address: '3 Main St',
                 latlng: (lat: 0.0, lng: 0.0),
                 createdAt: DateTime.now(),
                 id: 1,
@@ -49,7 +57,7 @@ class FakeAddressRepository implements BaseAddressRepository {
     return Future.delayed(
         const Duration(seconds: 1),
         () => AddressModel(
-              houseNo: '2',
+              houseNumber: '2',
               label: 'home',
               address: '123 Main St',
               latlng: (lat: 0.0, lng: 0.0),

@@ -23,5 +23,11 @@ class RouteConstants {
       name: 'fillProfile',
     ),
     addressesRoute,
+    TypedGoRoute<ProfilePageRoute>(path: 'profile', name: 'profile', routes: [
+      TypedGoRoute<EditProfilePageRoute>(
+        path: 'edit',
+        name: 'edit',
+      ),
+    ]),
   ]);
 }

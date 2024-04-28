@@ -88,6 +88,8 @@ class AuthController extends _$AuthController {
           name: name,
           avatarUrl: imageUrl,
           gender: gender,
+          email: email,
+          phoneNumber: phone,
           tags: [...tags],
           age: calculateAgeFromString(dob));
       _user = model;
