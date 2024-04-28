@@ -13,11 +13,14 @@ class $AssetsGraphicsGen {
   /// File path: assets/graphics/login_welcome.svg
   String get loginWelcome => 'assets/graphics/login_welcome.svg';
 
+  /// File path: assets/graphics/magic_ai.svg
+  String get magicAi => 'assets/graphics/magic_ai.svg';
+
   /// File path: assets/graphics/success_check_mark.svg
   String get successCheckMark => 'assets/graphics/success_check_mark.svg';
 
   /// List of all assets
-  List<String> get values => [loginWelcome, successCheckMark];
+  List<String> get values => [loginWelcome, magicAi, successCheckMark];
 }
 
 class Assets {

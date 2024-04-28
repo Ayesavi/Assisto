@@ -13,14 +13,15 @@ class RouteConstants {
     ],
   );
 
+  static const addressesRoute =
+      TypedGoRoute<AddressesPageRoute>(path: 'addresses', name: 'addresses');
+
   static const homeRoute =
       TypedGoRoute<HomeRoute>(path: '/home', name: 'home', routes: [
     TypedGoRoute<FullFillProfileRoute>(
-        path: 'fillProfile',
-        name: 'fillProfile',
-        routes: [
-          TypedGoRoute<VerifyPageRoute>(
-              path: 'verify/:phoneNumber/:otpType', name: 'verify')
-        ])
+      path: 'fillProfile',
+      name: 'fillProfile',
+    ),
+    addressesRoute,
   ]);
 }

@@ -14,8 +14,9 @@ class AddressModel with _$AddressModel {
     @JsonKey(name: 'owner_id',includeToJson: false)
     String? ownerId,
     @JsonKey(name: 'created_at')
-
+    required String label,
     required DateTime createdAt,
+    required String houseNo,
     @JsonKey(includeToJson: false)
     required int id,
   }) = _AddressModel;
