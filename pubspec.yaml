@@ -86,7 +86,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.2
   build_runner: ^2.4.9
-  json_serializable: ^6.7.1
+  json_serializable: ^6.8.0
   custom_lint: ^0.6.4
   riverpod_lint: ^2.3.10
   flutter_gen_runner: ^5.4.0
