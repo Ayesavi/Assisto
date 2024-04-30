@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'address_controller.dart';
+part of 'home_page_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$addressControllerHash() => r'264d2508640b8c7d3fbae686f3e19e34f9fef0e5';
+String _$homePageControllerHash() =>
+    r'6c109b17feeb8401110b31178343bdc5b6062533';
 
-/// See also [AddressController].
-@ProviderFor(AddressController)
-final addressControllerProvider =
-    NotifierProvider<AddressController, AddressControllerState>.internal(
-  AddressController.new,
-  name: r'addressControllerProvider',
+/// See also [HomePageController].
+@ProviderFor(HomePageController)
+final homePageControllerProvider = AutoDisposeNotifierProvider<
+    HomePageController, HomePageControllerState>.internal(
+  HomePageController.new,
+  name: r'homePageControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$addressControllerHash,
+      : _$homePageControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AddressController = Notifier<AddressControllerState>;
+typedef _$HomePageController = AutoDisposeNotifier<HomePageControllerState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

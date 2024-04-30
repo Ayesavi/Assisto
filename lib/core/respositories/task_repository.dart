@@ -4,7 +4,7 @@ import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class BaseTaskRepository {
-  Future<List<TaskModel>> fetchTasks();
+  Future<List<TaskModel>> fetchTasks({LatLng? latlng});
 
   Future<TaskModel> getTaskById(int id);
 
@@ -34,8 +34,16 @@ class SupabaseTaskRepository implements BaseTaskRepository {
   }
 
   @override
-  Future<List<TaskModel>> fetchTasks() {
-    throw UnimplementedError('fetch Tasks not implemented');
+  Future<List<TaskModel>> fetchTasks({LatLng? latlng}) async {
+    final List<dynamic> data = await _supabase.rpc('get_feed_tasks', params: {
+      'data': {
+        if (latlng != null) ...{
+          'center_lat': latlng.lat,
+          'center_lng': latlng.lng
+        }
+      }
+    });
+    return data.map((json) => TaskModel.fromJson(json)).toList();
   }
 
   @override
@@ -75,7 +83,7 @@ class FakeTaskRepository implements BaseTaskRepository {
   }
 
   @override
-  Future<List<TaskModel>> fetchTasks() async {
+  Future<List<TaskModel>> fetchTasks({LatLng? latlng}) async {
     return List<TaskModel>.from(_tasks);
   }
 
@@ -105,7 +113,9 @@ class FakeTaskRepository implements BaseTaskRepository {
 
     for (int i = 0; i < count; i++) {
       TaskModel task = TaskModel(
-        ownerId: _generateRandomString(6),
+        owner: TaskOwner(
+            id: 'd',
+            imageUrl: 'https://picsum.photos/seed/${i.toString()}/200/300'),
         tags: _generateRandomTags(random.nextInt(5) + 1),
         deadline: DateTime.now().add(Duration(days: random.nextInt(30))),
         title: 'Task ${i + 1}',

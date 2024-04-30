@@ -1,5 +1,3 @@
-
-
 // ignore_for_file: invalid_annotation_target
 
 import 'package:assisto/core/utils/utils.dart';
@@ -11,9 +9,7 @@ part 'task_model.g.dart';
 @freezed
 class TaskModel with _$TaskModel {
   const factory TaskModel({
-    @JsonKey(name: 'owner_id', includeToJson: false)
-    @Default('')
-    String ownerId,
+    @JsonKey(includeToJson: false) required TaskOwner owner,
     // where the task has to be performed or the assigned
     // user has to be report when the task is completed.
     // attachedLocation
@@ -30,7 +26,8 @@ class TaskModel with _$TaskModel {
     // id will be assigned by the server.
     @JsonKey(includeToJson: false) @Default(0) int id,
     String? assigned,
-    @JsonKey(name: 'created_at') required DateTime createdAt,
+    double? distance,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _TaskModel;
 
   factory TaskModel.fromJson(Map<String, dynamic> json) =>
@@ -42,6 +39,17 @@ enum Gender { male, female, other, any }
 enum TaskStatus { unassigned, paid, assigned, completed }
 
 typedef LatLng = ({double lat, double lng});
+
+@freezed
+class TaskOwner with _$TaskOwner {
+  const factory TaskOwner({
+    required String id,
+    @JsonKey(name: 'image_url') String? imageUrl,
+  }) = _TaskOwner;
+
+  factory TaskOwner.fromJson(Map<String, dynamic> json) =>
+      _$TaskOwnerFromJson(json);
+}
 
 extension SupabaseTask on TaskModel {
   Map<String, dynamic> toSupaJson() {

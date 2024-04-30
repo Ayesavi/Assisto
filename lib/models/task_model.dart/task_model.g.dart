@@ -8,7 +8,7 @@ part of 'task_model.dart';
 
 _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
     _$TaskModelImpl(
-      ownerId: json['owner_id'] as String? ?? '',
+      owner: TaskOwner.fromJson(json['owner'] as Map<String, dynamic>),
       addressId: json['address_id'],
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       deadline: json['deadline'] == null
@@ -23,7 +23,10 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
           TaskStatus.unassigned,
       id: json['id'] as int? ?? 0,
       assigned: json['assigned'] as String?,
-      createdAt: DateTime.parse(json['created_at'] as String),
+      distance: (json['distance'] as num?)?.toDouble(),
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
     );
 
 Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
@@ -38,7 +41,8 @@ Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
       'expected_price': instance.expectedPrice,
       'status': _$TaskStatusEnumMap[instance.status]!,
       'assigned': instance.assigned,
-      'created_at': instance.createdAt.toIso8601String(),
+      'distance': instance.distance,
+      'created_at': instance.createdAt?.toIso8601String(),
     };
 
 const _$GenderEnumMap = {
@@ -54,3 +58,15 @@ const _$TaskStatusEnumMap = {
   TaskStatus.assigned: 'assigned',
   TaskStatus.completed: 'completed',
 };
+
+_$TaskOwnerImpl _$$TaskOwnerImplFromJson(Map<String, dynamic> json) =>
+    _$TaskOwnerImpl(
+      id: json['id'] as String,
+      imageUrl: json['image_url'] as String?,
+    );
+
+Map<String, dynamic> _$$TaskOwnerImplToJson(_$TaskOwnerImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'image_url': instance.imageUrl,
+    };

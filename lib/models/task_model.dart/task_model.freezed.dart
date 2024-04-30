@@ -20,8 +20,8 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskModel {
-  @JsonKey(name: 'owner_id', includeToJson: false)
-  String get ownerId =>
+  @JsonKey(includeToJson: false)
+  TaskOwner get owner =>
       throw _privateConstructorUsedError; // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
@@ -42,8 +42,9 @@ mixin _$TaskModel {
   @JsonKey(includeToJson: false)
   int get id => throw _privateConstructorUsedError;
   String? get assigned => throw _privateConstructorUsedError;
+  double? get distance => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -57,7 +58,7 @@ abstract class $TaskModelCopyWith<$Res> {
       _$TaskModelCopyWithImpl<$Res, TaskModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'owner_id', includeToJson: false) String ownerId,
+      {@JsonKey(includeToJson: false) TaskOwner owner,
       @JsonKey(name: 'address_id') dynamic addressId,
       List<String> tags,
       DateTime? deadline,
@@ -69,7 +70,10 @@ abstract class $TaskModelCopyWith<$Res> {
       TaskStatus status,
       @JsonKey(includeToJson: false) int id,
       String? assigned,
-      @JsonKey(name: 'created_at') DateTime createdAt});
+      double? distance,
+      @JsonKey(name: 'created_at') DateTime? createdAt});
+
+  $TaskOwnerCopyWith<$Res> get owner;
 }
 
 /// @nodoc
@@ -85,7 +89,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ownerId = null,
+    Object? owner = null,
     Object? addressId = freezed,
     Object? tags = null,
     Object? deadline = freezed,
@@ -97,13 +101,14 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     Object? status = null,
     Object? id = null,
     Object? assigned = freezed,
-    Object? createdAt = null,
+    Object? distance = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
-      ownerId: null == ownerId
-          ? _value.ownerId
-          : ownerId // ignore: cast_nullable_to_non_nullable
-              as String,
+      owner: null == owner
+          ? _value.owner
+          : owner // ignore: cast_nullable_to_non_nullable
+              as TaskOwner,
       addressId: freezed == addressId
           ? _value.addressId
           : addressId // ignore: cast_nullable_to_non_nullable
@@ -148,11 +153,23 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.assigned
           : assigned // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: null == createdAt
+      distance: freezed == distance
+          ? _value.distance
+          : distance // ignore: cast_nullable_to_non_nullable
+              as double?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TaskOwnerCopyWith<$Res> get owner {
+    return $TaskOwnerCopyWith<$Res>(_value.owner, (value) {
+      return _then(_value.copyWith(owner: value) as $Val);
+    });
   }
 }
 
@@ -165,7 +182,7 @@ abstract class _$$TaskModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'owner_id', includeToJson: false) String ownerId,
+      {@JsonKey(includeToJson: false) TaskOwner owner,
       @JsonKey(name: 'address_id') dynamic addressId,
       List<String> tags,
       DateTime? deadline,
@@ -177,7 +194,11 @@ abstract class _$$TaskModelImplCopyWith<$Res>
       TaskStatus status,
       @JsonKey(includeToJson: false) int id,
       String? assigned,
-      @JsonKey(name: 'created_at') DateTime createdAt});
+      double? distance,
+      @JsonKey(name: 'created_at') DateTime? createdAt});
+
+  @override
+  $TaskOwnerCopyWith<$Res> get owner;
 }
 
 /// @nodoc
@@ -191,7 +212,7 @@ class __$$TaskModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ownerId = null,
+    Object? owner = null,
     Object? addressId = freezed,
     Object? tags = null,
     Object? deadline = freezed,
@@ -203,13 +224,14 @@ class __$$TaskModelImplCopyWithImpl<$Res>
     Object? status = null,
     Object? id = null,
     Object? assigned = freezed,
-    Object? createdAt = null,
+    Object? distance = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_$TaskModelImpl(
-      ownerId: null == ownerId
-          ? _value.ownerId
-          : ownerId // ignore: cast_nullable_to_non_nullable
-              as String,
+      owner: null == owner
+          ? _value.owner
+          : owner // ignore: cast_nullable_to_non_nullable
+              as TaskOwner,
       addressId: freezed == addressId ? _value.addressId! : addressId,
       tags: null == tags
           ? _value._tags
@@ -251,10 +273,14 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.assigned
           : assigned // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: null == createdAt
+      distance: freezed == distance
+          ? _value.distance
+          : distance // ignore: cast_nullable_to_non_nullable
+              as double?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -263,7 +289,7 @@ class __$$TaskModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TaskModelImpl implements _TaskModel {
   const _$TaskModelImpl(
-      {@JsonKey(name: 'owner_id', includeToJson: false) this.ownerId = '',
+      {@JsonKey(includeToJson: false) required this.owner,
       @JsonKey(name: 'address_id') this.addressId,
       required final List<String> tags,
       this.deadline,
@@ -275,15 +301,16 @@ class _$TaskModelImpl implements _TaskModel {
       this.status = TaskStatus.unassigned,
       @JsonKey(includeToJson: false) this.id = 0,
       this.assigned,
-      @JsonKey(name: 'created_at') required this.createdAt})
+      this.distance,
+      @JsonKey(name: 'created_at') this.createdAt})
       : _tags = tags;
 
   factory _$TaskModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskModelImplFromJson(json);
 
   @override
-  @JsonKey(name: 'owner_id', includeToJson: false)
-  final String ownerId;
+  @JsonKey(includeToJson: false)
+  final TaskOwner owner;
 // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
@@ -323,12 +350,14 @@ class _$TaskModelImpl implements _TaskModel {
   @override
   final String? assigned;
   @override
+  final double? distance;
+  @override
   @JsonKey(name: 'created_at')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'TaskModel(ownerId: $ownerId, addressId: $addressId, tags: $tags, deadline: $deadline, title: $title, description: $description, gender: $gender, ageGroup: $ageGroup, expectedPrice: $expectedPrice, status: $status, id: $id, assigned: $assigned, createdAt: $createdAt)';
+    return 'TaskModel(owner: $owner, addressId: $addressId, tags: $tags, deadline: $deadline, title: $title, description: $description, gender: $gender, ageGroup: $ageGroup, expectedPrice: $expectedPrice, status: $status, id: $id, assigned: $assigned, distance: $distance, createdAt: $createdAt)';
   }
 
   @override
@@ -336,7 +365,7 @@ class _$TaskModelImpl implements _TaskModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TaskModelImpl &&
-            (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
+            (identical(other.owner, owner) || other.owner == owner) &&
             const DeepCollectionEquality().equals(other.addressId, addressId) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.deadline, deadline) ||
@@ -353,6 +382,8 @@ class _$TaskModelImpl implements _TaskModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.assigned, assigned) ||
                 other.assigned == assigned) &&
+            (identical(other.distance, distance) ||
+                other.distance == distance) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -361,7 +392,7 @@ class _$TaskModelImpl implements _TaskModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      ownerId,
+      owner,
       const DeepCollectionEquality().hash(addressId),
       const DeepCollectionEquality().hash(_tags),
       deadline,
@@ -373,6 +404,7 @@ class _$TaskModelImpl implements _TaskModel {
       status,
       id,
       assigned,
+      distance,
       createdAt);
 
   @JsonKey(ignore: true)
@@ -391,27 +423,28 @@ class _$TaskModelImpl implements _TaskModel {
 
 abstract class _TaskModel implements TaskModel {
   const factory _TaskModel(
-      {@JsonKey(name: 'owner_id', includeToJson: false) final String ownerId,
-      @JsonKey(name: 'address_id') final dynamic addressId,
-      required final List<String> tags,
-      final DateTime? deadline,
-      required final String title,
-      required final String description,
-      final Gender? gender,
-      @JsonKey(name: 'age_group') final String? ageGroup,
-      @JsonKey(name: 'expected_price') final double? expectedPrice,
-      final TaskStatus status,
-      @JsonKey(includeToJson: false) final int id,
-      final String? assigned,
-      @JsonKey(name: 'created_at')
-      required final DateTime createdAt}) = _$TaskModelImpl;
+          {@JsonKey(includeToJson: false) required final TaskOwner owner,
+          @JsonKey(name: 'address_id') final dynamic addressId,
+          required final List<String> tags,
+          final DateTime? deadline,
+          required final String title,
+          required final String description,
+          final Gender? gender,
+          @JsonKey(name: 'age_group') final String? ageGroup,
+          @JsonKey(name: 'expected_price') final double? expectedPrice,
+          final TaskStatus status,
+          @JsonKey(includeToJson: false) final int id,
+          final String? assigned,
+          final double? distance,
+          @JsonKey(name: 'created_at') final DateTime? createdAt}) =
+      _$TaskModelImpl;
 
   factory _TaskModel.fromJson(Map<String, dynamic> json) =
       _$TaskModelImpl.fromJson;
 
   @override
-  @JsonKey(name: 'owner_id', includeToJson: false)
-  String get ownerId;
+  @JsonKey(includeToJson: false)
+  TaskOwner get owner;
   @override // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
@@ -442,10 +475,170 @@ abstract class _TaskModel implements TaskModel {
   @override
   String? get assigned;
   @override
+  double? get distance;
+  @override
   @JsonKey(name: 'created_at')
-  DateTime get createdAt;
+  DateTime? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$TaskModelImplCopyWith<_$TaskModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+TaskOwner _$TaskOwnerFromJson(Map<String, dynamic> json) {
+  return _TaskOwner.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TaskOwner {
+  String get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'image_url')
+  String? get imageUrl => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $TaskOwnerCopyWith<TaskOwner> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TaskOwnerCopyWith<$Res> {
+  factory $TaskOwnerCopyWith(TaskOwner value, $Res Function(TaskOwner) then) =
+      _$TaskOwnerCopyWithImpl<$Res, TaskOwner>;
+  @useResult
+  $Res call({String id, @JsonKey(name: 'image_url') String? imageUrl});
+}
+
+/// @nodoc
+class _$TaskOwnerCopyWithImpl<$Res, $Val extends TaskOwner>
+    implements $TaskOwnerCopyWith<$Res> {
+  _$TaskOwnerCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? imageUrl = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TaskOwnerImplCopyWith<$Res>
+    implements $TaskOwnerCopyWith<$Res> {
+  factory _$$TaskOwnerImplCopyWith(
+          _$TaskOwnerImpl value, $Res Function(_$TaskOwnerImpl) then) =
+      __$$TaskOwnerImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, @JsonKey(name: 'image_url') String? imageUrl});
+}
+
+/// @nodoc
+class __$$TaskOwnerImplCopyWithImpl<$Res>
+    extends _$TaskOwnerCopyWithImpl<$Res, _$TaskOwnerImpl>
+    implements _$$TaskOwnerImplCopyWith<$Res> {
+  __$$TaskOwnerImplCopyWithImpl(
+      _$TaskOwnerImpl _value, $Res Function(_$TaskOwnerImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? imageUrl = freezed,
+  }) {
+    return _then(_$TaskOwnerImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TaskOwnerImpl implements _TaskOwner {
+  const _$TaskOwnerImpl(
+      {required this.id, @JsonKey(name: 'image_url') this.imageUrl});
+
+  factory _$TaskOwnerImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TaskOwnerImplFromJson(json);
+
+  @override
+  final String id;
+  @override
+  @JsonKey(name: 'image_url')
+  final String? imageUrl;
+
+  @override
+  String toString() {
+    return 'TaskOwner(id: $id, imageUrl: $imageUrl)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TaskOwnerImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, imageUrl);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TaskOwnerImplCopyWith<_$TaskOwnerImpl> get copyWith =>
+      __$$TaskOwnerImplCopyWithImpl<_$TaskOwnerImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TaskOwnerImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TaskOwner implements TaskOwner {
+  const factory _TaskOwner(
+      {required final String id,
+      @JsonKey(name: 'image_url') final String? imageUrl}) = _$TaskOwnerImpl;
+
+  factory _TaskOwner.fromJson(Map<String, dynamic> json) =
+      _$TaskOwnerImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  @JsonKey(name: 'image_url')
+  String? get imageUrl;
+  @override
+  @JsonKey(ignore: true)
+  _$$TaskOwnerImplCopyWith<_$TaskOwnerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

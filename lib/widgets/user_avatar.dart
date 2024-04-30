@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserAvatar extends ConsumerWidget {
   final String? imageUrl;
+  final double? radius;
   final VoidCallback? onPressed;
   const UserAvatar({
     this.onPressed,
     this.imageUrl,
+    this.radius,
     super.key,
   });
 
@@ -23,6 +25,7 @@ class UserAvatar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return CircleAvatar(
+      radius: radius,
       backgroundImage: imageUrl != null ? NetworkImage(imageUrl!) : null,
       backgroundColor: !(imageUrl != null)
           ? Theme.of(context).colorScheme.outline.withOpacity(.3)
