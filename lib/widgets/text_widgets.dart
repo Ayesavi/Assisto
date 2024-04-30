@@ -3,16 +3,20 @@ import 'package:flutter/material.dart';
 class LabelSmall extends StatelessWidget {
   final String text;
   final TextOverflow overflow;
+  final Color? color;
 
   const LabelSmall(
-      {super.key, required this.text, this.overflow = TextOverflow.ellipsis});
+      {super.key,
+      required this.text,
+      this.color,
+      this.overflow = TextOverflow.ellipsis});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       overflow: overflow,
-      style: Theme.of(context).textTheme.labelSmall,
+      style: Theme.of(context).textTheme.labelSmall?.copyWith(color: color),
     );
   }
 }

@@ -42,21 +42,21 @@ mixin _$AddressControllerState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) locationNotSet,
     required TResult Function(_Empty value) empty,
-    required TResult Function(_Location value) location,
+    required TResult Function(Location value) location,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? locationNotSet,
     TResult? Function(_Empty value)? empty,
-    TResult? Function(_Location value)? location,
+    TResult? Function(Location value)? location,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? locationNotSet,
     TResult Function(_Empty value)? empty,
-    TResult Function(_Location value)? location,
+    TResult Function(Location value)? location,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -155,7 +155,7 @@ class _$InitialImpl implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) locationNotSet,
     required TResult Function(_Empty value) empty,
-    required TResult Function(_Location value) location,
+    required TResult Function(Location value) location,
   }) {
     return locationNotSet(this);
   }
@@ -165,7 +165,7 @@ class _$InitialImpl implements _Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? locationNotSet,
     TResult? Function(_Empty value)? empty,
-    TResult? Function(_Location value)? location,
+    TResult? Function(Location value)? location,
   }) {
     return locationNotSet?.call(this);
   }
@@ -175,7 +175,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? locationNotSet,
     TResult Function(_Empty value)? empty,
-    TResult Function(_Location value)? location,
+    TResult Function(Location value)? location,
     required TResult orElse(),
   }) {
     if (locationNotSet != null) {
@@ -263,7 +263,7 @@ class _$EmptyImpl implements _Empty {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) locationNotSet,
     required TResult Function(_Empty value) empty,
-    required TResult Function(_Location value) location,
+    required TResult Function(Location value) location,
   }) {
     return empty(this);
   }
@@ -273,7 +273,7 @@ class _$EmptyImpl implements _Empty {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? locationNotSet,
     TResult? Function(_Empty value)? empty,
-    TResult? Function(_Location value)? location,
+    TResult? Function(Location value)? location,
   }) {
     return empty?.call(this);
   }
@@ -283,7 +283,7 @@ class _$EmptyImpl implements _Empty {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? locationNotSet,
     TResult Function(_Empty value)? empty,
-    TResult Function(_Location value)? location,
+    TResult Function(Location value)? location,
     required TResult orElse(),
   }) {
     if (empty != null) {
@@ -340,7 +340,7 @@ class __$$LocationImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LocationImpl implements _Location {
+class _$LocationImpl implements Location {
   const _$LocationImpl(this.model);
 
   @override
@@ -407,7 +407,7 @@ class _$LocationImpl implements _Location {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) locationNotSet,
     required TResult Function(_Empty value) empty,
-    required TResult Function(_Location value) location,
+    required TResult Function(Location value) location,
   }) {
     return location(this);
   }
@@ -417,7 +417,7 @@ class _$LocationImpl implements _Location {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? locationNotSet,
     TResult? Function(_Empty value)? empty,
-    TResult? Function(_Location value)? location,
+    TResult? Function(Location value)? location,
   }) {
     return location?.call(this);
   }
@@ -427,7 +427,7 @@ class _$LocationImpl implements _Location {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? locationNotSet,
     TResult Function(_Empty value)? empty,
-    TResult Function(_Location value)? location,
+    TResult Function(Location value)? location,
     required TResult orElse(),
   }) {
     if (location != null) {
@@ -437,8 +437,8 @@ class _$LocationImpl implements _Location {
   }
 }
 
-abstract class _Location implements AddressControllerState {
-  const factory _Location(final AddressModel model) = _$LocationImpl;
+abstract class Location implements AddressControllerState {
+  const factory Location(final AddressModel model) = _$LocationImpl;
 
   AddressModel get model;
   @JsonKey(ignore: true)

@@ -14,6 +14,10 @@ class AddressController extends _$AddressController {
 
   var _addresses = <AddressModel>[];
 
+  AddressModel? _defaultAddress;
+
+  AddressModel? get defaultAddress => _defaultAddress;
+
   List<AddressModel> get address => _addresses;
 
   @override
@@ -24,7 +28,8 @@ class AddressController extends _$AddressController {
   }
 
   void setLocation(AddressModel addrModel) {
-    state = _Location(addrModel);
+    state = Location(addrModel);
+    _defaultAddress = addrModel;
   }
 
   void fetchAddresses() async {
@@ -33,7 +38,7 @@ class AddressController extends _$AddressController {
     });
     _addresses = addrs;
     if (addrs.isNotEmpty) {
-      state = _Location(addrs[0]);
+      state = Location(addrs[0]);
     }
     if (addrs.isEmpty) {
       state = const _Empty();

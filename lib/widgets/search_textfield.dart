@@ -99,7 +99,6 @@ class _SearchTextFieldState extends State<SearchTextField>
         children: [
           Expanded(
             child: TextField(
-              
               onSubmitted: (value) {
                 widget.onSearch?.call(value);
               },
@@ -110,7 +109,7 @@ class _SearchTextFieldState extends State<SearchTextField>
               decoration: InputDecoration(
                 hintText: "Try search for '${widget.hintTexts[_hintIndex]}'",
                 hintStyle: const TextStyle(
-                  fontWeight: FontWeight.w100,
+                  fontWeight: FontWeight.bold,
                 ),
                 border: InputBorder.none,
               ),

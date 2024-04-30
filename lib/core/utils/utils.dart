@@ -20,7 +20,6 @@ Map<String, dynamic> ignoreNullFields(Map<String, dynamic> inputMap) {
   return resultMap;
 }
 
-
 bool checkNullOrEmpty(List<dynamic> params) {
   for (var param in params) {
     if (param == null || param.toString().isEmpty) {
@@ -34,9 +33,11 @@ int calculateAgeFromString(String birthDateString) {
   final now = DateTime.now();
   final parts = birthDateString.split('/');
   if (parts.length != 3) {
-    throw ArgumentError('Invalid date format. Please provide date in dd/mm/yyyy format.');
+    throw ArgumentError(
+        'Invalid date format. Please provide date in dd/mm/yyyy format.');
   }
-  final birthDate = DateTime(int.parse(parts[2]), int.parse(parts[1]), int.parse(parts[0]));
+  final birthDate =
+      DateTime(int.parse(parts[2]), int.parse(parts[1]), int.parse(parts[0]));
   int age = now.year - birthDate.year;
   if (now.month < birthDate.month ||
       (now.month == birthDate.month && now.day < birthDate.day)) {
@@ -45,3 +46,24 @@ int calculateAgeFromString(String birthDateString) {
   return age;
 }
 
+String formatTime(DateTime dateTime) {
+  // Extract hour, minute, and second from the DateTime object
+  int hour = dateTime.hour;
+  int minute = dateTime.minute;
+  int second = dateTime.second;
+
+  // Determine if it's AM or PM
+  String period = hour < 12 ? 'AM' : 'PM';
+
+  // Convert hour from 24-hour format to 12-hour format if needed
+  if (hour > 12) {
+    hour -= 12;
+  }
+
+  // Convert hour, minute, and second to strings and pad with leading zeros if necessary
+  String hourStr = hour.toString().padLeft(2, '0');
+  String minuteStr = minute.toString().padLeft(2, '0');
+
+  // Concatenate all parts and return the formatted string
+  return '$hourStr:$minuteStr $period';
+}
