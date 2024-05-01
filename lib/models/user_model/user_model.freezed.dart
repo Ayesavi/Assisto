@@ -25,7 +25,7 @@ mixin _$UserModel {
   @JsonKey(name: 'full_name')
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'avatar_url')
-  String get avatarUrl => throw _privateConstructorUsedError;
+  String? get avatarUrl => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $UserModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(includeToJson: false) String id,
       @JsonKey(name: 'full_name') String name,
-      @JsonKey(name: 'avatar_url') String avatarUrl,
+      @JsonKey(name: 'avatar_url') String? avatarUrl,
       String gender,
       List<String> tags,
       int age,
@@ -71,7 +71,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? avatarUrl = null,
+    Object? avatarUrl = freezed,
     Object? gender = null,
     Object? tags = null,
     Object? age = null,
@@ -88,10 +88,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      avatarUrl: null == avatarUrl
+      avatarUrl: freezed == avatarUrl
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -131,7 +131,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(includeToJson: false) String id,
       @JsonKey(name: 'full_name') String name,
-      @JsonKey(name: 'avatar_url') String avatarUrl,
+      @JsonKey(name: 'avatar_url') String? avatarUrl,
       String gender,
       List<String> tags,
       int age,
@@ -153,7 +153,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? avatarUrl = null,
+    Object? avatarUrl = freezed,
     Object? gender = null,
     Object? tags = null,
     Object? age = null,
@@ -170,10 +170,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      avatarUrl: null == avatarUrl
+      avatarUrl: freezed == avatarUrl
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -208,7 +208,7 @@ class _$UserModelImpl implements _UserModel {
   const _$UserModelImpl(
       {@JsonKey(includeToJson: false) required this.id,
       @JsonKey(name: 'full_name') required this.name,
-      @JsonKey(name: 'avatar_url') required this.avatarUrl,
+      @JsonKey(name: 'avatar_url') this.avatarUrl,
       required this.gender,
       required final List<String> tags,
       required this.age,
@@ -228,7 +228,7 @@ class _$UserModelImpl implements _UserModel {
   final String name;
   @override
   @JsonKey(name: 'avatar_url')
-  final String avatarUrl;
+  final String? avatarUrl;
   @override
   final String gender;
   final List<String> _tags;
@@ -294,7 +294,7 @@ abstract class _UserModel implements UserModel {
   const factory _UserModel(
       {@JsonKey(includeToJson: false) required final String id,
       @JsonKey(name: 'full_name') required final String name,
-      @JsonKey(name: 'avatar_url') required final String avatarUrl,
+      @JsonKey(name: 'avatar_url') final String? avatarUrl,
       required final String gender,
       required final List<String> tags,
       required final int age,
@@ -313,7 +313,7 @@ abstract class _UserModel implements UserModel {
   String get name;
   @override
   @JsonKey(name: 'avatar_url')
-  String get avatarUrl;
+  String? get avatarUrl;
   @override
   String get gender;
   @override
