@@ -35,7 +35,7 @@ mixin _$TaskModel {
   @JsonKey(name: 'age_group')
   String? get ageGroup => throw _privateConstructorUsedError;
   @JsonKey(name: 'expected_price')
-  double? get expectedPrice => throw _privateConstructorUsedError;
+  int? get expectedPrice => throw _privateConstructorUsedError;
   TaskStatus get status =>
       throw _privateConstructorUsedError; // id stays an empty string when a new task is created
 // id will be assigned by the server.
@@ -66,7 +66,7 @@ abstract class $TaskModelCopyWith<$Res> {
       String description,
       Gender? gender,
       @JsonKey(name: 'age_group') String? ageGroup,
-      @JsonKey(name: 'expected_price') double? expectedPrice,
+      @JsonKey(name: 'expected_price') int? expectedPrice,
       TaskStatus status,
       @JsonKey(includeToJson: false) int id,
       String? assigned,
@@ -140,7 +140,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
       expectedPrice: freezed == expectedPrice
           ? _value.expectedPrice
           : expectedPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -190,7 +190,7 @@ abstract class _$$TaskModelImplCopyWith<$Res>
       String description,
       Gender? gender,
       @JsonKey(name: 'age_group') String? ageGroup,
-      @JsonKey(name: 'expected_price') double? expectedPrice,
+      @JsonKey(name: 'expected_price') int? expectedPrice,
       TaskStatus status,
       @JsonKey(includeToJson: false) int id,
       String? assigned,
@@ -260,7 +260,7 @@ class __$$TaskModelImplCopyWithImpl<$Res>
       expectedPrice: freezed == expectedPrice
           ? _value.expectedPrice
           : expectedPrice // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -338,7 +338,7 @@ class _$TaskModelImpl implements _TaskModel {
   final String? ageGroup;
   @override
   @JsonKey(name: 'expected_price')
-  final double? expectedPrice;
+  final int? expectedPrice;
   @override
   @JsonKey()
   final TaskStatus status;
@@ -431,7 +431,7 @@ abstract class _TaskModel implements TaskModel {
           required final String description,
           final Gender? gender,
           @JsonKey(name: 'age_group') final String? ageGroup,
-          @JsonKey(name: 'expected_price') final double? expectedPrice,
+          @JsonKey(name: 'expected_price') final int? expectedPrice,
           final TaskStatus status,
           @JsonKey(includeToJson: false) final int id,
           final String? assigned,
@@ -465,7 +465,7 @@ abstract class _TaskModel implements TaskModel {
   String? get ageGroup;
   @override
   @JsonKey(name: 'expected_price')
-  double? get expectedPrice;
+  int? get expectedPrice;
   @override
   TaskStatus get status;
   @override // id stays an empty string when a new task is created

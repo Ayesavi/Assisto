@@ -5,8 +5,8 @@ import 'package:assisto/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class TypingTextField extends StatefulWidget {
-  const TypingTextField({super.key, this.controller, this.onSend});
+class TypingAITextField extends StatefulWidget {
+  const TypingAITextField({super.key, this.controller, this.onSend});
   final Future<void> Function(String key)? onSend;
   final TextEditingController? controller;
   @override
@@ -14,7 +14,7 @@ class TypingTextField extends StatefulWidget {
   _TypingTextFieldState createState() => _TypingTextFieldState();
 }
 
-class _TypingTextFieldState extends State<TypingTextField> {
+class _TypingTextFieldState extends State<TypingAITextField> {
   late final TextEditingController _controller;
   late final ValueNotifier<String> _hintNotifier;
   final FocusNode _focusNode = FocusNode();

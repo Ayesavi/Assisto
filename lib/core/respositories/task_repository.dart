@@ -24,8 +24,11 @@ class SupabaseTaskRepository implements BaseTaskRepository {
   @override
   Future<TaskModel> addTask(TaskModel task) async {
     final json = task.toSupaJson();
-    return TaskModel.fromJson(
-        await _supabase.from(_table).insert(json).select().single());
+    return TaskModel.fromJson(await _supabase
+        .from(_table)
+        .insert(json)
+        .select('*,owner:owner_id(id,image_url)')
+        .single());
   }
 
   @override
@@ -120,8 +123,9 @@ class FakeTaskRepository implements BaseTaskRepository {
         deadline: DateTime.now().add(Duration(days: random.nextInt(30))),
         title: 'Task ${i + 1}',
         description: 'This is a random task description.',
+        distance: Random().nextBool() ? Random().nextDouble() * 10 : null,
         gender: Gender.values[random.nextInt(Gender.values.length)],
-        expectedPrice: random.nextDouble() * 100,
+        expectedPrice: random.nextInt(30) * 100,
         status: TaskStatus.values[random.nextInt(TaskStatus.values.length)],
         id: _tasks.length + 1,
         assigned: null,

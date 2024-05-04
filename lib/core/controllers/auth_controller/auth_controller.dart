@@ -73,7 +73,8 @@ class AuthController extends _$AuthController {
           ? userMetadata!['tags'].map((e) => e.toString()).toList()
           : null;
 
-      if ((checkNullOrEmpty([email, name, imageUrl, gender, dob, tags])) &&
+      if ((checkNullOrEmpty(
+              [ name, gender, dob, tags])) && // todo: add image url, email 
           userMetadata != null) {
         return _IncompleteProfile(userMetadata,
             isPhoneVerified: isPhoneVerified, isEmailVerified: isEmailVerified);

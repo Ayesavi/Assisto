@@ -89,7 +89,7 @@ class SelectCategoriesPage extends ConsumerWidget {
                 );
               }),
               const SizedBox(height: 16.0),
-              TypingTextField(
+              TypingAITextField(
                 onSend: (key) async {
                   final services = await AppFunctions.instance
                       .genCategoriesByDescription(key);

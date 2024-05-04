@@ -20,7 +20,7 @@ class TaskModel with _$TaskModel {
     required String description,
     Gender? gender,
     @JsonKey(name: 'age_group') String? ageGroup,
-    @JsonKey(name: 'expected_price') double? expectedPrice,
+    @JsonKey(name: 'expected_price') int? expectedPrice,
     @Default(TaskStatus.unassigned) TaskStatus status,
     // id stays an empty string when a new task is created
     // id will be assigned by the server.
@@ -32,6 +32,30 @@ class TaskModel with _$TaskModel {
 
   factory TaskModel.fromJson(Map<String, dynamic> json) =>
       _$TaskModelFromJson(json);
+
+  /// Used when creating tasks
+  factory TaskModel.partial({
+    int? addressId,
+    required List<String> tags,
+    DateTime? deadline,
+    required String title,
+    required String description,
+    Gender? gender,
+    String? ageGroup,
+    int? expectedPrice,
+  }) {
+    return TaskModel(
+        owner: const TaskOwner(id: '', imageUrl: ''),
+        tags: tags,
+        title: title,
+        description: description,
+        deadline: deadline,
+        createdAt: DateTime.now(),
+        gender: gender,
+        ageGroup: ageGroup,
+        addressId: addressId,
+        expectedPrice: expectedPrice);
+  }
 }
 
 enum Gender { male, female, other, any }

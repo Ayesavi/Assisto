@@ -229,11 +229,6 @@ class _$AddressModelImpl implements _AddressModel {
   final int id;
 
   @override
-  String toString() {
-    return 'AddressModel(address: $address, landmark: $landmark, latlng: $latlng, ownerId: $ownerId, label: $label, createdAt: $createdAt, houseNumber: $houseNumber, id: $id)';
-  }
-
-  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&

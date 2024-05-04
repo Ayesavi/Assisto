@@ -20,6 +20,11 @@ class AddressModel with _$AddressModel {
 
   factory AddressModel.fromJson(Map<String, dynamic> json) =>
       _$AddressModelFromJson(json);
+
+  @override
+  toString() {
+    return address;
+  }
 }
 
 extension ToSupa on AddressModel {

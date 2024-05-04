@@ -74,6 +74,7 @@ dependencies:
   material_color_utilities: ^0.8.0
   flutter_dotenv: ^5.1.0
   carousel_slider: ^4.2.1
+  animated_custom_dropdown: ^3.0.0
 
 dev_dependencies:
 
@@ -115,7 +116,7 @@ flutter:
   assets:
     - assets/graphics/login_welcome.svg
     - assets/graphics/success_check_mark.svg
-    - assets/graphics/magic_ai.svg
+    - assets/graphics/magic_ai.png
     - .env 
   #   - images/a_dot_ham.jpeg
 

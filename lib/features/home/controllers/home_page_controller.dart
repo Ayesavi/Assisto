@@ -12,7 +12,7 @@ part 'home_page_controller_state.dart';
 
 @riverpod
 class HomePageController extends _$HomePageController {
-  final _repo = SupabaseTaskRepository();
+  final _repo = FakeTaskRepository();
   AddressModel? _defaultAddr;
 
   @override

@@ -18,7 +18,7 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String,
       gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
       ageGroup: json['age_group'] as String?,
-      expectedPrice: (json['expected_price'] as num?)?.toDouble(),
+      expectedPrice: json['expected_price'] as int?,
       status: $enumDecodeNullable(_$TaskStatusEnumMap, json['status']) ??
           TaskStatus.unassigned,
       id: json['id'] as int? ?? 0,

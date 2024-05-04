@@ -61,7 +61,7 @@ class TaskTile extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
-                        Icons.location_pin,
+                        Icons.near_me_outlined,
                         size: 14,
                         color: Theme.of(context).colorScheme.primary,
                       ),
