@@ -13,7 +13,9 @@ class TaskModel with _$TaskModel {
     // where the task has to be performed or the assigned
     // user has to be report when the task is completed.
     // attachedLocation
-    @JsonKey(name: 'address_id') addressId,
+
+    @JsonKey(name: 'address_id', includeFromJson: false) addressId,
+    @JsonKey(includeToJson: false) TaskAddress? address,
     required List<String> tags,
     DateTime? deadline,
     required String title,
@@ -22,6 +24,7 @@ class TaskModel with _$TaskModel {
     @JsonKey(name: 'age_group') String? ageGroup,
     @JsonKey(name: 'expected_price') int? expectedPrice,
     @Default(TaskStatus.unassigned) TaskStatus status,
+
     // id stays an empty string when a new task is created
     // id will be assigned by the server.
     @JsonKey(includeToJson: false) @Default(0) int id,
@@ -73,6 +76,21 @@ class TaskOwner with _$TaskOwner {
 
   factory TaskOwner.fromJson(Map<String, dynamic> json) =>
       _$TaskOwnerFromJson(json);
+}
+
+
+/// Used when fetching task profile information
+@freezed
+class TaskAddress with _$TaskAddress {
+  const factory TaskAddress({
+    required String id,
+    required ({double lat, double lng}) latlng,
+    required String address,
+    @JsonKey(name: 'house_number') required String houseNumber,
+  }) = _TaskAddress;
+
+  factory TaskAddress.fromJson(Map<String, dynamic> json) =>
+      _$TaskAddressFromJson(json);
 }
 
 extension SupabaseTask on TaskModel {

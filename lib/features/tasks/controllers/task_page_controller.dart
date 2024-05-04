@@ -13,7 +13,7 @@ class TaskPageController extends _$TaskPageController {
 
   @override
   TaskPageControllerState build() {
-    return const TaskPageControllerInitial();
+    return const TaskPageControllerState.loading();
   }
 
   Future<void> createTask(TaskModel model) async {

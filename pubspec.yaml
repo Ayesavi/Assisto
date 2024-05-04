@@ -75,6 +75,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   carousel_slider: ^4.2.1
   animated_custom_dropdown: ^3.0.0
+  readmore: ^3.0.0
 
 dev_dependencies:
 

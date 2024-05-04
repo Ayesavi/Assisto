@@ -7,7 +7,7 @@ part of 'task_page_controller.dart';
 // **************************************************************************
 
 String _$taskPageControllerHash() =>
-    r'd168c17a99d326824d79c4bb06cd5eafc4b1ffcd';
+    r'8bf1ee34ddc1a4437fdaeaf17c4dc85819861296';
 
 /// See also [TaskPageController].
 @ProviderFor(TaskPageController)

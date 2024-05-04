@@ -26,7 +26,7 @@ class HomeScreen extends ConsumerWidget {
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
-                return TaskCreationPage();
+                return const TaskCreationPage();
               },
             ));
           },
@@ -144,7 +144,11 @@ class HomeScreen extends ConsumerWidget {
                   }, data: (data) {
                     return SliverList(
                         delegate: SliverChildBuilderDelegate((ctx, index) {
-                      return TaskTile(taskModel: data[index], onPressed: () {});
+                      return TaskTile(
+                          taskModel: data[index],
+                          onPressed: () {
+                            TaskProfileRoute(taskId: data[index].id).push(ctx);
+                          });
                     }, childCount: data.length));
                   }, error: (e) {
                     return const SliverToBoxAdapter(
