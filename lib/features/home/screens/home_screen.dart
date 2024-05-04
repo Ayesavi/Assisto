@@ -7,10 +7,11 @@ import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/small_chip_widget.dart';
 import 'package:assisto/widgets/task_tile.dart';
 import 'package:assisto/widgets/user_avatar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum _FilterType { location, deadline, all }
+enum _FilterType { location, deadline, all, you }
 
 final _filterProvider = StateProvider((ref) => _FilterType.all);
 
@@ -82,6 +83,16 @@ class HomeScreen extends ConsumerWidget {
                                 selected: state == _FilterType.deadline,
                               ),
                               SmallChipWidget(
+                                onPress: () {
+                                  ref
+                                      .read(_filterProvider.notifier)
+                                      .update((state) => _FilterType.you);
+                                  controller.loadData();
+                                },
+                                label: 'By you',
+                                selected: state == _FilterType.you,
+                              ),
+                              SmallChipWidget(
                                 selected: state == _FilterType.location,
                                 onPress: () {
                                   ref
@@ -101,11 +112,19 @@ class HomeScreen extends ConsumerWidget {
                 actions: [
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: UserAvatar.currentUser(
-                        ref,
-                        onPressed: () async {
-                          const ProfilePageRoute().push(context);
-                        },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                              onPressed: () {},
+                              icon: const Icon(CupertinoIcons.bell)),
+                          UserAvatar.currentUser(
+                            ref,
+                            onPressed: () async {
+                              const ProfilePageRoute().push(context);
+                            },
+                          ),
+                        ],
                       ))
                 ],
               ),

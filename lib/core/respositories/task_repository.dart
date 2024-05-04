@@ -123,6 +123,7 @@ class FakeTaskRepository implements BaseTaskRepository {
         deadline: DateTime.now().add(Duration(days: random.nextInt(30))),
         title: 'Task ${i + 1}',
         description: 'This is a random task description.',
+        distance: Random().nextBool() ? Random().nextDouble() * 10 : null,
         gender: Gender.values[random.nextInt(Gender.values.length)],
         expectedPrice: random.nextInt(30) * 100,
         status: TaskStatus.values[random.nextInt(TaskStatus.values.length)],
