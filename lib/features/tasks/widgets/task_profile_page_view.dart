@@ -28,7 +28,7 @@ class TaskProfilePageView extends ConsumerWidget {
           ReadMoreText(model.description),
           CupertinoListSection(
             // hasLeading: false,
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            backgroundColor: Theme.of(context).canvasColor,
             children: [
               if (model.address != null)
                 CupertinoListTile(

@@ -10,13 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 
 void showBidderProfileBottomSheet(
-    {required BuildContext context, required BidModel model}) {
+    {required BuildContext context,
+    required BidModel model,
+    bool showAcceptOffer = false}) {
   showModalBottomSheet(
     context: context,
     showDragHandle: true,
     builder: (BuildContext context) {
       return BidderProfileBottomSheet(
         model: model,
+        showAcceptOffer: showAcceptOffer,
       );
     },
   );
@@ -24,9 +27,11 @@ void showBidderProfileBottomSheet(
 
 class BidderProfileBottomSheet extends StatelessWidget {
   final BidModel model;
+  final bool showAcceptOffer;
 
   const BidderProfileBottomSheet({
     super.key,
+    this.showAcceptOffer = false,
     required this.model,
   });
 
@@ -50,7 +55,7 @@ class BidderProfileBottomSheet extends StatelessWidget {
                     ),
                     kWidgetHorizontalGap,
                     TitleLarge(
-                      text: model.bidder.name,
+                      text: model.bidder.name.capitalizWords,
                       weight: FontWeight.bold,
                     ),
                   ],
@@ -90,26 +95,27 @@ class BidderProfileBottomSheet extends StatelessWidget {
               ),
               trailing: BodyLarge(text: model.bidder.gender.capitalize),
             ),
-            AppFilledButton(
-                asyncTap: () async {
-                  await showPopup(
-                    context,
-                    title: 'Accept Offer',
-                    content:
-                        "Are you sure you want to accept this offer by ${model.bidder.name.capitalize}?",
-                    onConfirm: () async {
-                      await Future.delayed(const Duration(seconds: 1), () {
-                        Navigator.pop(context);
-                      });
-                    },
-                  );
+            if (showAcceptOffer)
+              AppFilledButton(
+                  asyncTap: () async {
+                    await showPopup(
+                      context,
+                      title: 'Accept Offer',
+                      content:
+                          "Are you sure you want to accept this offer by ${model.bidder.name.capitalize}?",
+                      onConfirm: () async {
+                        await Future.delayed(const Duration(seconds: 1), () {
+                          Navigator.pop(context);
+                        });
+                      },
+                    );
 
-                  await Future.delayed(const Duration(seconds: 2), () {
-                    Navigator.pop(context);
-                  });
-                  return;
-                },
-                label: 'Accept Offer'),
+                    await Future.delayed(const Duration(seconds: 2), () {
+                      Navigator.pop(context);
+                    });
+                    return;
+                  },
+                  label: 'Accept Offer'),
           ],
         ),
       ),

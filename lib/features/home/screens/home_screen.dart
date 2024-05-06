@@ -2,10 +2,11 @@ import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/features/home/screens/home_appbar_title.dart';
 import 'package:assisto/features/tasks/screens/create_task_page.dart';
+import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
 import 'package:assisto/shimmering/shimmering_task_tile.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/small_chip_widget.dart';
-import 'package:assisto/widgets/task_tile.dart';
+import 'package:assisto/widgets/task_tile/task_tile.dart';
 import 'package:assisto/widgets/user_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -144,8 +145,14 @@ class HomeScreen extends ConsumerWidget {
                   }, data: (data) {
                     return SliverList(
                         delegate: SliverChildBuilderDelegate((ctx, index) {
-                      return TaskTile(
+                      return TaskTile.owner(
                           taskModel: data[index],
+                          onAvatarPressed: () {
+                            if (data[index].bid != null) {
+                              showBidderProfileBottomSheet(
+                                  context: context, model: data[index].bid!);
+                            }
+                          },
                           onPressed: () {
                             TaskProfileRoute(taskId: data[index].id).push(ctx);
                           });

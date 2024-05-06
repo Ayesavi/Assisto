@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_annotation_target
 
 import 'package:assisto/core/utils/utils.dart';
+import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
@@ -10,7 +11,7 @@ part 'task_model.g.dart';
 @freezed
 class TaskModel with _$TaskModel {
   const factory TaskModel({
-    @JsonKey(includeToJson: false) required TaskOwner owner,
+    @JsonKey(includeToJson: false) required TaskUser owner,
     // where the task has to be performed or the assigned
     // user has to be report when the task is completed.
     // attachedLocation
@@ -29,7 +30,7 @@ class TaskModel with _$TaskModel {
     // id stays an empty string when a new task is created
     // id will be assigned by the server.
     @JsonKey(includeToJson: false) @Default(0) int id,
-    String? assigned,
+    BidModel? bid,
     double? distance,
     @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _TaskModel;
@@ -49,7 +50,7 @@ class TaskModel with _$TaskModel {
     int? expectedPrice,
   }) {
     return TaskModel(
-        owner: const TaskOwner(id: '', imageUrl: ''),
+        owner: const TaskUser(id: '', imageUrl: ''),
         tags: tags,
         title: title,
         description: description,
@@ -69,14 +70,14 @@ enum TaskStatus { unassigned, paid, assigned, completed }
 typedef LatLng = ({double lat, double lng});
 
 @freezed
-class TaskOwner with _$TaskOwner {
-  const factory TaskOwner({
+class TaskUser with _$TaskUser {
+  const factory TaskUser({
     required String id,
     @JsonKey(name: 'image_url') String? imageUrl,
-  }) = _TaskOwner;
+  }) = _TaskUser;
 
-  factory TaskOwner.fromJson(Map<String, dynamic> json) =>
-      _$TaskOwnerFromJson(json);
+  factory TaskUser.fromJson(Map<String, dynamic> json) =>
+      _$TaskUserFromJson(json);
 }
 
 /// Used when fetching task profile information
@@ -100,6 +101,6 @@ extension SupabaseTask on TaskModel {
     return json;
   }
 
-  bool get isUserTaskOwner =>
+  bool get isUserTaskUser =>
       supabase.Supabase.instance.client.auth.currentUser?.id == owner.id;
 }

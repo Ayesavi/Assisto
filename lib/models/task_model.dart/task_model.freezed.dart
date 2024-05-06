@@ -21,7 +21,7 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TaskModel {
   @JsonKey(includeToJson: false)
-  TaskOwner get owner =>
+  TaskUser get owner =>
       throw _privateConstructorUsedError; // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
@@ -43,7 +43,7 @@ mixin _$TaskModel {
 // id will be assigned by the server.
   @JsonKey(includeToJson: false)
   int get id => throw _privateConstructorUsedError;
-  String? get assigned => throw _privateConstructorUsedError;
+  BidModel? get bid => throw _privateConstructorUsedError;
   double? get distance => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -60,7 +60,7 @@ abstract class $TaskModelCopyWith<$Res> {
       _$TaskModelCopyWithImpl<$Res, TaskModel>;
   @useResult
   $Res call(
-      {@JsonKey(includeToJson: false) TaskOwner owner,
+      {@JsonKey(includeToJson: false) TaskUser owner,
       @JsonKey(name: 'address_id', includeFromJson: false) dynamic addressId,
       @JsonKey(includeToJson: false) TaskAddress? address,
       List<String> tags,
@@ -72,12 +72,13 @@ abstract class $TaskModelCopyWith<$Res> {
       @JsonKey(name: 'expected_price') int? expectedPrice,
       TaskStatus status,
       @JsonKey(includeToJson: false) int id,
-      String? assigned,
+      BidModel? bid,
       double? distance,
       @JsonKey(name: 'created_at') DateTime? createdAt});
 
-  $TaskOwnerCopyWith<$Res> get owner;
+  $TaskUserCopyWith<$Res> get owner;
   $TaskAddressCopyWith<$Res>? get address;
+  $BidModelCopyWith<$Res>? get bid;
 }
 
 /// @nodoc
@@ -105,7 +106,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     Object? expectedPrice = freezed,
     Object? status = null,
     Object? id = null,
-    Object? assigned = freezed,
+    Object? bid = freezed,
     Object? distance = freezed,
     Object? createdAt = freezed,
   }) {
@@ -113,7 +114,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
       owner: null == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
-              as TaskOwner,
+              as TaskUser,
       addressId: freezed == addressId
           ? _value.addressId
           : addressId // ignore: cast_nullable_to_non_nullable
@@ -158,10 +159,10 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      assigned: freezed == assigned
-          ? _value.assigned
-          : assigned // ignore: cast_nullable_to_non_nullable
-              as String?,
+      bid: freezed == bid
+          ? _value.bid
+          : bid // ignore: cast_nullable_to_non_nullable
+              as BidModel?,
       distance: freezed == distance
           ? _value.distance
           : distance // ignore: cast_nullable_to_non_nullable
@@ -175,8 +176,8 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $TaskOwnerCopyWith<$Res> get owner {
-    return $TaskOwnerCopyWith<$Res>(_value.owner, (value) {
+  $TaskUserCopyWith<$Res> get owner {
+    return $TaskUserCopyWith<$Res>(_value.owner, (value) {
       return _then(_value.copyWith(owner: value) as $Val);
     });
   }
@@ -192,6 +193,18 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
       return _then(_value.copyWith(address: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BidModelCopyWith<$Res>? get bid {
+    if (_value.bid == null) {
+      return null;
+    }
+
+    return $BidModelCopyWith<$Res>(_value.bid!, (value) {
+      return _then(_value.copyWith(bid: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -203,7 +216,7 @@ abstract class _$$TaskModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(includeToJson: false) TaskOwner owner,
+      {@JsonKey(includeToJson: false) TaskUser owner,
       @JsonKey(name: 'address_id', includeFromJson: false) dynamic addressId,
       @JsonKey(includeToJson: false) TaskAddress? address,
       List<String> tags,
@@ -215,14 +228,16 @@ abstract class _$$TaskModelImplCopyWith<$Res>
       @JsonKey(name: 'expected_price') int? expectedPrice,
       TaskStatus status,
       @JsonKey(includeToJson: false) int id,
-      String? assigned,
+      BidModel? bid,
       double? distance,
       @JsonKey(name: 'created_at') DateTime? createdAt});
 
   @override
-  $TaskOwnerCopyWith<$Res> get owner;
+  $TaskUserCopyWith<$Res> get owner;
   @override
   $TaskAddressCopyWith<$Res>? get address;
+  @override
+  $BidModelCopyWith<$Res>? get bid;
 }
 
 /// @nodoc
@@ -248,7 +263,7 @@ class __$$TaskModelImplCopyWithImpl<$Res>
     Object? expectedPrice = freezed,
     Object? status = null,
     Object? id = null,
-    Object? assigned = freezed,
+    Object? bid = freezed,
     Object? distance = freezed,
     Object? createdAt = freezed,
   }) {
@@ -256,7 +271,7 @@ class __$$TaskModelImplCopyWithImpl<$Res>
       owner: null == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
-              as TaskOwner,
+              as TaskUser,
       addressId: freezed == addressId ? _value.addressId! : addressId,
       address: freezed == address
           ? _value.address
@@ -298,10 +313,10 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      assigned: freezed == assigned
-          ? _value.assigned
-          : assigned // ignore: cast_nullable_to_non_nullable
-              as String?,
+      bid: freezed == bid
+          ? _value.bid
+          : bid // ignore: cast_nullable_to_non_nullable
+              as BidModel?,
       distance: freezed == distance
           ? _value.distance
           : distance // ignore: cast_nullable_to_non_nullable
@@ -330,7 +345,7 @@ class _$TaskModelImpl implements _TaskModel {
       @JsonKey(name: 'expected_price') this.expectedPrice,
       this.status = TaskStatus.unassigned,
       @JsonKey(includeToJson: false) this.id = 0,
-      this.assigned,
+      this.bid,
       this.distance,
       @JsonKey(name: 'created_at') this.createdAt})
       : _tags = tags;
@@ -340,7 +355,7 @@ class _$TaskModelImpl implements _TaskModel {
 
   @override
   @JsonKey(includeToJson: false)
-  final TaskOwner owner;
+  final TaskUser owner;
 // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
@@ -381,7 +396,7 @@ class _$TaskModelImpl implements _TaskModel {
   @JsonKey(includeToJson: false)
   final int id;
   @override
-  final String? assigned;
+  final BidModel? bid;
   @override
   final double? distance;
   @override
@@ -390,7 +405,7 @@ class _$TaskModelImpl implements _TaskModel {
 
   @override
   String toString() {
-    return 'TaskModel(owner: $owner, addressId: $addressId, address: $address, tags: $tags, deadline: $deadline, title: $title, description: $description, gender: $gender, ageGroup: $ageGroup, expectedPrice: $expectedPrice, status: $status, id: $id, assigned: $assigned, distance: $distance, createdAt: $createdAt)';
+    return 'TaskModel(owner: $owner, addressId: $addressId, address: $address, tags: $tags, deadline: $deadline, title: $title, description: $description, gender: $gender, ageGroup: $ageGroup, expectedPrice: $expectedPrice, status: $status, id: $id, bid: $bid, distance: $distance, createdAt: $createdAt)';
   }
 
   @override
@@ -414,8 +429,7 @@ class _$TaskModelImpl implements _TaskModel {
                 other.expectedPrice == expectedPrice) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.assigned, assigned) ||
-                other.assigned == assigned) &&
+            (identical(other.bid, bid) || other.bid == bid) &&
             (identical(other.distance, distance) ||
                 other.distance == distance) &&
             (identical(other.createdAt, createdAt) ||
@@ -438,7 +452,7 @@ class _$TaskModelImpl implements _TaskModel {
       expectedPrice,
       status,
       id,
-      assigned,
+      bid,
       distance,
       createdAt);
 
@@ -458,7 +472,7 @@ class _$TaskModelImpl implements _TaskModel {
 
 abstract class _TaskModel implements TaskModel {
   const factory _TaskModel(
-          {@JsonKey(includeToJson: false) required final TaskOwner owner,
+          {@JsonKey(includeToJson: false) required final TaskUser owner,
           @JsonKey(name: 'address_id', includeFromJson: false)
           final dynamic addressId,
           @JsonKey(includeToJson: false) final TaskAddress? address,
@@ -471,7 +485,7 @@ abstract class _TaskModel implements TaskModel {
           @JsonKey(name: 'expected_price') final int? expectedPrice,
           final TaskStatus status,
           @JsonKey(includeToJson: false) final int id,
-          final String? assigned,
+          final BidModel? bid,
           final double? distance,
           @JsonKey(name: 'created_at') final DateTime? createdAt}) =
       _$TaskModelImpl;
@@ -481,7 +495,7 @@ abstract class _TaskModel implements TaskModel {
 
   @override
   @JsonKey(includeToJson: false)
-  TaskOwner get owner;
+  TaskUser get owner;
   @override // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
@@ -513,7 +527,7 @@ abstract class _TaskModel implements TaskModel {
   @JsonKey(includeToJson: false)
   int get id;
   @override
-  String? get assigned;
+  BidModel? get bid;
   @override
   double? get distance;
   @override
@@ -525,34 +539,34 @@ abstract class _TaskModel implements TaskModel {
       throw _privateConstructorUsedError;
 }
 
-TaskOwner _$TaskOwnerFromJson(Map<String, dynamic> json) {
-  return _TaskOwner.fromJson(json);
+TaskUser _$TaskUserFromJson(Map<String, dynamic> json) {
+  return _TaskUser.fromJson(json);
 }
 
 /// @nodoc
-mixin _$TaskOwner {
+mixin _$TaskUser {
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'image_url')
   String? get imageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TaskOwnerCopyWith<TaskOwner> get copyWith =>
+  $TaskUserCopyWith<TaskUser> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TaskOwnerCopyWith<$Res> {
-  factory $TaskOwnerCopyWith(TaskOwner value, $Res Function(TaskOwner) then) =
-      _$TaskOwnerCopyWithImpl<$Res, TaskOwner>;
+abstract class $TaskUserCopyWith<$Res> {
+  factory $TaskUserCopyWith(TaskUser value, $Res Function(TaskUser) then) =
+      _$TaskUserCopyWithImpl<$Res, TaskUser>;
   @useResult
   $Res call({String id, @JsonKey(name: 'image_url') String? imageUrl});
 }
 
 /// @nodoc
-class _$TaskOwnerCopyWithImpl<$Res, $Val extends TaskOwner>
-    implements $TaskOwnerCopyWith<$Res> {
-  _$TaskOwnerCopyWithImpl(this._value, this._then);
+class _$TaskUserCopyWithImpl<$Res, $Val extends TaskUser>
+    implements $TaskUserCopyWith<$Res> {
+  _$TaskUserCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -579,22 +593,22 @@ class _$TaskOwnerCopyWithImpl<$Res, $Val extends TaskOwner>
 }
 
 /// @nodoc
-abstract class _$$TaskOwnerImplCopyWith<$Res>
-    implements $TaskOwnerCopyWith<$Res> {
-  factory _$$TaskOwnerImplCopyWith(
-          _$TaskOwnerImpl value, $Res Function(_$TaskOwnerImpl) then) =
-      __$$TaskOwnerImplCopyWithImpl<$Res>;
+abstract class _$$TaskUserImplCopyWith<$Res>
+    implements $TaskUserCopyWith<$Res> {
+  factory _$$TaskUserImplCopyWith(
+          _$TaskUserImpl value, $Res Function(_$TaskUserImpl) then) =
+      __$$TaskUserImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String id, @JsonKey(name: 'image_url') String? imageUrl});
 }
 
 /// @nodoc
-class __$$TaskOwnerImplCopyWithImpl<$Res>
-    extends _$TaskOwnerCopyWithImpl<$Res, _$TaskOwnerImpl>
-    implements _$$TaskOwnerImplCopyWith<$Res> {
-  __$$TaskOwnerImplCopyWithImpl(
-      _$TaskOwnerImpl _value, $Res Function(_$TaskOwnerImpl) _then)
+class __$$TaskUserImplCopyWithImpl<$Res>
+    extends _$TaskUserCopyWithImpl<$Res, _$TaskUserImpl>
+    implements _$$TaskUserImplCopyWith<$Res> {
+  __$$TaskUserImplCopyWithImpl(
+      _$TaskUserImpl _value, $Res Function(_$TaskUserImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -603,7 +617,7 @@ class __$$TaskOwnerImplCopyWithImpl<$Res>
     Object? id = null,
     Object? imageUrl = freezed,
   }) {
-    return _then(_$TaskOwnerImpl(
+    return _then(_$TaskUserImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -618,12 +632,12 @@ class __$$TaskOwnerImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$TaskOwnerImpl implements _TaskOwner {
-  const _$TaskOwnerImpl(
+class _$TaskUserImpl implements _TaskUser {
+  const _$TaskUserImpl(
       {required this.id, @JsonKey(name: 'image_url') this.imageUrl});
 
-  factory _$TaskOwnerImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TaskOwnerImplFromJson(json);
+  factory _$TaskUserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TaskUserImplFromJson(json);
 
   @override
   final String id;
@@ -633,14 +647,14 @@ class _$TaskOwnerImpl implements _TaskOwner {
 
   @override
   String toString() {
-    return 'TaskOwner(id: $id, imageUrl: $imageUrl)';
+    return 'TaskUser(id: $id, imageUrl: $imageUrl)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TaskOwnerImpl &&
+            other is _$TaskUserImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl));
@@ -653,24 +667,24 @@ class _$TaskOwnerImpl implements _TaskOwner {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$TaskOwnerImplCopyWith<_$TaskOwnerImpl> get copyWith =>
-      __$$TaskOwnerImplCopyWithImpl<_$TaskOwnerImpl>(this, _$identity);
+  _$$TaskUserImplCopyWith<_$TaskUserImpl> get copyWith =>
+      __$$TaskUserImplCopyWithImpl<_$TaskUserImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TaskOwnerImplToJson(
+    return _$$TaskUserImplToJson(
       this,
     );
   }
 }
 
-abstract class _TaskOwner implements TaskOwner {
-  const factory _TaskOwner(
+abstract class _TaskUser implements TaskUser {
+  const factory _TaskUser(
       {required final String id,
-      @JsonKey(name: 'image_url') final String? imageUrl}) = _$TaskOwnerImpl;
+      @JsonKey(name: 'image_url') final String? imageUrl}) = _$TaskUserImpl;
 
-  factory _TaskOwner.fromJson(Map<String, dynamic> json) =
-      _$TaskOwnerImpl.fromJson;
+  factory _TaskUser.fromJson(Map<String, dynamic> json) =
+      _$TaskUserImpl.fromJson;
 
   @override
   String get id;
@@ -679,7 +693,7 @@ abstract class _TaskOwner implements TaskOwner {
   String? get imageUrl;
   @override
   @JsonKey(ignore: true)
-  _$$TaskOwnerImplCopyWith<_$TaskOwnerImpl> get copyWith =>
+  _$$TaskUserImplCopyWith<_$TaskUserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

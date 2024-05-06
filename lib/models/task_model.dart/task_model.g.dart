@@ -8,7 +8,7 @@ part of 'task_model.dart';
 
 _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
     _$TaskModelImpl(
-      owner: TaskOwner.fromJson(json['owner'] as Map<String, dynamic>),
+      owner: TaskUser.fromJson(json['owner'] as Map<String, dynamic>),
       address: json['address'] == null
           ? null
           : TaskAddress.fromJson(json['address'] as Map<String, dynamic>),
@@ -24,7 +24,9 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
       status: $enumDecodeNullable(_$TaskStatusEnumMap, json['status']) ??
           TaskStatus.unassigned,
       id: json['id'] as int? ?? 0,
-      assigned: json['assigned'] as String?,
+      bid: json['bid'] == null
+          ? null
+          : BidModel.fromJson(json['bid'] as Map<String, dynamic>),
       distance: (json['distance'] as num?)?.toDouble(),
       createdAt: json['created_at'] == null
           ? null
@@ -41,7 +43,7 @@ Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
       'age_group': instance.ageGroup,
       'expected_price': instance.expectedPrice,
       'status': _$TaskStatusEnumMap[instance.status]!,
-      'assigned': instance.assigned,
+      'bid': instance.bid,
       'distance': instance.distance,
       'created_at': instance.createdAt?.toIso8601String(),
     };
@@ -60,13 +62,13 @@ const _$TaskStatusEnumMap = {
   TaskStatus.completed: 'completed',
 };
 
-_$TaskOwnerImpl _$$TaskOwnerImplFromJson(Map<String, dynamic> json) =>
-    _$TaskOwnerImpl(
+_$TaskUserImpl _$$TaskUserImplFromJson(Map<String, dynamic> json) =>
+    _$TaskUserImpl(
       id: json['id'] as String,
       imageUrl: json['image_url'] as String?,
     );
 
-Map<String, dynamic> _$$TaskOwnerImplToJson(_$TaskOwnerImpl instance) =>
+Map<String, dynamic> _$$TaskUserImplToJson(_$TaskUserImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'image_url': instance.imageUrl,
