@@ -13,6 +13,12 @@ extension StringExtensions on String {
     return this[0].toUpperCase() + substring(1);
   }
 
+  String get capitalizWords {
+    if (isEmpty) return '';
+    final str = split(' ');
+    return str.map((e) => e.capitalize).join(' ');
+  }
+
   OtpType get otpType {
     switch (this) {
       case "sms":

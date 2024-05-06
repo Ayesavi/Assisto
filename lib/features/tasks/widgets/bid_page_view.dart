@@ -35,7 +35,7 @@ class BidPageView extends ConsumerWidget {
                     bidModel: bids[index],
                     onPressed: () {
                       showBidderProfileBottomSheet(
-                          context: context, model: bids[index]);
+                          context: context, model: bids[index],showAcceptOffer: true);
                     });
               },
             ),

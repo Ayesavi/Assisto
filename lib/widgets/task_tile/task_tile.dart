@@ -1,6 +1,7 @@
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/core/utils/utils.dart';
+import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/widgets/task_tile/tile_status.dart';
 import 'package:assisto/widgets/text_widgets.dart';
@@ -24,14 +25,19 @@ class TaskTile extends ConsumerWidget {
   factory TaskTile.owner(
       {Key? key,
       required TaskModel taskModel,
-      required VoidCallback onPressed}) {
+      required VoidCallback onPressed,
+      required VoidCallback onAvatarPressed,
+
+      
+      }) {
     return TaskTile(
         onPressed: onPressed,
         taskModel: taskModel,
         leading: taskModel.status != TaskStatus.unassigned
             ? UserAvatar(
                 radius: 30,
-                imageUrl: taskModel.assigned!.imageUrl,
+                imageUrl: taskModel.bid!.bidder.avatarUrl,
+                onPressed:onAvatarPressed,
               )
             : null,
         trailing: TileStatusWidget(taskModel.status));
