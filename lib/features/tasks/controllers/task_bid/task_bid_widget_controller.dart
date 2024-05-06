@@ -20,7 +20,7 @@ class TaskBidWidgetController extends _$TaskBidWidgetController {
 
   Future<void> getBids(int bidId) async {
     try {
-      final bids = await _repository.bids(bidId);
+      final bids = await _repository.fetchBids(bidId);
       state = TaskBidWidgetControllerState.data(bids);
     } catch (e) {
       if (e is NetworkException) {

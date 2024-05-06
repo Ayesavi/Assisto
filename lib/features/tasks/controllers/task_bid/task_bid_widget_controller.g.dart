@@ -7,7 +7,7 @@ part of 'task_bid_widget_controller.dart';
 // **************************************************************************
 
 String _$taskBidWidgetControllerHash() =>
-    r'd793c92c5179e93b73eeb3f78f68fceb4cf456f9';
+    r'8ca069be1a32afa3bf69ac85520b61a6f2d56084';
 
 /// Copied from Dart SDK
 class _SystemHash {

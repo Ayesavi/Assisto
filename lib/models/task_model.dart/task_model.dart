@@ -84,7 +84,7 @@ class TaskUser with _$TaskUser {
 @freezed
 class TaskAddress with _$TaskAddress {
   const factory TaskAddress({
-    required String id,
+    required int id,
     required ({double lat, double lng}) latlng,
     required String address,
     @JsonKey(name: 'house_number') required String houseNumber,

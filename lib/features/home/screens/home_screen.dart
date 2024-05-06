@@ -1,20 +1,19 @@
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/features/home/screens/home_appbar_title.dart';
+import 'package:assisto/features/home/widgets/task_filter_widget.dart';
 import 'package:assisto/features/tasks/screens/create_task_page.dart';
 import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
+import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/shimmering/shimmering_task_tile.dart';
 import 'package:assisto/widgets/search_textfield.dart';
-import 'package:assisto/widgets/small_chip_widget.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
 import 'package:assisto/widgets/user_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum _FilterType { location, deadline, all, you }
-
-final _filterProvider = StateProvider((ref) => _FilterType.all);
+enum TaskFilterType { location, deadline, all, you }
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -59,53 +58,19 @@ class HomeScreen extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16.0, vertical: 8.0),
-                        child: Builder(builder: (context) {
-                          final state = ref.watch(_filterProvider);
-                          return Row(
-                            children: [
-                              SmallChipWidget(
-                                onPress: () {
-                                  ref
-                                      .read(_filterProvider.notifier)
-                                      .update((state) => _FilterType.all);
-                                  controller.loadData();
-                                },
-                                label: 'All',
-                                selected: state == _FilterType.all,
-                              ),
-                              SmallChipWidget(
-                                onPress: () {
-                                  ref
-                                      .read(_filterProvider.notifier)
-                                      .update((state) => _FilterType.deadline);
-                                  controller.loadData();
-                                },
-                                label: 'Deadline',
-                                selected: state == _FilterType.deadline,
-                              ),
-                              SmallChipWidget(
-                                onPress: () {
-                                  ref
-                                      .read(_filterProvider.notifier)
-                                      .update((state) => _FilterType.you);
-                                  controller.loadData();
-                                },
-                                label: 'By you',
-                                selected: state == _FilterType.you,
-                              ),
-                              SmallChipWidget(
-                                selected: state == _FilterType.location,
-                                onPress: () {
-                                  ref
-                                      .read(_filterProvider.notifier)
-                                      .update((state) => _FilterType.location);
-                                  controller.loadData();
-                                },
-                                label: 'Location',
-                              )
-                            ],
-                          );
-                        }),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            TaskFilterWidget(onSelected: (selectedFilters) {
+                              if (selectedFilters
+                                  .contains(TaskFilterType.you)) {
+                                controller.loadOwnTasks();
+                              } else {
+                                controller.loadData();
+                              }
+                            }),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -133,46 +98,64 @@ class HomeScreen extends ConsumerWidget {
                 builder: (context) {
                   final state = ref.watch(homePageControllerProvider);
 
-                  return state.when(loading: () {
-                    return SliverToBoxAdapter(
-                      child: Column(
-                        children: [
-                          ...List.generate(
-                              12, (index) => const ShimmeringTaskTile())
-                        ],
-                      ),
-                    );
-                  }, data: (data) {
-                    return SliverList(
-                        delegate: SliverChildBuilderDelegate((ctx, index) {
-                      return TaskTile.owner(
-                          taskModel: data[index],
-                          onAvatarPressed: () {
-                            if (data[index].bid != null) {
-                              showBidderProfileBottomSheet(
-                                  context: context, model: data[index].bid!);
-                            }
-                          },
-                          onPressed: () {
-                            TaskProfileRoute(taskId: data[index].id).push(ctx);
-                          });
-                    }, childCount: data.length));
-                  }, error: (e) {
-                    return const SliverToBoxAdapter(
-                      child: Center(
-                        child: Text('Ooops An Error Occurred'),
-                      ),
-                    );
-                  }, networkError: () {
-                    return SliverToBoxAdapter(
-                      child: Column(
-                        children: [
-                          ...List.generate(
-                              12, (index) => const ShimmeringTaskTile())
-                        ],
-                      ),
-                    );
-                  });
+                  return state.when(
+                    loading: () {
+                      return SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            ...List.generate(
+                                12, (index) => const ShimmeringTaskTile())
+                          ],
+                        ),
+                      );
+                    },
+                    ownTasks: (List<TaskModel> models) {
+                      return SliverList(
+                          delegate: SliverChildBuilderDelegate((ctx, index) {
+                        return TaskTile.owner(
+                            taskModel: models[index],
+                            onAvatarPressed: () {
+                              if (models[index].bid != null) {
+                                showBidderProfileBottomSheet(
+                                    context: context,
+                                    model: models[index].bid!);
+                              }
+                            },
+                            onPressed: () {
+                              TaskProfileRoute(taskId: models[index].id)
+                                  .push(ctx);
+                            });
+                      }, childCount: models.length));
+                    },
+                    tasks: (data) {
+                      return SliverList(
+                          delegate: SliverChildBuilderDelegate((ctx, index) {
+                        return TaskTile(
+                            taskModel: data[index],
+                            onPressed: () {
+                              TaskProfileRoute(taskId: data[index].id)
+                                  .push(ctx);
+                            });
+                      }, childCount: data.length));
+                    },
+                    error: (e) {
+                      return const SliverToBoxAdapter(
+                        child: Center(
+                          child: Text('Ooops An Error Occurred'),
+                        ),
+                      );
+                    },
+                    networkError: () {
+                      return SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            ...List.generate(
+                                12, (index) => const ShimmeringTaskTile())
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
               )
             ],

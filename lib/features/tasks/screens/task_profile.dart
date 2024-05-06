@@ -22,7 +22,7 @@ class TaskProfilePage extends ConsumerWidget {
           body: const Center(
         child: CircularProgressIndicator(),
       ));
-    }, TaskUserData: (model) {
+    }, taskUserData: (model) {
       return _buildScaffold(
           appBar: AppBar(),
           bottomNavigationBar: BottomNavigationBar(

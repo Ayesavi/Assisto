@@ -4,7 +4,7 @@ part of 'task_profile_page.dart';
 sealed class TaskProfilePageState with _$TaskProfilePageState {
   const TaskProfilePageState._();
   const factory TaskProfilePageState.loading() = TaskProfilePageInitial;
-  const factory TaskProfilePageState.TaskUserData(TaskModel model) =
+  const factory TaskProfilePageState.taskUserData(TaskModel model) =
       TaskProfilePageOwnerData;
   const factory TaskProfilePageState.taskConsumerData(TaskModel model) =
       TaskProfilePageConsumerData;

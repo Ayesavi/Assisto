@@ -1,6 +1,7 @@
 import 'package:assisto/core/controllers/address_controller/address_controller.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository.dart';
+import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -25,13 +26,34 @@ class HomePageController extends _$HomePageController {
     return const HomePageControllerState.loading();
   }
 
-  void loadData({Map<String, dynamic>? filter}) async {
+  void loadData([List<TaskFilterType> filters = const []]) async {
     try {
+      state = const HomePageControllerState.loading();
+
       final data = await _repo.fetchTasks(
           latlng: _defaultAddr != null
               ? (lat: _defaultAddr!.latlng.lat, lng: _defaultAddr!.latlng.lng)
               : null);
-      state = HomePageControllerState.data(data);
+      state = HomePageControllerState.tasks(data);
+    } catch (e) {
+      if (e is NetworkException) {
+        state = const HomePageControllerState.networkError();
+        return;
+      }
+      state = HomePageControllerState.error(e);
+      return;
+    }
+  }
+
+  void loadOwnTasks([List<TaskFilterType> filters = const []]) async {
+    try {
+      state = const HomePageControllerState.loading();
+
+      final data = await _repo.fetchOwnTasks(
+          latlng: _defaultAddr != null
+              ? (lat: _defaultAddr!.latlng.lat, lng: _defaultAddr!.latlng.lng)
+              : null);
+      state = HomePageControllerState.ownTasks(data);
     } catch (e) {
       if (e is NetworkException) {
         state = const HomePageControllerState.networkError();

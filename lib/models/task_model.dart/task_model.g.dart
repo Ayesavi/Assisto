@@ -76,7 +76,7 @@ Map<String, dynamic> _$$TaskUserImplToJson(_$TaskUserImpl instance) =>
 
 _$TaskAddressImpl _$$TaskAddressImplFromJson(Map<String, dynamic> json) =>
     _$TaskAddressImpl(
-      id: json['id'] as String,
+      id: json['id'] as int,
       latlng: _$recordConvert(
         json['latlng'],
         ($jsonValue) => (

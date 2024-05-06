@@ -19,7 +19,7 @@ mixin _$TaskProfilePageState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(TaskModel model) TaskUserData,
+    required TResult Function(TaskModel model) taskUserData,
     required TResult Function(TaskModel model) taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
@@ -28,7 +28,7 @@ mixin _$TaskProfilePageState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(TaskModel model)? TaskUserData,
+    TResult? Function(TaskModel model)? taskUserData,
     TResult? Function(TaskModel model)? taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
@@ -37,7 +37,7 @@ mixin _$TaskProfilePageState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(TaskModel model)? TaskUserData,
+    TResult Function(TaskModel model)? taskUserData,
     TResult Function(TaskModel model)? taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
@@ -47,7 +47,7 @@ mixin _$TaskProfilePageState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(TaskProfilePageInitial value) loading,
-    required TResult Function(TaskProfilePageOwnerData value) TaskUserData,
+    required TResult Function(TaskProfilePageOwnerData value) taskUserData,
     required TResult Function(TaskProfilePageConsumerData value)
         taskConsumerData,
     required TResult Function(TaskProfilePageError value) error,
@@ -57,7 +57,7 @@ mixin _$TaskProfilePageState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(TaskProfilePageInitial value)? loading,
-    TResult? Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult? Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult? Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult? Function(TaskProfilePageError value)? error,
     TResult? Function(TaskProfilePageNetworkError value)? networkError,
@@ -66,7 +66,7 @@ mixin _$TaskProfilePageState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TaskProfilePageInitial value)? loading,
-    TResult Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult Function(TaskProfilePageError value)? error,
     TResult Function(TaskProfilePageNetworkError value)? networkError,
@@ -137,7 +137,7 @@ class _$TaskProfilePageInitialImpl extends TaskProfilePageInitial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(TaskModel model) TaskUserData,
+    required TResult Function(TaskModel model) taskUserData,
     required TResult Function(TaskModel model) taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
@@ -149,7 +149,7 @@ class _$TaskProfilePageInitialImpl extends TaskProfilePageInitial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(TaskModel model)? TaskUserData,
+    TResult? Function(TaskModel model)? taskUserData,
     TResult? Function(TaskModel model)? taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
@@ -161,7 +161,7 @@ class _$TaskProfilePageInitialImpl extends TaskProfilePageInitial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(TaskModel model)? TaskUserData,
+    TResult Function(TaskModel model)? taskUserData,
     TResult Function(TaskModel model)? taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
@@ -177,7 +177,7 @@ class _$TaskProfilePageInitialImpl extends TaskProfilePageInitial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(TaskProfilePageInitial value) loading,
-    required TResult Function(TaskProfilePageOwnerData value) TaskUserData,
+    required TResult Function(TaskProfilePageOwnerData value) taskUserData,
     required TResult Function(TaskProfilePageConsumerData value)
         taskConsumerData,
     required TResult Function(TaskProfilePageError value) error,
@@ -190,7 +190,7 @@ class _$TaskProfilePageInitialImpl extends TaskProfilePageInitial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(TaskProfilePageInitial value)? loading,
-    TResult? Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult? Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult? Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult? Function(TaskProfilePageError value)? error,
     TResult? Function(TaskProfilePageNetworkError value)? networkError,
@@ -202,7 +202,7 @@ class _$TaskProfilePageInitialImpl extends TaskProfilePageInitial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TaskProfilePageInitial value)? loading,
-    TResult Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult Function(TaskProfilePageError value)? error,
     TResult Function(TaskProfilePageNetworkError value)? networkError,
@@ -274,7 +274,7 @@ class _$TaskProfilePageOwnerDataImpl extends TaskProfilePageOwnerData {
 
   @override
   String toString() {
-    return 'TaskProfilePageState.TaskUserData(model: $model)';
+    return 'TaskProfilePageState.taskUserData(model: $model)';
   }
 
   @override
@@ -299,38 +299,38 @@ class _$TaskProfilePageOwnerDataImpl extends TaskProfilePageOwnerData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(TaskModel model) TaskUserData,
+    required TResult Function(TaskModel model) taskUserData,
     required TResult Function(TaskModel model) taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
   }) {
-    return TaskUserData(model);
+    return taskUserData(model);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(TaskModel model)? TaskUserData,
+    TResult? Function(TaskModel model)? taskUserData,
     TResult? Function(TaskModel model)? taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
   }) {
-    return TaskUserData?.call(model);
+    return taskUserData?.call(model);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(TaskModel model)? TaskUserData,
+    TResult Function(TaskModel model)? taskUserData,
     TResult Function(TaskModel model)? taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
     required TResult orElse(),
   }) {
-    if (TaskUserData != null) {
-      return TaskUserData(model);
+    if (taskUserData != null) {
+      return taskUserData(model);
     }
     return orElse();
   }
@@ -339,39 +339,39 @@ class _$TaskProfilePageOwnerDataImpl extends TaskProfilePageOwnerData {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(TaskProfilePageInitial value) loading,
-    required TResult Function(TaskProfilePageOwnerData value) TaskUserData,
+    required TResult Function(TaskProfilePageOwnerData value) taskUserData,
     required TResult Function(TaskProfilePageConsumerData value)
         taskConsumerData,
     required TResult Function(TaskProfilePageError value) error,
     required TResult Function(TaskProfilePageNetworkError value) networkError,
   }) {
-    return TaskUserData(this);
+    return taskUserData(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(TaskProfilePageInitial value)? loading,
-    TResult? Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult? Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult? Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult? Function(TaskProfilePageError value)? error,
     TResult? Function(TaskProfilePageNetworkError value)? networkError,
   }) {
-    return TaskUserData?.call(this);
+    return taskUserData?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TaskProfilePageInitial value)? loading,
-    TResult Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult Function(TaskProfilePageError value)? error,
     TResult Function(TaskProfilePageNetworkError value)? networkError,
     required TResult orElse(),
   }) {
-    if (TaskUserData != null) {
-      return TaskUserData(this);
+    if (taskUserData != null) {
+      return taskUserData(this);
     }
     return orElse();
   }
@@ -467,7 +467,7 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(TaskModel model) TaskUserData,
+    required TResult Function(TaskModel model) taskUserData,
     required TResult Function(TaskModel model) taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
@@ -479,7 +479,7 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(TaskModel model)? TaskUserData,
+    TResult? Function(TaskModel model)? taskUserData,
     TResult? Function(TaskModel model)? taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
@@ -491,7 +491,7 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(TaskModel model)? TaskUserData,
+    TResult Function(TaskModel model)? taskUserData,
     TResult Function(TaskModel model)? taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
@@ -507,7 +507,7 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(TaskProfilePageInitial value) loading,
-    required TResult Function(TaskProfilePageOwnerData value) TaskUserData,
+    required TResult Function(TaskProfilePageOwnerData value) taskUserData,
     required TResult Function(TaskProfilePageConsumerData value)
         taskConsumerData,
     required TResult Function(TaskProfilePageError value) error,
@@ -520,7 +520,7 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(TaskProfilePageInitial value)? loading,
-    TResult? Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult? Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult? Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult? Function(TaskProfilePageError value)? error,
     TResult? Function(TaskProfilePageNetworkError value)? networkError,
@@ -532,7 +532,7 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TaskProfilePageInitial value)? loading,
-    TResult Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult Function(TaskProfilePageError value)? error,
     TResult Function(TaskProfilePageNetworkError value)? networkError,
@@ -621,7 +621,7 @@ class _$TaskProfilePageErrorImpl extends TaskProfilePageError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(TaskModel model) TaskUserData,
+    required TResult Function(TaskModel model) taskUserData,
     required TResult Function(TaskModel model) taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
@@ -633,7 +633,7 @@ class _$TaskProfilePageErrorImpl extends TaskProfilePageError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(TaskModel model)? TaskUserData,
+    TResult? Function(TaskModel model)? taskUserData,
     TResult? Function(TaskModel model)? taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
@@ -645,7 +645,7 @@ class _$TaskProfilePageErrorImpl extends TaskProfilePageError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(TaskModel model)? TaskUserData,
+    TResult Function(TaskModel model)? taskUserData,
     TResult Function(TaskModel model)? taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
@@ -661,7 +661,7 @@ class _$TaskProfilePageErrorImpl extends TaskProfilePageError {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(TaskProfilePageInitial value) loading,
-    required TResult Function(TaskProfilePageOwnerData value) TaskUserData,
+    required TResult Function(TaskProfilePageOwnerData value) taskUserData,
     required TResult Function(TaskProfilePageConsumerData value)
         taskConsumerData,
     required TResult Function(TaskProfilePageError value) error,
@@ -674,7 +674,7 @@ class _$TaskProfilePageErrorImpl extends TaskProfilePageError {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(TaskProfilePageInitial value)? loading,
-    TResult? Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult? Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult? Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult? Function(TaskProfilePageError value)? error,
     TResult? Function(TaskProfilePageNetworkError value)? networkError,
@@ -686,7 +686,7 @@ class _$TaskProfilePageErrorImpl extends TaskProfilePageError {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TaskProfilePageInitial value)? loading,
-    TResult Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult Function(TaskProfilePageError value)? error,
     TResult Function(TaskProfilePageNetworkError value)? networkError,
@@ -753,7 +753,7 @@ class _$TaskProfilePageNetworkErrorImpl extends TaskProfilePageNetworkError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(TaskModel model) TaskUserData,
+    required TResult Function(TaskModel model) taskUserData,
     required TResult Function(TaskModel model) taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
@@ -765,7 +765,7 @@ class _$TaskProfilePageNetworkErrorImpl extends TaskProfilePageNetworkError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(TaskModel model)? TaskUserData,
+    TResult? Function(TaskModel model)? taskUserData,
     TResult? Function(TaskModel model)? taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
@@ -777,7 +777,7 @@ class _$TaskProfilePageNetworkErrorImpl extends TaskProfilePageNetworkError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(TaskModel model)? TaskUserData,
+    TResult Function(TaskModel model)? taskUserData,
     TResult Function(TaskModel model)? taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
@@ -793,7 +793,7 @@ class _$TaskProfilePageNetworkErrorImpl extends TaskProfilePageNetworkError {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(TaskProfilePageInitial value) loading,
-    required TResult Function(TaskProfilePageOwnerData value) TaskUserData,
+    required TResult Function(TaskProfilePageOwnerData value) taskUserData,
     required TResult Function(TaskProfilePageConsumerData value)
         taskConsumerData,
     required TResult Function(TaskProfilePageError value) error,
@@ -806,7 +806,7 @@ class _$TaskProfilePageNetworkErrorImpl extends TaskProfilePageNetworkError {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(TaskProfilePageInitial value)? loading,
-    TResult? Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult? Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult? Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult? Function(TaskProfilePageError value)? error,
     TResult? Function(TaskProfilePageNetworkError value)? networkError,
@@ -818,7 +818,7 @@ class _$TaskProfilePageNetworkErrorImpl extends TaskProfilePageNetworkError {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TaskProfilePageInitial value)? loading,
-    TResult Function(TaskProfilePageOwnerData value)? TaskUserData,
+    TResult Function(TaskProfilePageOwnerData value)? taskUserData,
     TResult Function(TaskProfilePageConsumerData value)? taskConsumerData,
     TResult Function(TaskProfilePageError value)? error,
     TResult Function(TaskProfilePageNetworkError value)? networkError,

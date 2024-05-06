@@ -703,7 +703,7 @@ TaskAddress _$TaskAddressFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskAddress {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   ({double lat, double lng}) get latlng => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   @JsonKey(name: 'house_number')
@@ -722,7 +722,7 @@ abstract class $TaskAddressCopyWith<$Res> {
       _$TaskAddressCopyWithImpl<$Res, TaskAddress>;
   @useResult
   $Res call(
-      {String id,
+      {int id,
       ({double lat, double lng}) latlng,
       String address,
       @JsonKey(name: 'house_number') String houseNumber});
@@ -750,7 +750,7 @@ class _$TaskAddressCopyWithImpl<$Res, $Val extends TaskAddress>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       latlng: null == latlng
           ? _value.latlng
           : latlng // ignore: cast_nullable_to_non_nullable
@@ -776,7 +776,7 @@ abstract class _$$TaskAddressImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {int id,
       ({double lat, double lng}) latlng,
       String address,
       @JsonKey(name: 'house_number') String houseNumber});
@@ -802,7 +802,7 @@ class __$$TaskAddressImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       latlng: null == latlng
           ? _value.latlng
           : latlng // ignore: cast_nullable_to_non_nullable
@@ -832,7 +832,7 @@ class _$TaskAddressImpl implements _TaskAddress {
       _$$TaskAddressImplFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final ({double lat, double lng}) latlng;
   @override
@@ -879,7 +879,7 @@ class _$TaskAddressImpl implements _TaskAddress {
 
 abstract class _TaskAddress implements TaskAddress {
   const factory _TaskAddress(
-          {required final String id,
+          {required final int id,
           required final ({double lat, double lng}) latlng,
           required final String address,
           @JsonKey(name: 'house_number') required final String houseNumber}) =
@@ -889,7 +889,7 @@ abstract class _TaskAddress implements TaskAddress {
       _$TaskAddressImpl.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   ({double lat, double lng}) get latlng;
   @override

@@ -6,7 +6,7 @@ import 'package:assisto/models/user_model/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class BaseTaskRepository {
-  Future<List<TaskModel>> fetchTasks({LatLng? latlng});
+  Future<List<TaskModel>> fetchTasks({LatLng? latlng, int? offset});
 
   Future<TaskModel> getTaskById(int id);
 
@@ -18,7 +18,9 @@ abstract class BaseTaskRepository {
 
   Future<void> acceptBid(int bidId);
 
-  Future<List<BidModel>> bids(int bidId, {int? offset});
+  Future<List<BidModel>> fetchBids(int taskId, {int? offset});
+
+  Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng});
 }
 
 class SupabaseTaskRepository implements BaseTaskRepository {
@@ -41,7 +43,7 @@ class SupabaseTaskRepository implements BaseTaskRepository {
   }
 
   @override
-  Future<List<TaskModel>> fetchTasks({LatLng? latlng}) async {
+  Future<List<TaskModel>> fetchTasks({LatLng? latlng, int? offset}) async {
     final List<dynamic> data = await _supabase.rpc('get_feed_tasks', params: {
       'data': {
         if (latlng != null) ...{
@@ -72,9 +74,21 @@ class SupabaseTaskRepository implements BaseTaskRepository {
   }
 
   @override
-  Future<List<BidModel>> bids(int bidId, {int? offset}) {
-    // TODO: implement bids
-    throw UnimplementedError();
+  Future<List<BidModel>> fetchBids(int taskId, {int? offset}) async {
+    final data =
+        await _supabase.from('bidding').select('*').eq('task_id', taskId);
+    return data.map((e) => BidModel.fromJson(e)).toList();
+  }
+
+  /// Fetched tasks made by the current user.
+  @override
+  Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) async {
+    final data = await _supabase
+        .from('tasks')
+        .select(
+            '*,owner:owner_id(id,avatar_url),bid:bid_id(*,bidder:bidder_id(*))')
+        .eq('owner_id', '${_supabase.auth.currentUser?.id}');
+    return data.map((json) => TaskModel.fromJson(json)).toList();
   }
 }
 
@@ -146,7 +160,7 @@ class FakeTaskRepository implements BaseTaskRepository {
   }
 
   @override
-  Future<List<TaskModel>> fetchTasks({LatLng? latlng}) async {
+  Future<List<TaskModel>> fetchTasks({LatLng? latlng, int? offset}) async {
     _tasks = [];
     _generateAuthenticTasks();
     return List<TaskModel>.from(_tasks);
@@ -263,7 +277,9 @@ class FakeTaskRepository implements BaseTaskRepository {
 
       TaskModel task = TaskModel(
         owner: TaskUser(
-          id: 'user_${i + 1}',
+          id: _tasks.isEmpty
+              ? (Supabase.instance.client.auth.currentUser?.id ?? "")
+              : 'user_${i + 1}',
           imageUrl:
               'https://randomuser.me/api/portraits/med/women/${i + 1}.jpg', // Assuming user profile images
         ),
@@ -271,7 +287,7 @@ class FakeTaskRepository implements BaseTaskRepository {
 
         address: TaskAddress(
           latlng: (lat: 23, lng: 32),
-          id: 'user_${i + 1}',
+          id: i + 1,
           address: addresses[i],
           houseNumber: '${i + 1}',
         ),
@@ -326,8 +342,46 @@ class FakeTaskRepository implements BaseTaskRepository {
   }
 
   @override
-  Future<List<BidModel>> bids(int bidId, {int? offset}) async {
+  Future<List<BidModel>> fetchBids(int bidId, {int? offset}) async {
     await Future.delayed(const Duration(seconds: 1), () {});
     return generateBidModels('3', ['d', 's']);
+  }
+
+  @override
+  Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) {
+    return Future.delayed(const Duration(seconds: 1), () {
+      final status =
+          TaskStatus.values[Random().nextInt(TaskStatus.values.length)];
+      return [
+        TaskModel(
+            owner: const TaskUser(
+              id: 'user_1',
+              imageUrl:
+                  'https://randomuser.me/api/portraits/med/women/1.jpg', // Assuming user profile images
+            ),
+            tags: _generateRandomTags(Random().nextInt(6)),
+            address: const TaskAddress(
+              latlng: (lat: 23, lng: 32),
+              id: 2,
+              address: '123 Main St, Anytown, USA',
+              houseNumber: '1',
+            ),
+            status: status,
+            bid: status != TaskStatus.unassigned
+                ? BidModel(
+                    id: 0,
+                    createdAt: DateTime.now(),
+                    bidder: _getAssigned(status, 50)!,
+                    amount: 352)
+                : null, // Initiall
+            deadline: DateTime.now().add(Duration(days: Random().nextInt(2))),
+            title: 'Grocery Shopping',
+            id: 1,
+            description:
+                'Need someone to help with grocery shopping. Will provide the list.',
+            ageGroup: '${Random().nextInt(100)}-${Random().nextInt(100)}',
+            distance: Random().nextDouble())
+      ];
+    });
   }
 }

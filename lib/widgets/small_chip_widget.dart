@@ -1,3 +1,4 @@
+import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +25,7 @@ class SmallChipWidget extends ConsumerWidget {
                       ? Theme.of(context).colorScheme.primaryContainer
                       : Theme.of(context).colorScheme.outlineVariant,
                   borderRadius: BorderRadius.circular(12)),
-              child: Text(label,
+              child: Text(label.capitalize,
                   style: TextStyle(
                       color: selected
                           ? Theme.of(context).colorScheme.primary
