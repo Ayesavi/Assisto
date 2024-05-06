@@ -174,6 +174,19 @@ class FakeTaskRepository implements BaseTaskRepository {
     return;
   }
 
+  UserModel? _getAssigned(TaskStatus status, int index) {
+    if (status != TaskStatus.unassigned) {
+      return UserModel(
+          id: "",
+          avatarUrl: "https://randomuser.me/api/portraits/med/women/$index.jpg",
+          age: 2,
+          name: "john doe",
+          gender: Gender.male.name,
+          tags: ['fd']);
+    }
+    return null;
+  }
+
   void _generateAuthenticTasks() {
     final List<String> taskTitles = [
       "Grocery Shopping",
@@ -245,8 +258,11 @@ class FakeTaskRepository implements BaseTaskRepository {
     ];
 
     for (int i = 0; i < 20; i++) {
+      final status =
+          TaskStatus.values[Random().nextInt(TaskStatus.values.length)];
+
       TaskModel task = TaskModel(
-        owner: TaskOwner(
+        owner: TaskUser(
           id: 'user_${i + 1}',
           imageUrl:
               'https://randomuser.me/api/portraits/med/women/${i + 1}.jpg', // Assuming user profile images
@@ -268,9 +284,16 @@ class FakeTaskRepository implements BaseTaskRepository {
         gender: Gender.values[Random().nextInt(Gender.values.length)],
         expectedPrice: (Random().nextInt(10) + 1) *
             100, // Random price between $100 and $1000
-        status: TaskStatus.unassigned, // Tasks start as unassigned
+        status: status,
+
         id: _tasks.length + 1, // Incremental ID
-        assigned: null, // Initially unassigned
+        bid: status != TaskStatus.unassigned
+            ? BidModel(
+                id: 0,
+                createdAt: DateTime.now(),
+                bidder: _getAssigned(status, i + 50)!,
+                amount: 352)
+            : null, // Initially unassigned
         createdAt: DateTime.now(),
       );
 
