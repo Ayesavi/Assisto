@@ -350,8 +350,6 @@ class FakeTaskRepository implements BaseTaskRepository {
   @override
   Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) {
     return Future.delayed(const Duration(seconds: 1), () {
-      final status =
-          TaskStatus.values[Random().nextInt(TaskStatus.values.length)];
       return [
         TaskModel(
             owner: const TaskUser(
@@ -366,17 +364,36 @@ class FakeTaskRepository implements BaseTaskRepository {
               address: '123 Main St, Anytown, USA',
               houseNumber: '1',
             ),
-            status: status,
-            bid: status != TaskStatus.unassigned
-                ? BidModel(
-                    id: 0,
-                    createdAt: DateTime.now(),
-                    bidder: _getAssigned(status, 50)!,
-                    amount: 352)
-                : null, // Initiall
+            status: TaskStatus.unassigned,
             deadline: DateTime.now().add(Duration(days: Random().nextInt(2))),
             title: 'Grocery Shopping',
             id: 1,
+            description:
+                'Need someone to help with grocery shopping. Will provide the list.',
+            ageGroup: '${Random().nextInt(100)}-${Random().nextInt(100)}',
+            distance: Random().nextDouble()),
+        TaskModel(
+            owner: const TaskUser(
+              id: 'user_1',
+              imageUrl:
+                  'https://randomuser.me/api/portraits/med/women/1.jpg', // Assuming user profile images
+            ),
+            tags: _generateRandomTags(Random().nextInt(6)),
+            address: const TaskAddress(
+              latlng: (lat: 23, lng: 32),
+              id: 2,
+              address: '123 Main St, Anytown, USA',
+              houseNumber: '1',
+            ),
+            status: TaskStatus.completed,
+            bid: BidModel(
+                id: 0,
+                createdAt: DateTime.now(),
+                bidder: _getAssigned(TaskStatus.completed, 50)!,
+                amount: 352), // Initiall
+            deadline: DateTime.now().add(Duration(days: Random().nextInt(2))),
+            title: 'Grocery Shopping',
+            id: 2,
             description:
                 'Need someone to help with grocery shopping. Will provide the list.',
             ageGroup: '${Random().nextInt(100)}-${Random().nextInt(100)}',
