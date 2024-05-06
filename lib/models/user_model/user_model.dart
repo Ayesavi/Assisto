@@ -11,9 +11,10 @@ abstract class UserModel with _$UserModel {
   const factory UserModel({
     @JsonKey(includeToJson: false) required String id,
     @JsonKey(name: 'full_name') required String name,
-    @JsonKey(name: 'avatar_url')  String? avatarUrl,
+    @JsonKey(name: 'avatar_url') String? avatarUrl,
     required String gender,
     required List<String> tags,
+    String? description,
     required int age,
     String? email,
     String? phoneNumber,

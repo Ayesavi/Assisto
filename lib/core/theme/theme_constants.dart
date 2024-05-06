@@ -11,3 +11,10 @@ const kWidgetVerticalGap = SizedBox(
 const kWidgetMinVerticalGap = SizedBox(
   height: 4,
 );
+
+const kWidgetHorizontalGap = SizedBox(
+  width: 16,
+);
+const kWidgetMinHorizontalGap = SizedBox(
+  width: 4,
+);

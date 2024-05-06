@@ -1,4 +1,5 @@
 import 'package:assisto/core/extensions/string_extension.dart';
+import 'package:assisto/core/utils/string_constants.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:assisto/widgets/user_avatar.dart';
@@ -34,12 +35,12 @@ class BidTile extends ConsumerWidget {
         ],
       ),
       trailing: Container(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadius.circular(8)),
         child: LabelMedium(
-            text: bidModel.amount.toString(),
+            text: '${bidModel.amount.toString()} $kRupeeSymbol',
             color: Theme.of(context).colorScheme.onPrimary),
       ),
     );

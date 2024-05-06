@@ -2,6 +2,7 @@
 
 import 'package:assisto/core/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 part 'task_model.freezed.dart';
 part 'task_model.g.dart';
@@ -78,7 +79,6 @@ class TaskOwner with _$TaskOwner {
       _$TaskOwnerFromJson(json);
 }
 
-
 /// Used when fetching task profile information
 @freezed
 class TaskAddress with _$TaskAddress {
@@ -99,4 +99,7 @@ extension SupabaseTask on TaskModel {
     json = ignoreNullFields(json);
     return json;
   }
+
+  bool get isUserTaskOwner =>
+      supabase.Supabase.instance.client.auth.currentUser?.id == owner.id;
 }

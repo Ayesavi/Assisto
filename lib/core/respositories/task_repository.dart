@@ -106,6 +106,8 @@ class FakeTaskRepository implements BaseTaskRepository {
       final UserModel bidder = UserModel(
         id: userId,
         name: names[random.nextInt(names.length)],
+        description:
+            'I am a college student i work part time i can do services like driving, groceries and shopping',
         avatarUrl: avatarUrls[random.nextInt(avatarUrls.length)],
         gender: random.nextBool() ? 'male' : 'female',
         tags: ['tag1', 'tag2', 'tag3'], // Example tags

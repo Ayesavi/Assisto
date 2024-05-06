@@ -1,5 +1,6 @@
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/tasks/controllers/task_bid/task_bid_widget_controller.dart';
+import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/widgets/bid_tile/bid_tile.dart';
 import 'package:assisto/widgets/text_widgets.dart';
@@ -17,7 +18,7 @@ class BidPageView extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const TitleLarge(
-          text: 'Biddings',
+          text: 'Offers',
           weight: FontWeight.bold,
         ),
         kWidgetVerticalGap,
@@ -30,7 +31,12 @@ class BidPageView extends ConsumerWidget {
             child: ListView.builder(
               itemCount: bids.length,
               itemBuilder: (context, index) {
-                return BidTile(bidModel: bids[index], onPressed: () {});
+                return BidTile(
+                    bidModel: bids[index],
+                    onPressed: () {
+                      showBidderProfileBottomSheet(
+                          context: context, model: bids[index]);
+                    });
               },
             ),
           );

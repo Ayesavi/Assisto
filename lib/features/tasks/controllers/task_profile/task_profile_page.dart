@@ -19,7 +19,10 @@ class TaskProfilePage extends _$TaskProfilePage {
 
   Future<void> getTaskById(int id) async {
     try {
-      state = TaskProfilePageState.data(await _repository.getTaskById(id));
+      final model = await _repository.getTaskById(id);
+      state = model.isUserTaskOwner
+          ? TaskProfilePageState.taskOwnerData(model)
+          : TaskProfilePageState.taskConsumerData(model);
     } catch (e) {
       if (e is NetworkException) {
         state = const TaskProfilePageState.networkError();

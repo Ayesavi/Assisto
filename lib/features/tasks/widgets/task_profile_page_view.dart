@@ -111,7 +111,8 @@ class TaskProfilePageView extends ConsumerWidget {
                     ],
                   ),
                 )
-              ])
+              ]),
+          kWidgetVerticalGap,
         ],
       ),
     );
