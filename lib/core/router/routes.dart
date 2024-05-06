@@ -7,6 +7,7 @@ import 'package:assisto/features/profile/screens/address_screen.dart';
 import 'package:assisto/features/profile/screens/edit_profile_page.dart';
 import 'package:assisto/features/profile/screens/profile_screen.dart';
 import 'package:assisto/features/splash/screens/splash_screen.dart';
+import 'package:assisto/features/tasks/screens/task_profile.dart';
 import 'package:assisto/widgets/enter_profile_detail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -94,10 +95,23 @@ class ProfilePageRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) =>
       const ProfilePage();
 }
+
 class EditProfilePageRoute extends GoRouteData {
   const EditProfilePageRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const EditProfilePage();
+}
+
+class TaskProfileRoute extends GoRouteData {
+  const TaskProfileRoute({required this.taskId});
+
+  /// The phone number associated with the OTP page.
+  final int taskId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => TaskProfilePage(
+        taskId: taskId,
+      );
 }

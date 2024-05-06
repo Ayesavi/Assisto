@@ -28,6 +28,7 @@ mixin _$UserModel {
   String? get avatarUrl => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get phoneNumber => throw _privateConstructorUsedError;
@@ -50,6 +51,7 @@ abstract class $UserModelCopyWith<$Res> {
       @JsonKey(name: 'avatar_url') String? avatarUrl,
       String gender,
       List<String> tags,
+      String? description,
       int age,
       String? email,
       String? phoneNumber,
@@ -74,6 +76,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? avatarUrl = freezed,
     Object? gender = null,
     Object? tags = null,
+    Object? description = freezed,
     Object? age = null,
     Object? email = freezed,
     Object? phoneNumber = freezed,
@@ -100,6 +103,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
       age: null == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
@@ -134,6 +141,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       @JsonKey(name: 'avatar_url') String? avatarUrl,
       String gender,
       List<String> tags,
+      String? description,
       int age,
       String? email,
       String? phoneNumber,
@@ -156,6 +164,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? avatarUrl = freezed,
     Object? gender = null,
     Object? tags = null,
+    Object? description = freezed,
     Object? age = null,
     Object? email = freezed,
     Object? phoneNumber = freezed,
@@ -182,6 +191,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
       age: null == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
@@ -211,6 +224,7 @@ class _$UserModelImpl implements _UserModel {
       @JsonKey(name: 'avatar_url') this.avatarUrl,
       required this.gender,
       required final List<String> tags,
+      this.description,
       required this.age,
       this.email,
       this.phoneNumber,
@@ -240,6 +254,8 @@ class _$UserModelImpl implements _UserModel {
   }
 
   @override
+  final String? description;
+  @override
   final int age;
   @override
   final String? email;
@@ -250,7 +266,7 @@ class _$UserModelImpl implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, avatarUrl: $avatarUrl, gender: $gender, tags: $tags, age: $age, email: $email, phoneNumber: $phoneNumber, dob: $dob)';
+    return 'UserModel(id: $id, name: $name, avatarUrl: $avatarUrl, gender: $gender, tags: $tags, description: $description, age: $age, email: $email, phoneNumber: $phoneNumber, dob: $dob)';
   }
 
   @override
@@ -264,6 +280,8 @@ class _$UserModelImpl implements _UserModel {
                 other.avatarUrl == avatarUrl) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.age, age) || other.age == age) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.phoneNumber, phoneNumber) ||
@@ -273,8 +291,18 @@ class _$UserModelImpl implements _UserModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, avatarUrl, gender,
-      const DeepCollectionEquality().hash(_tags), age, email, phoneNumber, dob);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      name,
+      avatarUrl,
+      gender,
+      const DeepCollectionEquality().hash(_tags),
+      description,
+      age,
+      email,
+      phoneNumber,
+      dob);
 
   @JsonKey(ignore: true)
   @override
@@ -297,6 +325,7 @@ abstract class _UserModel implements UserModel {
       @JsonKey(name: 'avatar_url') final String? avatarUrl,
       required final String gender,
       required final List<String> tags,
+      final String? description,
       required final int age,
       final String? email,
       final String? phoneNumber,
@@ -318,6 +347,8 @@ abstract class _UserModel implements UserModel {
   String get gender;
   @override
   List<String> get tags;
+  @override
+  String? get description;
   @override
   int get age;
   @override

@@ -51,11 +51,16 @@ class LogoutPopup extends StatelessWidget {
   }
 }
 
-showPopup(BuildContext context, {required VoidCallback onConfirm}) async {
+Future<void> showPopup(BuildContext context,
+    {required VoidCallback onConfirm,
+    required String content,
+    required String title}) async {
   return await showDialog(
     context: context,
     builder: (BuildContext context) {
       return Popup(
+        title: title,
+        content: content,
         onConfirmPopup: () {
           onConfirm();
         },
@@ -66,17 +71,22 @@ showPopup(BuildContext context, {required VoidCallback onConfirm}) async {
 
 class Popup extends StatelessWidget {
   final Function()? onConfirmPopup;
-
-  const Popup({super.key, this.onConfirmPopup});
+  final String content;
+  final String title;
+  const Popup(
+      {super.key,
+      this.onConfirmPopup,
+      required this.content,
+      required this.title});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const TitleLarge(
-        text: 'Delete Address',
+      title: TitleLarge(
+        text: title,
         weight: FontWeight.bold,
       ),
-      content: const Text('Are you sure you want to delete adddress?'),
+      content: Text(content),
       actions: <Widget>[
         TextButton(
           onPressed: () {

@@ -101,6 +101,11 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $AddressesPageRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'taskProfile/:taskId',
+          name: 'taskProfile',
+          factory: $TaskProfileRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'profile',
           name: 'profile',
           factory: $ProfilePageRouteExtension._fromState,
@@ -156,6 +161,25 @@ extension $AddressesPageRouteExtension on AddressesPageRoute {
 
   String get location => GoRouteData.$location(
         '/home/addresses',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $TaskProfileRouteExtension on TaskProfileRoute {
+  static TaskProfileRoute _fromState(GoRouterState state) => TaskProfileRoute(
+        taskId: int.parse(state.pathParameters['taskId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/taskProfile/${Uri.encodeComponent(taskId.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);

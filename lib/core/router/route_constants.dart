@@ -16,6 +16,9 @@ class RouteConstants {
   static const addressesRoute =
       TypedGoRoute<AddressesPageRoute>(path: 'addresses', name: 'addresses');
 
+  static const taskProfile = TypedGoRoute<TaskProfileRoute>(
+      path: 'taskProfile/:taskId', name: 'taskProfile');
+
   static const homeRoute =
       TypedGoRoute<HomeRoute>(path: '/home', name: 'home', routes: [
     TypedGoRoute<FullFillProfileRoute>(
@@ -23,6 +26,7 @@ class RouteConstants {
       name: 'fillProfile',
     ),
     addressesRoute,
+    taskProfile,
     TypedGoRoute<ProfilePageRoute>(path: 'profile', name: 'profile', routes: [
       TypedGoRoute<EditProfilePageRoute>(
         path: 'edit',

@@ -310,10 +310,13 @@ class BodyMedium extends StatelessWidget {
   final String text;
   final TextOverflow overflow;
   final Color? color;
+  final int? maxLines;
   const BodyMedium(
       {super.key,
       this.color,
       required this.text,
+      this.maxLines,
+
       this.overflow = TextOverflow.ellipsis});
 
   @override
@@ -321,6 +324,7 @@ class BodyMedium extends StatelessWidget {
     return Text(
       text,
       overflow: overflow,
+      maxLines: maxLines,
       style: Theme.of(context).textTheme.bodyMedium,
     );
   }

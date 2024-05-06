@@ -19,7 +19,6 @@ mixin _$TaskPageControllerState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function() initial,
     required TResult Function(Object e) error,
     required TResult Function() networkError,
   }) =>
@@ -27,7 +26,6 @@ mixin _$TaskPageControllerState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function()? initial,
     TResult? Function(Object e)? error,
     TResult? Function()? networkError,
   }) =>
@@ -35,7 +33,6 @@ mixin _$TaskPageControllerState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? initial,
     TResult Function(Object e)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -44,7 +41,6 @@ mixin _$TaskPageControllerState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(TaskPageControllerLoading value) loading,
-    required TResult Function(TaskPageControllerInitial value) initial,
     required TResult Function(TaskPageControllerError value) error,
     required TResult Function(TaskPageControllerNetworkError value)
         networkError,
@@ -53,7 +49,6 @@ mixin _$TaskPageControllerState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(TaskPageControllerLoading value)? loading,
-    TResult? Function(TaskPageControllerInitial value)? initial,
     TResult? Function(TaskPageControllerError value)? error,
     TResult? Function(TaskPageControllerNetworkError value)? networkError,
   }) =>
@@ -61,7 +56,6 @@ mixin _$TaskPageControllerState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TaskPageControllerLoading value)? loading,
-    TResult Function(TaskPageControllerInitial value)? initial,
     TResult Function(TaskPageControllerError value)? error,
     TResult Function(TaskPageControllerNetworkError value)? networkError,
     required TResult orElse(),
@@ -131,7 +125,6 @@ class _$TaskPageControllerLoadingImpl extends TaskPageControllerLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function() initial,
     required TResult Function(Object e) error,
     required TResult Function() networkError,
   }) {
@@ -142,7 +135,6 @@ class _$TaskPageControllerLoadingImpl extends TaskPageControllerLoading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function()? initial,
     TResult? Function(Object e)? error,
     TResult? Function()? networkError,
   }) {
@@ -153,7 +145,6 @@ class _$TaskPageControllerLoadingImpl extends TaskPageControllerLoading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? initial,
     TResult Function(Object e)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -168,7 +159,6 @@ class _$TaskPageControllerLoadingImpl extends TaskPageControllerLoading {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(TaskPageControllerLoading value) loading,
-    required TResult Function(TaskPageControllerInitial value) initial,
     required TResult Function(TaskPageControllerError value) error,
     required TResult Function(TaskPageControllerNetworkError value)
         networkError,
@@ -180,7 +170,6 @@ class _$TaskPageControllerLoadingImpl extends TaskPageControllerLoading {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(TaskPageControllerLoading value)? loading,
-    TResult? Function(TaskPageControllerInitial value)? initial,
     TResult? Function(TaskPageControllerError value)? error,
     TResult? Function(TaskPageControllerNetworkError value)? networkError,
   }) {
@@ -191,7 +180,6 @@ class _$TaskPageControllerLoadingImpl extends TaskPageControllerLoading {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TaskPageControllerLoading value)? loading,
-    TResult Function(TaskPageControllerInitial value)? initial,
     TResult Function(TaskPageControllerError value)? error,
     TResult Function(TaskPageControllerNetworkError value)? networkError,
     required TResult orElse(),
@@ -206,126 +194,6 @@ class _$TaskPageControllerLoadingImpl extends TaskPageControllerLoading {
 abstract class TaskPageControllerLoading extends TaskPageControllerState {
   const factory TaskPageControllerLoading() = _$TaskPageControllerLoadingImpl;
   const TaskPageControllerLoading._() : super._();
-}
-
-/// @nodoc
-abstract class _$$TaskPageControllerInitialImplCopyWith<$Res> {
-  factory _$$TaskPageControllerInitialImplCopyWith(
-          _$TaskPageControllerInitialImpl value,
-          $Res Function(_$TaskPageControllerInitialImpl) then) =
-      __$$TaskPageControllerInitialImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$TaskPageControllerInitialImplCopyWithImpl<$Res>
-    extends _$TaskPageControllerStateCopyWithImpl<$Res,
-        _$TaskPageControllerInitialImpl>
-    implements _$$TaskPageControllerInitialImplCopyWith<$Res> {
-  __$$TaskPageControllerInitialImplCopyWithImpl(
-      _$TaskPageControllerInitialImpl _value,
-      $Res Function(_$TaskPageControllerInitialImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$TaskPageControllerInitialImpl extends TaskPageControllerInitial {
-  const _$TaskPageControllerInitialImpl() : super._();
-
-  @override
-  String toString() {
-    return 'TaskPageControllerState.initial()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TaskPageControllerInitialImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function() initial,
-    required TResult Function(Object e) error,
-    required TResult Function() networkError,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function()? initial,
-    TResult? Function(Object e)? error,
-    TResult? Function()? networkError,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function()? initial,
-    TResult Function(Object e)? error,
-    TResult Function()? networkError,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TaskPageControllerLoading value) loading,
-    required TResult Function(TaskPageControllerInitial value) initial,
-    required TResult Function(TaskPageControllerError value) error,
-    required TResult Function(TaskPageControllerNetworkError value)
-        networkError,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TaskPageControllerLoading value)? loading,
-    TResult? Function(TaskPageControllerInitial value)? initial,
-    TResult? Function(TaskPageControllerError value)? error,
-    TResult? Function(TaskPageControllerNetworkError value)? networkError,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TaskPageControllerLoading value)? loading,
-    TResult Function(TaskPageControllerInitial value)? initial,
-    TResult Function(TaskPageControllerError value)? error,
-    TResult Function(TaskPageControllerNetworkError value)? networkError,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class TaskPageControllerInitial extends TaskPageControllerState {
-  const factory TaskPageControllerInitial() = _$TaskPageControllerInitialImpl;
-  const TaskPageControllerInitial._() : super._();
 }
 
 /// @nodoc
@@ -395,7 +263,6 @@ class _$TaskPageControllerErrorImpl extends TaskPageControllerError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function() initial,
     required TResult Function(Object e) error,
     required TResult Function() networkError,
   }) {
@@ -406,7 +273,6 @@ class _$TaskPageControllerErrorImpl extends TaskPageControllerError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function()? initial,
     TResult? Function(Object e)? error,
     TResult? Function()? networkError,
   }) {
@@ -417,7 +283,6 @@ class _$TaskPageControllerErrorImpl extends TaskPageControllerError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? initial,
     TResult Function(Object e)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -432,7 +297,6 @@ class _$TaskPageControllerErrorImpl extends TaskPageControllerError {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(TaskPageControllerLoading value) loading,
-    required TResult Function(TaskPageControllerInitial value) initial,
     required TResult Function(TaskPageControllerError value) error,
     required TResult Function(TaskPageControllerNetworkError value)
         networkError,
@@ -444,7 +308,6 @@ class _$TaskPageControllerErrorImpl extends TaskPageControllerError {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(TaskPageControllerLoading value)? loading,
-    TResult? Function(TaskPageControllerInitial value)? initial,
     TResult? Function(TaskPageControllerError value)? error,
     TResult? Function(TaskPageControllerNetworkError value)? networkError,
   }) {
@@ -455,7 +318,6 @@ class _$TaskPageControllerErrorImpl extends TaskPageControllerError {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TaskPageControllerLoading value)? loading,
-    TResult Function(TaskPageControllerInitial value)? initial,
     TResult Function(TaskPageControllerError value)? error,
     TResult Function(TaskPageControllerNetworkError value)? networkError,
     required TResult orElse(),
@@ -522,7 +384,6 @@ class _$TaskPageControllerNetworkErrorImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function() initial,
     required TResult Function(Object e) error,
     required TResult Function() networkError,
   }) {
@@ -533,7 +394,6 @@ class _$TaskPageControllerNetworkErrorImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function()? initial,
     TResult? Function(Object e)? error,
     TResult? Function()? networkError,
   }) {
@@ -544,7 +404,6 @@ class _$TaskPageControllerNetworkErrorImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? initial,
     TResult Function(Object e)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -559,7 +418,6 @@ class _$TaskPageControllerNetworkErrorImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(TaskPageControllerLoading value) loading,
-    required TResult Function(TaskPageControllerInitial value) initial,
     required TResult Function(TaskPageControllerError value) error,
     required TResult Function(TaskPageControllerNetworkError value)
         networkError,
@@ -571,7 +429,6 @@ class _$TaskPageControllerNetworkErrorImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(TaskPageControllerLoading value)? loading,
-    TResult? Function(TaskPageControllerInitial value)? initial,
     TResult? Function(TaskPageControllerError value)? error,
     TResult? Function(TaskPageControllerNetworkError value)? networkError,
   }) {
@@ -582,7 +439,6 @@ class _$TaskPageControllerNetworkErrorImpl
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TaskPageControllerLoading value)? loading,
-    TResult Function(TaskPageControllerInitial value)? initial,
     TResult Function(TaskPageControllerError value)? error,
     TResult Function(TaskPageControllerNetworkError value)? networkError,
     required TResult orElse(),
