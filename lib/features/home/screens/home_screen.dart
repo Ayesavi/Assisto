@@ -13,7 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum TaskFilterType { location, deadline, all, you }
+enum TaskFilterType { location, deadline, all, you, bidded }
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -61,14 +61,20 @@ class HomeScreen extends ConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            TaskFilterWidget(onSelected: (selectedFilters) {
-                              if (selectedFilters
-                                  .contains(TaskFilterType.you)) {
-                                controller.loadOwnTasks();
-                              } else {
-                                controller.loadData();
-                              }
-                            }),
+                            Expanded(
+                              child: TaskFilterWidget(
+                                  onSelected: (selectedFilters) {
+                                final filters = selectedFilters
+                                    .map((filter) => filter as TaskFilterType)
+                                    .toList();
+                                if (selectedFilters
+                                    .contains(TaskFilterType.you)) {
+                                  controller.loadOwnTasks(filters);
+                                } else {
+                                  controller.loadData(filters);
+                                }
+                              }),
+                            ),
                           ],
                         ),
                       ),
