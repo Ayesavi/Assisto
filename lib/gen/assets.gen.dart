@@ -30,6 +30,10 @@ class Assets {
   Assets._();
 
   static const $AssetsGraphicsGen graphics = $AssetsGraphicsGen();
+  static const String mapStyle = 'assets/map_style.json';
+
+  /// List of all assets
+  static List<String> get values => [mapStyle];
 }
 
 class AssetGenImage {
