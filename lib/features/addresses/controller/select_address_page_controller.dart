@@ -1,12 +1,12 @@
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/extensions/widget_extension.dart';
+import 'package:assisto/core/respositories/address_repository.dart';
 import 'package:assisto/core/services/permission_service.dart';
 import 'package:assisto/core/utils/debouncer.dart';
 import 'package:assisto/core/utils/utils.dart';
 import 'package:assisto/features/addresses/repositories/places_repository.dart';
-import 'package:assisto/features/addresses/widgets/address_preview_bottomsheet.dart';
-import 'package:assisto/features/addresses/widgets/location_form_bottomsheet.dart';
 import 'package:assisto/features/addresses/widgets/map_marker.dart';
+import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +30,7 @@ class SelectAddressPageController extends _$SelectAddressPageController {
   final permissionService = PermissionService();
   bool _isCameraAnimating = false;
   late GoogleMapController _mapController;
+  final _addressRepository = FakeAddressRepository();
   final _debouncer = Debouncer(delay: const Duration(seconds: 1));
 
   final markerNotifier = ValueNotifier<LatLng?>(null);
@@ -126,32 +127,34 @@ class SelectAddressPageController extends _$SelectAddressPageController {
     _isCameraAnimating = false;
   }
 
-  void onCameraIdle(BuildContext context) async {
+  void onCameraIdle(
+      void Function({
+        required String titleAddress,
+        required String formattedAddress,
+        required LatLng latLng,
+        required SelectAddressPageController controller,
+        AddressModel? model,
+      }) showAddressPreview) async {
     if (markerNotifier.value != null) {
       final addressComponent =
           await _repo.getPlaceAddressFromLatLng(markerNotifier.value!);
-      if (context.mounted) {
-        showAddressPreviewBottomSheet(
-            context: context,
-            addressTitle: addressComponent[0].formattedAddress ??
-                addressComponent[0].placeId,
-            formattedAddress: addressComponent[0].formattedAddress ??
-                addressComponent[0].placeId,
-            onTapContinue: () {
-              Navigator.pop(context);
-              showLocationFormBottomSheet(
-                  context: context,
-                  addressModel: _editAddrModel,
-                  address: addressComponent[0].formattedAddress ?? "",
-                  latLng: (
-                    lat: markerNotifier.value!.latitude,
-                    lng: markerNotifier.value!.longitude
-                  ));
-            },
-            onTapEdit: () {});
-      }
+      final titleAddress =
+          addressComponent[0].formattedAddress ?? addressComponent[0].placeId;
+      final formattedAddress =
+          addressComponent[0].formattedAddress ?? addressComponent[0].placeId;
+      final latlng = LatLng(
+          markerNotifier.value!.latitude, markerNotifier.value!.longitude);
+      showAddressPreview(
+        titleAddress: titleAddress,
+        formattedAddress: formattedAddress,
+        latLng: latlng,
+        model: _editAddrModel,
+        controller: this,
+      );
     }
   }
+
+ 
 
   void requestLocationPermission({
     VoidCallback? onDenied,

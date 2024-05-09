@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:assisto/core/extensions/colorscheme_extension.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/models/address_model/address_model.dart';
@@ -13,7 +15,7 @@ class _LocationFormBottomSheet extends StatefulWidget {
   final String? houseBlockNumber;
   final LatLng latLng;
   final AddressModel? addressModel;
-  final VoidCallback? onContinue;
+  final Future<void> Function(AddressModel model)? onContinue;
 
   const _LocationFormBottomSheet({
     super.key,
@@ -35,6 +37,19 @@ class _FormBottomSheetState extends State<_LocationFormBottomSheet> {
   late TextEditingController _houseBlockController;
   late TextEditingController _labelController;
   late final bool isEdit;
+
+  AddressModel? getAddressModel() {
+    if (_formKey.currentState?.validate() ?? false) {
+      return AddressModel(
+          id: widget.addressModel?.id ?? Random().nextInt(4),
+          address: _addressController.text,
+          createdAt: DateTime.now(),
+          houseNumber: _houseBlockController.text,
+          label: _labelController.text,
+          latlng: widget.latLng);
+    }
+    return null;
+  }
 
   @override
   void initState() {
@@ -155,12 +170,13 @@ class _FormBottomSheetState extends State<_LocationFormBottomSheet> {
             ),
             const SizedBox(height: 16.0),
             AppFilledButton(
-              onTap: () {
-                if (_formKey.currentState!.validate()) {
-                  if (widget.onContinue != null) {
-                    widget.onContinue!();
+              asyncTap: () async {
+                final model = getAddressModel();
+                if (model != null) {
+                  await widget.onContinue?.call(model);
+                  if (context.mounted) {
+                    Navigator.pop(context);
                   }
-                  Navigator.pop(context);
                 }
               },
               label: ('Submit'),
@@ -179,7 +195,7 @@ void showLocationFormBottomSheet({
   String? houseBlockNumber,
   AddressModel? addressModel,
   required LatLng latLng,
-  VoidCallback? onContinue,
+  Future<void> Function(AddressModel model)? onContinue,
 }) {
   showModalBottomSheet(
     context: context,

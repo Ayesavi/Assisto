@@ -25,7 +25,6 @@ mixin _$AddressModel {
   ({double lat, double lng}) get latlng => throw _privateConstructorUsedError;
   @JsonKey(name: 'owner_id', includeToJson: false)
   String? get ownerId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
   String get label => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'house_number')
@@ -50,7 +49,7 @@ abstract class $AddressModelCopyWith<$Res> {
       String? landmark,
       ({double lat, double lng}) latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) String? ownerId,
-      @JsonKey(name: 'created_at') String label,
+      String label,
       DateTime createdAt,
       @JsonKey(name: 'house_number') String houseNumber,
       @JsonKey(includeToJson: false) int id});
@@ -128,7 +127,7 @@ abstract class _$$AddressModelImplCopyWith<$Res>
       String? landmark,
       ({double lat, double lng}) latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) String? ownerId,
-      @JsonKey(name: 'created_at') String label,
+      String label,
       DateTime createdAt,
       @JsonKey(name: 'house_number') String houseNumber,
       @JsonKey(includeToJson: false) int id});
@@ -199,7 +198,7 @@ class _$AddressModelImpl implements _AddressModel {
       this.landmark,
       required this.latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) this.ownerId,
-      @JsonKey(name: 'created_at') required this.label,
+      required this.label,
       required this.createdAt,
       @JsonKey(name: 'house_number') required this.houseNumber,
       @JsonKey(includeToJson: false) required this.id});
@@ -217,7 +216,6 @@ class _$AddressModelImpl implements _AddressModel {
   @JsonKey(name: 'owner_id', includeToJson: false)
   final String? ownerId;
   @override
-  @JsonKey(name: 'created_at')
   final String label;
   @override
   final DateTime createdAt;
@@ -271,7 +269,7 @@ abstract class _AddressModel implements AddressModel {
       final String? landmark,
       required final ({double lat, double lng}) latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) final String? ownerId,
-      @JsonKey(name: 'created_at') required final String label,
+      required final String label,
       required final DateTime createdAt,
       @JsonKey(name: 'house_number') required final String houseNumber,
       @JsonKey(includeToJson: false)
@@ -290,7 +288,6 @@ abstract class _AddressModel implements AddressModel {
   @JsonKey(name: 'owner_id', includeToJson: false)
   String? get ownerId;
   @override
-  @JsonKey(name: 'created_at')
   String get label;
   @override
   DateTime get createdAt;
