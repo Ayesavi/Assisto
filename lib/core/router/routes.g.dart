@@ -91,11 +91,6 @@ RouteBase get $homeRoute => GoRouteData.$route(
       factory: $HomeRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
-          path: 'fillProfile',
-          name: 'fillProfile',
-          factory: $FullFillProfileRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
           path: 'addresses',
           name: 'addresses',
           factory: $AddressesPageRouteExtension._fromState,
@@ -104,6 +99,11 @@ RouteBase get $homeRoute => GoRouteData.$route(
           path: 'taskProfile/:taskId',
           name: 'taskProfile',
           factory: $TaskProfileRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'fillProfile',
+          name: 'fillProfile',
+          factory: $FullFillProfileRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: 'profile',
@@ -125,24 +125,6 @@ extension $HomeRouteExtension on HomeRoute {
 
   String get location => GoRouteData.$location(
         '/home',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-extension $FullFillProfileRouteExtension on FullFillProfileRoute {
-  static FullFillProfileRoute _fromState(GoRouterState state) =>
-      const FullFillProfileRoute();
-
-  String get location => GoRouteData.$location(
-        '/home/fillProfile',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -180,6 +162,24 @@ extension $TaskProfileRouteExtension on TaskProfileRoute {
 
   String get location => GoRouteData.$location(
         '/home/taskProfile/${Uri.encodeComponent(taskId.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $FullFillProfileRouteExtension on FullFillProfileRoute {
+  static FullFillProfileRoute _fromState(GoRouterState state) =>
+      const FullFillProfileRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/fillProfile',
       );
 
   void go(BuildContext context) => context.go(location);

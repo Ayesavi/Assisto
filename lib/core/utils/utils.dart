@@ -1,3 +1,6 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+const kCenterLatlng = LatLng(21.2514, 81.6296);
 Map<String, dynamic> ignoreNullFields(Map<String, dynamic> inputMap) {
   final Map<String, dynamic> resultMap = {};
 
@@ -53,6 +56,7 @@ String formatTime(DateTime dateTime) {
   int second = dateTime.second;
 
   // Determine if it's AM or PM
+
   String period = hour < 12 ? 'AM' : 'PM';
 
   // Convert hour from 24-hour format to 12-hour format if needed

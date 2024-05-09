@@ -19,19 +19,27 @@ class RouteConstants {
   static const taskProfile = TypedGoRoute<TaskProfileRoute>(
       path: 'taskProfile/:taskId', name: 'taskProfile');
 
-  static const homeRoute =
-      TypedGoRoute<HomeRoute>(path: '/home', name: 'home', routes: [
-    TypedGoRoute<FullFillProfileRoute>(
-      path: 'fillProfile',
-      name: 'fillProfile',
-    ),
-    addressesRoute,
-    taskProfile,
-    TypedGoRoute<ProfilePageRoute>(path: 'profile', name: 'profile', routes: [
-      TypedGoRoute<EditProfilePageRoute>(
-        path: 'edit',
-        name: 'edit',
-      ),
-    ]),
-  ]);
+
+  static const fillProfileRoute = TypedGoRoute<FullFillProfileRoute>(
+    path: 'fillProfile',
+    name: 'fillProfile',
+  );
+
+  static const profileRoute = TypedGoRoute<ProfilePageRoute>(
+      path: 'profile', name: 'profile', routes: [editProfileRoute]);
+
+  static const editProfileRoute = TypedGoRoute<EditProfilePageRoute>(
+    path: 'edit',
+    name: 'edit',
+  );
+
+  static const homeRoute = TypedGoRoute<HomeRoute>(
+      path: '/home',
+      name: 'home',
+      routes: [
+        addressesRoute,
+        taskProfile,
+        fillProfileRoute,
+        profileRoute,
+      ]);
 }

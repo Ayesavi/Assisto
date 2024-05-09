@@ -4,14 +4,14 @@
         {
             "name": "Assisto dev",
             "request": "launch",
-            "type": "dart",
-            
+            "type": "dart"
         },
         {
-            "name": "Assisto Production",
+            "name": "Assisto Web",
             "request": "launch",
             "type": "dart",
-            
-        },
+            "program": "lib/main.dart",
+            "args": ["--web-port", "8080"] // Change the port number as needed
+        }
     ]
 }

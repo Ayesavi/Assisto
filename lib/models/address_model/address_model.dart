@@ -12,7 +12,7 @@ class AddressModel with _$AddressModel {
     String? landmark,
     required ({double lat, double lng}) latlng,
     @JsonKey(name: 'owner_id', includeToJson: false) String? ownerId,
-    @JsonKey(name: 'created_at') required String label,
+    required String label,
     required DateTime createdAt,
     @JsonKey(name: 'house_number') required String houseNumber,
     @JsonKey(includeToJson: false) required int id,

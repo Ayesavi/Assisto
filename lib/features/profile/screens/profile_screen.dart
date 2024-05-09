@@ -7,6 +7,7 @@ import 'package:assisto/shimmering/shimmering_profile_widget.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/popup.dart';
 import 'package:assisto/widgets/text_widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,10 +33,6 @@ class ProfilePage extends ConsumerWidget {
     final controller = ref.read(profilePageControllerProvider.notifier);
     return Scaffold(
         appBar: AppBar(
-          title: const TitleMedium(
-            text: 'Profile Page',
-            weight: FontWeight.bold,
-          ),
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -103,7 +100,7 @@ class ProfilePage extends ConsumerWidget {
                                         text: getProfileSubtitle(userModel)),
                                     TextButton(
                                         style: ButtonStyle(
-                                          padding: MaterialStateProperty.all<
+                                          padding: WidgetStateProperty.all<
                                                   EdgeInsets>(
                                               const EdgeInsets.symmetric(
                                                   vertical: 10, horizontal: 5)),
@@ -118,83 +115,69 @@ class ProfilePage extends ConsumerWidget {
                               ),
                             );
                           }),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Divider(
-                          thickness: 2,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: CupertinoListSection(
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).colorScheme.surfaceContainer,
+                          ),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface,
+                          children: [
+                            CupertinoListTile(
+                              onTap: () {
+                                const AddressesPageRoute().push(context);
+                              },
+                              padding: const EdgeInsets.all(5),
+                              leading: Icon(Icons.near_me_outlined,
+                                  color: Theme.of(context).colorScheme.primary),
+                              title: const TitleMedium(text: 'Addresses'),
+                              subtitle: const BodyMedium(
+                                  text: 'Share, Edit, Add Aew Addresses'),
+                              trailing: const CupertinoListTileChevron(),
+                            ),
+                            CupertinoListTile(
+                              onTap: () {
+                                //todo: open at map center
+                              },
+                              padding: const EdgeInsets.all(5),
+                              leading: Icon(Icons.payment,
+                                  color: Theme.of(context).colorScheme.primary),
+                              title: const TitleMedium(text: 'Transactions'),
+                              subtitle: const BodyMedium(
+                                  text: 'Payments and Transactions'),
+                              trailing: const CupertinoListTileChevron(),
+                            ),
+                            CupertinoListTile(
+                              onTap: () {
+                                showLogOutPopup(context, onConfirm: () {
+                                  ref
+                                      .read(authControllerProvider.notifier)
+                                      .signOut();
+                                });
+                              },
+                              padding: const EdgeInsets.all(5),
+                              leading: Icon(Icons.exit_to_app,
+                                  color: Theme.of(context).colorScheme.primary),
+                              title: const TitleMedium(text: 'Log Out'),
+                              subtitle: const BodyMedium(
+                                  text: 'Logs out the user from the device'),
+                              trailing: const CupertinoListTileChevron(),
+                            ),
+                            CupertinoListTile(
+                              onTap: () {},
+                              padding: const EdgeInsets.all(5),
+                              leading: Icon(CupertinoIcons.delete,
+                                  color: Theme.of(context).colorScheme.primary),
+                              title: const TitleMedium(text: 'Delete Account'),
+                              subtitle: const BodyMedium(
+                                  text: 'Deletes account from the databsase'),
+                              trailing: const CupertinoListTileChevron(),
+                            ),
+                          ],
                         ),
                       ),
-                      ListTile(
-                        onTap: () {
-                          const AddressesPageRoute().push(context);
-                        },
-                        title: const TitleMedium(text: 'Addresses'),
-                        subtitle: const Padding(
-                          padding: EdgeInsets.all(2.0),
-                          child: LabelMedium(
-                              text: "Share, Edit, Add Aew Addresses"),
-                        ),
-                        trailing: const Icon(Icons.chevron_right),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Divider(),
-                      ),
-                      ListTile(
-                        onTap: () {},
-                        title: const TitleMedium(text: 'Transactions'),
-                        subtitle: const Padding(
-                          padding: EdgeInsets.all(2.0),
-                          child: LabelMedium(text: "Payments and Transactions"),
-                        ),
-                        trailing: const Icon(Icons.chevron_right),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Divider(),
-                      ),
-
-                      ListTile(
-                        onTap: () {
-                          showLogOutPopup(context, onConfirm: () {
-                            ref.read(authControllerProvider.notifier).signOut();
-                          });
-                        },
-                        title: const TitleMedium(text: 'Log Out'),
-                        subtitle: const Padding(
-                          padding: EdgeInsets.all(2.0),
-                          child: LabelMedium(
-                              text: "Logs Out The User From The Device"),
-                        ),
-                        trailing: const Icon(Icons.chevron_right),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Divider(),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          // const DeletePageRoute().push(context);
-                        },
-                        title: const TitleMedium(text: 'Delete Account'),
-                        subtitle: const Padding(
-                          padding: EdgeInsets.all(2.0),
-                          child: LabelMedium(
-                              text: "Deletes account from the databsase"),
-                        ),
-                        trailing: const Icon(Icons.chevron_right),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Divider(),
-                      ),
-
-                      // Container(
-                      //   width: double.infinity,
-                      //   padding: const EdgeInsets.all(16),
-                      //   color: Theme.of(context).colorScheme.onInverseSurface,
-                      //   child: const Text('Past Requests'),
-                      // ),
                     ],
                   ),
                 ),

@@ -77,8 +77,8 @@ class LabelMedium extends StatelessWidget {
       overflow: overflow,
       textAlign: align,
       style: Theme.of(context).textTheme.labelMedium?.copyWith(
-          color: color ??
-              Theme.of(context).colorScheme.onBackground.withOpacity(.6),
+          color:
+              color ?? Theme.of(context).colorScheme.onSurface.withOpacity(.6),
           fontWeight: weight),
     );
   }
@@ -316,7 +316,6 @@ class BodyMedium extends StatelessWidget {
       this.color,
       required this.text,
       this.maxLines,
-
       this.overflow = TextOverflow.ellipsis});
 
   @override
@@ -325,7 +324,7 @@ class BodyMedium extends StatelessWidget {
       text,
       overflow: overflow,
       maxLines: maxLines,
-      style: Theme.of(context).textTheme.bodyMedium,
+      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: color),
     );
   }
 }
