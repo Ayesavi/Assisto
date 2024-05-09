@@ -3,6 +3,7 @@ import 'package:assisto/features/addresses/controller/select_address_page_contro
 import 'package:assisto/features/addresses/screens/address_search_page.dart';
 import 'package:assisto/features/addresses/widgets/address_preview_bottomsheet.dart';
 import 'package:assisto/features/addresses/widgets/location_form_bottomsheet.dart';
+import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/popup.dart';
@@ -46,9 +47,16 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
               onTapContinue: () {
                 Navigator.pop(context);
                 showLocationFormBottomSheet(
-                    context: context,
-                    addressModel: addressModel,
-                    latLng: addressModel.latlng);
+                  context: context,
+                  addressModel: addressModel,
+                  latLng: addressModel.latlng,
+                  onContinue: (addrModel) async {
+                    await saveOrUpdateAddress(
+                      updateModel: addressModel,
+                      recivedAddressFromForm: addrModel,
+                    );
+                  },
+                );
               },
               onTapEdit: () {});
         });
@@ -91,7 +99,8 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
                 initialCameraPosition: config.cameraPosition,
                 onMapCreated: controller.onMapCreated,
                 onCameraMove: controller.onCameraMove,
-                onCameraIdle: () => controller.onCameraIdle(context),
+                onCameraIdle: () =>
+                    controller.onCameraIdle(_showAddressPreview),
                 mapStyle: config.style,
                 marker: config.marker,
                 myLocationEnabled: config.enableLocation),
@@ -129,13 +138,71 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
           markers: marker != null
               ? {value != null ? marker.copyWith(positionParam: value) : marker}
               : {},
-          onCameraIdle: () => controller.onCameraIdle(context),
+          onCameraIdle: () => controller.onCameraIdle(_showAddressPreview),
           initialCameraPosition: initialCameraPosition,
           myLocationButtonEnabled: myLocationEnabled,
           myLocationEnabled: myLocationEnabled,
         );
       },
     );
+  }
+
+  void _showAddressPreview({
+    required String titleAddress,
+    required String formattedAddress,
+    required LatLng latLng,
+    required SelectAddressPageController controller,
+    AddressModel? model,
+  }) {
+    if (context.mounted) {
+      showAddressPreviewBottomSheet(
+          context: context,
+          addressTitle: titleAddress,
+          formattedAddress: formattedAddress,
+          onTapContinue: () {
+            Navigator.pop(context);
+            showLocationFormBottomSheet(
+              context: context,
+              addressModel: model,
+              address: formattedAddress,
+              latLng: (lat: latLng.latitude, lng: latLng.longitude),
+              onContinue: (addrModel) async {
+                await saveOrUpdateAddress(
+                  updateModel: model,
+                  recivedAddressFromForm: addrModel,
+                );
+              },
+            );
+          },
+          onTapEdit: () {});
+    }
+  }
+
+  Future<void> saveOrUpdateAddress({
+    AddressModel? updateModel,
+    required AddressModel recivedAddressFromForm,
+  }) async {
+    try {
+      if (updateModel != null) {
+        await ref
+            .read(addressPageControllerProvider.notifier)
+            .updateAddress(context, recivedAddressFromForm);
+        if (context.mounted) {
+          Navigator.pop(context);
+        }
+        return;
+      }
+      await ref
+          .read(addressPageControllerProvider.notifier)
+          .addAddress(context, recivedAddressFromForm);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+      return;
+    } catch (e) {
+      showSnackBar(context,
+          'Failed to ${updateModel != null ? 'update' : 'save'} address');
+    }
   }
 
   Widget _buildSearchBar(SelectAddressPageController controller) {

@@ -1,6 +1,5 @@
 import 'package:assisto/features/addresses/screens/select_address_page.dart';
 import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
-import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/shimmering/shimmering_address_tile.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
@@ -73,17 +72,7 @@ class AddressesPage extends ConsumerWidget {
                                     Navigator.push(context, MaterialPageRoute(
                                       builder: (context) {
                                         return SelectAddressPage(
-                                            addressModel: AddressModel(
-                                                address:
-                                                    'Kolkata, West Bengal, India',
-                                                latlng: (
-                                                  lat: 22.5726,
-                                                  lng: 88.3639
-                                                ),
-                                                label: 'Home',
-                                                createdAt: DateTime.now(),
-                                                houseNumber: '1 5o block',
-                                                id: 1),
+                                            addressModel: models[index],
                                             onAddressSelected: (model) async {
                                               controller.updateAddress(
                                                   context, model);

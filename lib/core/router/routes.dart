@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:assisto/features/addresses/screens/address_screen.dart';
+import 'package:assisto/features/addresses/screens/manage_address_page.dart';
 import 'package:assisto/features/auth/screens/login_screen.dart';
 import 'package:assisto/features/auth/screens/verify_otp_screen.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
