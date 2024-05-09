@@ -1,12 +1,11 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 extension ToBitDescription on Widget {
-  Future<BitmapDescriptor> toBitmapDescriptor(
+  Future<BitmapDescriptor> toBitmapDescriptor( 
       {Size? logicalSize,
       Size? imageSize,
       Duration waitToRender = const Duration(milliseconds: 300),
@@ -33,14 +32,14 @@ Future<Uint8List> createImageFromWidget(Widget widget,
   logicalSize ??= view.physicalSize / view.devicePixelRatio;
   imageSize ??= view.physicalSize;
 
-  // assert(logicalSize.aspectRatio == imageSize.aspectRatio);
-
   final RenderView renderView = RenderView(
     view: view,
     child: RenderPositionedBox(
         alignment: Alignment.center, child: repaintBoundary),
     configuration: ViewConfiguration(
-      size: logicalSize,
+      physicalConstraints:
+          BoxConstraints.tight(logicalSize) * view.devicePixelRatio,
+      logicalConstraints: BoxConstraints.tight(logicalSize),
       devicePixelRatio: 1.0,
     ),
   );

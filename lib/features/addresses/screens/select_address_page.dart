@@ -1,16 +1,21 @@
+import 'package:assisto/core/services/permission_service.dart';
 import 'package:assisto/features/addresses/controller/select_address_page_controller.dart';
+import 'package:assisto/features/addresses/screens/address_search_page.dart';
+import 'package:assisto/features/addresses/widgets/address_preview_bottomsheet.dart';
+import 'package:assisto/features/addresses/widgets/location_form_bottomsheet.dart';
 import 'package:assisto/models/address_model/address_model.dart';
-import 'package:assisto/widgets/auto_complete/smart_auto_completion.dart';
-import 'package:assisto/widgets/text_widgets.dart';
+import 'package:assisto/shared/show_snackbar.dart';
+import 'package:assisto/widgets/popup.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SelectAddressPage extends ConsumerStatefulWidget {
   final AddressModel? addressModel;
+  final void Function(AddressModel addressModel)? onAddressSelected;
 
-  const SelectAddressPage({super.key, this.addressModel});
+  const SelectAddressPage(
+      {super.key, this.addressModel, this.onAddressSelected});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -20,10 +25,58 @@ class SelectAddressPage extends ConsumerStatefulWidget {
 class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
   final TextEditingController _searchController = TextEditingController();
 
+  late final SelectAddressPageControllerProvider provider;
+
+  @override
+  void initState() {
+    super.initState();
+    provider = selectAddressPageControllerProvider(
+        editAddressModel: widget.addressModel);
+
+    ref.listenManual(provider, (prev, next) {
+      if (next.isLoadMap &&
+          (next as SelectAddressPageControllerLoadMap).config.addressModel !=
+              null) {
+        Future.delayed(const Duration(milliseconds: 200), () {
+          final addressModel = next.config.addressModel!;
+          showAddressPreviewBottomSheet(
+              context: context,
+              addressTitle: addressModel.label,
+              formattedAddress: addressModel.address,
+              onTapContinue: () {
+                Navigator.pop(context);
+                showLocationFormBottomSheet(
+                    context: context,
+                    addressModel: addressModel,
+                    latLng: addressModel.latlng);
+              },
+              onTapEdit: () {});
+        });
+      }
+    });
+    if (widget.addressModel != null) {
+      ref.read(provider.notifier).requestLocationPermission(
+        onDenied: () {
+          showSnackBar(context, 'Location permission is denied');
+        },
+        onPermanentlyDenied: () {
+          showPopup(context,
+              title: 'Permission Denied',
+              content:
+                  'Permission for location is denied enable in app settings',
+              onConfirm: () {
+            PermissionService().openSettings();
+          });
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(selectAddressPageControllerProvider());
-    final controller = ref.read(selectAddressPageControllerProvider().notifier);
+    final state = ref.watch(provider);
+    final controller = ref.read(provider.notifier);
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,
@@ -34,14 +87,14 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
         }, loadMap: (config) {
           return _buildStack([
             _buildGoogleMap(
-              controller: controller,
-              initialCameraPosition: config.cameraPosition,
-              onMapCreated: controller.onMapCreated,
-              onCameraMove: controller.onCameraMove,
-              onCameraIdle: controller.onCameraIdle,
-              mapStyle: config.style,
-              marker: config.marker,
-            ),
+                controller: controller,
+                initialCameraPosition: config.cameraPosition,
+                onMapCreated: controller.onMapCreated,
+                onCameraMove: controller.onCameraMove,
+                onCameraIdle: () => controller.onCameraIdle(context),
+                mapStyle: config.style,
+                marker: config.marker,
+                myLocationEnabled: config.enableLocation),
             _buildSearchBar(controller),
           ]);
         }, error: (e) {
@@ -70,12 +123,13 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
       builder: (BuildContext context, value, Widget? child) {
         return GoogleMap(
           onMapCreated: onMapCreated,
+          mapToolbarEnabled: true,
           onCameraMove: onCameraMove,
           style: mapStyle,
           markers: marker != null
               ? {value != null ? marker.copyWith(positionParam: value) : marker}
               : {},
-          onCameraIdle: onCameraIdle,
+          onCameraIdle: () => controller.onCameraIdle(context),
           initialCameraPosition: initialCameraPosition,
           myLocationButtonEnabled: myLocationEnabled,
           myLocationEnabled: myLocationEnabled,
@@ -89,49 +143,52 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
       alignment: Alignment.topCenter,
       child: Padding(
         padding: const EdgeInsets.only(top: 32, left: 16, right: 16),
-        child: Container(
-          constraints: const BoxConstraints(maxHeight: 200),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.onInverseSurface,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: SmartAutoCompleteWidget<PlacesSearchResult>(
-            decoration: InputDecoration(
-                hintText: "Search",
-                filled: true,
-                border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(12))),
-            controller: _searchController,
-            getAutocompletion: (searchKey) async {
-              return null;
-            },
-            getSuggestions: (query) async {
-              return controller.searchPlaces(query);
-            },
-            suggestionsBuilder: (context, suggestions, hideSuggestions) {
-              return Flexible(
-                child: ListView.builder(
-                  itemCount: suggestions.length,
-                  itemBuilder: (context, index) {
-                    final item = suggestions[index];
-                    return ListTile(
-                      title: TitleMedium(text: item.name),
-                      subtitle: LabelLarge(
-                          text: item.formattedAddress ?? item.placeId),
+        child: Hero(
+          tag: 'searchBar',
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onInverseSurface,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      readOnly: true,
+                      controller: _searchController,
                       onTap: () {
-                        if (item.geometry != null) {
-                          final latlng = LatLng(item.geometry!.location.lat,
-                              item.geometry!.location.lng);
-                          controller.animateCamera(latlng);
-                          hideSuggestions();
-                        }
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return AddressSearchPage(
+                              onLocationSelected: (result, position) {
+                                Navigator.pop(context);
+                                controller.animateCamera(position);
+                                _searchController.text =
+                                    result.formattedAddress ?? result.name;
+                              },
+                            );
+                          },
+                        ));
                       },
-                    );
-                  },
-                ),
-              );
-            },
+                      decoration: InputDecoration(
+                          hintText: "Search Here...",
+                          filled: true,
+                          fillColor:
+                              Theme.of(context).colorScheme.onInverseSurface,
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(12))),
+                    ),
+                  ),
+                  const Icon(Icons.search),
+                  const SizedBox(
+                    width: 20,
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ),

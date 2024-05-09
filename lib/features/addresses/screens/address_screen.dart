@@ -1,11 +1,11 @@
 import 'package:assisto/features/addresses/screens/select_address_page.dart';
 import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
+import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/shimmering/shimmering_address_tile.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/edit_address_tile.dart';
 import 'package:assisto/widgets/popup.dart';
-import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,20 +25,16 @@ class AddressesPage extends ConsumerWidget {
             onTap: () {
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) {
-                  return const SelectAddressPage(
-                      // addressModel: models[index],
-                      // onAddressSelected: (model) async {
-                      //   controller.updateAddress(
-                      //       context, model);
-                      // }
-                      );
+                  return SelectAddressPage(onAddressSelected: (model) async {
+                    controller.updateAddress(context, model);
+                  });
                 },
               ));
             },
           ),
         ),
         appBar: AppBar(
-          title: const TitleMedium(text: "Manage Addresses"),
+          title: const Text("Manage Addresses"),
         ),
         body: state.when(
             loading: () => SingleChildScrollView(
@@ -74,6 +70,26 @@ class AddressesPage extends ConsumerWidget {
                                 },
                                 onEdit: () {
                                   if (!kIsWeb) {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return SelectAddressPage(
+                                            addressModel: AddressModel(
+                                                address:
+                                                    'Kolkata, West Bengal, India',
+                                                latlng: (
+                                                  lat: 22.5726,
+                                                  lng: 88.3639
+                                                ),
+                                                label: 'Home',
+                                                createdAt: DateTime.now(),
+                                                houseNumber: '1 5o block',
+                                                id: 1),
+                                            onAddressSelected: (model) async {
+                                              controller.updateAddress(
+                                                  context, model);
+                                            });
+                                      },
+                                    ));
                                   } else {
                                     showSnackBar(context,
                                         'To edit share, add addresses user our mobile app');

@@ -6,12 +6,14 @@ class _MapConfig {
   final CameraPosition cameraPosition;
   final String? style;
   final Marker? marker;
+  final bool enableLocation;
   final AddressModel? addressModel;
   final places.PlacesSearchResult? pickResult;
   const _MapConfig({
     required this.cameraPosition,
     this.marker,
     this.pickResult,
+    this.enableLocation = false,
     this.style,
     this.addressModel,
   });

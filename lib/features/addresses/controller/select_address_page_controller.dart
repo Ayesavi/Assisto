@@ -1,8 +1,11 @@
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/extensions/widget_extension.dart';
+import 'package:assisto/core/services/permission_service.dart';
 import 'package:assisto/core/utils/debouncer.dart';
 import 'package:assisto/core/utils/utils.dart';
+import 'package:assisto/features/addresses/repositories/places_repository.dart';
+import 'package:assisto/features/addresses/widgets/address_preview_bottomsheet.dart';
+import 'package:assisto/features/addresses/widgets/location_form_bottomsheet.dart';
 import 'package:assisto/features/addresses/widgets/map_marker.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/address_model/address_model.dart';
@@ -24,13 +27,14 @@ class SelectAddressPageController extends _$SelectAddressPageController {
   AddressModel? _editAddrModel;
   final double zoom = 18.0;
   late Marker _marker;
+  final permissionService = PermissionService();
+  bool _isCameraAnimating = false;
   late GoogleMapController _mapController;
-  final Debouncer _debouncer =
-      Debouncer(delay: const Duration(milliseconds: 200));
-  late final GoogleMapsPlaces _places =
-      GoogleMapsPlaces(apiKey: "GEO_API_KEY".fromEnv);
+  final _debouncer = Debouncer(delay: const Duration(seconds: 1));
 
   final markerNotifier = ValueNotifier<LatLng?>(null);
+
+  final _repo = FakePlacesRepository();
 
   @override
   SelectAddressPageControllerState build({AddressModel? editAddressModel}) {
@@ -104,31 +108,76 @@ class SelectAddressPageController extends _$SelectAddressPageController {
 
   /// Used to change marker location as per camera
   void onCameraMove(CameraPosition position) {
-    // _debouncer.call(() {
-    markerNotifier.value =
-        LatLng(position.target.latitude, position.target.longitude);
-    // });
+    if (!_isCameraAnimating) {
+      markerNotifier.value =
+          LatLng(position.target.latitude, position.target.longitude);
+    }
   }
 
   void animateCamera(LatLng position) async {
+    _isCameraAnimating = true;
     await _mapController.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
         target: position,
         zoom: zoom,
       ),
     ));
+    markerNotifier.value = LatLng(position.latitude, position.longitude);
+    _isCameraAnimating = false;
   }
 
-  void onCameraIdle() {}
+  void onCameraIdle(BuildContext context) async {
+    if (markerNotifier.value != null) {
+      final addressComponent =
+          await _repo.getPlaceAddressFromLatLng(markerNotifier.value!);
+      if (context.mounted) {
+        showAddressPreviewBottomSheet(
+            context: context,
+            addressTitle: addressComponent[0].formattedAddress ??
+                addressComponent[0].placeId,
+            formattedAddress: addressComponent[0].formattedAddress ??
+                addressComponent[0].placeId,
+            onTapContinue: () {
+              Navigator.pop(context);
+              showLocationFormBottomSheet(
+                  context: context,
+                  addressModel: _editAddrModel,
+                  address: addressComponent[0].formattedAddress ?? "",
+                  latLng: (
+                    lat: markerNotifier.value!.latitude,
+                    lng: markerNotifier.value!.longitude
+                  ));
+            },
+            onTapEdit: () {});
+      }
+    }
+  }
 
-  Future<List<places.PlacesSearchResult>> searchPlaces(String query) async {
-    final response = await _places.searchByText(query);
-    if (response.hasNoResults) {
-      return [];
-    }
-    if (response.isInvalid || response.isDenied) {
-      throw const AppException('Invalid Search result');
-    }
-    return response.results;
+  void requestLocationPermission({
+    VoidCallback? onDenied,
+    VoidCallback? onPermanentlyDenied,
+  }) async {
+    //   await _loadMapStyle();
+
+    //   final status = await permissionService
+    //       .requestPermissionIfNeeded(DevicePermission.location);
+    //   if (status.isGranted || status.isLimited) {
+    //     state = SelectAddressPageControllerState.loadMap(_MapConfig(
+    //         cameraPosition: CameraPosition(
+    //           target: kCenterLatlng,
+    //           zoom: zoom,
+    //         ),
+    //         enableLocation: true,
+    //         style: _mapStyle,
+    //         addressModel: _editAddrModel,
+    //         marker: _marker));
+    //   }
+    //   if (status.isDenied) {
+    //     onDenied?.call();
+    //   }
+    //   if (status.isPermanentlyDenied) {
+    //     onPermanentlyDenied?.call();
+    //   }
+    return;
   }
 }
