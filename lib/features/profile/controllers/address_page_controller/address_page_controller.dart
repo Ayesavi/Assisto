@@ -31,12 +31,13 @@ class AddressPageController extends _$AddressPageController {
     }
   }
 
-  void deleteAddress(BuildContext context, int addressId) async {
+  Future<void> deleteAddress(BuildContext context, int addressId) async {
     try {
       await _repo.deleteAddress(addressId);
       _addresses.removeWhere((address) => address.id == addressId);
       state = _Data(_addresses);
       ref.invalidate(addressControllerProvider);
+      return;
     } catch (e) {
       if (context.mounted) {
         showSnackBar(context, appErrorHandler(e).message);

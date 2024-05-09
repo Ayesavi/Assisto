@@ -27,7 +27,7 @@ class AppFilledButton extends ConsumerWidget {
       width: double.infinity,
       child: FilledButton(
           style: ButtonStyle(
-            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+            padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
               const EdgeInsets.all(16),
             ),
           ),
