@@ -63,7 +63,7 @@ class TaskTile extends ConsumerWidget {
           LabelLarge(
             text: taskModel.description.capitalize,
             maxLines: 2,
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(.6),
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
             weight: FontWeight.w500,
           ),
           if (taskModel.distance != null) ...[
@@ -142,7 +142,7 @@ class _OwnerTaskTile extends ConsumerWidget {
           LabelLarge(
             text: taskModel.description.capitalize,
             maxLines: 2,
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(.6),
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
             weight: FontWeight.w500,
           ),
           if (taskModel.distance != null) ...[

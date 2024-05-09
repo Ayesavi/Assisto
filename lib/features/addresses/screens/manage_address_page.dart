@@ -9,8 +9,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddressesPage extends ConsumerWidget {
-  const AddressesPage({super.key});
+class ManageAddressPage extends ConsumerWidget {
+  const ManageAddressPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -62,9 +62,13 @@ class AddressesPage extends ConsumerWidget {
                                       title: 'Delete address',
                                       content:
                                           "Are you sure you want to delete this address",
-                                      onConfirm: () {
-                                    controller.deleteAddress(
+                                      onConfirm: () async {
+                                    await controller.deleteAddress(
                                         context, models[index].id);
+                                    await Future.delayed(
+                                        const Duration(seconds: 2));
+                                    Navigator.pop(context);
+                                    return;
                                   });
                                 },
                                 onEdit: () {

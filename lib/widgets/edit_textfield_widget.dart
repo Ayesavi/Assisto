@@ -71,8 +71,7 @@ class EditTextFieldWidget extends ConsumerWidget {
                           children: [
                             ElevatedButton(
                               style: ButtonStyle(
-                                shape:
-                                    MaterialStateProperty.all<OutlinedBorder>(
+                                shape: WidgetStateProperty.all<OutlinedBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -118,8 +117,7 @@ class EditTextFieldWidget extends ConsumerWidget {
                             ),
                             ElevatedButton(
                               style: ButtonStyle(
-                                shape:
-                                    MaterialStateProperty.all<OutlinedBorder>(
+                                shape: WidgetStateProperty.all<OutlinedBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),

@@ -1,5 +1,6 @@
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 showLogOutPopup(BuildContext context, {required VoidCallback onConfirm}) async {
@@ -52,7 +53,7 @@ class LogoutPopup extends StatelessWidget {
 }
 
 Future<void> showPopup(BuildContext context,
-    {required VoidCallback onConfirm,
+    {required Future<void> Function() onConfirm,
     required String content,
     required String title}) async {
   return await showDialog(
@@ -61,8 +62,9 @@ Future<void> showPopup(BuildContext context,
       return Popup(
         title: title,
         content: content,
-        onConfirmPopup: () {
-          onConfirm();
+        onConfirmPopup: () async {
+          await onConfirm();
+          return;
         },
       );
     },
@@ -70,7 +72,7 @@ Future<void> showPopup(BuildContext context,
 }
 
 class Popup extends StatelessWidget {
-  final Function()? onConfirmPopup;
+  final Future<void> Function()? onConfirmPopup;
   final String content;
   final String title;
   const Popup(
@@ -94,11 +96,47 @@ class Popup extends StatelessWidget {
           },
           child: const Text('Cancel'),
         ),
-        TextButton(
-          onPressed: onConfirmPopup,
-          child: const Text('Confirm'),
-        ),
+        _PopupTextButton(callback: onConfirmPopup, label: 'Confirm')
       ],
+    );
+  }
+}
+
+class _PopupTextButton extends StatefulWidget {
+  final Future<void> Function()? callback;
+  final String label;
+
+  const _PopupTextButton({
+    super.key,
+    this.callback,
+    required this.label,
+  });
+
+  @override
+  State<_PopupTextButton> createState() => __PopupTextButtonState();
+}
+
+class __PopupTextButtonState extends State<_PopupTextButton> {
+  bool _isLoading = false;
+
+  Future<void> _onPressed() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await widget.callback?.call();
+    setState(() {
+      _isLoading = false;
+    });
+    return;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return
+        TextButton(
+      onPressed: _onPressed,
+      child:
+          _isLoading ? const CupertinoActivityIndicator() : Text(widget.label),
     );
   }
 }
