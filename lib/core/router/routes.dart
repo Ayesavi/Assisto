@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:assisto/features/addresses/screens/manage_address_page.dart';
 import 'package:assisto/features/auth/screens/login_screen.dart';
 import 'package:assisto/features/auth/screens/verify_otp_screen.dart';
+import 'package:assisto/features/chat/screens/chat_page.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/features/profile/screens/edit_profile_page.dart';
-import 'package:assisto/features/profile/screens/profile_screen.dart';
 import 'package:assisto/features/splash/screens/splash_screen.dart';
 import 'package:assisto/features/tasks/screens/task_profile.dart';
 import 'package:assisto/widgets/enter_profile_detail_widget.dart';
@@ -92,8 +92,7 @@ class ProfilePageRoute extends GoRouteData {
   const ProfilePageRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const ProfilePage();
+  Widget build(BuildContext context, GoRouterState state) => const ChatPage();
 }
 
 class EditProfilePageRoute extends GoRouteData {

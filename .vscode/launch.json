@@ -4,6 +4,7 @@
         {
             "name": "Assisto dev",
             "request": "launch",
+            "program": "lib/main.dart",
             "type": "dart"
         },
         {
