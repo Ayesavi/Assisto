@@ -239,7 +239,7 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
     if (_textEditingController.text.isNotEmpty &&
         !_textEditingController.text.startsWith('\n')) {
       widget.onSendTap.call(TextMessage(
-        roomId: ChatBookInheritedWidget.of(context)?.roomId ?? "",
+        roomId: ChatBookInheritedWidget.of(context)?.roomId ?? 0,
         authorId: currentUserId!,
         id: const Uuid().v4(),
         createdAt: DateTime.now(),

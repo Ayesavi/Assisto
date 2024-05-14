@@ -1,6 +1,6 @@
-import 'package:flutter_chatbook/src/values/enumaration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_chatbook/flutter_chatbook.dart';
 
 class SendMessageConfiguration {
   /// Used to give background color to text field.
@@ -46,12 +46,20 @@ class SendMessageConfiguration {
   /// Allow user to pick emojis or not
   final bool enableEmojiPicker;
 
+  /// when user taps on the pay button
+  final VoidCallBack? onPay;
+
+  /// when user taps on the request button
+  final VoidCallBack? onRequest;
+
   const SendMessageConfiguration(
       {this.textFieldConfig,
       this.textFieldBackgroundColor,
       this.imagePickerIconsConfig,
       this.defaultSendButtonColor,
       this.sendButtonIcon,
+      this.onPay,
+      this.onRequest,
       this.replyDialogColor,
       this.replyTitleColor,
       this.replyMessageColor,
@@ -156,7 +164,6 @@ class TextFieldConfiguration {
 /// Styling configuration for recorder widget.
 class VoiceRecordingConfiguration {
   const VoiceRecordingConfiguration({
-  
     this.padding,
     this.margin,
     this.decoration,
@@ -165,7 +172,6 @@ class VoiceRecordingConfiguration {
     this.recorderIconColor,
     this.stopIcon,
   });
-
 
   /// Applies padding around waveform widget.
   final EdgeInsets? padding;

@@ -1,13 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'text_message.dart';
+part of 'payment_message.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TextMessage _$TextMessageFromJson(Map<String, dynamic> json) => TextMessage(
-      text: json['text'] as String,
+PaymentMessage _$PaymentMessageFromJson(Map<String, dynamic> json) =>
+    PaymentMessage(
+      paymentStatus: $enumDecode(_$PaymentStatusEnumMap, json['paymentStatus']),
+      paymentType: $enumDecode(_$PaymentTypeEnumMap, json['paymentType']),
+      amount: json['amount'] as num,
       authorId: json['author_id'] as String,
       id: json['id'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
@@ -16,10 +19,10 @@ TextMessage _$TextMessageFromJson(Map<String, dynamic> json) => TextMessage(
           : Message.fromJson(json['repliedMessage'] as Map<String, dynamic>),
       roomId: (json['room_id'] as num).toInt(),
       type: $enumDecodeNullable(_$MessageTypeEnumMap, json['type']) ??
-          MessageType.text,
+          MessageType.payment,
     );
 
-Map<String, dynamic> _$TextMessageToJson(TextMessage instance) =>
+Map<String, dynamic> _$PaymentMessageToJson(PaymentMessage instance) =>
     <String, dynamic>{
       'id': instance.id,
       'author_id': instance.authorId,
@@ -27,8 +30,21 @@ Map<String, dynamic> _$TextMessageToJson(TextMessage instance) =>
       'type': _$MessageTypeEnumMap[instance.type]!,
       'created_at': instance.createdAt.toIso8601String(),
       'room_id': instance.roomId,
-      'text': instance.text,
+      'amount': instance.amount,
+      'paymentStatus': _$PaymentStatusEnumMap[instance.paymentStatus]!,
+      'paymentType': _$PaymentTypeEnumMap[instance.paymentType]!,
     };
+
+const _$PaymentStatusEnumMap = {
+  PaymentStatus.pending: 'pending',
+  PaymentStatus.completed: 'completed',
+  PaymentStatus.failed: 'failed',
+};
+
+const _$PaymentTypeEnumMap = {
+  PaymentType.payment: 'payment',
+  PaymentType.request: 'request',
+};
 
 const _$MessageTypeEnumMap = {
   MessageType.text: 'text',

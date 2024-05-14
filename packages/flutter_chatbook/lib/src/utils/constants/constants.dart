@@ -18,6 +18,7 @@ const String profileImage =
 const String heart = "\u{2764}";
 const String faceWithTears = "\u{1F602}";
 const String disappointedFace = "\u{1F625}";
+const String kRupeeSymbol = '\u20B9';
 const String angryFace = "\u{1F621}";
 const String astonishedFace = "\u{1F632}";
 const String thumbsUp = "\u{1F44D}";
@@ -35,8 +36,6 @@ const double replyBorderRadius1 = 30;
 const double replyBorderRadius2 = 18;
 const double leftPadding3 = 12;
 const double textFieldBorderRadius = 27;
-
-
 
 /// Default builder when the message has got seen as of now
 /// is visible at the bottom of the chat bubble
@@ -60,21 +59,3 @@ bool sameDay(int firstStamp, int? secondStamp) {
     return false;
   }
 }
-
-
-
-Map<String, Color> shiftStatusColorMap = {
-  'upcoming': const Color(0xff6153B8),
-  'started': const Color(0xff6153B8),
-  'ongoing': const Color(0xff15DA00),
-  'completed': const Color(0xff58A450),
-  'cancelled': const Color(0xffBA1A1A),
-  'brk': const Color(0xffBA1A1A),
-  'pending': const Color(0xffDA8831),
-  'late': const Color(0xff526070),
-  'ended': const Color(0xff3878C8),
-  'inreview': const Color(0xffDA8831),
-  'paid': const Color(0xff55A24D),
-  'shiftbreak': const Color(0xff3878C8),
-  'openshift': const Color(0xff9E53B8),
-};

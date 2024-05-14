@@ -1,4 +1,7 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:json_annotation/json_annotation.dart';
+
 import 'message.dart';
 
 part 'text_message.g.dart';
@@ -9,11 +12,11 @@ class TextMessage extends Message {
 
   TextMessage({
     required this.text,
-    required super.authorId,
+    @JsonKey(name: 'author_id') required super.authorId,
     required super.id,
-    required super.createdAt,
+    @JsonKey(name: 'created_at') required super.createdAt,
     super.repliedMessage,
-    required super.roomId,
+    @JsonKey(name: 'room_id') required super.roomId,
     super.type = MessageType.text,
   });
 
@@ -30,7 +33,7 @@ class TextMessage extends Message {
     Message? repliedMessage,
     MessageType? type,
     DateTime? createdAt,
-    String? roomId,
+    int? roomId,
     String? text,
   }) {
     return TextMessage(

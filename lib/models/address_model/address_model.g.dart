@@ -21,14 +21,14 @@ _$AddressModelImpl _$$AddressModelImplFromJson(Map<String, dynamic> json) =>
       label: json['label'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       houseNumber: json['house_number'] as String,
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$AddressModelImplToJson(_$AddressModelImpl instance) =>
     <String, dynamic>{
       'address': instance.address,
       'landmark': instance.landmark,
-      'latlng': {
+      'latlng': <String, dynamic>{
         'lat': instance.latlng.lat,
         'lng': instance.latlng.lng,
       },

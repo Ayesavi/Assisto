@@ -102,8 +102,10 @@ class _MessageViewState extends State<MessageView> {
     if (provide != null) {
       receiptsVisibility =
           provide!.featureActiveConfig.receiptsBuilderVisibility;
-      isLastMessage =
-          provide!.chatController.initialMessageList.first == widget.message;
+      if (provide!.chatController.initialMessageList.isNotEmpty) {
+        isLastMessage =
+            provide!.chatController.initialMessageList.first == widget.message;
+      }
     }
   }
 
@@ -194,6 +196,14 @@ class _MessageViewState extends State<MessageView> {
                               highlightColor: widget.highlightColor,
                               highlightMessage: widget.shouldHighlight,
                             );
+                          } else if (widget.message.type.isPayment) {
+                            return PaymentMessageView(
+                              widget.message as PaymentMessage,
+                              incomingBubbleConfig:
+                                  widget.inComingChatBubbleConfig,
+                              outgoingBubbleConfig:
+                                  widget.outgoingChatBubbleConfig,
+                            );
                           }
                         }()) ??
                         const SizedBox(),
@@ -211,6 +221,8 @@ class _MessageViewState extends State<MessageView> {
               child: MessageTimeWidget(
                 widget.message,
                 isMessageBySender,
+                incomingBubbleConfig: widget.inComingChatBubbleConfig,
+                outgoingBubbleConfig: widget.outgoingChatBubbleConfig,
               )),
         ),
       ],

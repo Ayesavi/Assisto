@@ -27,10 +27,13 @@ class ChatBook extends StatefulWidget {
     this.sendMessageConfig,
     required this.roomId,
     required this.chatBookState,
+    required this.recipientName,
     this.chatBookStateConfig = const ChatBookStateConfiguration(),
     this.featureActiveConfig = const FeatureActiveConfig(),
     this.textMessageParsers,
   });
+
+  final String recipientName;
 
   /// Provides configuration related to user profile circle avatar.
   final ProfileCircleConfiguration? profileCircleConfig;
@@ -110,7 +113,7 @@ class ChatBook extends StatefulWidget {
   /// Theme for the chatbook
   final AppTheme? theme;
 
-  final String roomId;
+  final int roomId;
 
   /// List of TextMessageParsers
   final List<TextMessageParser>? textMessageParsers;
@@ -194,6 +197,7 @@ class _ChatBookState extends State<ChatBook>
     }
 
     return ChatBookInheritedWidget(
+      recipientName: widget.recipientName,
       roomId: widget.roomId,
       textMessageParsers: widget.textMessageParsers ?? [],
       isCupertinoApp: widget.isCupertinoApp,

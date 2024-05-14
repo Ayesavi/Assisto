@@ -8,10 +8,10 @@ part of 'bid_model.dart';
 
 _$BidModelImpl _$$BidModelImplFromJson(Map<String, dynamic> json) =>
     _$BidModelImpl(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       createdAt: DateTime.parse(json['created_at'] as String),
       bidder: UserModel.fromJson(json['bidder'] as Map<String, dynamic>),
-      amount: json['amount'] as int,
+      amount: (json['amount'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$BidModelImplToJson(_$BidModelImpl instance) =>

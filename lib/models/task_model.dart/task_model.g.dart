@@ -20,10 +20,10 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String,
       gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
       ageGroup: json['age_group'] as String?,
-      expectedPrice: json['expected_price'] as int?,
+      expectedPrice: (json['expected_price'] as num?)?.toInt(),
       status: $enumDecodeNullable(_$TaskStatusEnumMap, json['status']) ??
           TaskStatus.unassigned,
-      id: json['id'] as int? ?? 0,
+      id: (json['id'] as num?)?.toInt() ?? 0,
       bid: json['bid'] == null
           ? null
           : BidModel.fromJson(json['bid'] as Map<String, dynamic>),
@@ -76,7 +76,7 @@ Map<String, dynamic> _$$TaskUserImplToJson(_$TaskUserImpl instance) =>
 
 _$TaskAddressImpl _$$TaskAddressImplFromJson(Map<String, dynamic> json) =>
     _$TaskAddressImpl(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       latlng: _$recordConvert(
         json['latlng'],
         ($jsonValue) => (
@@ -91,7 +91,7 @@ _$TaskAddressImpl _$$TaskAddressImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$TaskAddressImplToJson(_$TaskAddressImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'latlng': {
+      'latlng': <String, dynamic>{
         'lat': instance.latlng.lat,
         'lng': instance.latlng.lng,
       },

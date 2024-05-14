@@ -19,6 +19,7 @@ class ChatBookInheritedWidget extends InheritedWidget {
     required Widget child,
     this.textMessageParsers = const [],
     required this.featureActiveConfig,
+    required this.recipientName,
     required this.chatController,
     required this.isCupertinoApp,
     required this.roomId,
@@ -28,8 +29,9 @@ class ChatBookInheritedWidget extends InheritedWidget {
   }) : super(key: key, child: child);
 
   final FeatureActiveConfig featureActiveConfig;
-  final String roomId;
+  final int roomId;
   final String currentUserId;
+  final String recipientName;
   final List<TextMessageParser> textMessageParsers;
   final ChatController chatController;
   final OnTapMoreActions? onTapMoreActions;

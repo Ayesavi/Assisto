@@ -1,15 +1,19 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:message_models/src/text_message.dart';
 
 enum MessageType { text, payment }
 
 abstract class Message extends Equatable {
   final String id;
+  @JsonKey(name: 'author_id')
   final String authorId;
   final Message? repliedMessage;
   final MessageType type;
+  @JsonKey(name: 'created_at')
   final DateTime createdAt;
-  final String roomId;
+  @JsonKey(name: 'room_id')
+  final int roomId;
 
   Message({
     required this.id,
@@ -30,16 +34,16 @@ abstract class Message extends Equatable {
     Message? repliedMessage,
     MessageType? type,
     DateTime? createdAt,
-    String? roomId,
+    int? roomId,
   });
 
   factory Message.fromJson(Map<String, dynamic> json) {
-    return TextMessage(
-        text: 'text',
-        authorId: 'authorId',
-        id: 'id',
-        createdAt: DateTime.now(),
-        roomId: 'roomId');
+    switch (json["type"]) {
+      case "text":
+        return TextMessage.fromJson(json);
+      default:
+        throw 'Invalid type';
+    }
   }
   Map<String, dynamic> toJson();
 }

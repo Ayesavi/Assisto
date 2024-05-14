@@ -14,7 +14,7 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       gender: json['gender'] as String,
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       description: json['description'] as String?,
-      age: json['age'] as int,
+      age: (json['age'] as num).toInt(),
       email: json['email'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       dob: json['dob'] as String?,

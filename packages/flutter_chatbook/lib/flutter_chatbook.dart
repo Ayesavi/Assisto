@@ -38,9 +38,7 @@ import 'package:vibration/vibration.dart';
 import 'flutter_chatbook.dart';
 import 'src/extensions/extensions.dart';
 import 'src/models/cupertino_widget_configuration.dart';
-import 'src/models/cupertino_widget_model/cupertino_context.dart';
 import 'src/utils/constants/constants.dart';
-import 'src/utils/measure_size.dart';
 import 'src/utils/package_strings.dart';
 import 'src/wrappers/material_conditional_wrapper.dart';
 
@@ -77,7 +75,7 @@ part 'src/widgets/glassmorphism_reaction_popup.dart';
 part 'src/widgets/link_preview.dart';
 part 'src/widgets/message_view.dart';
 part 'src/widgets/on_tap_more_action_sheet.dart';
-// part 'src/widgets/preview_builder.dart';
+part 'src/widgets/payment_message_view.dart';
 part 'src/widgets/profile_circle.dart';
 part 'src/widgets/reply_icon.dart';
 part 'src/widgets/reply_message_widget.dart';
@@ -85,15 +83,12 @@ part 'src/widgets/reply_popup_widget.dart';
 part 'src/widgets/reusables/action_icon.dart';
 part 'src/widgets/reusables/gesture_detector_view.dart';
 part 'src/widgets/reusables/message_time_widget.dart';
-part 'src/widgets/reusables/shift_status_container.dart';
 part 'src/widgets/send_message_widget.dart';
 part 'src/widgets/share_icon.dart';
 part 'src/widgets/swipe_to_reply.dart';
 part 'src/widgets/text_message_view.dart';
 part 'src/widgets/type_indicator_widget.dart';
 part 'src/widgets/vertical_line.dart';
-
-
 
 void replaceOrInsert(Message item, int idx, List<Message> msgList) {
   final index = msgList.indexWhere((element) => element.id == item.id);

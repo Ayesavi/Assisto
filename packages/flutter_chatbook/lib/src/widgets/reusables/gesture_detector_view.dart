@@ -22,8 +22,6 @@ class GestureView extends StatefulWidget {
 class _GestureViewState extends State<GestureView> {
   ChatController? chatController;
 
- 
-
   @override
   void initState() {
     super.initState();
@@ -56,7 +54,7 @@ class _GestureViewState extends State<GestureView> {
               (await Vibration.hasCustomVibrationsSupport() ?? false)) {
             Vibration.vibrate(duration: 10, amplitude: 10);
           }
-          widget.onDoubleTap!.call(widget.message);
+          widget.onDoubleTap?.call(widget.message);
         },
         child: widget.child);
   }

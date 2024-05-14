@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../flutter_chatbook.dart';
 
 class ChatBubble {
@@ -27,14 +28,40 @@ class ChatBubble {
   /// time only
   final Function(Message message)? onMessageRead;
 
+  /// Used to give configuration of messages with payment.
+  final PaymentConfig? paymentConfig;
+
+  /// Used to give text style of message time stamp.
+  final TextStyle? timeStampTextStyle;
+
   const ChatBubble({
     this.color,
     this.borderRadius,
     this.textStyle,
+    this.paymentConfig,
     this.padding,
     this.margin,
+    this.timeStampTextStyle,
     this.linkPreviewConfig,
     this.senderNameTextStyle,
     this.onMessageRead,
+  });
+}
+
+class PaymentConfig {
+  final TextStyle? senderNameTextStyle;
+  final TextStyle? paymentStatusTextStyle;
+  final TextStyle? paymentAmountTextStyle;
+  final TextStyle? requestButtonTextStyle;
+
+  final Future<void> Function(PaymentMessage message)? onRequestPay;
+  final Future<void> Function(PaymentMessage message)? onRequestDecline;
+  const PaymentConfig({
+    this.senderNameTextStyle,
+    this.requestButtonTextStyle,
+    this.paymentStatusTextStyle,
+    this.paymentAmountTextStyle,
+    this.onRequestPay,
+    this.onRequestDecline,
   });
 }
