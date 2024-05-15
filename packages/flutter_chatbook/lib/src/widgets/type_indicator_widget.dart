@@ -57,7 +57,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
 
   Color? get flashingCircleBrightColor =>
       widget.typeIndicatorConfig?.flashingCircleBrightColor ??
-      Theme.of(context).colorScheme.surfaceVariant;
+      Theme.of(context).colorScheme.surfaceContainerHigh;
 
   @override
   void initState() {
@@ -227,7 +227,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
       decoration: BoxDecoration(
         borderRadius: chatBubbleConfig?.borderRadius ??
             BorderRadius.circular(replyBorderRadius2),
-        color: Theme.of(context).colorScheme.surfaceVariant,
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),

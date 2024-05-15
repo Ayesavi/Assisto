@@ -29,7 +29,7 @@ class BidTile extends ConsumerWidget {
           LabelLarge(
             text: ' bidModel.bidder.',
             maxLines: 2,
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(.6),
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
             weight: FontWeight.w500,
           ),
         ],

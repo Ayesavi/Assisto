@@ -220,7 +220,6 @@ class _ChatBubbleWidgetState extends State<ChatBubbleWidget> {
                     //     Duration(milliseconds: maxDuration!);
                   }
                   if (widget.swipeToReplyConfig?.onRightSwipe != null) {
-                    ///TODO: Add the functionality of below ones.
                     // widget.swipeToReplyConfig?.onRightSwipe!(
                     //     widget.message.message,
                     //     widget.message.sendBy);

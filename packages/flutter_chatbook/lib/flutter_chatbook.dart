@@ -52,7 +52,6 @@ export 'src/models/models.dart';
 export 'src/models/on_tap_more_actions.dart';
 export 'src/models/text_message_parser.dart';
 export 'src/utils/debounce.dart';
-export 'src/utils/format.dart';
 export 'src/values/enumaration.dart';
 export 'src/values/typedefs.dart';
 export 'src/wrappers/condition_wrapper.dart';

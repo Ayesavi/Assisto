@@ -108,19 +108,4 @@ class ReplyMessageWidget extends StatelessWidget {
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
             color: Theme.of(context).colorScheme.onPrimaryContainer));
   }
-
-  String _formatBytes(int bytes) {
-    if (bytes < 1024) {
-      return '$bytes B';
-    } else if (bytes < 1024 * 1024) {
-      double kb = bytes / 1024;
-      return '${kb.toStringAsFixed(2)} KB';
-    } else if (bytes < 1024 * 1024 * 1024) {
-      double mb = bytes / (1024 * 1024);
-      return '${mb.toStringAsFixed(2)} MB';
-    } else {
-      double gb = bytes / (1024 * 1024 * 1024);
-      return '${gb.toStringAsFixed(2)} GB';
-    }
-  }
 }

@@ -29,19 +29,19 @@ class AddressTile extends ConsumerWidget {
       // leading: switch (model.category) {
       //   AddressCategory.friend => Icon(
       //       Icons.group_outlined,
-      //       color: Theme.of(context).colorScheme.onBackground.withOpacity(.6),
+      //       color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
       //     ),
       //   AddressCategory.house => Icon(
       //       Icons.home_outlined,
-      //       color: Theme.of(context).colorScheme.onBackground.withOpacity(.6),
+      //       color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
       //     ),
       //   AddressCategory.office => Icon(
       //       Icons.maps_home_work_outlined,
-      //       color: Theme.of(context).colorScheme.onBackground.withOpacity(.6),
+      //       color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
       //     ),
       //   AddressCategory.others => Icon(
       //       Icons.category,
-      //       color: Theme.of(context).colorScheme.onBackground.withOpacity(.6),
+      //       color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
       //     ),
       // },
 

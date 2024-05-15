@@ -96,7 +96,7 @@ class _ChatGroupedListWidgetState extends State<ChatGroupedListWidget>
 
   Future<void> _onReplyTap(String id, List<Message>? messages) async {
     // Finds the replied message if exists
-    final repliedMessages = messages?.firstWhere((message) => id == message.id);
+    // final repliedMessages = messages?.firstWhere((message) => id == message.id);
     final int index = messages?.indexWhere((element) => element.id == id) ?? -1;
 
     // // Scrolls to replied message and highlights

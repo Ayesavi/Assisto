@@ -112,7 +112,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
               BodyLarge(
                 text:
                     'Give an appropriate title to the task, it must clarify purpose in minimum words',
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Theme.of(context).colorScheme.onSurface,
                 maxLines: 2,
               ),
               kWidgetVerticalGap,
@@ -443,7 +443,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         kWidgetMinVerticalGap,
         BodyLarge(
           text: 'Enter the age group for this task',
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),
       ],
@@ -506,7 +506,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         kWidgetMinVerticalGap,
         BodyLarge(
           text: 'Select the gender for this task',
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),
       ],
@@ -583,7 +583,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         kWidgetMinVerticalGap,
         BodyLarge(
           text: 'Select the deadline for this task',
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),
       ],
@@ -656,7 +656,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
           BodyLarge(
             text:
                 'Select the location for this task, So that only users under 50 kms of location can do this.',
-            color: Theme.of(context).colorScheme.onBackground,
+            color: Theme.of(context).colorScheme.onSurface,
             maxLines: 4,
           ),
         ],
@@ -710,7 +710,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         kWidgetMinVerticalGap,
         BodyLarge(
           text: 'Enter the maximum budget for this task',
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),
       ],

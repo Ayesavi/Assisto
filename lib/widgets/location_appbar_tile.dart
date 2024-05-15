@@ -37,7 +37,7 @@ class LocationTileOpenBottomsheet extends ConsumerWidget {
           angle: (90 * (22 / 7)) / 180,
           child: Icon(
             Icons.chevron_right_rounded,
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(.6),
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
           ),
         )
       ]),

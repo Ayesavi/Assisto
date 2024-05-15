@@ -104,7 +104,7 @@ class _ChatBookAppBarState extends State<ChatBookAppBar> {
                       (!kIsWeb && Platform.isIOS)
                           ? Icons.arrow_back_ios
                           : Icons.arrow_back,
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
             Expanded(

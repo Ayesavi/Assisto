@@ -72,7 +72,7 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
               title: 'Permission Denied',
               content:
                   'Permission for location is denied enable in app settings',
-              onConfirm: ()async {
+              onConfirm: () async {
             PermissionService().openSettings();
           });
         },
@@ -200,8 +200,10 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
       }
       return;
     } catch (e) {
-      showSnackBar(context,
-          'Failed to ${updateModel != null ? 'update' : 'save'} address');
+      if (context.mounted) {
+        showSnackBar(context,
+            'Failed to ${updateModel != null ? 'update' : 'save'} address');
+      }
     }
   }
 
