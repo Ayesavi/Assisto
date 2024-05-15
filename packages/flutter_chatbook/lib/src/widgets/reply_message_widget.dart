@@ -24,6 +24,8 @@ class ReplyMessageWidget extends StatelessWidget {
     final replyBySender = message.repliedMessage?.authorId == currentUserId;
     final textTheme = Theme.of(context).textTheme;
     final chatController = ChatBookInheritedWidget.of(context)?.chatController;
+    final remoteUserName = ChatBookInheritedWidget.of(context)?.recipientName;
+
     final messagedUser = message.repliedMessage?.authorId;
     final replyBy = replyBySender ? PackageStrings.you : messagedUser;
 
@@ -54,7 +56,7 @@ class ReplyMessageWidget extends StatelessWidget {
                               color: Theme.of(context).colorScheme.primary),
                         )),
                     replyWidget(context, message, textTheme, chatController,
-                        replyBySender)
+                        replyBySender, currentUserId, remoteUserName)
                   ])),
           clipper: ShapeBorderClipper(
               shape: RoundedRectangleBorder(
@@ -64,8 +66,14 @@ class ReplyMessageWidget extends StatelessWidget {
     );
   }
 
-  replyWidget(BuildContext context, Message message, TextTheme textTheme,
-      ChatController? chatController, bool replyBySender) {
+  replyWidget(
+      BuildContext context,
+      Message message,
+      TextTheme textTheme,
+      ChatController? chatController,
+      bool replyBySender,
+      String? currentUserId,
+      String? remoteUserName) {
     final replyMessage = message.repliedMessage!;
 
     switch (message.repliedMessage!.type) {
@@ -82,22 +90,23 @@ class ReplyMessageWidget extends StatelessWidget {
         );
 
       case MessageType.payment:
-        final msg = replyMessage as TextMessage;
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              CupertinoIcons.doc,
-              color: repliedMessageConfig?.micIconColor ?? Colors.white,
-            ),
-            const SizedBox(width: 2),
-            // Text(
-            //   msg.name + (msg.size != null ? _formatBytes(msg.size!) : ""),
-            //   style: repliedMessageConfig?.textStyle,
-            // ),
-          ],
-        );
+        final msg = replyMessage as PaymentMessage;
+        return _paymentReplyView(msg, context, currentUserId, remoteUserName!);
     }
+  }
+
+  Widget _paymentReplyView(PaymentMessage message, BuildContext context,
+      String? currentUserId, String? remoteUserName) {
+    final isRequest = message.paymentType == PaymentType.request;
+    final isPaymentByYou = message.authorId == currentUserId;
+    final title = isPaymentByYou
+        ? '${isRequest ? 'Request' : 'Payment'} to ${remoteUserName}'
+        : '${isRequest ? 'Request' : 'Payment'} to you';
+    return Text(title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Theme.of(context).colorScheme.onPrimaryContainer));
   }
 
   String _formatBytes(int bytes) {

@@ -60,6 +60,8 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
 
   ChatController? chatController;
 
+  late String remoteUserName;
+
   @override
   void initState() {
     widget.replyMessageNotfier.addListener(() {
@@ -74,6 +76,7 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
     super.didChangeDependencies();
     if (provide != null) {
       currentUserId = provide!.currentUserId;
+      remoteUserName = provide!.recipientName;
       chatController = provide!.chatController;
     }
   }
@@ -180,22 +183,10 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
                           ]),
                     ),
                     if (state.type.isPayment)
-                      _docMessageView
+                      _paymentReplyView(state as PaymentMessage)
                     else
                       (() {
-                        state as TextMessage;
-                        return Text(
-                          state.text,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer),
-                        );
+                        return const SizedBox.shrink();
                       }())
                   ],
                 ),
@@ -210,23 +201,17 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
     );
   }
 
-  Widget get _docMessageView {
-    return Row(
-      children: [
-        Icon(
-          CupertinoIcons.doc,
-          size: 20,
-          color: widget.sendMessageConfig?.replyMessageColor ??
-              Colors.grey.shade700,
-        ),
-        Text(
-          PackageStrings.photo,
-          style: TextStyle(
-            color: widget.sendMessageConfig?.replyMessageColor ?? Colors.black,
-          ),
-        ),
-      ],
-    );
+  Widget _paymentReplyView(PaymentMessage message) {
+    final isRequest = message.paymentType == PaymentType.request;
+    final isPaymentByYou = message.authorId == currentUserId;
+    final title = isPaymentByYou
+        ? '${isRequest ? 'Request' : 'Payment'} to ${remoteUserName}'
+        : '${isRequest ? 'Request' : 'Payment'} to you';
+    return Text(title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Theme.of(context).colorScheme.onPrimaryContainer));
   }
 
   void _assignRepliedMessage() {

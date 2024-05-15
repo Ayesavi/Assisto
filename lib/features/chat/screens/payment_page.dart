@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class PaymentPage extends ConsumerStatefulWidget {
   final UserModel userModel;
   final PaymentType type;
-  final Future<void> Function(num amt,PaymentType type) onContinue;
+  final Future<void> Function(num amt, PaymentType type) onContinue;
   const PaymentPage(
       {super.key,
       required this.type,
@@ -49,8 +49,13 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
           label: 'Continue',
           asyncTap: () async {
             if (paymentAmt != null && paymentAmt! > 0) {
-              await widget.onContinue.call(paymentAmt!,widget.type);
+              await widget.onContinue.call(paymentAmt!, widget.type);
               return;
+            } else {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Please enter a valid amount')));
+              }
             }
           },
         ),

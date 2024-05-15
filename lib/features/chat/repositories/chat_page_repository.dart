@@ -65,16 +65,6 @@ class FakeChatRepository implements ChatRepository {
     }
 
     _messages.addAll(messages);
-    _messages.insert(
-        0,
-        PaymentMessage(
-            paymentStatus: PaymentStatus.failed,
-            paymentType: PaymentType.request,
-            amount: 230,
-            authorId: '',
-            id: '',
-            createdAt: DateTime.now(),
-            roomId: 1));
   }
 
   static String _generateRandomText() {
