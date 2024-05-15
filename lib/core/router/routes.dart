@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:assisto/features/addresses/screens/manage_address_page.dart';
 import 'package:assisto/features/auth/screens/login_screen.dart';
 import 'package:assisto/features/auth/screens/verify_otp_screen.dart';
+import 'package:assisto/features/chat/screens/chat_page.dart';
+import 'package:assisto/features/chat/screens/chat_transactions.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/features/profile/screens/edit_profile_page.dart';
 import 'package:assisto/features/profile/screens/profile_screen.dart';
@@ -113,5 +115,30 @@ class TaskProfileRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) => TaskProfilePage(
         taskId: taskId,
+      );
+}
+
+class ChatPageRoute extends GoRouteData {
+  const ChatPageRoute({required this.roomId});
+
+  /// The phone number associated with the OTP page.
+  final int roomId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => ChatPage(
+        roomId: roomId,
+      );
+}
+
+class ChatTransactionsPageRoute extends GoRouteData {
+  const ChatTransactionsPageRoute({required this.recipientId});
+
+  /// The phone number associated with the OTP page.
+  final String recipientId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      ChatTransactionsPage(
+        recipientId: recipientId,
       );
 }

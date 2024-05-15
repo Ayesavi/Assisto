@@ -277,9 +277,7 @@ class FakeTaskRepository implements BaseTaskRepository {
 
       TaskModel task = TaskModel(
         owner: TaskUser(
-          id: _tasks.isEmpty
-              ? (Supabase.instance.client.auth.currentUser?.id ?? "")
-              : 'user_${i + 1}',
+          id: (Supabase.instance.client.auth.currentUser?.id ?? "s"),
           imageUrl:
               'https://randomuser.me/api/portraits/med/women/${i + 1}.jpg', // Assuming user profile images
         ),
@@ -353,7 +351,7 @@ class FakeTaskRepository implements BaseTaskRepository {
       return [
         TaskModel(
             owner: const TaskUser(
-              id: 'user_1',
+              id: '3ca90470-042a-41dd-a9e1-d9547b59cda2',
               imageUrl:
                   'https://randomuser.me/api/portraits/med/women/1.jpg', // Assuming user profile images
             ),
@@ -374,7 +372,7 @@ class FakeTaskRepository implements BaseTaskRepository {
             distance: Random().nextDouble()),
         TaskModel(
             owner: const TaskUser(
-              id: 'user_1',
+              id: '3ca90470-042a-41dd-a9e1-d9547b59cda2',
               imageUrl:
                   'https://randomuser.me/api/portraits/med/women/1.jpg', // Assuming user profile images
             ),

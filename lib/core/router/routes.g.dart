@@ -106,6 +106,11 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $FullFillProfileRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'transactions/:recipientId',
+          name: 'transactions',
+          factory: $ChatTransactionsPageRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'profile',
           name: 'profile',
           factory: $ProfilePageRouteExtension._fromState,
@@ -116,6 +121,11 @@ RouteBase get $homeRoute => GoRouteData.$route(
               factory: $EditProfilePageRouteExtension._fromState,
             ),
           ],
+        ),
+        GoRouteData.$route(
+          path: 'chat/:roomId',
+          name: 'chat',
+          factory: $ChatPageRouteExtension._fromState,
         ),
       ],
     );
@@ -192,6 +202,26 @@ extension $FullFillProfileRouteExtension on FullFillProfileRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $ChatTransactionsPageRouteExtension on ChatTransactionsPageRoute {
+  static ChatTransactionsPageRoute _fromState(GoRouterState state) =>
+      ChatTransactionsPageRoute(
+        recipientId: state.pathParameters['recipientId']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/transactions/${Uri.encodeComponent(recipientId)}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $ProfilePageRouteExtension on ProfilePageRoute {
   static ProfilePageRoute _fromState(GoRouterState state) =>
       const ProfilePageRoute();
@@ -216,6 +246,25 @@ extension $EditProfilePageRouteExtension on EditProfilePageRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile/edit',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ChatPageRouteExtension on ChatPageRoute {
+  static ChatPageRoute _fromState(GoRouterState state) => ChatPageRoute(
+        roomId: int.parse(state.pathParameters['roomId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/chat/${Uri.encodeComponent(roomId.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);
