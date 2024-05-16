@@ -175,6 +175,23 @@ class ProfilePage extends ConsumerWidget {
                                   text: 'Deletes account from the databsase'),
                               trailing: const CupertinoListTileChevron(),
                             ),
+                            CupertinoListTile(
+                              onTap: () {
+                                showAboutDialog(
+                                    context: context,
+                                    applicationName: "Assisto",
+                                    applicationVersion: '0.0.1');
+                              },
+                              padding: const EdgeInsets.all(5),
+                              leading: Icon(CupertinoIcons.info_circle,
+                                  color: Theme.of(context).colorScheme.primary),
+                              title: const TitleMedium(
+                                text: 'About App',
+                              ),
+                              subtitle: const BodyMedium(
+                                  text: 'App version, lisences'),
+                              trailing: const CupertinoListTileChevron(),
+                            ),
                           ],
                         ),
                       ),

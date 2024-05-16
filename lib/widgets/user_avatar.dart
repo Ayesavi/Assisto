@@ -13,11 +13,13 @@ class UserAvatar extends ConsumerWidget {
     super.key,
   });
 
-  factory UserAvatar.currentUser(WidgetRef ref, {VoidCallback? onPressed}) {
+  factory UserAvatar.currentUser(WidgetRef ref,
+      {VoidCallback? onPressed, double? radius}) {
     final userImageUrl =
         ref.read(authControllerProvider.notifier).user?.avatarUrl;
     return UserAvatar(
       imageUrl: userImageUrl,
+      radius: radius,
       onPressed: onPressed,
     );
   }
