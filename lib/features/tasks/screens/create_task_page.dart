@@ -264,7 +264,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                   final isAgeVisible = options['age'] ?? false;
                   final isLocationVisible = options['location'] ?? false;
                   final isBudgetVisible = options['budget'] ?? false;
-                  final isDocumentsVisible = options['documents'] ?? false;
+                  // final isDocumentsVisible = options['documents'] ?? false;
                   final isDeadlineVisible = options['deadline'] ?? false;
                   return Column(
                     mainAxisSize: MainAxisSize.min,
@@ -299,7 +299,9 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                     await ref
                         .read(taskPageControllerProvider.notifier)
                         .createTask(getTaskModel());
-                    Navigator.pop(context);
+                  if(context.mounted){
+                      Navigator.pop(context);
+                  }
                   } catch (e) {
                     if (context.mounted) {
                       showSnackBar(context, appErrorHandler(e).message);
@@ -541,7 +543,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                     firstDate: DateTime.now(),
                     lastDate: DateTime(DateTime.now().year + 1),
                   );
-                  if (pickedDate != null) {
+                  if (pickedDate != null && context.mounted) {
                     final TimeOfDay? pickedTime = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay.now(),

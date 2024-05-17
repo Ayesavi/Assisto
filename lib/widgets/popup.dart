@@ -107,6 +107,7 @@ class _PopupTextButton extends StatefulWidget {
   final String label;
 
   const _PopupTextButton({
+    // ignore: unused_element
     super.key,
     this.callback,
     required this.label,

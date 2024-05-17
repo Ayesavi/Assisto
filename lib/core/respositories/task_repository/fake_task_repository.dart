@@ -1,96 +1,11 @@
 import 'dart:math';
 
+import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
+import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-abstract class BaseTaskRepository {
-  Future<List<TaskModel>> fetchTasks({LatLng? latlng, int? offset});
-
-  Future<TaskModel> getTaskById(int id);
-
-  Future<TaskModel> addTask(TaskModel task);
-
-  Future<void> updateTask(TaskModel task);
-
-  Future<void> deleteTask(int id);
-
-  Future<void> acceptBid(int bidId);
-
-  Future<List<BidModel>> fetchBids(int taskId, {int? offset});
-
-  Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng});
-}
-
-class SupabaseTaskRepository implements BaseTaskRepository {
-  final _supabase = Supabase.instance.client;
-  final _table = 'tasks';
-
-  @override
-  Future<TaskModel> addTask(TaskModel task) async {
-    final json = task.toSupaJson();
-    return TaskModel.fromJson(await _supabase
-        .from(_table)
-        .insert(json)
-        .select('*,owner:owner_id(id,image_url)')
-        .single());
-  }
-
-  @override
-  Future<void> deleteTask(int id) async {
-    await _supabase.from(_table).delete().eq('id', id);
-  }
-
-  @override
-  Future<List<TaskModel>> fetchTasks({LatLng? latlng, int? offset}) async {
-    final List<dynamic> data = await _supabase.rpc('get_feed_tasks', params: {
-      'data': {
-        if (latlng != null) ...{
-          'center_lat': latlng.lat,
-          'center_lng': latlng.lng
-        }
-      }
-    });
-    return data.map((json) => TaskModel.fromJson(json)).toList();
-  }
-
-  @override
-  Future<TaskModel> getTaskById(int id) async {
-    final json = await _supabase.from(_table).select('*').eq('id', id).single();
-    return TaskModel.fromJson(json);
-  }
-
-  @override
-  Future<void> updateTask(TaskModel newTask) async {
-    final json = newTask.toSupaJson();
-    TaskModel.fromJson(
-        await _supabase.from(_table).update(json).eq('id', newTask.id));
-  }
-
-  @override
-  Future<void> acceptBid(int id) async {
-    await _supabase.rpc('accept_bid', params: {'task_bid_id': id});
-  }
-
-  @override
-  Future<List<BidModel>> fetchBids(int taskId, {int? offset}) async {
-    final data =
-        await _supabase.from('bidding').select('*').eq('task_id', taskId);
-    return data.map((e) => BidModel.fromJson(e)).toList();
-  }
-
-  /// Fetched tasks made by the current user.
-  @override
-  Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) async {
-    final data = await _supabase
-        .from('tasks')
-        .select(
-            '*,owner:owner_id(id,avatar_url),bid:bid_id(*,bidder:bidder_id(*))')
-        .eq('owner_id', '${_supabase.auth.currentUser?.id}');
-    return data.map((json) => TaskModel.fromJson(json)).toList();
-  }
-}
 
 class FakeTaskRepository implements BaseTaskRepository {
   FakeTaskRepository() {
@@ -101,7 +16,6 @@ class FakeTaskRepository implements BaseTaskRepository {
   List<String> avatarUrls = [
     'https://randomuser.me/api/portraits/men/1.jpg',
     'https://randomuser.me/api/portraits/women/2.jpg',
-    // Add more avatar URLs as needed
   ];
 
   List<String> names = [
@@ -109,7 +23,6 @@ class FakeTaskRepository implements BaseTaskRepository {
     'Jane Smith',
     'Michael Johnson',
     'Emily Brown',
-    // Add more names as needed
   ];
 
   List<BidModel> generateBidModels(String taskId, List<String> userIds) {
@@ -160,10 +73,20 @@ class FakeTaskRepository implements BaseTaskRepository {
   }
 
   @override
-  Future<List<TaskModel>> fetchTasks({LatLng? latlng, int? offset}) async {
+  Future<List<TaskModel>> fetchTasks(
+      {filters = const [], LatLng? latlng, int? offset}) async {
     _tasks = [];
     _generateAuthenticTasks();
-    return List<TaskModel>.from(_tasks);
+    if (filters.contains(TaskFilterType.you)) {
+      return _tasks
+          .where((e) =>
+              e.owner.id == Supabase.instance.client.auth.currentUser?.id)
+          .toList();
+    }
+    return _tasks
+        .where(
+            (e) => e.owner.id != Supabase.instance.client.auth.currentUser?.id)
+        .toList();
   }
 
   @override
@@ -229,7 +152,6 @@ class FakeTaskRepository implements BaseTaskRepository {
       "Need someone to help with grocery shopping. Will provide the list.",
       "Looking for someone to walk my dog every evening for 30 minutes.",
       "Require assistance with house cleaning on a bi-weekly basis.",
-      "Help needed with mowing the lawn and trimming bushes.",
       "Seeking someone to prepare meals for the week. Will provide recipes.",
       "Need help with laundry twice a week. Clothes will be sorted.",
       "Require assistance with errands such as picking up dry cleaning and dropping off packages.",
@@ -237,7 +159,6 @@ class FakeTaskRepository implements BaseTaskRepository {
       "Seeking a companion for my elderly parent. Engage in conversation and accompany to appointments.",
       "Require tutoring for high school math twice a week.",
       "Need someone to look after my cat while I'm away for the weekend.",
-      "Help needed with organizing closets and decluttering rooms.",
       "Looking for assistance with planning a birthday party for 20 guests.",
       "Require tech support to set up home WiFi network and install smart devices.",
       "Need help with packing and moving furniture to a new apartment.",
@@ -277,7 +198,9 @@ class FakeTaskRepository implements BaseTaskRepository {
 
       TaskModel task = TaskModel(
         owner: TaskUser(
-          id: (Supabase.instance.client.auth.currentUser?.id ?? "s"),
+          id: Random().nextBool()
+              ? Supabase.instance.client.auth.currentUser?.id ?? ''
+              : Random().nextDouble().toString(),
           imageUrl:
               'https://randomuser.me/api/portraits/med/women/${i + 1}.jpg', // Assuming user profile images
         ),
@@ -313,13 +236,6 @@ class FakeTaskRepository implements BaseTaskRepository {
 
       _tasks.add(task);
     }
-  }
-
-  String _generateRandomString(int length) {
-    final Random random = Random();
-    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    return List.generate(length, (index) => chars[random.nextInt(chars.length)])
-        .join();
   }
 
   List<String> _generateRandomTags(int count) {

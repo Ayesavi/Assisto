@@ -67,7 +67,10 @@ class ManageAddressPage extends ConsumerWidget {
                                         context, models[index].id);
                                     await Future.delayed(
                                         const Duration(seconds: 2));
-                                    Navigator.pop(context);
+                                    if (context.mounted) {
+                                      Navigator.pop(context);
+                                      return;
+                                    }
                                     return;
                                   });
                                 },

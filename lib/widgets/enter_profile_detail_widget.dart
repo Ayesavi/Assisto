@@ -157,7 +157,6 @@ class _EnterProfileDetailWidgetState
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(authControllerProvider);
-    final controller = ref.read(authControllerProvider.notifier);
     return state.when(authControllerInitial: () {
       return const Center(
         child: CircularProgressIndicator(),

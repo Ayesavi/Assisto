@@ -1,4 +1,4 @@
-import 'package:assisto/core/respositories/task_repository.dart';
+import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,7 +17,7 @@ class TaskPageController extends _$TaskPageController {
   }
 
   Future<void> createTask(TaskModel model) async {
-    final task = await _repository.addTask(model);
+    await _repository.addTask(model);
     return;
   }
 }

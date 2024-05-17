@@ -13,7 +13,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum TaskFilterType { location, deadline, all, you, bidded }
+enum TaskFilterType {
+  /// order tasks by location
+  location,
+
+  /// order tasks by deadline
+  deadline,
+
+  /// order tasks by nothing returns all tasks
+  all,
+
+  /// Return all tasks created by the user accomodated with other filters if speicified
+  you,
+
+  /// Return all tasks created by others in which the user has bidded in
+  bidded
+}
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -67,12 +82,7 @@ class HomeScreen extends ConsumerWidget {
                                 final filters = selectedFilters
                                     .map((filter) => filter as TaskFilterType)
                                     .toList();
-                                if (selectedFilters
-                                    .contains(TaskFilterType.you)) {
-                                  controller.loadOwnTasks(filters);
-                                } else {
-                                  controller.loadData(filters);
-                                }
+                                controller.loadData(filters);
                               }),
                             ),
                           ],

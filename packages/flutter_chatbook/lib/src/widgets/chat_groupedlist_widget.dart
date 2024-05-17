@@ -141,23 +141,6 @@ class _ChatGroupedListWidgetState extends State<ChatGroupedListWidget>
     // }
     // }
   }
-
-  /// When user swipe at that time only animation is assigned with value.
-  void _onHorizontalDrag(DragUpdateDetails details) {
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 0.0),
-      end: const Offset(-0.2, 0.0),
-    ).animate(
-      CurvedAnimation(
-        curve: chatBackgroundConfig.messageTimeAnimationCurve,
-        parent: _animationController!,
-      ),
-    );
-    details.delta.dx > 1
-        ? _animationController?.reverse()
-        : _animationController?.forward();
-  }
-
   @override
   void dispose() {
     _animationController?.dispose();

@@ -1,12 +1,9 @@
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/extensions/widget_extension.dart';
-import 'package:assisto/core/respositories/address_repository.dart';
 import 'package:assisto/core/services/permission_service.dart';
-import 'package:assisto/core/utils/debouncer.dart';
 import 'package:assisto/core/utils/utils.dart';
 import 'package:assisto/features/addresses/repositories/places_repository.dart';
 import 'package:assisto/features/addresses/widgets/map_marker.dart';
-import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +27,6 @@ class SelectAddressPageController extends _$SelectAddressPageController {
   final permissionService = PermissionService();
   bool _isCameraAnimating = false;
   late GoogleMapController _mapController;
-  final _addressRepository = FakeAddressRepository();
-  final _debouncer = Debouncer(delay: const Duration(seconds: 1));
 
   final markerNotifier = ValueNotifier<LatLng?>(null);
 
@@ -153,8 +148,6 @@ class SelectAddressPageController extends _$SelectAddressPageController {
       );
     }
   }
-
- 
 
   void requestLocationPermission({
     VoidCallback? onDenied,

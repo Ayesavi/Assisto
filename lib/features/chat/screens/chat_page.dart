@@ -120,7 +120,9 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                 createdAt: DateTime.now(),
                 roomId: widget.roomId);
             controller.addMessage(paymentMsg);
-            Navigator.pop(context);
+            if (context.mounted) {
+              Navigator.pop(context);
+            }
             return;
           },
         );

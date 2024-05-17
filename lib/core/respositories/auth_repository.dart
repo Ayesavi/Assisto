@@ -108,7 +108,7 @@ class _AuthRepositoryImpl implements AuthRepository {
     try {
       await _supabase.auth.resend(type: type, phone: phone);
     } catch (e) {
-      print(e);
+      // ignore
     }
   }
 

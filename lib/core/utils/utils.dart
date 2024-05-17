@@ -53,7 +53,6 @@ String formatTime(DateTime dateTime) {
   // Extract hour, minute, and second from the DateTime object
   int hour = dateTime.hour;
   int minute = dateTime.minute;
-  int second = dateTime.second;
 
   // Determine if it's AM or PM
 

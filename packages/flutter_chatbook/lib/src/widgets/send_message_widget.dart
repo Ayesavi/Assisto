@@ -53,9 +53,6 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
 
   String? get repliedUser => replyMessage?.authorId;
 
-  String get _replyTo =>
-      replyMessage?.authorId == currentUserId ? PackageStrings.you : '';
-
   String? currentUserId;
 
   ChatController? chatController;

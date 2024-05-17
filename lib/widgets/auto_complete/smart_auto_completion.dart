@@ -24,7 +24,6 @@ class SmartAutoCompleteWidget<T> extends StatefulWidget {
   final bool readOnly;
   final bool? showCursor;
   final bool autofocus;
-  final MaterialStatesController? statesController;
   final String obscuringCharacter;
   final bool obscureText;
   final bool autocorrect;
@@ -185,7 +184,6 @@ class SmartAutoCompleteWidget<T> extends StatefulWidget {
     this.readOnly = false,
     this.showCursor,
     this.autofocus = false,
-    this.statesController,
     this.obscuringCharacter = '•',
     this.obscureText = false,
     this.autocorrect = true,

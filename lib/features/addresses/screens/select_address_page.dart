@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:assisto/core/services/permission_service.dart';
 import 'package:assisto/features/addresses/controller/select_address_page_controller.dart';
 import 'package:assisto/features/addresses/screens/address_search_page.dart';

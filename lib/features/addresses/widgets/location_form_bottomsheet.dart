@@ -18,6 +18,7 @@ class _LocationFormBottomSheet extends StatefulWidget {
   final Future<void> Function(AddressModel model)? onContinue;
 
   const _LocationFormBottomSheet({
+    // ignore: unused_element
     super.key,
     this.label,
     this.addressModel,

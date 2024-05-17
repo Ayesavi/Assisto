@@ -2,7 +2,6 @@ import 'package:flutter_chatbook/flutter_chatbook.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../utils/constants/constants.dart';
-import '../utils/emoji_parser.dart';
 import '../utils/package_strings.dart';
 
 /// Extension for DateTime to get specific formats of dates and time.
@@ -39,15 +38,6 @@ extension ValidateString on String {
 
   String get toFirstUpper =>
       this[0].toUpperCase() + this.substring(1, this.length);
-
-  bool get isAllEmoji {
-    for (String s in EmojiParser().unemojify(this).split(" ")) {
-      if (!s.startsWith(":") || !s.endsWith(":")) {
-        return false;
-      }
-    }
-    return true;
-  }
 
   bool get isUrl => Uri.tryParse(this)?.isAbsolute ?? false;
 }

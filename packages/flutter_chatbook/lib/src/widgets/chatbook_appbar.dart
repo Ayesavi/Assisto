@@ -116,8 +116,6 @@ class _ChatBookAppBarState extends State<ChatBookAppBar> {
                       child: Hero(
                           tag: 'profile',
                           child: CircleAvatar(
-
-                              /// TODO: Provide user to control over radius property.
                               radius: profileRadius.toDouble(),
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),

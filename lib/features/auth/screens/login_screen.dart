@@ -83,10 +83,12 @@ class LoginScreen extends ConsumerWidget {
                         try {
                           final phone = getPhoneNumber(context);
                           await controller.continueWithPhone(phone);
-                          OtpPageRoute(
-                                  phoneNumber: getPhoneNumber(context),
-                                  otpType: OtpType.sms.name)
-                              .push(context);
+                          if (context.mounted) {
+                            OtpPageRoute(
+                                    phoneNumber: getPhoneNumber(context),
+                                    otpType: OtpType.sms.name)
+                                .push(context);
+                          }
 
                           if (context.mounted) {}
                         } catch (e) {
