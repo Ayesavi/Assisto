@@ -4,6 +4,7 @@ import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/core/utils/string_constants.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
+import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class TaskProfilePageView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isTaskAssigned = model.status != TaskStatus.unassigned;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +29,6 @@ class TaskProfilePageView extends ConsumerWidget {
           kWidgetMinVerticalGap,
           ReadMoreText(model.description),
           CupertinoListSection(
-            // hasLeading: false,
             backgroundColor: Theme.of(context).canvasColor,
             children: [
               if (model.address != null)
@@ -113,6 +114,8 @@ class TaskProfilePageView extends ConsumerWidget {
                 )
               ]),
           kWidgetVerticalGap,
+          if (isTaskAssigned && model.isUserTaskUser)
+            AppFilledButton(label: 'Mark as completed')
         ],
       ),
     );

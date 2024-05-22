@@ -1,4 +1,5 @@
 import 'package:assisto/core/error/handler.dart';
+import 'package:assisto/core/extensions/colorscheme_extension.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/tasks/controllers/task_profile/task_profile_page.dart';
@@ -6,6 +7,7 @@ import 'package:assisto/features/tasks/widgets/bid_page_view.dart';
 import 'package:assisto/features/tasks/widgets/show_bidding_bottomsheet.dart';
 import 'package:assisto/features/tasks/widgets/task_profile_page_view.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
+import 'package:assisto/widgets/popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,7 +29,32 @@ class TaskProfilePage extends ConsumerWidget {
     }, taskUserData: (model) {
       final isNotAssigned = model.status == TaskStatus.unassigned;
       return _buildScaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            actions: [
+              /// is Assigned to user
+              if (!isNotAssigned)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          foregroundColor: WidgetStatePropertyAll(
+                              Theme.of(context).colorScheme.errorContainer),
+                          backgroundColor: WidgetStatePropertyAll(
+                              Theme.of(context).colorScheme.error)),
+                      onPressed: () {
+                        showPopup(context, onConfirm: () async {
+                          await Future.delayed(
+                              const Duration(seconds: 1), () {});
+                          Navigator.pop(context);
+                        },
+                            content:
+                                'Do you really want to cancel the task ${model.title}?',
+                            title: 'Cancel Task');
+                      },
+                      child: const Text('Cancel Task')),
+                ),
+            ],
+          ),
           floatingActionButton: isNotAssigned
               ? null
               : FloatingActionButton(
@@ -78,18 +105,32 @@ class TaskProfilePage extends ConsumerWidget {
                 )
               : TaskProfilePageView(model));
     }, taskConsumerData: (model) {
+      final isTaskAssigned = model.status != TaskStatus.unassigned;
+
       return _buildScaffold(
           body: TaskProfilePageView(model),
           appBar: AppBar(
             actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: ElevatedButton(
-                    onPressed: () {
-                      showBidBottomSheet(context, onPriceEntered: (v) {});
-                    },
-                    child: const Text('Place Bid')),
-              )
+              if (!isTaskAssigned)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          foregroundColor: WidgetStatePropertyAll(
+                              Theme.of(context)
+                                  .colorScheme
+                                  .appGreen(context)
+                                  .colorContainer),
+                          backgroundColor: WidgetStatePropertyAll(
+                              Theme.of(context)
+                                  .colorScheme
+                                  .appGreen(context)
+                                  .color)),
+                      onPressed: () {
+                        showBidBottomSheet(context, onPriceEntered: (v) {});
+                      },
+                      child: const Text('Place Bid')),
+                )
             ],
           ));
     }, error: (e) {

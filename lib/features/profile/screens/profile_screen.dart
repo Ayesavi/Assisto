@@ -7,6 +7,7 @@ import 'package:assisto/shimmering/shimmering_profile_widget.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/popup.dart';
 import 'package:assisto/widgets/text_widgets.dart';
+import 'package:assisto/widgets/user_rating_and_review/user_rating_and_review_bottomsheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -166,7 +167,17 @@ class ProfilePage extends ConsumerWidget {
                               trailing: const CupertinoListTileChevron(),
                             ),
                             CupertinoListTile(
-                              onTap: () {},
+                              onTap: () {
+                                showRatingAndReviewBottomSheet(context,
+                                    onRatingAndReviews: (rating, review) {},
+                                    taskName: 'fsd',
+                                    userModel: const UserModel(
+                                        id: '',
+                                        name: 'John Doe',
+                                        gender: 'male',
+                                        tags: [],
+                                        age: 12));
+                              },
                               padding: const EdgeInsets.all(5),
                               leading: Icon(CupertinoIcons.delete,
                                   color: Theme.of(context).colorScheme.primary),

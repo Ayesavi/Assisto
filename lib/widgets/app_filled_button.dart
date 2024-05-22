@@ -27,8 +27,10 @@ class AppFilledButton extends ConsumerWidget {
       width: double.infinity,
       child: FilledButton(
           style: ButtonStyle(
+            shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12))),
             padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.all(16),
+              const EdgeInsets.symmetric(vertical: 16),
             ),
           ),
           onPressed: () async {
