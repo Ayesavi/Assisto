@@ -35,7 +35,11 @@ class HomePageController extends _$HomePageController {
           latlng: _defaultAddr != null
               ? (lat: _defaultAddr!.latlng.lat, lng: _defaultAddr!.latlng.lng)
               : null);
-      state = HomePageControllerState.tasks(data);
+      if (filters.contains(TaskFilterType.you)) {
+        state = HomePageControllerState.ownTasks(data);
+      } else {
+        state = HomePageControllerState.tasks(data);
+      }
     } catch (e) {
       if (e is NetworkException) {
         state = const HomePageControllerState.networkError();
@@ -45,5 +49,4 @@ class HomePageController extends _$HomePageController {
       return;
     }
   }
-
 }

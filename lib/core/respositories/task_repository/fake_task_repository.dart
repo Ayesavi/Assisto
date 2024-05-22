@@ -78,10 +78,11 @@ class FakeTaskRepository implements BaseTaskRepository {
     _tasks = [];
     _generateAuthenticTasks();
     if (filters.contains(TaskFilterType.you)) {
-      return _tasks
+      final result = _tasks
           .where((e) =>
               e.owner.id == Supabase.instance.client.auth.currentUser?.id)
           .toList();
+      return result;
     }
     return _tasks
         .where(
@@ -167,6 +168,8 @@ class FakeTaskRepository implements BaseTaskRepository {
       "Need a handyman to fix a leaky faucet and repair a broken shelf.",
       "Seeking someone to pick up groceries and deliver to my home.",
       "Require personal trainer for weekly workout sessions at home.",
+      "Require personal trainer for weekly workout sessions at home.",
+      "Require personal trainer for weekly workout sessions at home.",
     ];
 
     final List<String> addresses = [
@@ -191,14 +194,14 @@ class FakeTaskRepository implements BaseTaskRepository {
       "764 Raspberry St, Springview, USA",
       "877 Blackberry Ln, Riverside, USA",
     ];
-
+    final isUser = Random().nextBool();
     for (int i = 0; i < 20; i++) {
       final status =
           TaskStatus.values[Random().nextInt(TaskStatus.values.length)];
 
       TaskModel task = TaskModel(
         owner: TaskUser(
-          id: Random().nextBool()
+          id: isUser
               ? Supabase.instance.client.auth.currentUser?.id ?? ''
               : Random().nextDouble().toString(),
           imageUrl:
@@ -261,58 +264,58 @@ class FakeTaskRepository implements BaseTaskRepository {
     return generateBidModels('3', ['d', 's']);
   }
 
-  @override
-  Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) {
-    return Future.delayed(const Duration(seconds: 1), () {
-      return [
-        TaskModel(
-            owner: const TaskUser(
-              id: '3ca90470-042a-41dd-a9e1-d9547b59cda2',
-              imageUrl:
-                  'https://randomuser.me/api/portraits/med/women/1.jpg', // Assuming user profile images
-            ),
-            tags: _generateRandomTags(Random().nextInt(6)),
-            address: const TaskAddress(
-              latlng: (lat: 23, lng: 32),
-              id: 2,
-              address: '123 Main St, Anytown, USA',
-              houseNumber: '1',
-            ),
-            status: TaskStatus.unassigned,
-            deadline: DateTime.now().add(Duration(days: Random().nextInt(2))),
-            title: 'Grocery Shopping',
-            id: 1,
-            description:
-                'Need someone to help with grocery shopping. Will provide the list.',
-            ageGroup: '${Random().nextInt(100)}-${Random().nextInt(100)}',
-            distance: Random().nextDouble()),
-        TaskModel(
-            owner: const TaskUser(
-              id: '3ca90470-042a-41dd-a9e1-d9547b59cda2',
-              imageUrl:
-                  'https://randomuser.me/api/portraits/med/women/1.jpg', // Assuming user profile images
-            ),
-            tags: _generateRandomTags(Random().nextInt(6)),
-            address: const TaskAddress(
-              latlng: (lat: 23, lng: 32),
-              id: 2,
-              address: '123 Main St, Anytown, USA',
-              houseNumber: '1',
-            ),
-            status: TaskStatus.completed,
-            bid: BidModel(
-                id: 0,
-                createdAt: DateTime.now(),
-                bidder: _getAssigned(TaskStatus.completed, 50)!,
-                amount: 352), // Initiall
-            deadline: DateTime.now().add(Duration(days: Random().nextInt(2))),
-            title: 'Grocery Shopping',
-            id: 2,
-            description:
-                'Need someone to help with grocery shopping. Will provide the list.',
-            ageGroup: '${Random().nextInt(100)}-${Random().nextInt(100)}',
-            distance: Random().nextDouble())
-      ];
-    });
-  }
+  // @override
+  // Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) {
+  //   return Future.delayed(const Duration(seconds: 1), () {
+  //     return [
+  //       TaskModel(
+  //           owner: const TaskUser(
+  //             id: '3ca90470-042a-41dd-a9e1-d9547b59cda2',
+  //             imageUrl:
+  //                 'https://randomuser.me/api/portraits/med/women/1.jpg', // Assuming user profile images
+  //           ),
+  //           tags: _generateRandomTags(Random().nextInt(6)),
+  //           address: const TaskAddress(
+  //             latlng: (lat: 23, lng: 32),
+  //             id: 2,
+  //             address: '123 Main St, Anytown, USA',
+  //             houseNumber: '1',
+  //           ),
+  //           status: TaskStatus.unassigned,
+  //           deadline: DateTime.now().add(Duration(days: Random().nextInt(2))),
+  //           title: 'Grocery Shopping',
+  //           id: 1,
+  //           description:
+  //               'Need someone to help with grocery shopping. Will provide the list.',
+  //           ageGroup: '${Random().nextInt(100)}-${Random().nextInt(100)}',
+  //           distance: Random().nextDouble()),
+  //       TaskModel(
+  //           owner: const TaskUser(
+  //             id: '3ca90470-042a-41dd-a9e1-d9547b59cda2',
+  //             imageUrl:
+  //                 'https://randomuser.me/api/portraits/med/women/1.jpg', // Assuming user profile images
+  //           ),
+  //           tags: _generateRandomTags(Random().nextInt(6)),
+  //           address: const TaskAddress(
+  //             latlng: (lat: 23, lng: 32),
+  //             id: 2,
+  //             address: '123 Main St, Anytown, USA',
+  //             houseNumber: '1',
+  //           ),
+  //           status: TaskStatus.completed,
+  //           bid: BidModel(
+  //               id: 0,
+  //               createdAt: DateTime.now(),
+  //               bidder: _getAssigned(TaskStatus.completed, 50)!,
+  //               amount: 352), // Initiall
+  //           deadline: DateTime.now().add(Duration(days: Random().nextInt(2))),
+  //           title: 'Grocery Shopping',
+  //           id: 2,
+  //           description:
+  //               'Need someone to help with grocery shopping. Will provide the list.',
+  //           ageGroup: '${Random().nextInt(100)}-${Random().nextInt(100)}',
+  //           distance: Random().nextDouble())
+  //     ];
+  //   });
+  // }
 }

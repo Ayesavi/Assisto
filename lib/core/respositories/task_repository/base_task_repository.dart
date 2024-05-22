@@ -18,6 +18,5 @@ abstract class BaseTaskRepository {
 
   Future<List<BidModel>> fetchBids(int taskId, {int? offset});
 
-  @Deprecated("Use fetchTasks instead with filters")
-  Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng});
+
 }

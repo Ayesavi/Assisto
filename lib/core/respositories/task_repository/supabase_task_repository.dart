@@ -61,14 +61,14 @@ class SupabaseTaskRepository implements BaseTaskRepository {
     return data.map((e) => BidModel.fromJson(e)).toList();
   }
 
-  /// Fetched tasks made by the current user.
-  @override
-  Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) async {
-    final data = await _supabase
-        .from('tasks')
-        .select(
-            '*,owner:owner_id(id,avatar_url),bid:bid_id(*,bidder:bidder_id(*))')
-        .eq('owner_id', '${_supabase.auth.currentUser?.id}');
-    return data.map((json) => TaskModel.fromJson(json)).toList();
-  }
+  // /// Fetched tasks made by the current user.
+  // @override
+  // Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) async {
+  //   final data = await _supabase
+  //       .from('tasks')
+  //       .select(
+  //           '*,owner:owner_id(id,avatar_url),bid:bid_id(*,bidder:bidder_id(*))')
+  //       .eq('owner_id', '${_supabase.auth.currentUser?.id}');
+  //   return data.map((json) => TaskModel.fromJson(json)).toList();
+  // }
 }
