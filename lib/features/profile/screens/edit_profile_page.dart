@@ -1,62 +1,115 @@
+import 'dart:io';
+
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
-import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/features/auth/screens/verify_otp_screen.dart';
+import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/profile/controllers/profile_page_controller/profile_page_controller.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/shimmering/shimmering_textfield.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
-import 'package:assisto/widgets/edit_textfield_widget.dart';
+import 'package:assisto/widgets/popup.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-class EditProfilePage extends ConsumerWidget {
+class EditProfilePage extends ConsumerStatefulWidget {
   const EditProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(profilePageControllerProvider);
-    final controller = ref.read(authControllerProvider.notifier);
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _EditProfilePageState();
+}
 
-    // Validator functions using regex
-    String? validateName(String? value) {
-      if (value == null || value.isEmpty) {
-        return 'Please enter your name';
-      }
-      return null;
+class _EditProfilePageState extends ConsumerState<EditProfilePage> {
+  final _formKey = GlobalKey<FormState>();
+
+  String? validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your name';
     }
+    return null;
+  }
 
-    String? validatePhoneNumber(String? value) {
-      if (value == null || value.isEmpty) {
-        return 'Please enter your phone number';
-      }
-      final phoneRegExp = RegExp(r'^\d{10}$'); // 10 digit phone number
-      if (!phoneRegExp.hasMatch(value)) {
-        return 'Please enter a valid phone number';
-      }
-      return null;
+  String? validatePhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your phone number';
     }
-
-    String? validateEmailAddress(String? value) {
-      if (value == null || value.isEmpty) {
-        return 'Please enter your email address';
-      }
-      final emailRegExp = RegExp(
-          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'); // Simple email regex pattern
-      if (!emailRegExp.hasMatch(value)) {
-        return 'Please enter a valid email address';
-      }
-      return null;
+    final phoneRegExp = RegExp(r'^\d{10}$'); // 10 digit phone number
+    if (!phoneRegExp.hasMatch(value)) {
+      return 'Please enter a valid phone number';
     }
+    return null;
+  }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const TitleMedium(
-          text: "Edit Profile",
-          weight: FontWeight.bold,
-        ),
+  String? validateEmailAddress(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your email address';
+    }
+    final emailRegExp = RegExp(
+        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'); // Simple email regex pattern
+    if (!emailRegExp.hasMatch(value)) {
+      return 'Please enter a valid email address';
+    }
+    return null;
+  }
+
+  Widget buildAvatar({
+    VoidCallback? onTapAvatar,
+    String? imageUrl,
+    String? imagePath,
+  }) {
+    return GestureDetector(
+      onTap: onTapAvatar,
+      child: Stack(
+        children: [
+          CircleAvatar(
+            radius: 50,
+            backgroundColor: Colors.grey[200],
+            backgroundImage: _imageProvider(imageUrl, imagePath),
+            child: imagePath == null && imageUrl == null
+                ? const Icon(
+                    Icons.person,
+                    size: 50,
+                    color: Colors.grey,
+                  )
+                : null, // Hide the child Icon if image is provided
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Theme.of(context).primaryColor,
+              ),
+              padding: const EdgeInsets.all(4),
+              child: Icon(
+                Icons.camera_alt_outlined,
+                color: Theme.of(context).colorScheme.primaryContainer,
+              ),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  ImageProvider? _imageProvider(String? imageUrl, String? imagePath) {
+    if (imagePath != null) {
+      return FileImage(File(imagePath));
+    } else if (imageUrl != null) {
+      return NetworkImage(imageUrl);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(profilePageControllerProvider);
+    final authController = ref.read(authControllerProvider.notifier);
+    final controller = ref.read(profilePageControllerProvider.notifier);
+    return Scaffold(
+      appBar: AppBar(),
       body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: state.when(error: (e) {
@@ -81,99 +134,107 @@ class EditProfilePage extends ConsumerWidget {
             );
           }, loading: () {
             return const ShimmeringTextField();
-          }, data: (data) {
+          }, data: (data, imageFile) {
             final nameController = TextEditingController(text: data.name);
             final phoneNumberController = TextEditingController(
                 text: data.phoneNumber != null && data.phoneNumber!.isNotEmpty
                     ? data.phoneNumber!.substring(2)
-                    : '');
+                    : null);
             final emailAddressController =
                 TextEditingController(text: data.email);
             return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 8),
-                  EditTextFieldWidget(
-                    hintText: "Enter your name",
-                    labelText: "Name",
-                    textEditingController: nameController,
-                    onSave: (name) async {
-                      try {
-                        final user = controller.user?.copyWith(name: name);
-                        if (user != null) {
-                          controller.updateProfile(user);
-                        }
-                      } catch (e) {
-                        if (context.mounted) {
-                          showSnackBar(context, appErrorHandler(e).message);
-                        }
-                      }
-                    },
-                    validator: validateName,
-                  ),
-                  const SizedBox(height: 8),
-                  EditTextFieldWidget(
-                    hintText: "Enter your phone number",
-                    labelText: "Phone Number",
-                    type: TextInputType.phone,
-                    textEditingController: phoneNumberController,
-                    onSave: (phone) async {
-                      try {
-                        await controller.updatePhone('91$phone');
-                        if (context.mounted) {
-                          showSnackBar(context, "Otp Sent to +91$phone");
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return VerifyOtpScreen(
-                                phone: '91$phone',
-                                otpType: OtpType.phoneChange.toString(),
-                              );
-                            },
-                          ));
-                        }
-                      } catch (e) {
-                        if (context.mounted) {
-                          showSnackBar(context, appErrorHandler(e).message);
-                        }
-                      }
-                    },
-                    validator: validatePhoneNumber,
-                  ),
-                  EditTextFieldWidget(
-                    hintText: "Enter your email address",
-                    labelText: "Email Address",
-                    textEditingController: emailAddressController,
-                    onSave: (email) async {
-                      try {
-                        controller.updateEmail(email);
-
-                        if (context.mounted) {
-                          showSnackBar(context, "Otp Sent to $email");
-                          Navigator.push(context, MaterialPageRoute(
-                            builder: (context) {
-                              return VerifyOtpScreen(
-                                email: email,
-                                otpType: OtpType.email.toString(),
-                              );
-                            },
-                          ));
-                        }
-                      } catch (e) {
-                        if (context.mounted) {
-                          showSnackBar(context, appErrorHandler(e).message);
-                        }
-                      }
-
-                      try {} catch (e) {
-                        if (context.mounted) {
-                          showSnackBar(context, appErrorHandler(e).message);
-                        }
-                      }
-                    },
-                    validator: validateEmailAddress,
-                  ),
-                ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        buildAvatar(
+                          onTapAvatar: () {
+                            controller.requestImagePermission(
+                                onPermissionPermanentlyDenied: () {
+                              showPopup(context, onConfirm: () async {
+                                controller.permissionService.openSettings();
+                                return;
+                              },
+                                  content:
+                                      'To select a photo from gallery, please grant access to photos in app settings.',
+                                  title: 'Open Settings');
+                            }, onPermissionGranted: () {
+                              controller.pickImageFromGallery();
+                            }, onPermissionDenied: () {
+                              showSnackBar(context,
+                                  'Cannot proceed without permission. Please enable access to photos manually.');
+                            });
+                          },
+                          imageUrl: data.avatarUrl,
+                          imagePath: imageFile?.path,
+                        ),
+                      ],
+                    ),
+                    kWidgetVerticalGap,
+                    TitleMedium(
+                      text: 'Name',
+                      weight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    kWidgetMinVerticalGap,
+                    TextFormField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          hintText: 'Enter your name',
+                          fillColor:
+                              Theme.of(context).colorScheme.onInverseSurface),
+                      validator: validateName,
+                    ),
+                    kWidgetVerticalGap,
+                    TitleMedium(
+                      text: 'Phone Number',
+                      weight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    kWidgetMinVerticalGap,
+                    TextFormField(
+                      controller: phoneNumberController,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          hintText: 'Enter your phone number',
+                          fillColor:
+                              Theme.of(context).colorScheme.onInverseSurface),
+                      validator: validateName,
+                    ),
+                    kWidgetVerticalGap,
+                    TitleMedium(
+                      text: 'Email',
+                      weight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    kWidgetMinVerticalGap,
+                    TextFormField(
+                      controller: emailAddressController,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          hintText: 'Enter your email address',
+                          fillColor:
+                              Theme.of(context).colorScheme.onInverseSurface),
+                      validator: validateName,
+                    ),
+                    kWidgetVerticalGap,
+                    AppFilledButton(label: 'Submit'),
+                  ],
+                ),
               ),
             );
           })),

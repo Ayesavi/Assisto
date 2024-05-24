@@ -3,7 +3,7 @@ part of 'profile_page_controller.dart';
 @freezed
 sealed class ProfilePageControllerState with _$ProfilePageControllerState {
   const factory ProfilePageControllerState.loading() = _Loading;
-  const factory ProfilePageControllerState.data(UserModel model) = _Data;
+  const factory ProfilePageControllerState.data({required UserModel model,  File? fileImage }) = _Data;
   const factory ProfilePageControllerState.error(Object e) = _Error;
 }
 

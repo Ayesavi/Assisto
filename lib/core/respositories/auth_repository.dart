@@ -26,6 +26,7 @@ abstract class AuthRepository {
   Future<void> updateProfile(UserModel model);
   Future<void> updateEmail(String email);
   Future<void> updatePhone(String phone);
+  Future<void> uploadUserAvatar(File file);
 }
 
 class UnAuthenticatedUserException implements Exception {
@@ -127,5 +128,15 @@ class _AuthRepositoryImpl implements AuthRepository {
   Future<void> updatePhone(String phone) async {
     (await _supabase.auth
         .updateUser(UserAttributes(phone: phone, data: {'phone': phone})));
+  }
+
+  @override
+  Future<String> uploadUserAvatar(File file) async {
+    final userId = _supabase.auth.currentUser?.id;
+    final path = (await _supabase.storage
+        .from('storage')
+        .upload('$userId/avatar', file));
+    final publicUrl = _supabase.storage.from('storage').getPublicUrl(path);
+    return publicUrl;
   }
 }

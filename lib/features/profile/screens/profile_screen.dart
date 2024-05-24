@@ -84,7 +84,7 @@ class ProfilePage extends ConsumerWidget {
                             );
                           },
                           loading: () => const ShimmeringProfileWidget(),
-                          data: (userModel) {
+                          data: (userModel, imagePath) {
                             return ListTile(
                               title: TitleLarge(
                                   text: userModel.name.toUpperCase(),

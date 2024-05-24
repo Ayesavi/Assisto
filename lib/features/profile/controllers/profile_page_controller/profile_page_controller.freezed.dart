@@ -19,21 +19,21 @@ mixin _$ProfilePageControllerState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(UserModel model) data,
+    required TResult Function(UserModel model, File? fileImage) data,
     required TResult Function(Object e) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(UserModel model)? data,
+    TResult? Function(UserModel model, File? fileImage)? data,
     TResult? Function(Object e)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(UserModel model)? data,
+    TResult Function(UserModel model, File? fileImage)? data,
     TResult Function(Object e)? error,
     required TResult orElse(),
   }) =>
@@ -121,7 +121,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(UserModel model) data,
+    required TResult Function(UserModel model, File? fileImage) data,
     required TResult Function(Object e) error,
   }) {
     return loading();
@@ -131,7 +131,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(UserModel model)? data,
+    TResult? Function(UserModel model, File? fileImage)? data,
     TResult? Function(Object e)? error,
   }) {
     return loading?.call();
@@ -141,7 +141,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(UserModel model)? data,
+    TResult Function(UserModel model, File? fileImage)? data,
     TResult Function(Object e)? error,
     required TResult orElse(),
   }) {
@@ -196,7 +196,7 @@ abstract class _$$DataImplCopyWith<$Res> {
           _$DataImpl value, $Res Function(_$DataImpl) then) =
       __$$DataImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({UserModel model});
+  $Res call({UserModel model, File? fileImage});
 
   $UserModelCopyWith<$Res> get model;
 }
@@ -212,12 +212,17 @@ class __$$DataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? model = null,
+    Object? fileImage = freezed,
   }) {
     return _then(_$DataImpl(
-      null == model
+      model: null == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as UserModel,
+      fileImage: freezed == fileImage
+          ? _value.fileImage
+          : fileImage // ignore: cast_nullable_to_non_nullable
+              as File?,
     ));
   }
 
@@ -233,14 +238,16 @@ class __$$DataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DataImpl implements _Data {
-  const _$DataImpl(this.model);
+  const _$DataImpl({required this.model, this.fileImage});
 
   @override
   final UserModel model;
+  @override
+  final File? fileImage;
 
   @override
   String toString() {
-    return 'ProfilePageControllerState.data(model: $model)';
+    return 'ProfilePageControllerState.data(model: $model, fileImage: $fileImage)';
   }
 
   @override
@@ -248,11 +255,13 @@ class _$DataImpl implements _Data {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DataImpl &&
-            (identical(other.model, model) || other.model == model));
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.fileImage, fileImage) ||
+                other.fileImage == fileImage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, model);
+  int get hashCode => Object.hash(runtimeType, model, fileImage);
 
   @JsonKey(ignore: true)
   @override
@@ -264,32 +273,32 @@ class _$DataImpl implements _Data {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(UserModel model) data,
+    required TResult Function(UserModel model, File? fileImage) data,
     required TResult Function(Object e) error,
   }) {
-    return data(model);
+    return data(model, fileImage);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(UserModel model)? data,
+    TResult? Function(UserModel model, File? fileImage)? data,
     TResult? Function(Object e)? error,
   }) {
-    return data?.call(model);
+    return data?.call(model, fileImage);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(UserModel model)? data,
+    TResult Function(UserModel model, File? fileImage)? data,
     TResult Function(Object e)? error,
     required TResult orElse(),
   }) {
     if (data != null) {
-      return data(model);
+      return data(model, fileImage);
     }
     return orElse();
   }
@@ -330,9 +339,11 @@ class _$DataImpl implements _Data {
 }
 
 abstract class _Data implements ProfilePageControllerState {
-  const factory _Data(final UserModel model) = _$DataImpl;
+  const factory _Data({required final UserModel model, final File? fileImage}) =
+      _$DataImpl;
 
   UserModel get model;
+  File? get fileImage;
   @JsonKey(ignore: true)
   _$$DataImplCopyWith<_$DataImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -401,7 +412,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(UserModel model) data,
+    required TResult Function(UserModel model, File? fileImage) data,
     required TResult Function(Object e) error,
   }) {
     return error(e);
@@ -411,7 +422,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(UserModel model)? data,
+    TResult? Function(UserModel model, File? fileImage)? data,
     TResult? Function(Object e)? error,
   }) {
     return error?.call(e);
@@ -421,7 +432,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(UserModel model)? data,
+    TResult Function(UserModel model, File? fileImage)? data,
     TResult Function(Object e)? error,
     required TResult orElse(),
   }) {

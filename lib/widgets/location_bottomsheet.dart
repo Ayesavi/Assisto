@@ -111,5 +111,5 @@ class LocationBottomSheetConstants {
 
   static const locationOfDesc =
       'Granting location permission will ensure accurate address and hassle free request';
-  static const selectDeliveryAddress = 'Select Delivery Address';
+  static const selectDeliveryAddress = 'Select Your Address';
 }
