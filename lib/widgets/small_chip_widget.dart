@@ -22,13 +22,13 @@ class SmallChipWidget extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
               decoration: BoxDecoration(
                   color: selected
-                      ? Theme.of(context).colorScheme.primaryContainer
-                      : Theme.of(context).colorScheme.outlineVariant,
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onInverseSurface,
                   borderRadius: BorderRadius.circular(12)),
               child: Text(label.capitalize,
                   style: TextStyle(
                       color: selected
-                          ? Theme.of(context).colorScheme.primary
+                          ? Theme.of(context).colorScheme.primaryContainer
                           : Theme.of(context).colorScheme.onSurface))),
         ));
   }

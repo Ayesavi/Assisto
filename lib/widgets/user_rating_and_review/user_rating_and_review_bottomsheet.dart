@@ -1,4 +1,3 @@
-import 'package:assisto/core/extensions/colorscheme_extension.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/rating_bar/rating_bar.dart';
@@ -55,6 +54,7 @@ class _RatingAndReviewBottomSheetState
             RatingBar.builder(
               initialRating: _rating,
               minRating: 1,
+              glow: false,
               direction: Axis.horizontal,
               allowHalfRating: false,
               itemCount: 5,
@@ -62,7 +62,7 @@ class _RatingAndReviewBottomSheetState
               itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
               itemBuilder: (context, _) => Icon(
                 Icons.star,
-                color: Theme.of(context).colorScheme.appYellow(context).color,
+                color: Theme.of(context).colorScheme.primary,
               ),
               onRatingUpdate: (rating) {
                 setState(() {
