@@ -1,5 +1,4 @@
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/core/extensions/colorscheme_extension.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/tasks/controllers/task_profile/task_profile_page.dart';
@@ -36,11 +35,12 @@ class TaskProfilePage extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                      style: ButtonStyle(
-                          foregroundColor: WidgetStatePropertyAll(
-                              Theme.of(context).colorScheme.errorContainer),
-                          backgroundColor: WidgetStatePropertyAll(
-                              Theme.of(context).colorScheme.error)),
+                      style: const ButtonStyle(
+                          // foregroundColor: WidgetStatePropertyAll(
+                          //     Theme.of(context).colorScheme.errorContainer),
+                          // backgroundColor: WidgetStatePropertyAll(
+                          //     Theme.of(context).colorScheme.error)
+                          ),
                       onPressed: () {
                         showPopup(context, onConfirm: () async {
                           await Future.delayed(
@@ -115,17 +115,18 @@ class TaskProfilePage extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ElevatedButton(
-                      style: ButtonStyle(
-                          foregroundColor: WidgetStatePropertyAll(
-                              Theme.of(context)
-                                  .colorScheme
-                                  .appGreen(context)
-                                  .colorContainer),
-                          backgroundColor: WidgetStatePropertyAll(
-                              Theme.of(context)
-                                  .colorScheme
-                                  .appGreen(context)
-                                  .color)),
+                      style: const ButtonStyle(
+                          // foregroundColor: WidgetStatePropertyAll(
+                          //     Theme.of(context)
+                          //         .colorScheme
+                          //         .appGreen(context)
+                          //         .colorContainer),
+                          // backgroundColor: WidgetStatePropertyAll(
+                          //     Theme.of(context)
+                          //         .colorScheme
+                          //         .appGreen(context)
+                          //         .color)
+                          ),
                       onPressed: () {
                         showBidBottomSheet(context, onPriceEntered: (v) {});
                       },

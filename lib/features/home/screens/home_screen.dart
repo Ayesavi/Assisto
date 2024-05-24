@@ -98,7 +98,9 @@ class HomeScreen extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                const NotificationPageRoute().push(context);
+                              },
                               icon: const Icon(CupertinoIcons.bell)),
                           UserAvatar.currentUser(
                             ref,

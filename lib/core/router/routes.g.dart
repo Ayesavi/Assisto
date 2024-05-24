@@ -123,6 +123,11 @@ RouteBase get $homeRoute => GoRouteData.$route(
           ],
         ),
         GoRouteData.$route(
+          path: 'notifications',
+          name: 'notifications',
+          factory: $NotificationPageRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'chat/:roomId',
           name: 'chat',
           factory: $ChatPageRouteExtension._fromState,
@@ -246,6 +251,24 @@ extension $EditProfilePageRouteExtension on EditProfilePageRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile/edit',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationPageRouteExtension on NotificationPageRoute {
+  static NotificationPageRoute _fromState(GoRouterState state) =>
+      const NotificationPageRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/notifications',
       );
 
   void go(BuildContext context) => context.go(location);
