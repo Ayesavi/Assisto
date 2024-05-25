@@ -65,7 +65,7 @@ class TaskModel with _$TaskModel {
 
 enum Gender { male, female, other, any }
 
-enum TaskStatus { unassigned, paid, assigned, completed }
+enum TaskStatus { unassigned, paid, assigned, completed, blocked }
 
 typedef LatLng = ({double lat, double lng});
 

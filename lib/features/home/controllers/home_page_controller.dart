@@ -39,7 +39,7 @@ class HomePageController extends _$HomePageController {
         state = HomePageControllerState.ownTasks(data);
       } else if (filters.contains(TaskFilterType.bidded)) {
         state = HomePageControllerState.tasks(data);
-    } else {
+      } else {
         state = HomePageControllerState.tasks(data);
       }
     } catch (e) {

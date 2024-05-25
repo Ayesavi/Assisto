@@ -60,6 +60,7 @@ const _$TaskStatusEnumMap = {
   TaskStatus.paid: 'paid',
   TaskStatus.assigned: 'assigned',
   TaskStatus.completed: 'completed',
+  TaskStatus.blocked: 'blocked',
 };
 
 _$TaskUserImpl _$$TaskUserImplFromJson(Map<String, dynamic> json) =>

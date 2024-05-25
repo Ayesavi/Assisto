@@ -91,7 +91,6 @@ class TaskProfilePageView extends ConsumerWidget {
                 text: 'Tags',
                 weight: FontWeight.bold,
               ),
-              // hasLeading: false,
               backgroundColor: Theme.of(context).colorScheme.surface,
               children: [
                 CupertinoListTile(
@@ -127,7 +126,6 @@ class TaskProfilePageView extends ConsumerWidget {
                   text: 'Bidding',
                   weight: FontWeight.bold,
                 ),
-                // hasLeading: false,
                 backgroundColor: Theme.of(context).colorScheme.surface,
                 children: [
                   CupertinoListTile(
@@ -140,7 +138,9 @@ class TaskProfilePageView extends ConsumerWidget {
                     ),
                   ),
                 ]),
-          if (isTaskAssigned && model.isUserTaskUser)
+          if (isTaskAssigned &&
+              model.isUserTaskUser &&
+              model.status != TaskStatus.blocked)
             AppFilledButton(label: 'Mark as completed')
         ],
       ),

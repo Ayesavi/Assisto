@@ -30,7 +30,7 @@ class UserAvatar extends ConsumerWidget {
       radius: radius,
       backgroundImage: imageUrl != null ? NetworkImage(imageUrl!) : null,
       backgroundColor: !(imageUrl != null)
-          ? Theme.of(context).colorScheme.outline.withOpacity(.3)
+          ? Theme.of(context).colorScheme.primaryContainer.withOpacity(.3)
           : null,
       child: IconButton(
           onPressed: () async {
@@ -40,7 +40,7 @@ class UserAvatar extends ConsumerWidget {
               ? const SizedBox.shrink()
               : Icon(
                   Icons.person,
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Theme.of(context).colorScheme.primary,
                 )),
     );
   }

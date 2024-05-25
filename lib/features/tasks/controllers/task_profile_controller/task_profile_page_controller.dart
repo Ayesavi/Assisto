@@ -41,4 +41,8 @@ class TaskProfilePage extends _$TaskProfilePage {
   Future<BidInfo?> _getBidInfo() async {
     return await _repository.fetchBidInfoOnTask(taskId);
   }
+
+  cancelTask(int taskId) async {
+    await _repository.blockTask(taskId);
+  }
 }

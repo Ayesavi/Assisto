@@ -275,6 +275,12 @@ class FakeTaskRepository implements BaseTaskRepository {
     // TODO: implement fetchBidInfoOnTask
     throw UnimplementedError();
   }
+  
+  @override
+  Future<void> blockTask(int taskId) {
+    // TODO: implement blockTask
+    throw UnimplementedError();
+  }
 
   // @override
   // Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) {

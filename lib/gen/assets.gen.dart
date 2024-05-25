@@ -12,6 +12,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsGraphicsGen {
   const $AssetsGraphicsGen();
 
+  /// File path: assets/graphics/empty_list.svg
+  String get emptyList => 'assets/graphics/empty_list.svg';
+
   /// File path: assets/graphics/login_welcome.svg
   String get loginWelcome => 'assets/graphics/login_welcome.svg';
 
@@ -23,7 +26,8 @@ class $AssetsGraphicsGen {
   String get successCheckMark => 'assets/graphics/success_check_mark.svg';
 
   /// List of all assets
-  List<dynamic> get values => [loginWelcome, magicAi, successCheckMark];
+  List<dynamic> get values =>
+      [emptyList, loginWelcome, magicAi, successCheckMark];
 }
 
 class Assets {

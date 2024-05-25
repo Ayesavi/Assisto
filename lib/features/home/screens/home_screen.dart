@@ -1,4 +1,5 @@
 import 'package:assisto/core/router/routes.dart';
+import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/features/home/screens/home_appbar_title.dart';
 import 'package:assisto/features/home/widgets/task_filter_widget.dart';
@@ -12,6 +13,7 @@ import 'package:assisto/widgets/user_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 
 enum TaskFilterType {
   /// order tasks by location
@@ -30,13 +32,14 @@ enum TaskFilterType {
   bidded
 }
 
+List<TaskFilterType> _filters = [];
+
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
     final controller = ref.read(homePageControllerProvider.notifier);
-    List<TaskFilterType> filters = const [];
 
     return Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -51,7 +54,7 @@ class HomeScreen extends ConsumerWidget {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            controller.loadData(filters);
+            controller.loadData(_filters);
           },
           child: CustomScrollView(
             slivers: [
@@ -85,7 +88,7 @@ class HomeScreen extends ConsumerWidget {
                                     .map((filter) => filter as TaskFilterType)
                                     .toList();
 
-                                filters = taskFilters;
+                                _filters = taskFilters;
                                 controller.loadData(taskFilters);
                               }),
                             ),
@@ -132,6 +135,11 @@ class HomeScreen extends ConsumerWidget {
                       );
                     },
                     ownTasks: (List<TaskModel> models) {
+                      if (models.isEmpty) {
+                        return SliverToBoxAdapter(
+                            child: SvgPicture.asset(
+                                'assets/graphics/empty_list.svg'));
+                      }
                       return SliverList(
                           delegate: SliverChildBuilderDelegate((ctx, index) {
                         return TaskTile.owner(
@@ -150,6 +158,27 @@ class HomeScreen extends ConsumerWidget {
                       }, childCount: models.length));
                     },
                     tasks: (data) {
+                      if (data.isEmpty) {
+                        return SliverToBoxAdapter(
+                            child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 100,
+                            ),
+                            SizedBox.square(
+                              dimension: 200,
+                              child: SvgPicture.asset(
+                                  'assets/graphics/empty_list.svg'),
+                            ),
+                            kWidgetVerticalGap,
+                            const Text(
+                              'No tasks found',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        ));
+                      }
                       return SliverList(
                           delegate: SliverChildBuilderDelegate((ctx, index) {
                         return TaskTile(

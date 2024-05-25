@@ -111,4 +111,11 @@ class SupabaseTaskRepository implements BaseTaskRepository {
       return null;
     }
   }
+
+  @override
+  Future<void> blockTask(int taskId) async {
+    await _supabase
+        .from(_table)
+        .update({'status': TaskStatus.blocked.name}).eq('id', taskId);
+  }
 }
