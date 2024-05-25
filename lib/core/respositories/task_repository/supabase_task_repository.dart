@@ -4,9 +4,6 @@ import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-
-
-
 class SupabaseTaskRepository implements BaseTaskRepository {
   final _supabase = Supabase.instance.client;
   final _table = 'tasks';
@@ -81,12 +78,6 @@ class SupabaseTaskRepository implements BaseTaskRepository {
         .from('bidding')
         .select('task:task_id(*,owner:owner_id(id,avatar_url))');
     return data.map((json) {
-      // json['task']['bid'] = {
-      //   'bidder': json['bidder'],
-      //   'amount': json['amount'],
-      //   'id': json['id'],
-      //   'created_at': json['created_at'],
-      // };
       return TaskModel.fromJson(json['task']);
     }).toList();
   }
@@ -97,7 +88,7 @@ class SupabaseTaskRepository implements BaseTaskRepository {
         .select(
             '*,owner:owner_id(id,avatar_url),bid:bid_id(*,bidder:bidder_id(*))')
         .eq('owner_id', '${_supabase.auth.currentUser?.id}');
-    return data.map((json) => TaskModel.fromJson(json['task'])).toList();
+    return data.map((json) => TaskModel.fromJson(json)).toList();
   }
 
   @override
@@ -109,11 +100,15 @@ class SupabaseTaskRepository implements BaseTaskRepository {
 
   @override
   Future<BidInfo?> fetchBidInfoOnTask(int taskId) async {
-    final data = await _supabase
-        .from('bidding')
-        .select('amount,id')
-        .eq('task_id', taskId)
-        .single();
-    return (amount: data['amount'] as int, taskId: data['id'] as int);
+    try {
+      final data = await _supabase
+          .from('bidding')
+          .select('amount,id')
+          .eq('task_id', taskId)
+          .single();
+      return (amount: data['amount'] as int, taskId: data['id'] as int);
+    } catch (e) {
+      return null;
+    }
   }
 }
