@@ -1,4 +1,4 @@
-part of 'task_profile_page.dart';
+part of 'task_profile_page_controller.dart';
 
 @freezed
 sealed class TaskProfilePageState with _$TaskProfilePageState {
@@ -6,7 +6,7 @@ sealed class TaskProfilePageState with _$TaskProfilePageState {
   const factory TaskProfilePageState.loading() = TaskProfilePageInitial;
   const factory TaskProfilePageState.taskUserData(TaskModel model) =
       TaskProfilePageOwnerData;
-  const factory TaskProfilePageState.taskConsumerData(TaskModel model) =
+  const factory TaskProfilePageState.taskConsumerData(TaskModel model,BidInfo? info) =
       TaskProfilePageConsumerData;
   const factory TaskProfilePageState.error(Object error) = TaskProfilePageError;
   const factory TaskProfilePageState.networkError() =

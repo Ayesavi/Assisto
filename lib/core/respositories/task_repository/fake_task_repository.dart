@@ -264,6 +264,18 @@ class FakeTaskRepository implements BaseTaskRepository {
     return generateBidModels('3', ['d', 's']);
   }
 
+  @override
+  Future<void> placeBid({required int taskId, required int amount}) async {
+    // ignore
+    return;
+  }
+
+  @override
+  Future<({int amount, int taskId})?> fetchBidInfoOnTask(int taskId) {
+    // TODO: implement fetchBidInfoOnTask
+    throw UnimplementedError();
+  }
+
   // @override
   // Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) {
   //   return Future.delayed(const Duration(seconds: 1), () {

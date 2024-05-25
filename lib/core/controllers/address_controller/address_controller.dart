@@ -3,6 +3,7 @@ import 'package:assisto/core/respositories/address_repository.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'address_controller.freezed.dart';
 part 'address_controller.g.dart';
@@ -10,7 +11,7 @@ part 'address_controller_state.dart';
 
 @Riverpod(keepAlive: true)
 class AddressController extends _$AddressController {
-  final _repo = FakeAddressRepository();
+  final _repo = SupabaseAddressRepository();
 
   var _addresses = <AddressModel>[];
 

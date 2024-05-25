@@ -1,4 +1,5 @@
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
+import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -13,7 +14,7 @@ class SupabaseTaskRepository implements BaseTaskRepository {
     return TaskModel.fromJson(await _supabase
         .from(_table)
         .insert(json)
-        .select('*,owner:owner_id(id,image_url)')
+        .select('*,owner:owner_id(id,avatar_url)')
         .single());
   }
 
@@ -25,20 +26,30 @@ class SupabaseTaskRepository implements BaseTaskRepository {
   @override
   Future<List<TaskModel>> fetchTasks(
       {filters = const [], LatLng? latlng, int? offset}) async {
-    final List<dynamic> data = await _supabase.rpc('get_feed_tasks', params: {
-      'data': {
-        if (latlng != null) ...{
-          'center_lat': latlng.lat,
-          'center_lng': latlng.lng
+    if (filters.contains(TaskFilterType.you)) {
+      return await _fetchOwnTasks();
+    } else if (filters.contains(TaskFilterType.bidded)) {
+      return await _fetchBiddedTasks(filters);
+    } else {
+      final List<dynamic> data = await _supabase.rpc('get_feed_tasks', params: {
+        'data': {
+          if (latlng != null) ...{
+            'center_lat': latlng.lat,
+            'center_lng': latlng.lng
+          }
         }
-      }
-    });
-    return data.map((json) => TaskModel.fromJson(json)).toList();
+      });
+      return data.map((json) => TaskModel.fromJson(json)).toList();
+    }
   }
 
   @override
   Future<TaskModel> getTaskById(int id) async {
-    final json = await _supabase.from(_table).select('*').eq('id', id).single();
+    final json = await _supabase
+        .from(_table)
+        .select('*,owner:owner_id(id,avatar_url)')
+        .eq('id', id)
+        .single();
     return TaskModel.fromJson(json);
   }
 
@@ -61,14 +72,43 @@ class SupabaseTaskRepository implements BaseTaskRepository {
     return data.map((e) => BidModel.fromJson(e)).toList();
   }
 
-  // /// Fetched tasks made by the current user.
-  // @override
-  // Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) async {
-  //   final data = await _supabase
-  //       .from('tasks')
-  //       .select(
-  //           '*,owner:owner_id(id,avatar_url),bid:bid_id(*,bidder:bidder_id(*))')
-  //       .eq('owner_id', '${_supabase.auth.currentUser?.id}');
-  //   return data.map((json) => TaskModel.fromJson(json)).toList();
-  // }
+  Future<List<TaskModel>> _fetchBiddedTasks(
+      List<TaskFilterType> filters) async {
+    final data = await _supabase
+        .from('bidding')
+        .select('task:task_id(*,owner:owner_id(id,avatar_url))');
+    return data.map((json) {
+      return TaskModel.fromJson(json['task']);
+    }).toList();
+  }
+
+  Future<List<TaskModel>> _fetchOwnTasks() async {
+    final data = await _supabase
+        .from('tasks')
+        .select(
+            '*,owner:owner_id(id,avatar_url),bid:bid_id(*,bidder:bidder_id(*))')
+        .eq('owner_id', '${_supabase.auth.currentUser?.id}');
+    return data.map((json) => TaskModel.fromJson(json)).toList();
+  }
+
+  @override
+  Future<void> placeBid({required int taskId, required int amount}) async {
+    await _supabase
+        .from('bidding')
+        .insert({'task_id': taskId, 'amount': amount});
+  }
+
+  @override
+  Future<BidInfo?> fetchBidInfoOnTask(int taskId) async {
+    try {
+      final data = await _supabase
+          .from('bidding')
+          .select('amount,id')
+          .eq('task_id', taskId)
+          .single();
+      return (amount: data['amount'] as int, taskId: data['id'] as int);
+    } catch (e) {
+      return null;
+    }
+  }
 }

@@ -13,7 +13,6 @@ class AddressModel with _$AddressModel {
     required ({double lat, double lng}) latlng,
     @JsonKey(name: 'owner_id', includeToJson: false) String? ownerId,
     required String label,
-    required DateTime createdAt,
     @JsonKey(name: 'house_number') required String houseNumber,
     @JsonKey(includeToJson: false) required int id,
   }) = _AddressModel;
@@ -30,7 +29,7 @@ class AddressModel with _$AddressModel {
 extension ToSupa on AddressModel {
   Map<String, dynamic> toSupaJson() {
     final json = toJson();
-    json['latlng'] = 'POINT(${json['latlng']['lng']} ${json['latlng']['lat']})';
+    json['geo'] = 'POINT(${json['latlng']['lng']} ${json['latlng']['lat']})';
     return json;
   }
 }

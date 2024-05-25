@@ -6,9 +6,8 @@ import 'package:assisto/widgets/task_tile/tile_status.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:assisto/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TaskTile extends ConsumerWidget {
+class TaskTile extends StatelessWidget {
   final TaskModel taskModel;
   final VoidCallback onPressed;
   final Widget? trailing;
@@ -44,7 +43,11 @@ class TaskTile extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    return _buildTile(context);
+  }
+
+  Widget _buildTile(BuildContext context) {
     final distance = taskModel.distance?.toInt();
     return ListTile(
       onTap: onPressed,

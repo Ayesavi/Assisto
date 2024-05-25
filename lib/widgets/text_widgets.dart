@@ -138,7 +138,6 @@ class TitleMedium extends StatelessWidget {
       text,
       maxLines: maxLines,
       textAlign: align,
-
       overflow: overflow,
       style: style ??
           Theme.of(context)

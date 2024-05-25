@@ -1,14 +1,16 @@
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
-import 'package:assisto/features/tasks/controllers/task_profile/task_profile_page.dart';
+import 'package:assisto/features/tasks/controllers/task_profile_controller/task_profile_page_controller.dart';
 import 'package:assisto/features/tasks/widgets/bid_page_view.dart';
 import 'package:assisto/features/tasks/widgets/show_bidding_bottomsheet.dart';
 import 'package:assisto/features/tasks/widgets/task_profile_page_view.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
+import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TaskProfilePage extends ConsumerWidget {
   final int taskId;
@@ -16,7 +18,9 @@ class TaskProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(taskProfilePageProvider(taskId));
+    final provider = taskProfilePageProvider(taskId);
+    final state = ref.watch(provider);
+    final controller = ref.read(provider.notifier);
     // Define page controller to handle page changes
     final PageController pageController = PageController();
 
@@ -27,6 +31,7 @@ class TaskProfilePage extends ConsumerWidget {
       ));
     }, taskUserData: (model) {
       final isNotAssigned = model.status == TaskStatus.unassigned;
+
       return _buildScaffold(
           appBar: AppBar(
             actions: [
@@ -104,11 +109,11 @@ class TaskProfilePage extends ConsumerWidget {
                   ],
                 )
               : TaskProfilePageView(model));
-    }, taskConsumerData: (model) {
+    }, taskConsumerData: (model,bidInfo) {
       final isTaskAssigned = model.status != TaskStatus.unassigned;
 
       return _buildScaffold(
-          body: TaskProfilePageView(model),
+          body: TaskProfilePageView(model,bidInfo:bidInfo ,),
           appBar: AppBar(
             actions: [
               if (!isTaskAssigned)
@@ -128,7 +133,33 @@ class TaskProfilePage extends ConsumerWidget {
                           //         .color)
                           ),
                       onPressed: () {
-                        showBidBottomSheet(context, onPriceEntered: (v) {});
+                        showBidBottomSheet(context,
+                            amountController: TextEditingController(),
+                            onPriceEntered: (v) async {
+                          try {
+                            await controller.placeBid(v);
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                            }
+                          } on PostgrestException {
+                            if (context.mounted) {
+                              Navigator.pop(context);
+
+                              showPopup(context, onConfirm: () async {
+                                Navigator.pop(context);
+                              },
+                                  content:
+                                      'We have identified a bidding earlier by you for this task.',
+                                  title: 'Bidding Exists');
+                            }
+                          } catch (e) {
+                            if (context.mounted) {
+                              Navigator.pop(context);
+
+                              showSnackBar(context);
+                            }
+                          }
+                        });
                       },
                       child: const Text('Place Bid')),
                 )

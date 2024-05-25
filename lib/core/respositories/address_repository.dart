@@ -29,7 +29,6 @@ class FakeAddressRepository implements BaseAddressRepository {
       houseNumber: '4',
       address: '123 Main St',
       latlng: (lat: 0.0, lng: 0.0),
-      createdAt: DateTime.now(),
       id: 1,
     ),
     AddressModel(
@@ -37,7 +36,6 @@ class FakeAddressRepository implements BaseAddressRepository {
       houseNumber: '90',
       address: '3 Main St',
       latlng: (lat: 0.0, lng: 0.0),
-      createdAt: DateTime.now(),
       id: 2,
     )
   ];
