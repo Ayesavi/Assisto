@@ -36,6 +36,8 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final controller = ref.read(homePageControllerProvider.notifier);
+    List<TaskFilterType> filters = const [];
+
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -49,7 +51,7 @@ class HomeScreen extends ConsumerWidget {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            controller.loadData();
+            controller.loadData(filters);
           },
           child: CustomScrollView(
             slivers: [
@@ -79,10 +81,12 @@ class HomeScreen extends ConsumerWidget {
                             Expanded(
                               child: TaskFilterWidget(
                                   onSelected: (selectedFilters) {
-                                final filters = selectedFilters
+                                final taskFilters = selectedFilters
                                     .map((filter) => filter as TaskFilterType)
                                     .toList();
-                                controller.loadData(filters);
+
+                                filters = taskFilters;
+                                controller.loadData(taskFilters);
                               }),
                             ),
                           ],

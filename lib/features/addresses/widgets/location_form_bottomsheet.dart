@@ -44,7 +44,6 @@ class _FormBottomSheetState extends State<_LocationFormBottomSheet> {
       return AddressModel(
           id: widget.addressModel?.id ?? Random().nextInt(4),
           address: _addressController.text,
-          createdAt: DateTime.now(),
           houseNumber: _houseBlockController.text,
           label: _labelController.text,
           latlng: widget.latLng);

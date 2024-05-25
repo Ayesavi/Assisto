@@ -26,7 +26,6 @@ mixin _$AddressModel {
   @JsonKey(name: 'owner_id', includeToJson: false)
   String? get ownerId => throw _privateConstructorUsedError;
   String get label => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'house_number')
   String get houseNumber => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false)
@@ -50,7 +49,6 @@ abstract class $AddressModelCopyWith<$Res> {
       ({double lat, double lng}) latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) String? ownerId,
       String label,
-      DateTime createdAt,
       @JsonKey(name: 'house_number') String houseNumber,
       @JsonKey(includeToJson: false) int id});
 }
@@ -73,7 +71,6 @@ class _$AddressModelCopyWithImpl<$Res, $Val extends AddressModel>
     Object? latlng = null,
     Object? ownerId = freezed,
     Object? label = null,
-    Object? createdAt = null,
     Object? houseNumber = null,
     Object? id = null,
   }) {
@@ -98,10 +95,6 @@ class _$AddressModelCopyWithImpl<$Res, $Val extends AddressModel>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       houseNumber: null == houseNumber
           ? _value.houseNumber
           : houseNumber // ignore: cast_nullable_to_non_nullable
@@ -128,7 +121,6 @@ abstract class _$$AddressModelImplCopyWith<$Res>
       ({double lat, double lng}) latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) String? ownerId,
       String label,
-      DateTime createdAt,
       @JsonKey(name: 'house_number') String houseNumber,
       @JsonKey(includeToJson: false) int id});
 }
@@ -149,7 +141,6 @@ class __$$AddressModelImplCopyWithImpl<$Res>
     Object? latlng = null,
     Object? ownerId = freezed,
     Object? label = null,
-    Object? createdAt = null,
     Object? houseNumber = null,
     Object? id = null,
   }) {
@@ -174,10 +165,6 @@ class __$$AddressModelImplCopyWithImpl<$Res>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       houseNumber: null == houseNumber
           ? _value.houseNumber
           : houseNumber // ignore: cast_nullable_to_non_nullable
@@ -199,7 +186,6 @@ class _$AddressModelImpl implements _AddressModel {
       required this.latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) this.ownerId,
       required this.label,
-      required this.createdAt,
       @JsonKey(name: 'house_number') required this.houseNumber,
       @JsonKey(includeToJson: false) required this.id});
 
@@ -218,8 +204,6 @@ class _$AddressModelImpl implements _AddressModel {
   @override
   final String label;
   @override
-  final DateTime createdAt;
-  @override
   @JsonKey(name: 'house_number')
   final String houseNumber;
   @override
@@ -237,8 +221,6 @@ class _$AddressModelImpl implements _AddressModel {
             (identical(other.latlng, latlng) || other.latlng == latlng) &&
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
             (identical(other.label, label) || other.label == label) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
             (identical(other.houseNumber, houseNumber) ||
                 other.houseNumber == houseNumber) &&
             (identical(other.id, id) || other.id == id));
@@ -246,8 +228,8 @@ class _$AddressModelImpl implements _AddressModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, address, landmark, latlng,
-      ownerId, label, createdAt, houseNumber, id);
+  int get hashCode => Object.hash(
+      runtimeType, address, landmark, latlng, ownerId, label, houseNumber, id);
 
   @JsonKey(ignore: true)
   @override
@@ -270,7 +252,6 @@ abstract class _AddressModel implements AddressModel {
       required final ({double lat, double lng}) latlng,
       @JsonKey(name: 'owner_id', includeToJson: false) final String? ownerId,
       required final String label,
-      required final DateTime createdAt,
       @JsonKey(name: 'house_number') required final String houseNumber,
       @JsonKey(includeToJson: false)
       required final int id}) = _$AddressModelImpl;
@@ -289,8 +270,6 @@ abstract class _AddressModel implements AddressModel {
   String? get ownerId;
   @override
   String get label;
-  @override
-  DateTime get createdAt;
   @override
   @JsonKey(name: 'house_number')
   String get houseNumber;

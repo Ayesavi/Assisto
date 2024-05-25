@@ -19,7 +19,6 @@ _$AddressModelImpl _$$AddressModelImplFromJson(Map<String, dynamic> json) =>
       ),
       ownerId: json['owner_id'] as String?,
       label: json['label'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
       houseNumber: json['house_number'] as String,
       id: (json['id'] as num).toInt(),
     );
@@ -33,7 +32,6 @@ Map<String, dynamic> _$$AddressModelImplToJson(_$AddressModelImpl instance) =>
         'lng': instance.latlng.lng,
       },
       'label': instance.label,
-      'createdAt': instance.createdAt.toIso8601String(),
       'house_number': instance.houseNumber,
     };
 

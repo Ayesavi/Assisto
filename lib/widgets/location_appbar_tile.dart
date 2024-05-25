@@ -19,34 +19,40 @@ class LocationTileOpenBottomsheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return CustomListTile(
-      onTap: onTap,
-      title: Row(children: [
-        getIcon(context),
-        const SizedBox(
-          width: 10,
-        ),
-        TitleMedium(
-          text: !(model != null) ? "Loading..." : model!.address.capitalize,
-          weight: FontWeight.bold,
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Transform.rotate(
-          angle: (90 * (22 / 7)) / 180,
-          child: Icon(
-            Icons.chevron_right_rounded,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width,
+      child: CustomListTile(
+        onTap: onTap,
+        title: Row(children: [
+          getIcon(context),
+          const SizedBox(
+            width: 10,
           ),
-        )
-      ]),
-      subtitle: model != null
-          ? LabelMedium(
-              text: model!.address.capitalize,
-              maxLines: 1,
-            )
-          : const SizedBox.shrink(),
+          SizedBox(
+            width: 120,
+            child: TitleMedium(
+              text: !(model != null) ? "Loading..." : model!.address.capitalize,
+              weight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          Transform.rotate(
+            angle: (90 * (22 / 7)) / 180,
+            child: Icon(
+              Icons.chevron_right_rounded,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
+            ),
+          )
+        ]),
+        subtitle: model != null
+            ? LabelMedium(
+                text: model!.address.capitalize,
+                maxLines: 1,
+              )
+            : const SizedBox.shrink(),
+      ),
     );
   }
 }

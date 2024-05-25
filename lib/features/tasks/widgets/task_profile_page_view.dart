@@ -1,5 +1,6 @@
 import 'package:assisto/core/extensions/datetime_extension.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
+import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
 import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/core/utils/string_constants.dart';
@@ -13,7 +14,8 @@ import 'package:readmore/readmore.dart';
 
 class TaskProfilePageView extends ConsumerWidget {
   final TaskModel model;
-  const TaskProfilePageView(this.model, {super.key});
+  final BidInfo? bidInfo;
+  const TaskProfilePageView(this.model, {this.bidInfo, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,62 +25,67 @@ class TaskProfilePageView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TitleLarge(
-            text: model.title,
+            text: model.title.capitalize,
             weight: FontWeight.bold,
           ),
           kWidgetMinVerticalGap,
-          ReadMoreText(model.description),
-          CupertinoListSection(
-            backgroundColor: Theme.of(context).canvasColor,
-            children: [
-              if (model.address != null)
-                CupertinoListTile(
-                  onTap: () {
-                    //todo: open at map center
-                  },
-                  padding: const EdgeInsets.all(5),
-                  leading: Icon(Icons.near_me_outlined,
-                      color: Theme.of(context).colorScheme.tertiary),
-                  title: const TitleMedium(text: 'Location'),
-                  subtitle: BodyMedium(text: model.address!.address),
-                  additionalInfo: BodyLarge(
-                    text: '${model.distance!.toInt().toString()} Kms',
+          ReadMoreText(model.description.capitalize),
+          if (!(model.address == null &&
+              model.deadline == null &&
+              model.expectedPrice == null &&
+              model.ageGroup == null))
+            CupertinoListSection(
+              backgroundColor: Theme.of(context).canvasColor,
+              children: [
+                if (model.address != null)
+                  CupertinoListTile(
+                    onTap: () {
+                      //todo: open at map center
+                    },
+                    padding: const EdgeInsets.all(5),
+                    leading: Icon(Icons.near_me_outlined,
+                        color: Theme.of(context).colorScheme.tertiary),
+                    title: const TitleMedium(text: 'Location'),
+                    subtitle: BodyMedium(text: model.address!.address),
+                    additionalInfo: BodyLarge(
+                      text: '${model.distance!.toInt().toString()} Kms',
+                    ),
+                    trailing: const CupertinoListTileChevron(),
                   ),
-                  trailing: const CupertinoListTileChevron(),
-                ),
-              CupertinoListTile(
-                padding: const EdgeInsets.all(5),
-                leading: Icon(Icons.lock_clock,
-                    color: Theme.of(context).colorScheme.tertiary),
-                title: const TitleMedium(text: 'Deadline'),
-                additionalInfo: BodyLarge(
-                  text: model.deadline!.formattedDateTime(),
-                ),
-              ),
-              if (model.expectedPrice != null)
-                CupertinoListTile(
-                  padding: const EdgeInsets.all(5),
-                  leading: Icon(Icons.person_outline_outlined,
-                      color: Theme.of(context).colorScheme.tertiary),
-                  title: const TitleMedium(text: 'Max Budget'),
-                  additionalInfo: BodyLarge(
-                    text:
-                        '${model.expectedPrice!.toString().capitalize} $kRupeeSymbol',
+                if (model.deadline != null)
+                  CupertinoListTile(
+                    padding: const EdgeInsets.all(5),
+                    leading: Icon(Icons.lock_clock,
+                        color: Theme.of(context).colorScheme.tertiary),
+                    title: const TitleMedium(text: 'Deadline'),
+                    additionalInfo: BodyLarge(
+                      text: model.deadline!.formattedDateTime(),
+                    ),
                   ),
-                ),
-              if (model.ageGroup != null)
-                CupertinoListTile(
-                  padding: const EdgeInsets.all(5),
-                  leading: Icon(Icons.person_outline_outlined,
-                      color: Theme.of(context).colorScheme.tertiary),
-                  title: const TitleMedium(text: 'Only Age Between'),
-                  additionalInfo: BodyLarge(
-                    text:
-                        '${model.ageGroup!.toString().replaceAll('-', ' to ').capitalize} years',
+                if (model.expectedPrice != null)
+                  CupertinoListTile(
+                    padding: const EdgeInsets.all(5),
+                    leading: Icon(Icons.person_outline_outlined,
+                        color: Theme.of(context).colorScheme.tertiary),
+                    title: const TitleMedium(text: 'Max Budget'),
+                    additionalInfo: BodyLarge(
+                      text:
+                          '${model.expectedPrice!.toString().capitalize} $kRupeeSymbol',
+                    ),
                   ),
-                ),
-            ],
-          ),
+                if (model.ageGroup != null)
+                  CupertinoListTile(
+                    padding: const EdgeInsets.all(5),
+                    leading: Icon(Icons.person_outline_outlined,
+                        color: Theme.of(context).colorScheme.tertiary),
+                    title: const TitleMedium(text: 'Only Age Between'),
+                    additionalInfo: BodyLarge(
+                      text:
+                          '${model.ageGroup!.toString().replaceAll('-', ' to ').capitalize} years',
+                    ),
+                  ),
+              ],
+            ),
           CupertinoListSection(
               header: const TitleLarge(
                 text: 'Tags',
@@ -114,6 +121,25 @@ class TaskProfilePageView extends ConsumerWidget {
                 )
               ]),
           kWidgetVerticalGap,
+          if (bidInfo != null)
+            CupertinoListSection(
+                header: const TitleLarge(
+                  text: 'Bidding',
+                  weight: FontWeight.bold,
+                ),
+                // hasLeading: false,
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                children: [
+                  CupertinoListTile(
+                    padding: const EdgeInsets.all(5),
+                    leading: Icon(Icons.person_outline_outlined,
+                        color: Theme.of(context).colorScheme.tertiary),
+                    title: const TitleMedium(text: 'Your bidding amount'),
+                    additionalInfo: BodyLarge(
+                      text: '${bidInfo?.amount} $kRupeeSymbol',
+                    ),
+                  ),
+                ]),
           if (isTaskAssigned && model.isUserTaskUser)
             AppFilledButton(label: 'Mark as completed')
         ],

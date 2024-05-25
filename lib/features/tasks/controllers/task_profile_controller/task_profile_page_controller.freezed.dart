@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'task_profile_page.dart';
+part of 'task_profile_page_controller.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -20,7 +20,8 @@ mixin _$TaskProfilePageState {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(TaskModel model) taskUserData,
-    required TResult Function(TaskModel model) taskConsumerData,
+    required TResult Function(TaskModel model, ({int amount, int taskId})? info)
+        taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
   }) =>
@@ -29,7 +30,8 @@ mixin _$TaskProfilePageState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(TaskModel model)? taskUserData,
-    TResult? Function(TaskModel model)? taskConsumerData,
+    TResult? Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
   }) =>
@@ -38,7 +40,8 @@ mixin _$TaskProfilePageState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(TaskModel model)? taskUserData,
-    TResult Function(TaskModel model)? taskConsumerData,
+    TResult Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -138,7 +141,8 @@ class _$TaskProfilePageInitialImpl extends TaskProfilePageInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(TaskModel model) taskUserData,
-    required TResult Function(TaskModel model) taskConsumerData,
+    required TResult Function(TaskModel model, ({int amount, int taskId})? info)
+        taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
   }) {
@@ -150,7 +154,8 @@ class _$TaskProfilePageInitialImpl extends TaskProfilePageInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(TaskModel model)? taskUserData,
-    TResult? Function(TaskModel model)? taskConsumerData,
+    TResult? Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
   }) {
@@ -162,7 +167,8 @@ class _$TaskProfilePageInitialImpl extends TaskProfilePageInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(TaskModel model)? taskUserData,
-    TResult Function(TaskModel model)? taskConsumerData,
+    TResult Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -300,7 +306,8 @@ class _$TaskProfilePageOwnerDataImpl extends TaskProfilePageOwnerData {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(TaskModel model) taskUserData,
-    required TResult Function(TaskModel model) taskConsumerData,
+    required TResult Function(TaskModel model, ({int amount, int taskId})? info)
+        taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
   }) {
@@ -312,7 +319,8 @@ class _$TaskProfilePageOwnerDataImpl extends TaskProfilePageOwnerData {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(TaskModel model)? taskUserData,
-    TResult? Function(TaskModel model)? taskConsumerData,
+    TResult? Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
   }) {
@@ -324,7 +332,8 @@ class _$TaskProfilePageOwnerDataImpl extends TaskProfilePageOwnerData {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(TaskModel model)? taskUserData,
-    TResult Function(TaskModel model)? taskConsumerData,
+    TResult Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -395,7 +404,7 @@ abstract class _$$TaskProfilePageConsumerDataImplCopyWith<$Res> {
           $Res Function(_$TaskProfilePageConsumerDataImpl) then) =
       __$$TaskProfilePageConsumerDataImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({TaskModel model});
+  $Res call({TaskModel model, ({int amount, int taskId})? info});
 
   $TaskModelCopyWith<$Res> get model;
 }
@@ -414,12 +423,17 @@ class __$$TaskProfilePageConsumerDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? model = null,
+    Object? info = freezed,
   }) {
     return _then(_$TaskProfilePageConsumerDataImpl(
       null == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as TaskModel,
+      freezed == info
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as ({int amount, int taskId})?,
     ));
   }
 
@@ -435,14 +449,16 @@ class __$$TaskProfilePageConsumerDataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
-  const _$TaskProfilePageConsumerDataImpl(this.model) : super._();
+  const _$TaskProfilePageConsumerDataImpl(this.model, this.info) : super._();
 
   @override
   final TaskModel model;
+  @override
+  final ({int amount, int taskId})? info;
 
   @override
   String toString() {
-    return 'TaskProfilePageState.taskConsumerData(model: $model)';
+    return 'TaskProfilePageState.taskConsumerData(model: $model, info: $info)';
   }
 
   @override
@@ -450,11 +466,12 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TaskProfilePageConsumerDataImpl &&
-            (identical(other.model, model) || other.model == model));
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.info, info) || other.info == info));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, model);
+  int get hashCode => Object.hash(runtimeType, model, info);
 
   @JsonKey(ignore: true)
   @override
@@ -468,11 +485,12 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(TaskModel model) taskUserData,
-    required TResult Function(TaskModel model) taskConsumerData,
+    required TResult Function(TaskModel model, ({int amount, int taskId})? info)
+        taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
   }) {
-    return taskConsumerData(model);
+    return taskConsumerData(model, info);
   }
 
   @override
@@ -480,11 +498,12 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(TaskModel model)? taskUserData,
-    TResult? Function(TaskModel model)? taskConsumerData,
+    TResult? Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
   }) {
-    return taskConsumerData?.call(model);
+    return taskConsumerData?.call(model, info);
   }
 
   @override
@@ -492,13 +511,14 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(TaskModel model)? taskUserData,
-    TResult Function(TaskModel model)? taskConsumerData,
+    TResult Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
     required TResult orElse(),
   }) {
     if (taskConsumerData != null) {
-      return taskConsumerData(model);
+      return taskConsumerData(model, info);
     }
     return orElse();
   }
@@ -546,11 +566,13 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
 }
 
 abstract class TaskProfilePageConsumerData extends TaskProfilePageState {
-  const factory TaskProfilePageConsumerData(final TaskModel model) =
+  const factory TaskProfilePageConsumerData(
+          final TaskModel model, final ({int amount, int taskId})? info) =
       _$TaskProfilePageConsumerDataImpl;
   const TaskProfilePageConsumerData._() : super._();
 
   TaskModel get model;
+  ({int amount, int taskId})? get info;
   @JsonKey(ignore: true)
   _$$TaskProfilePageConsumerDataImplCopyWith<_$TaskProfilePageConsumerDataImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -622,7 +644,8 @@ class _$TaskProfilePageErrorImpl extends TaskProfilePageError {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(TaskModel model) taskUserData,
-    required TResult Function(TaskModel model) taskConsumerData,
+    required TResult Function(TaskModel model, ({int amount, int taskId})? info)
+        taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
   }) {
@@ -634,7 +657,8 @@ class _$TaskProfilePageErrorImpl extends TaskProfilePageError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(TaskModel model)? taskUserData,
-    TResult? Function(TaskModel model)? taskConsumerData,
+    TResult? Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
   }) {
@@ -646,7 +670,8 @@ class _$TaskProfilePageErrorImpl extends TaskProfilePageError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(TaskModel model)? taskUserData,
-    TResult Function(TaskModel model)? taskConsumerData,
+    TResult Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -754,7 +779,8 @@ class _$TaskProfilePageNetworkErrorImpl extends TaskProfilePageNetworkError {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(TaskModel model) taskUserData,
-    required TResult Function(TaskModel model) taskConsumerData,
+    required TResult Function(TaskModel model, ({int amount, int taskId})? info)
+        taskConsumerData,
     required TResult Function(Object error) error,
     required TResult Function() networkError,
   }) {
@@ -766,7 +792,8 @@ class _$TaskProfilePageNetworkErrorImpl extends TaskProfilePageNetworkError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(TaskModel model)? taskUserData,
-    TResult? Function(TaskModel model)? taskConsumerData,
+    TResult? Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult? Function(Object error)? error,
     TResult? Function()? networkError,
   }) {
@@ -778,7 +805,8 @@ class _$TaskProfilePageNetworkErrorImpl extends TaskProfilePageNetworkError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(TaskModel model)? taskUserData,
-    TResult Function(TaskModel model)? taskConsumerData,
+    TResult Function(TaskModel model, ({int amount, int taskId})? info)?
+        taskConsumerData,
     TResult Function(Object error)? error,
     TResult Function()? networkError,
     required TResult orElse(),

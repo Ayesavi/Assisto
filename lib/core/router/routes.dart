@@ -10,7 +10,7 @@ import 'package:assisto/features/notifications/screens/notification_page.dart';
 import 'package:assisto/features/profile/screens/edit_profile_page.dart';
 import 'package:assisto/features/profile/screens/profile_screen.dart';
 import 'package:assisto/features/splash/screens/splash_screen.dart';
-import 'package:assisto/features/tasks/screens/task_profile.dart';
+import 'package:assisto/features/tasks/screens/task_profile_page.dart';
 import 'package:assisto/widgets/enter_profile_detail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
