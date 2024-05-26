@@ -5,8 +5,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'address_model.freezed.dart';
 part 'address_model.g.dart';
 
-@freezed
+@Freezed(toStringOverride: false)
 class AddressModel with _$AddressModel {
+  const AddressModel._();
   factory AddressModel({
     required String address,
     String? landmark,
@@ -22,7 +23,7 @@ class AddressModel with _$AddressModel {
 
   @override
   toString() {
-    return address;
+    return label;
   }
 }
 

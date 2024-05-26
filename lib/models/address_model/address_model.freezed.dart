@@ -179,7 +179,7 @@ class __$$AddressModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$AddressModelImpl implements _AddressModel {
+class _$AddressModelImpl extends _AddressModel {
   _$AddressModelImpl(
       {required this.address,
       this.landmark,
@@ -187,7 +187,8 @@ class _$AddressModelImpl implements _AddressModel {
       @JsonKey(name: 'owner_id', includeToJson: false) this.ownerId,
       required this.label,
       @JsonKey(name: 'house_number') required this.houseNumber,
-      @JsonKey(includeToJson: false) required this.id});
+      @JsonKey(includeToJson: false) required this.id})
+      : super._();
 
   factory _$AddressModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$AddressModelImplFromJson(json);
@@ -245,7 +246,7 @@ class _$AddressModelImpl implements _AddressModel {
   }
 }
 
-abstract class _AddressModel implements AddressModel {
+abstract class _AddressModel extends AddressModel {
   factory _AddressModel(
       {required final String address,
       final String? landmark,
@@ -255,6 +256,7 @@ abstract class _AddressModel implements AddressModel {
       @JsonKey(name: 'house_number') required final String houseNumber,
       @JsonKey(includeToJson: false)
       required final int id}) = _$AddressModelImpl;
+  _AddressModel._() : super._();
 
   factory _AddressModel.fromJson(Map<String, dynamic> json) =
       _$AddressModelImpl.fromJson;

@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readmore/readmore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TaskProfilePageView extends ConsumerWidget {
   final TaskModel model;
@@ -18,6 +19,10 @@ class TaskProfilePageView extends ConsumerWidget {
   final Future<void> Function()? onPressMarkAsCompleted;
   const TaskProfilePageView(this.model,
       {this.bidInfo, super.key, this.onPressMarkAsCompleted});
+
+  String generateGoogleMapsUrl(double latitude, double longitude) {
+    return 'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude';
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,26 +37,34 @@ class TaskProfilePageView extends ConsumerWidget {
           ),
           kWidgetMinVerticalGap,
           ReadMoreText(model.description.capitalize),
-          if (!(model.address == null &&
-              model.deadline == null &&
-              model.expectedPrice == null &&
-              model.ageGroup == null))
+          if ((model.address != null ||
+              model.deadline != null ||
+              model.expectedPrice != null ||
+              model.ageGroup != null))
             CupertinoListSection(
               backgroundColor: Theme.of(context).canvasColor,
               children: [
                 if (model.address != null)
                   CupertinoListTile(
-                    onTap: () {
-                      //todo: open at map center
+                    onTap: () async {
+                      if (await canLaunchUrl(Uri.parse(generateGoogleMapsUrl(
+                          model.address!.latlng.lat,
+                          model.address!.latlng.lng)))) {
+                        launchUrl(Uri.parse(generateGoogleMapsUrl(
+                            model.address!.latlng.lat,
+                            model.address!.latlng.lng)));
+                      }
                     },
                     padding: const EdgeInsets.all(5),
                     leading: Icon(Icons.near_me_outlined,
                         color: Theme.of(context).colorScheme.tertiary),
                     title: const TitleMedium(text: 'Location'),
                     subtitle: BodyMedium(text: model.address!.address),
-                    additionalInfo: BodyLarge(
-                      text: '${model.distance!.toInt().toString()} Kms',
-                    ),
+                    additionalInfo: model.distance != null
+                        ? BodyLarge(
+                            text: '${model.distance?.toInt().toString()} Kms',
+                          )
+                        : null,
                     trailing: const CupertinoListTileChevron(),
                   ),
                 if (model.deadline != null)

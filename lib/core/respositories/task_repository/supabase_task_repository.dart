@@ -49,7 +49,8 @@ class SupabaseTaskRepository implements BaseTaskRepository {
   Future<TaskModel> getTaskById(int id) async {
     final json = await _supabase
         .from(_table)
-        .select('*,owner:owner_id(id,avatar_url)')
+        .select(
+            '*,owner:owner_id(id,avatar_url),address:address_id(id,latlng,address,house_number)')
         .eq('id', id)
         .single();
     return TaskModel.fromJson(json);

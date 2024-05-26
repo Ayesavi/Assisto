@@ -35,6 +35,7 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
     <String, dynamic>{
+      'address_id': instance.addressId,
       'tags': instance.tags,
       'deadline': instance.deadline?.toIso8601String(),
       'title': instance.title,

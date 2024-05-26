@@ -7,6 +7,7 @@ import 'package:assisto/widgets/bid_tile/bid_tile.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 
 class BidPageView extends ConsumerWidget {
   final TaskModel model;
@@ -33,23 +34,45 @@ class BidPageView extends ConsumerWidget {
           );
         }, data: (bids) {
           return Expanded(
-            child: ListView.builder(
-              itemCount: bids.length,
-              itemBuilder: (context, index) {
-                return BidTile(
-                    bidModel: bids[index],
-                    onPressed: () {
-                      showBidderProfileBottomSheet(
-                          context: context,
-                          onAcceptOffer: () async {
-                            await controller.acceptBid(bids[index].id);
-                            const HomeRoute().replace(context);
-                            return;
-                          },
-                          model: bids[index],
-                          showAcceptOffer: true);
-                    });
-              },
+            child: Stack(
+              children: [
+                RefreshIndicator(
+                  onRefresh: () async {},
+                  child: ListView.builder(
+                    itemCount: bids.length,
+                    itemBuilder: (context, index) {
+                      return BidTile(
+                          bidModel: bids[index],
+                          onPressed: () {
+                            showBidderProfileBottomSheet(
+                                context: context,
+                                onAcceptOffer: () async {
+                                  await controller.acceptBid(bids[index].id);
+                                  if (context.mounted) {
+                                    const HomeRoute().replace(context);
+                                  }
+                                  return;
+                                },
+                                model: bids[index],
+                                showAcceptOffer: true);
+                          });
+                    },
+                  ),
+                ),
+                Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox.square(
+                          dimension: 200,
+                          child: SvgPicture.asset(
+                              'assets/graphics/no_offers.svg')),
+                      kWidgetVerticalGap,
+                      const Text('No offers yet to display'),
+                    ],
+                  ),
+                ),
+              ],
             ),
           );
         }, networkError: () {
