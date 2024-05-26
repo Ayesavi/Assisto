@@ -89,7 +89,7 @@ class HomeScreen extends ConsumerWidget {
                                     .toList();
 
                                 _filters = taskFilters;
-                                controller.loadData(taskFilters);
+                                // controller.loadData(taskFilters);
                               }),
                             ),
                           ],
@@ -148,7 +148,8 @@ class HomeScreen extends ConsumerWidget {
                               if (models[index].bid != null) {
                                 showBidderProfileBottomSheet(
                                     context: context,
-                                    model: models[index].bid!);
+                                    model: models[index].bid!,
+                                    onAcceptOffer: () async {});
                               }
                             },
                             onPressed: () {

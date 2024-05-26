@@ -18,16 +18,16 @@ enum PaymentType { payment, request }
 class PaymentMessage extends Message {
   /// The payment amount
   final num amount;
+
   /// The payment status (pending, completed, failed)
   final PaymentStatus paymentStatus;
+
   /// The payment type (payment, request)
   final PaymentType paymentType;
 
   PaymentMessage({
-    @JsonKey(name: 'payment_status')
-    required this.paymentStatus,
-    @JsonKey(name: 'payment_type')  
-    required this.paymentType,
+    @JsonKey(name: 'payment_status') required this.paymentStatus,
+    @JsonKey(name: 'payment_type') required this.paymentType,
     required this.amount,
     @JsonKey(name: 'author_id') required super.authorId,
     required super.id,
@@ -68,4 +68,6 @@ class PaymentMessage extends Message {
       type: type ?? this.type,
     );
   }
+
+  
 }

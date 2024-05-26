@@ -15,7 +15,9 @@ import 'package:readmore/readmore.dart';
 class TaskProfilePageView extends ConsumerWidget {
   final TaskModel model;
   final BidInfo? bidInfo;
-  const TaskProfilePageView(this.model, {this.bidInfo, super.key});
+  final Future<void> Function()? onPressMarkAsCompleted;
+  const TaskProfilePageView(this.model,
+      {this.bidInfo, super.key, this.onPressMarkAsCompleted});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -140,8 +142,12 @@ class TaskProfilePageView extends ConsumerWidget {
                 ]),
           if (isTaskAssigned &&
               model.isUserTaskUser &&
-              model.status != TaskStatus.blocked)
-            AppFilledButton(label: 'Mark as completed')
+              !([TaskStatus.blocked, TaskStatus.completed]
+                  .contains(model.status)))
+            AppFilledButton(
+              label: 'Mark as completed',
+              asyncTap: onPressMarkAsCompleted,
+            )
         ],
       ),
     );

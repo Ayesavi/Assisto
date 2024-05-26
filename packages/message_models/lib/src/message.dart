@@ -8,6 +8,7 @@ abstract class Message extends Equatable {
   final String id;
   @JsonKey(name: 'author_id')
   final String authorId;
+
   final Message? repliedMessage;
   final MessageType type;
   @JsonKey(name: 'created_at')
@@ -46,4 +47,11 @@ abstract class Message extends Equatable {
     }
   }
   Map<String, dynamic> toJson();
+
+  Map<String, dynamic> toSupaJson() {
+    final json = toJson();
+    json.remove('repliedMessage');
+    json['replied_message_id'] = repliedMessage?.id;
+    return json;
+  }
 }

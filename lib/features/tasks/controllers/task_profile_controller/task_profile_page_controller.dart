@@ -1,6 +1,7 @@
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
 import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
+import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -39,10 +40,19 @@ class TaskProfilePage extends _$TaskProfilePage {
   }
 
   Future<BidInfo?> _getBidInfo() async {
-    return await _repository.fetchBidInfoOnTask(taskId);
+    try {
+      return await _repository.fetchBidInfoOnTask(taskId);
+    } catch (e) {
+      return null;
+    }
   }
 
-  cancelTask(int taskId) async {
+  Future<void> cancelTask(int taskId) async {
     await _repository.blockTask(taskId);
+  }
+
+  Future<void> completeTask(int taskId) async {
+    await _repository.updateTaskStatus(taskId, TaskStatus.completed);
+    ref.invalidate(homePageControllerProvider);
   }
 }

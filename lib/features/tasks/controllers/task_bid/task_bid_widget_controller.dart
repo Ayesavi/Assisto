@@ -1,5 +1,6 @@
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
+import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -18,9 +19,9 @@ class TaskBidWidgetController extends _$TaskBidWidgetController {
     return const TaskBidWidgetControllerState.loading();
   }
 
-  Future<void> getBids(int bidId) async {
+  Future<void> getBids(int taskId) async {
     try {
-      final bids = await _repository.fetchBids(bidId);
+      final bids = await _repository.fetchBids(taskId);
       state = TaskBidWidgetControllerState.data(bids);
     } catch (e) {
       if (e is NetworkException) {
@@ -28,6 +29,17 @@ class TaskBidWidgetController extends _$TaskBidWidgetController {
       } else {
         state = TaskBidWidgetControllerState.error(e);
       }
+    }
+  }
+
+  Future<void> acceptBid(int bidId) async {
+    try {
+      await _repository.acceptBid(bidId);
+      ref.invalidate(homePageControllerProvider);
+      return;
+    } catch (e) {
+      throw const AppException(
+          'Could not accept offer at the moment, try again later');
     }
   }
 }

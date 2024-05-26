@@ -12,7 +12,7 @@ part 'address_search_controller_state.dart';
 
 @riverpod
 class AddressSearchController extends _$AddressSearchController {
-  final _repo = FakePlacesRepository();
+  final _repo = GoogleMapRespository();
 
   final debouncer = Debouncer(delay: const Duration(milliseconds: 800));
 

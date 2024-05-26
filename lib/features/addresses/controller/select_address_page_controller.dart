@@ -30,7 +30,7 @@ class SelectAddressPageController extends _$SelectAddressPageController {
 
   final markerNotifier = ValueNotifier<LatLng?>(null);
 
-  final _repo = FakePlacesRepository();
+  final _repo = GoogleMapRespository();
 
   @override
   SelectAddressPageControllerState build({AddressModel? editAddressModel}) {

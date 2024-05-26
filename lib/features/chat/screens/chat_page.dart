@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/features/chat/controllers/chat_page_controller.dart';
 import 'package:assisto/features/chat/screens/chat_profile.dart';
 import 'package:assisto/features/chat/screens/payment_page.dart';
@@ -30,9 +29,23 @@ class _ChatPageState extends ConsumerState<ChatPage> {
       if (next.isData) {
         controller = ChatController(
             initialMessageList: [...(next as ChatPageData).messages],
-            currentUserId: 'currentUserId');
+            currentUserId:
+                ref.read(authControllerProvider.notifier).user?.id ?? '');
       }
     });
+    ref.read(provider.notifier).addMessageListener(widget.roomId, onMessage);
+  }
+
+  onMessage(Message message) {
+    if (message.authorId !=
+        ref.read(authControllerProvider.notifier).user?.id) {
+      controller.addMessage(message);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -171,12 +184,13 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                 color: scheme.onInverseSurface,
                 textStyle: TextStyle(color: scheme.onSurface))),
         chatController: controller,
-        onSendTap: (m) {
+        onSendTap: (m) async {
           controller.addMessage(m.copyWith(
-              authorId: Random().nextBool() ? 'currentUserId' : '1'));
+              authorId: ref.read(authControllerProvider.notifier).user?.id));
+          ref.read(provider.notifier).addMessage(m);
         },
-        currentUserId: 'currentUserId',
-        roomId: 0,
+        currentUserId: ref.read(authControllerProvider.notifier).user?.id ?? '',
+        roomId: widget.roomId,
         repliedMessageConfig: const RepliedMessageConfiguration(),
         chatBookState: ChatBookState.hasMessages);
   }

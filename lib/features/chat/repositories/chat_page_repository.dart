@@ -1,13 +1,69 @@
 import 'dart:math';
 
+import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:flutter_chatbook/flutter_chatbook.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class ChatRepository {
   Future<List<Message>> fetchMessages(int roomId,
       {int limit = 20, int offset = 0});
   Future<void> addMessage(Message message);
   Future<UserModel> getUserModelFromRoomId(int roomId);
+}
+
+class SupabaseChatRepository implements ChatRepository {
+  final _supabase = Supabase.instance.client;
+  final _table = 'messages';
+  final myChannel = Supabase.instance.client.channel('message');
+
+  @override
+  Future<void> addMessage(Message message) async {
+    try {
+      final data = message.toSupaJson();
+      await _supabase.from(_table).insert(data);
+    } catch (e) {
+      throw const AppException('Filed to add message');
+    }
+  }
+
+  @override
+  Future<List<Message>> fetchMessages(int roomId,
+      {int limit = 20, int offset = 0}) async {
+    try {
+      final data = await _supabase
+          .from(_table)
+          .select('*,repliedMessage:replied_message_id(*)')
+          .eq('room_id', roomId)
+          .range(offset, offset + limit)
+          .order('created_at');
+      return data.map((e) => Message.fromJson(e)).toList();
+    } catch (e) {
+      throw const AppException('Failed to fetch messages');
+    }
+  }
+
+  @override
+  Future<UserModel> getUserModelFromRoomId(int roomId) {
+    // TODO: implement getUserModelFromRoomId
+    throw UnimplementedError();
+  }
+
+  RealtimeChannel addMessageListener(
+    int roomId,
+    void Function(Map<String, dynamic> rawMessage) onMessage,
+  ) {
+    return myChannel
+        .onPostgresChanges(
+          event: PostgresChangeEvent.insert,
+          schema: 'public',
+          table: _table,
+          callback: (payload) {
+            onMessage(payload.newRecord);
+          },
+        )
+        .subscribe();
+  }
 }
 
 class FakeChatRepository implements ChatRepository {

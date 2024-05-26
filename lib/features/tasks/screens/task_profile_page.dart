@@ -25,7 +25,7 @@ class TaskProfilePage extends ConsumerWidget {
     } else {
       return FloatingActionButton(
         onPressed: () {
-          const ChatPageRoute(roomId: 0).push(context);
+          ChatPageRoute(roomId: taskId).push(context);
         },
         tooltip: 'Chat',
         child: const Icon(Icons.chat),
@@ -62,8 +62,8 @@ class TaskProfilePage extends ConsumerWidget {
     return null;
   }
 
-  Widget _getBody(
-      BuildContext context, TaskModel model, PageController pageController) {
+  Widget _getBody(BuildContext context, TaskModel model,
+      PageController pageController, dynamic controller) {
     final isNotAssignedOrBlocked = model.status == TaskStatus.unassigned;
     if (isNotAssignedOrBlocked) {
       return Column(
@@ -73,7 +73,14 @@ class TaskProfilePage extends ConsumerWidget {
             child: PageView(
               controller: pageController,
               children: [
-                TaskProfilePageView(model),
+                TaskProfilePageView(
+                  model,
+                  onPressMarkAsCompleted: () async {
+                    await controller.completeTask(taskId);
+                    Navigator.pop(context);
+                    return;
+                  },
+                ),
                 // Bids tab content
                 BidPageView(model)
               ],
@@ -82,7 +89,11 @@ class TaskProfilePage extends ConsumerWidget {
         ],
       );
     } else {
-      return TaskProfilePageView(model);
+      return TaskProfilePageView(model, onPressMarkAsCompleted: () async {
+        await controller.completeTask(taskId);
+        Navigator.pop(context);
+        return;
+      });
     }
   }
 
@@ -103,7 +114,8 @@ class TaskProfilePage extends ConsumerWidget {
       return _buildScaffold(
           appBar: AppBar(
             actions: [
-              if (model.status != TaskStatus.blocked)
+              if (!([TaskStatus.blocked, TaskStatus.completed]
+                  .contains(model.status)))
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
@@ -134,15 +146,17 @@ class TaskProfilePage extends ConsumerWidget {
           floatingActionButton: _getFloatingActionButton(context, model),
           bottomNavigationBar:
               _getbottomNavigationBar(context, model, pageController),
-          body: _getBody(context, model, pageController));
+          body: _getBody(context, model, pageController, controller));
     }, taskConsumerData: (model, bidInfo) {
       final isTaskAssigned = model.status != TaskStatus.unassigned;
 
       return _buildScaffold(
-          body: TaskProfilePageView(
-            model,
-            bidInfo: bidInfo,
-          ),
+          body: TaskProfilePageView(model, bidInfo: bidInfo,
+              onPressMarkAsCompleted: () async {
+            await controller.completeTask(taskId);
+            Navigator.pop(context);
+            return;
+          }),
           appBar: AppBar(
             actions: [
               if (!isTaskAssigned)

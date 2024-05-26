@@ -1,3 +1,4 @@
+import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/tasks/controllers/task_bid/task_bid_widget_controller.dart';
 import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
@@ -13,7 +14,11 @@ class BidPageView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(taskBidWidgetControllerProvider(model.id));
+    final provider = taskBidWidgetControllerProvider(model.id);
+
+    final state = ref.watch(provider);
+    final controller = ref.read(provider.notifier);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,7 +40,14 @@ class BidPageView extends ConsumerWidget {
                     bidModel: bids[index],
                     onPressed: () {
                       showBidderProfileBottomSheet(
-                          context: context, model: bids[index],showAcceptOffer: true);
+                          context: context,
+                          onAcceptOffer: () async {
+                            await controller.acceptBid(bids[index].id);
+                            const HomeRoute().replace(context);
+                            return;
+                          },
+                          model: bids[index],
+                          showAcceptOffer: true);
                     });
               },
             ),
