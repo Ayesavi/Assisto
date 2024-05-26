@@ -6,7 +6,7 @@ part of 'task_profile_page_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$taskProfilePageHash() => r'ffe84fa49ee652a4446735cc5fe9638bb549ad66';
+String _$taskProfilePageHash() => r'd26cc1a7ecd377d50db5080cbfbdd3c58b6e546f';
 
 /// Copied from Dart SDK
 class _SystemHash {

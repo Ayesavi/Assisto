@@ -31,7 +31,7 @@ class LocationTileOpenBottomsheet extends ConsumerWidget {
           SizedBox(
             width: 120,
             child: TitleMedium(
-              text: !(model != null) ? "Loading..." : model!.address.capitalize,
+              text: !(model != null) ? "Loading..." : model!.label.capitalize,
               weight: FontWeight.bold,
             ),
           ),
@@ -47,8 +47,8 @@ class LocationTileOpenBottomsheet extends ConsumerWidget {
           )
         ]),
         subtitle: model != null
-            ? LabelMedium(
-                text: model!.address.capitalize,
+            ? Text(
+                model!.address.capitalize,
                 maxLines: 1,
               )
             : const SizedBox.shrink(),

@@ -12,6 +12,7 @@ import 'package:readmore/readmore.dart';
 void showBidderProfileBottomSheet(
     {required BuildContext context,
     required BidModel model,
+    required Future<void> Function()? onAcceptOffer,
     bool showAcceptOffer = false}) {
   showModalBottomSheet(
     context: context,
@@ -19,6 +20,7 @@ void showBidderProfileBottomSheet(
     builder: (BuildContext context) {
       return BidderProfileBottomSheet(
         model: model,
+        onAcceptOffer: onAcceptOffer,
         showAcceptOffer: showAcceptOffer,
       );
     },
@@ -28,9 +30,10 @@ void showBidderProfileBottomSheet(
 class BidderProfileBottomSheet extends StatelessWidget {
   final BidModel model;
   final bool showAcceptOffer;
-
+  final Future<void> Function()? onAcceptOffer;
   const BidderProfileBottomSheet({
     super.key,
+    this.onAcceptOffer,
     this.showAcceptOffer = false,
     required this.model,
   });
@@ -104,15 +107,11 @@ class BidderProfileBottomSheet extends StatelessWidget {
                       content:
                           "Are you sure you want to accept this offer by ${model.bidder.name.capitalize}?",
                       onConfirm: () async {
-                        await Future.delayed(const Duration(seconds: 1), () {
-                          Navigator.pop(context);
-                        });
+                        await onAcceptOffer?.call();
+                        return;
                       },
                     );
 
-                    await Future.delayed(const Duration(seconds: 2), () {
-                      Navigator.pop(context);
-                    });
                     return;
                   },
                   label: 'Accept Offer'),

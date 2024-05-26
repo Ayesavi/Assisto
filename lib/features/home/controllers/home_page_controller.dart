@@ -4,6 +4,7 @@ import 'package:assisto/core/respositories/task_repository/supabase_task_reposit
 import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
+import 'package:assisto/widgets/filter_widget/filter_widget.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,7 +19,8 @@ class HomePageController extends _$HomePageController {
 
   @override
   HomePageControllerState build() {
-    loadData();
+    final filters = ref.watch(selectedFiltersProvider);
+    loadData(filters);
     final state = ref.watch(addressControllerProvider);
     if (state.location) {
       _defaultAddr = (state as Location).model;
@@ -39,7 +41,7 @@ class HomePageController extends _$HomePageController {
         state = HomePageControllerState.ownTasks(data);
       } else if (filters.contains(TaskFilterType.bidded)) {
         state = HomePageControllerState.tasks(data);
-    } else {
+      } else {
         state = HomePageControllerState.tasks(data);
       }
     } catch (e) {

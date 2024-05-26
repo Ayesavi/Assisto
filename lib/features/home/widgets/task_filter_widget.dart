@@ -8,7 +8,7 @@ class TaskFilterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilterWidget<TaskFilterType>(
+    return FilterWidget(
       filters: const [
         TaskFilterType.all,
         TaskFilterType.deadline,

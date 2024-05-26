@@ -1,7 +1,9 @@
+import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
+import 'package:assisto/models/user_model/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseTaskRepository implements BaseTaskRepository {
@@ -47,7 +49,8 @@ class SupabaseTaskRepository implements BaseTaskRepository {
   Future<TaskModel> getTaskById(int id) async {
     final json = await _supabase
         .from(_table)
-        .select('*,owner:owner_id(id,avatar_url)')
+        .select(
+            '*,owner:owner_id(id,avatar_url),address:address_id(id,latlng,address,house_number)')
         .eq('id', id)
         .single();
     return TaskModel.fromJson(json);
@@ -67,8 +70,10 @@ class SupabaseTaskRepository implements BaseTaskRepository {
 
   @override
   Future<List<BidModel>> fetchBids(int taskId, {int? offset}) async {
-    final data =
-        await _supabase.from('bidding').select('*').eq('task_id', taskId);
+    final data = await _supabase
+        .from('bidding')
+        .select('*,bidder:bidder_id(*)')
+        .eq('task_id', taskId);
     return data.map((e) => BidModel.fromJson(e)).toList();
   }
 
@@ -76,7 +81,8 @@ class SupabaseTaskRepository implements BaseTaskRepository {
       List<TaskFilterType> filters) async {
     final data = await _supabase
         .from('bidding')
-        .select('task:task_id(*,owner:owner_id(id,avatar_url))');
+        .select('task:task_id(*,owner:owner_id(id,avatar_url))')
+        .eq('bidder_id', _supabase.auth.currentUser?.id ?? '');
     return data.map((json) {
       return TaskModel.fromJson(json['task']);
     }).toList();
@@ -109,6 +115,40 @@ class SupabaseTaskRepository implements BaseTaskRepository {
       return (amount: data['amount'] as int, taskId: data['id'] as int);
     } catch (e) {
       return null;
+    }
+  }
+
+  @override
+  Future<void> blockTask(int taskId) async {
+    await _supabase
+        .from(_table)
+        .update({'status': TaskStatus.blocked.name}).eq('id', taskId);
+  }
+
+  @override
+  Future<UserModel> getTaskAssignedUser(int taskId) async {
+    try {
+      final data = await _supabase
+          .from('tasks')
+          .select('bid:bid_id(bidder:bidder_id(*))')
+          .eq('id', taskId)
+          .single();
+      return UserModel.fromJson(data['bid']['bidder']);
+    } catch (e) {
+      throw const AppException(
+          'Failed to get details of the assigned user for the task at the moment, try again later.');
+    }
+  }
+
+  @override
+  Future<void> updateTaskStatus(int taskId, TaskStatus status) async {
+    try {
+      await _supabase
+          .from(_table)
+          .update({'status': status.name}).eq('id', taskId);
+    } catch (e) {
+      throw const AppException(
+          'Failed to update the task status at the moment, try again later.');
     }
   }
 }

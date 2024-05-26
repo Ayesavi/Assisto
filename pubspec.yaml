@@ -119,6 +119,9 @@ flutter:
     - assets/graphics/success_check_mark.svg
     - assets/graphics/magic_ai.png
     - assets/map_style.json
+    - assets/graphics/empty_list.svg
+    - assets/graphics/no_offers.svg
+    - assets/graphics/empty_addresses.svg
     - .env 
   #   - images/a_dot_ham.jpeg
 

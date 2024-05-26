@@ -25,8 +25,8 @@ mixin _$TaskModel {
       throw _privateConstructorUsedError; // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
-  @JsonKey(name: 'address_id', includeFromJson: false)
-  dynamic get addressId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'address_id', includeToJson: true, includeFromJson: false)
+  int? get addressId => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false)
   TaskAddress? get address => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
@@ -61,7 +61,8 @@ abstract class $TaskModelCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(includeToJson: false) TaskUser owner,
-      @JsonKey(name: 'address_id', includeFromJson: false) dynamic addressId,
+      @JsonKey(name: 'address_id', includeToJson: true, includeFromJson: false)
+      int? addressId,
       @JsonKey(includeToJson: false) TaskAddress? address,
       List<String> tags,
       DateTime? deadline,
@@ -118,7 +119,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
       addressId: freezed == addressId
           ? _value.addressId
           : addressId // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as int?,
       address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -217,7 +218,8 @@ abstract class _$$TaskModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(includeToJson: false) TaskUser owner,
-      @JsonKey(name: 'address_id', includeFromJson: false) dynamic addressId,
+      @JsonKey(name: 'address_id', includeToJson: true, includeFromJson: false)
+      int? addressId,
       @JsonKey(includeToJson: false) TaskAddress? address,
       List<String> tags,
       DateTime? deadline,
@@ -272,7 +274,10 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
               as TaskUser,
-      addressId: freezed == addressId ? _value.addressId! : addressId,
+      addressId: freezed == addressId
+          ? _value.addressId
+          : addressId // ignore: cast_nullable_to_non_nullable
+              as int?,
       address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -334,7 +339,8 @@ class __$$TaskModelImplCopyWithImpl<$Res>
 class _$TaskModelImpl implements _TaskModel {
   const _$TaskModelImpl(
       {@JsonKey(includeToJson: false) required this.owner,
-      @JsonKey(name: 'address_id', includeFromJson: false) this.addressId,
+      @JsonKey(name: 'address_id', includeToJson: true, includeFromJson: false)
+      this.addressId,
       @JsonKey(includeToJson: false) this.address,
       required final List<String> tags,
       this.deadline,
@@ -360,8 +366,8 @@ class _$TaskModelImpl implements _TaskModel {
 // user has to be report when the task is completed.
 // attachedLocation
   @override
-  @JsonKey(name: 'address_id', includeFromJson: false)
-  final dynamic addressId;
+  @JsonKey(name: 'address_id', includeToJson: true, includeFromJson: false)
+  final int? addressId;
   @override
   @JsonKey(includeToJson: false)
   final TaskAddress? address;
@@ -414,7 +420,8 @@ class _$TaskModelImpl implements _TaskModel {
         (other.runtimeType == runtimeType &&
             other is _$TaskModelImpl &&
             (identical(other.owner, owner) || other.owner == owner) &&
-            const DeepCollectionEquality().equals(other.addressId, addressId) &&
+            (identical(other.addressId, addressId) ||
+                other.addressId == addressId) &&
             (identical(other.address, address) || other.address == address) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.deadline, deadline) ||
@@ -441,7 +448,7 @@ class _$TaskModelImpl implements _TaskModel {
   int get hashCode => Object.hash(
       runtimeType,
       owner,
-      const DeepCollectionEquality().hash(addressId),
+      addressId,
       address,
       const DeepCollectionEquality().hash(_tags),
       deadline,
@@ -472,23 +479,23 @@ class _$TaskModelImpl implements _TaskModel {
 
 abstract class _TaskModel implements TaskModel {
   const factory _TaskModel(
-          {@JsonKey(includeToJson: false) required final TaskUser owner,
-          @JsonKey(name: 'address_id', includeFromJson: false)
-          final dynamic addressId,
-          @JsonKey(includeToJson: false) final TaskAddress? address,
-          required final List<String> tags,
-          final DateTime? deadline,
-          required final String title,
-          required final String description,
-          final Gender? gender,
-          @JsonKey(name: 'age_group') final String? ageGroup,
-          @JsonKey(name: 'expected_price') final int? expectedPrice,
-          final TaskStatus status,
-          @JsonKey(includeToJson: false) final int id,
-          final BidModel? bid,
-          final double? distance,
-          @JsonKey(name: 'created_at') final DateTime? createdAt}) =
-      _$TaskModelImpl;
+      {@JsonKey(includeToJson: false) required final TaskUser owner,
+      @JsonKey(name: 'address_id', includeToJson: true, includeFromJson: false)
+      final int? addressId,
+      @JsonKey(includeToJson: false) final TaskAddress? address,
+      required final List<String> tags,
+      final DateTime? deadline,
+      required final String title,
+      required final String description,
+      final Gender? gender,
+      @JsonKey(name: 'age_group') final String? ageGroup,
+      @JsonKey(name: 'expected_price') final int? expectedPrice,
+      final TaskStatus status,
+      @JsonKey(includeToJson: false) final int id,
+      final BidModel? bid,
+      final double? distance,
+      @JsonKey(name: 'created_at')
+      final DateTime? createdAt}) = _$TaskModelImpl;
 
   factory _TaskModel.fromJson(Map<String, dynamic> json) =
       _$TaskModelImpl.fromJson;
@@ -499,8 +506,8 @@ abstract class _TaskModel implements TaskModel {
   @override // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
-  @JsonKey(name: 'address_id', includeFromJson: false)
-  dynamic get addressId;
+  @JsonKey(name: 'address_id', includeToJson: true, includeFromJson: false)
+  int? get addressId;
   @override
   @JsonKey(includeToJson: false)
   TaskAddress? get address;

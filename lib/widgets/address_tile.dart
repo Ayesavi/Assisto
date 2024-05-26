@@ -24,7 +24,10 @@ class AddressTile extends ConsumerWidget {
         text: model.label.capitalize,
       ),
       onTap: onTap,
-      subtitle: LabelMedium(text: model.address.capitalize),
+      subtitle: Text(
+        model.address.capitalize,
+        maxLines: 1,
+      ),
 
       // leading: switch (model.category) {
       //   AddressCategory.friend => Icon(

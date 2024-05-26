@@ -1,15 +1,17 @@
+import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/widgets/small_chip_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Create a StateProvider for managing selected filters
-final selectedFiltersProvider = StateProvider<List>((ref) => []);
+final selectedFiltersProvider =
+    StateProvider<List<TaskFilterType>>((ref) => []);
 
-class FilterWidget<T> extends ConsumerWidget {
-  final List<T> filters;
-  final String Function(T) filterLabel;
+class FilterWidget extends ConsumerWidget {
+  final List<TaskFilterType> filters;
+  final String Function(TaskFilterType) filterLabel;
   final bool allowMultipleSelection;
-  final Map<T, List<T>>? collisionMap;
+  final Map<TaskFilterType, List<TaskFilterType>>? collisionMap;
   final void Function(List selectedFilters)? onSelected;
   const FilterWidget({
     super.key,
@@ -46,8 +48,8 @@ class FilterWidget<T> extends ConsumerWidget {
 
   void _updateSelectedFilters(
     WidgetRef ref,
-    T filter,
-    T filterToRemove,
+    TaskFilterType filter,
+    TaskFilterType filterToRemove,
   ) {
     if (!allowMultipleSelection) {
       ref.read(selectedFiltersProvider.notifier).update((state) => [filter]);
@@ -74,7 +76,7 @@ class FilterWidget<T> extends ConsumerWidget {
 
     if (ref.read(selectedFiltersProvider).contains(filter)) {
       ref.read(selectedFiltersProvider.notifier).update((state) {
-        final list = List.from(state);
+        final list = List<TaskFilterType>.from(state);
         list.remove(filter);
         return list;
       });

@@ -32,7 +32,7 @@ class TaskTile extends StatelessWidget {
         leading: taskModel.status != TaskStatus.unassigned
             ? UserAvatar(
                 radius: 30,
-                imageUrl: taskModel.bid!.bidder.avatarUrl,
+                imageUrl: taskModel.bid?.bidder.avatarUrl,
                 onPressed: onAvatarPressed,
               )
             : const CircleAvatar(

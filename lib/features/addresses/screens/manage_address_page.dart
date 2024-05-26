@@ -1,3 +1,4 @@
+import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/addresses/screens/select_address_page.dart';
 import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
 import 'package:assisto/shared/show_snackbar.dart';
@@ -8,6 +9,7 @@ import 'package:assisto/widgets/popup.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ManageAddressPage extends ConsumerWidget {
   const ManageAddressPage({super.key});
@@ -98,13 +100,24 @@ class ManageAddressPage extends ConsumerWidget {
                     ),
                   ]),
                   if (models.isEmpty) ...[
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Center(
-                          child: Text(
-                        "You have no saved addresses yet. To add a new address, simply tap on the \"Add Address\" button below.",
-                        // maxLines: 3,
-                        textAlign: TextAlign.center,
+                          child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox.square(
+                            dimension: 300,
+                            child: SvgPicture.asset(
+                                'assets/graphics/empty_addresses.svg'),
+                          ),
+                          kWidgetVerticalGap,
+                          const Text(
+                            "You have no saved addresses yet. To add a new address, simply tap on the \"Add Address\" button below.",
+                            // maxLines: 3,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       )),
                     )
                   ]

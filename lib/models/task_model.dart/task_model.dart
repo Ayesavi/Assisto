@@ -16,7 +16,8 @@ class TaskModel with _$TaskModel {
     // user has to be report when the task is completed.
     // attachedLocation
 
-    @JsonKey(name: 'address_id', includeFromJson: false) addressId,
+    @JsonKey(name: 'address_id', includeToJson: true, includeFromJson: false)
+    int? addressId,
     @JsonKey(includeToJson: false) TaskAddress? address,
     required List<String> tags,
     DateTime? deadline,
@@ -65,7 +66,7 @@ class TaskModel with _$TaskModel {
 
 enum Gender { male, female, other, any }
 
-enum TaskStatus { unassigned, paid, assigned, completed }
+enum TaskStatus { unassigned, paid, assigned, completed, blocked }
 
 typedef LatLng = ({double lat, double lng});
 

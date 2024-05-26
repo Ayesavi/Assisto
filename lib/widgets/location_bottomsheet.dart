@@ -1,6 +1,6 @@
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/models/address_model/address_model.dart';
-import 'package:assisto/widgets/adress_tile.dart';
+import 'package:assisto/widgets/address_tile.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 

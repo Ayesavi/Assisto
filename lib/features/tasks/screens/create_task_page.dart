@@ -299,9 +299,9 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                     await ref
                         .read(taskPageControllerProvider.notifier)
                         .createTask(getTaskModel());
-                  if(context.mounted){
+                    if (context.mounted) {
                       Navigator.pop(context);
-                  }
+                    }
                   } catch (e) {
                     if (context.mounted) {
                       showSnackBar(context, appErrorHandler(e).message);
@@ -614,6 +614,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 state.when(data: (data) {
+                  print(data[0].toString());
                   return Stack(
                     children: [
                       CustomDropdown<AddressModel>(

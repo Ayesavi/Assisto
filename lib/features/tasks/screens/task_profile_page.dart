@@ -16,6 +16,87 @@ class TaskProfilePage extends ConsumerWidget {
   final int taskId;
   const TaskProfilePage({required this.taskId, super.key});
 
+  Widget? _getFloatingActionButton(BuildContext context, TaskModel model) {
+    final isNotAssignedOrBlocked = model.status == TaskStatus.unassigned ||
+        model.status == TaskStatus.blocked;
+
+    if (isNotAssignedOrBlocked) {
+      return null;
+    } else {
+      return FloatingActionButton(
+        onPressed: () {
+          ChatPageRoute(roomId: taskId).push(context);
+        },
+        tooltip: 'Chat',
+        child: const Icon(Icons.chat),
+      );
+    }
+  }
+
+  Widget? _getbottomNavigationBar(
+      BuildContext context, TaskModel model, PageController pageController) {
+    final isNotAssigned = model.status == TaskStatus.unassigned;
+    if (isNotAssigned) {
+      return BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.description_outlined),
+            label: 'Details',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.query_stats_outlined),
+            label: 'Biddings',
+          ),
+        ],
+        currentIndex: 0, // Initial index
+        onTap: (index) {
+          // Navigate to the selected page
+          pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.ease,
+          );
+        },
+      );
+    }
+    return null;
+  }
+
+  Widget _getBody(BuildContext context, TaskModel model,
+      PageController pageController, dynamic controller) {
+    final isNotAssignedOrBlocked = model.status == TaskStatus.unassigned;
+    if (isNotAssignedOrBlocked) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: PageView(
+              controller: pageController,
+              children: [
+                TaskProfilePageView(
+                  model,
+                  onPressMarkAsCompleted: () async {
+                    await controller.completeTask(taskId);
+                    Navigator.pop(context);
+                    return;
+                  },
+                ),
+                // Bids tab content
+                BidPageView(model)
+              ],
+            ),
+          ),
+        ],
+      );
+    } else {
+      return TaskProfilePageView(model, onPressMarkAsCompleted: () async {
+        await controller.completeTask(taskId);
+        Navigator.pop(context);
+        return;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = taskProfilePageProvider(taskId);
@@ -30,27 +111,29 @@ class TaskProfilePage extends ConsumerWidget {
         child: CircularProgressIndicator(),
       ));
     }, taskUserData: (model) {
-      final isNotAssigned = model.status == TaskStatus.unassigned;
-
       return _buildScaffold(
           appBar: AppBar(
             actions: [
-              /// is Assigned to user
-              if (!isNotAssigned)
+              if (!([TaskStatus.blocked, TaskStatus.completed]
+                  .contains(model.status)))
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                      style: const ButtonStyle(
-                          // foregroundColor: WidgetStatePropertyAll(
-                          //     Theme.of(context).colorScheme.errorContainer),
-                          // backgroundColor: WidgetStatePropertyAll(
-                          //     Theme.of(context).colorScheme.error)
-                          ),
+                      style: const ButtonStyle(),
                       onPressed: () {
                         showPopup(context, onConfirm: () async {
-                          await Future.delayed(
-                              const Duration(seconds: 1), () {});
-                          Navigator.pop(context);
+                          try {
+                            await controller.cancelTask(taskId);
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                            }
+                            return;
+                          } catch (e) {
+                            if (context.mounted) {
+                              showSnackBar(context,
+                                  'Unable to cancel task at the moment, try again later.');
+                            }
+                          }
                         },
                             content:
                                 'Do you really want to cancel the task ${model.title}?',
@@ -60,60 +143,20 @@ class TaskProfilePage extends ConsumerWidget {
                 ),
             ],
           ),
-          floatingActionButton: isNotAssigned
-              ? null
-              : FloatingActionButton(
-                  onPressed: () {
-                    const ChatPageRoute(roomId: 0).push(context);
-                  },
-                  tooltip: 'Chat',
-                  child: const Icon(Icons.chat),
-                ),
-          bottomNavigationBar: isNotAssigned
-              ? BottomNavigationBar(
-                  items: const <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.description_outlined),
-                      label: 'Details',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.query_stats_outlined),
-                      label: 'Biddings',
-                    ),
-                  ],
-                  currentIndex: 0, // Initial index
-                  onTap: (index) {
-                    // Navigate to the selected page
-                    pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.ease,
-                    );
-                  },
-                )
-              : null,
-          body: isNotAssigned
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: PageView(
-                        controller: pageController,
-                        children: [
-                          TaskProfilePageView(model),
-                          // Bids tab content
-                          BidPageView(model)
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              : TaskProfilePageView(model));
-    }, taskConsumerData: (model,bidInfo) {
+          floatingActionButton: _getFloatingActionButton(context, model),
+          bottomNavigationBar:
+              _getbottomNavigationBar(context, model, pageController),
+          body: _getBody(context, model, pageController, controller));
+    }, taskConsumerData: (model, bidInfo) {
       final isTaskAssigned = model.status != TaskStatus.unassigned;
 
       return _buildScaffold(
-          body: TaskProfilePageView(model,bidInfo:bidInfo ,),
+          body: TaskProfilePageView(model, bidInfo: bidInfo,
+              onPressMarkAsCompleted: () async {
+            await controller.completeTask(taskId);
+            Navigator.pop(context);
+            return;
+          }),
           appBar: AppBar(
             actions: [
               if (!isTaskAssigned)

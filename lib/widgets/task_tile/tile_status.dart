@@ -58,6 +58,11 @@ class TileStatusWidget extends StatelessWidget {
           return MaterialTheme.green.dark;
         }
         return MaterialTheme.green.light;
+      case TaskStatus.blocked:
+        if (isDarkTheme) {
+          return MaterialTheme.red.dark;
+        }
+        return MaterialTheme.red.light;
     }
   }
 }
