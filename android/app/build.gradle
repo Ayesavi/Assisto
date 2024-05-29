@@ -61,7 +61,24 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+
+    flavorDimensions "app"
+
+    productFlavors {
+        dev {
+            dimension "app"
+            resValue "string", "app_name", "Assisto-Dev"
+            versionNameSuffix "-dev"
+            applicationId "in.ayesavi.assisto.dev"
+        }
+        prod {
+            dimension "app"
+            resValue "string", "app_name", "Assisto"
+        }
+    }
 }
+
 
 flutter {
     source '../..'

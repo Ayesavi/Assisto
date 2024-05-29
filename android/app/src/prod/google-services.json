@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "955105553521",
+    "project_id": "dev-assisto",
+    "storage_bucket": "dev-assisto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955105553521:android:6914dd603b3a7dc95fbfd0",
+        "android_client_info": {
+          "package_name": "in.ayesavi.assisto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "955105553521-8mq4ngn094br5t28lqjmt4csvt3i345l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.ayesavi.assisto",
+            "certificate_hash": "90739c5d4af79a9ab810085d43b3eceda07b6eee"
+          }
+        },
+        {
+          "client_id": "955105553521-5u9qdspk80jv79955q4t0jong2bhthre.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp3b0l5TZQZBu7DSt1XFqO-xYhL-FNy1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "955105553521-5u9qdspk80jv79955q4t0jong2bhthre.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "955105553521-2o8cntl92cqfqc5r30k2i6le9ft4n9me.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "in.ayesavi.assisto"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

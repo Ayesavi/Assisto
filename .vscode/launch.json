@@ -5,7 +5,19 @@
             "name": "Assisto dev",
             "request": "launch",
             "program": "lib/main.dart",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--flavor","dev"
+            ]
+        },
+        {
+            "name": "Assisto Production",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "type": "dart",
+            "args": [
+                "--flavor","prod"
+            ]
         },
         {
             "name": "Assisto Web",

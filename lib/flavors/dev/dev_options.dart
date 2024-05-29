@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart'
 ///
 /// Example:
 /// ```dart
-/// import 'firebase_options.dart';
+/// import 'dev_options.dart';
 /// // ...
 /// await Firebase.initializeApp(
 ///   options: DefaultFirebaseOptions.currentPlatform,
@@ -23,7 +23,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -47,29 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCdaha-oxmc1AKmRuIAM10W3NT3ig5lkBQ',
-    appId: '1:955105553521:web:1882735535ce41aa5fbfd0',
-    messagingSenderId: '955105553521',
-    projectId: 'dev-assisto',
-    authDomain: 'dev-assisto.firebaseapp.com',
-    storageBucket: 'dev-assisto.appspot.com',
-    measurementId: 'G-5TL89DXGD7',
+    apiKey: 'AIzaSyCA3CnYSYuhRK3EsfvEGhA0BuYKacra44o',
+    appId: '1:347795434098:web:d29f3e122420ef185330eb',
+    messagingSenderId: '347795434098',
+    projectId: 'assisto-dev-52a1d',
+    authDomain: 'assisto-dev-52a1d.firebaseapp.com',
+    storageBucket: 'assisto-dev-52a1d.appspot.com',
+    measurementId: 'G-H7KFC2QNWG',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBp3b0l5TZQZBu7DSt1XFqO-xYhL-FNy1k',
-    appId: '1:955105553521:android:6914dd603b3a7dc95fbfd0',
-    messagingSenderId: '955105553521',
-    projectId: 'dev-assisto',
-    storageBucket: 'dev-assisto.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDG3bIlaQmSXLBLBVjD_VTunpaZ9Dc_nxs',
-    appId: '1:955105553521:ios:c466c4f4b77e31d85fbfd0',
-    messagingSenderId: '955105553521',
-    projectId: 'dev-assisto',
-    storageBucket: 'dev-assisto.appspot.com',
-    iosBundleId: 'in.ayesavi.assisto',
+    apiKey: 'AIzaSyCZ7EWWXS2u96g_LxQ_E4_Sj7MBlr6Hlqk',
+    appId: '1:347795434098:android:560c3601c069ce305330eb',
+    messagingSenderId: '347795434098',
+    projectId: 'assisto-dev-52a1d',
+    storageBucket: 'assisto-dev-52a1d.appspot.com',
   );
 }

@@ -122,8 +122,15 @@ flutter:
     - assets/graphics/empty_list.svg
     - assets/graphics/no_offers.svg
     - assets/graphics/empty_addresses.svg
-    - .env 
+    - .env.dev
+    - .env.prod
+
   #   - images/a_dot_ham.jpeg
+
+scripts:
+    firebase:
+      dev: "scripts/dev-firebase-configure.sh"
+      prod: "scripts/prod-firebase-configure.sh"
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
