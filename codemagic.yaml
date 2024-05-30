@@ -6,7 +6,7 @@ workflows:
       - Android
     instance_type: mac_mini_m1
     environment:
-      flutter: stable
+      flutter: 3.22.0
       android_signing:
         - default-reference
     scripts:
