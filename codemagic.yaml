@@ -1,0 +1,29 @@
+workflows:
+  dev-workflow:
+    name: Assisto Dev Workflow
+    labels: 
+      - Dev
+      - Android
+    instance_type: mac_mini_m1
+    environment:
+      flutter: stable
+      android_signing:
+        - default-reference
+    scripts:
+    - name: Install dependencies
+      script: flutter pub get
+    - name: Build AAB with Flutter
+      script: | 
+        flutter build appbundle --release
+    - name: Build universal apk
+      script: | 
+        android-app-bundle build-universal-apk \
+          --bundle 'project_directory/build/**/outputs/**/*.aab' \
+          --ks /tmp/keystore.keystore \
+          --ks-pass $CM_KEYSTORE_PASSWORD \
+          --ks-key-alias $CM_KEY_ALIAS \
+          --key-pass $CM_KEY_PASSWORD
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
