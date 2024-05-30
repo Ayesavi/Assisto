@@ -15,15 +15,20 @@ workflows:
         - default-reference
     
     scripts:
+   
     - name: Install dependencies
       script: flutter pub get
+    - name: Decode Google credentials
+      script: |
+          echo $FIREBASE_SERVICE_ACCOUNT_CREDENTIALS 
     - name: Build AAB with Flutter
       script: | 
         flutter build appbundle --flavor dev --release
+
     - name: Build universal apk
       script: | 
         android-app-bundle build-universal-apk \
-          --bundle 'project_directory/build/**/outputs/**/*.aab' \
+          --bundle 'build/**/outputs/**/*.aab' \
           --ks $CM_KEYSTORE_PATH \
           --ks-pass $CM_KEYSTORE_PASSWORD \
           --ks-key-alias $CM_KEY_ALIAS \
