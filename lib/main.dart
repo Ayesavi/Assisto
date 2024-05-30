@@ -1,21 +1,19 @@
 import 'package:assisto/app/app.dart';
-import 'package:assisto/core/extensions/string_extension.dart';
-import 'package:assisto/firebase_options.dart';
+import 'package:assisto/core/config/app_config.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await AppConfig().loadEnv();
   // Initialize Firebase
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: AppConfig().firebaseOptions,
   );
   await Supabase.initialize(
-      url: 'SUPABASE_URL'.fromEnv, anonKey: 'SUPABASE_KEY'.fromEnv);
+      url: AppConfig().supabaseApiUrl, anonKey: AppConfig().supabaseApiKey);
 
   runApp(const ProviderScope(child: MyApp()));
 }
