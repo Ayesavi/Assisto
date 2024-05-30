@@ -6,6 +6,8 @@ workflows:
       - Android
     instance_type: mac_mini_m1
     environment:
+      groups:
+        - "dev"
       vars:
         FIREBASE_APP_ID: 1:347795434098:android:560c3601c069ce305330eb
         
