@@ -38,6 +38,7 @@ workflows:
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
+      - build/**/outputs/**/*.apk 
       - flutter_drive.log
     publishing:
       # slack:
