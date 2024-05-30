@@ -87,7 +87,7 @@ class LoginScreen extends ConsumerWidget {
                             OtpPageRoute(
                                     phoneNumber: getPhoneNumber(context),
                                     otpType: OtpType.sms.name)
-                                .push(context);
+                                .go(context);
                           }
 
                           if (context.mounted) {}

@@ -65,7 +65,7 @@ class ChatProfile extends ConsumerWidget {
             ListTile(
               onTap: () {
                 ChatTransactionsPageRoute(recipientId: userModel.id)
-                    .push(context);
+                    .go(context);
               },
               leading: Icon(
                 CupertinoIcons.money_dollar_circle,

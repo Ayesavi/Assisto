@@ -62,7 +62,7 @@ class _LocationBottomSheetContent extends StatelessWidget {
           ),
           trailing: TextButton(
               onPressed: () {
-                const AddressesPageRoute().push(context);
+                const AddressesPageRoute().go(context);
               },
               child: BodyLarge(
                   color: Theme.of(context).colorScheme.primary,

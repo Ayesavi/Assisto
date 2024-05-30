@@ -108,7 +108,7 @@ class ProfilePage extends ConsumerWidget {
                                         ),
                                         onPressed: () {
                                           const EditProfilePageRoute()
-                                              .push(context);
+                                              .go(context);
                                         },
                                         child: const Text('Edit Profile >'))
                                   ],
@@ -128,7 +128,7 @@ class ProfilePage extends ConsumerWidget {
                           children: [
                             CupertinoListTile(
                               onTap: () {
-                                const AddressesPageRoute().push(context);
+                                const AddressesPageRoute().go(context);
                               },
                               padding: const EdgeInsets.all(5),
                               leading: Icon(Icons.near_me_outlined,
@@ -224,7 +224,7 @@ class ProfilePage extends ConsumerWidget {
                 //           return PickRequestTile(
                 //             model: requests[index],
                 //             onTap: (model) {
-                //               RequestInfoPageRoute(model.id).push(context);
+                //               RequestInfoPageRoute(model.id).go(context);
                 //             },
                 //           );
                 //         }, childCount: requests.length),

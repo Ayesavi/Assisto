@@ -25,7 +25,7 @@ class TaskProfilePage extends ConsumerWidget {
     } else {
       return FloatingActionButton(
         onPressed: () {
-          ChatPageRoute(roomId: taskId).push(context);
+          ChatPageRoute(roomId: taskId).go(context);
         },
         tooltip: 'Chat',
         child: const Icon(Icons.chat),

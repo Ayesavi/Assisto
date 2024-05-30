@@ -232,7 +232,17 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                       validator: validateName,
                     ),
                     kWidgetVerticalGap,
-                    AppFilledButton(label: 'Submit'),
+                    AppFilledButton(
+                      label: 'Submit',
+                      asyncTap: () async {
+                        if (authController.user != null) {
+                          await authController.updateProfile(authController
+                              .user!
+                              .copyWith(name: nameController.text));
+                        }
+                        return;
+                      },
+                    ),
                   ],
                 ),
               ),

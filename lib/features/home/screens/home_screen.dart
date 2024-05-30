@@ -106,13 +106,13 @@ class HomeScreen extends ConsumerWidget {
                         children: [
                           IconButton(
                               onPressed: () {
-                                const NotificationPageRoute().push(context);
+                                const NotificationPageRoute().go(context);
                               },
                               icon: const Icon(CupertinoIcons.bell)),
                           UserAvatar.currentUser(
                             ref,
                             onPressed: () async {
-                              const ProfilePageRoute().push(context);
+                              const ProfilePageRoute().go(context);
                             },
                           ),
                         ],
