@@ -6,10 +6,14 @@ workflows:
       - Android
     instance_type: mac_mini_m1
     environment:
+      vars:
+        FIREBASE_APP_ID: 1:347795434098:android:560c3601c069ce305330eb
+        
       flutter: master
       java: 17
       android_signing:
         - default-reference
+    
     scripts:
     - name: Install dependencies
       script: flutter pub get
@@ -20,7 +24,7 @@ workflows:
       script: | 
         android-app-bundle build-universal-apk \
           --bundle 'project_directory/build/**/outputs/**/*.aab' \
-          --ks /tmp/keystore.keystore \
+          --ks $CM_KEYSTORE_PATH \
           --ks-pass $CM_KEYSTORE_PASSWORD \
           --ks-key-alias $CM_KEY_ALIAS \
           --key-pass $CM_KEY_PASSWORD
@@ -28,3 +32,21 @@ workflows:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
+    publishing:
+      # slack:
+      #   channel: '#cloud-build-notifications'
+      #   notify_on_build_start: false 
+      #   notify: 
+      #     success: false
+      #     failure: true
+      firebase:
+        # use this line to authenticate via service account
+        firebase_service_account: $FIREBASE_SERVICE_ACCOUNT_CREDENTIALS
+        android:
+          # Add your Android app id retrieved from Firebase console
+          app_id: $FIREBASE_APP_ID
+          # Add one or more groups that you wish to distribute your Android application to.
+          # You can create groups in the Firebase console
+          groups: 
+            - androidTesters
+          artifact_type: apk
