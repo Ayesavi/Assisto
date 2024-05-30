@@ -110,6 +110,9 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> {
                   await loginController.verifyOtp(
                       otpController.text, widget.otpType.otpType,
                       phone: widget.phone, email: widget.email);
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
                 } catch (e) {
                   if (context.mounted) {
                     showSnackBar(context, appErrorHandler(e).message);

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
+import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/profile/controllers/profile_page_controller/profile_page_controller.dart';
 import 'package:assisto/shared/show_snackbar.dart';
@@ -10,6 +11,7 @@ import 'package:assisto/widgets/popup.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
   const EditProfilePage({super.key});
@@ -210,7 +212,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                           hintText: 'Enter your phone number',
                           fillColor:
                               Theme.of(context).colorScheme.onInverseSurface),
-                      validator: validateName,
+                      validator: validatePhoneNumber,
                     ),
                     kWidgetVerticalGap,
                     TitleMedium(
@@ -235,7 +237,21 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                     AppFilledButton(
                       label: 'Submit',
                       asyncTap: () async {
-                        if (authController.user != null) {
+                        if (authController.user != null &&
+                            (_formKey.currentState?.validate() ?? false)) {
+                          if (validatePhoneNumber(phoneNumberController.text) ==
+                              null) {
+                            await authController
+                                .updatePhone('91${phoneNumberController.text}');
+                            if (context.mounted) {
+                              HomeOtpPageRoute(
+                                      phoneNumber:
+                                          '91${phoneNumberController.text}',
+                                      otpType: OtpType.phoneChange.name)
+                                  .go(context);
+                            }
+                          }
+
                           await authController.updateProfile(authController
                               .user!
                               .copyWith(name: nameController.text));

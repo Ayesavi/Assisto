@@ -61,6 +61,18 @@ class OtpPageRoute extends GoRouteData {
       VerifyOtpScreen(otpType: otpType, phone: phoneNumber);
 }
 
+class HomeOtpPageRoute extends GoRouteData {
+  const HomeOtpPageRoute({required this.phoneNumber, required this.otpType});
+
+  /// The phone number associated with the OTP page.
+  final String phoneNumber;
+  final String otpType;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      VerifyOtpScreen(otpType: otpType, phone: phoneNumber);
+}
+
 class VerifyPageRoute extends GoRouteData {
   const VerifyPageRoute({required this.phoneNumber, required this.otpType});
 

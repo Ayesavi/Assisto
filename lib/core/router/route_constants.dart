@@ -13,6 +13,9 @@ class RouteConstants {
     ],
   );
 
+  static const homeOtpPageRoute = TypedGoRoute<HomeOtpPageRoute>(
+      path: 'otp/:phoneNumber/:otpType', name: 'verifyOtp');
+
   static const addressesRoute =
       TypedGoRoute<AddressesPageRoute>(path: 'addresses', name: 'addresses');
 
@@ -51,6 +54,7 @@ class RouteConstants {
     fillProfileRoute,
     chatTransactionsPage,
     profileRoute,
+    homeOtpPageRoute,
     notificationPageRoute,
     chatPage,
   ]);

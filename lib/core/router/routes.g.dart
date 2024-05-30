@@ -123,6 +123,11 @@ RouteBase get $homeRoute => GoRouteData.$route(
           ],
         ),
         GoRouteData.$route(
+          path: 'otp/:phoneNumber/:otpType',
+          name: 'verifyOtp',
+          factory: $HomeOtpPageRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'notifications',
           name: 'notifications',
           factory: $NotificationPageRouteExtension._fromState,
@@ -251,6 +256,26 @@ extension $EditProfilePageRouteExtension on EditProfilePageRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile/edit',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $HomeOtpPageRouteExtension on HomeOtpPageRoute {
+  static HomeOtpPageRoute _fromState(GoRouterState state) => HomeOtpPageRoute(
+        phoneNumber: state.pathParameters['phoneNumber']!,
+        otpType: state.pathParameters['otpType']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/otp/${Uri.encodeComponent(phoneNumber)}/${Uri.encodeComponent(otpType)}',
       );
 
   void go(BuildContext context) => context.go(location);
