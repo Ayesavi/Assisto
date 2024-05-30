@@ -14,7 +14,7 @@ workflows:
       script: flutter pub get
     - name: Build AAB with Flutter
       script: | 
-        flutter build appbundle --release
+        flutter build appbundle --flavor dev --release
     - name: Build universal apk
       script: | 
         android-app-bundle build-universal-apk \
