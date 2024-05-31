@@ -37,13 +37,14 @@ class HomePageController extends _$HomePageController {
           latlng: _defaultAddr != null
               ? (lat: _defaultAddr!.latlng.lat, lng: _defaultAddr!.latlng.lng)
               : null);
-        state = HomePageControllerState.tasks(data,filters);
+      state = HomePageControllerState.tasks(data, filters);
     } catch (e) {
-      if (e is NetworkException) {
+      final error = appErrorHandler(e);
+      if (error is NetworkException) {
         state = const HomePageControllerState.networkError();
         return;
       }
-      state = HomePageControllerState.error(e);
+      state = HomePageControllerState.error(error);
       return;
     }
   }

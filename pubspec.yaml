@@ -121,6 +121,8 @@ flutter:
     - assets/map_style.json
     - assets/graphics/empty_list.svg
     - assets/graphics/no_offers.svg
+    - assets/graphics/server_down.svg
+    - assets/graphics/error.svg
     - assets/graphics/empty_addresses.svg
     - .env.dev
     - .env.prod

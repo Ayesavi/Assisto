@@ -41,7 +41,7 @@ class ProfilePage extends ConsumerWidget {
                 child: const Text('Help'),
                 onPressed: () async {
                   if (!await launchUrl(
-                      Uri.parse('https://www.swachhkabadi.com/help'))) {
+                      Uri.parse('https://www.assisto.ayesavi.in/help'))) {
                     throw Exception('Could not launch url');
                   }
                 },
