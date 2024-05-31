@@ -19,8 +19,9 @@ mixin _$HomePageControllerState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<TaskModel> models) ownTasks,
-    required TResult Function(List<TaskModel> models) tasks,
+    required TResult Function(
+            List<TaskModel> models, List<TaskFilterType> filters)
+        tasks,
     required TResult Function(Object e) error,
     required TResult Function() networkError,
   }) =>
@@ -28,8 +29,8 @@ mixin _$HomePageControllerState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(List<TaskModel> models)? ownTasks,
-    TResult? Function(List<TaskModel> models)? tasks,
+    TResult? Function(List<TaskModel> models, List<TaskFilterType> filters)?
+        tasks,
     TResult? Function(Object e)? error,
     TResult? Function()? networkError,
   }) =>
@@ -37,8 +38,8 @@ mixin _$HomePageControllerState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<TaskModel> models)? ownTasks,
-    TResult Function(List<TaskModel> models)? tasks,
+    TResult Function(List<TaskModel> models, List<TaskFilterType> filters)?
+        tasks,
     TResult Function(Object e)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -47,7 +48,6 @@ mixin _$HomePageControllerState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
-    required TResult Function(_OwnTasks value) ownTasks,
     required TResult Function(_Tasks value) tasks,
     required TResult Function(_Error value) error,
     required TResult Function(_NetworkError value) networkError,
@@ -56,7 +56,6 @@ mixin _$HomePageControllerState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_OwnTasks value)? ownTasks,
     TResult? Function(_Tasks value)? tasks,
     TResult? Function(_Error value)? error,
     TResult? Function(_NetworkError value)? networkError,
@@ -65,7 +64,6 @@ mixin _$HomePageControllerState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
-    TResult Function(_OwnTasks value)? ownTasks,
     TResult Function(_Tasks value)? tasks,
     TResult Function(_Error value)? error,
     TResult Function(_NetworkError value)? networkError,
@@ -132,8 +130,9 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<TaskModel> models) ownTasks,
-    required TResult Function(List<TaskModel> models) tasks,
+    required TResult Function(
+            List<TaskModel> models, List<TaskFilterType> filters)
+        tasks,
     required TResult Function(Object e) error,
     required TResult Function() networkError,
   }) {
@@ -144,8 +143,8 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(List<TaskModel> models)? ownTasks,
-    TResult? Function(List<TaskModel> models)? tasks,
+    TResult? Function(List<TaskModel> models, List<TaskFilterType> filters)?
+        tasks,
     TResult? Function(Object e)? error,
     TResult? Function()? networkError,
   }) {
@@ -156,8 +155,8 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<TaskModel> models)? ownTasks,
-    TResult Function(List<TaskModel> models)? tasks,
+    TResult Function(List<TaskModel> models, List<TaskFilterType> filters)?
+        tasks,
     TResult Function(Object e)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -172,7 +171,6 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
-    required TResult Function(_OwnTasks value) ownTasks,
     required TResult Function(_Tasks value) tasks,
     required TResult Function(_Error value) error,
     required TResult Function(_NetworkError value) networkError,
@@ -184,7 +182,6 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_OwnTasks value)? ownTasks,
     TResult? Function(_Tasks value)? tasks,
     TResult? Function(_Error value)? error,
     TResult? Function(_NetworkError value)? networkError,
@@ -196,7 +193,6 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
-    TResult Function(_OwnTasks value)? ownTasks,
     TResult Function(_Tasks value)? tasks,
     TResult Function(_Error value)? error,
     TResult Function(_NetworkError value)? networkError,
@@ -214,169 +210,12 @@ abstract class _Loading implements HomePageControllerState {
 }
 
 /// @nodoc
-abstract class _$$OwnTasksImplCopyWith<$Res> {
-  factory _$$OwnTasksImplCopyWith(
-          _$OwnTasksImpl value, $Res Function(_$OwnTasksImpl) then) =
-      __$$OwnTasksImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({List<TaskModel> models});
-}
-
-/// @nodoc
-class __$$OwnTasksImplCopyWithImpl<$Res>
-    extends _$HomePageControllerStateCopyWithImpl<$Res, _$OwnTasksImpl>
-    implements _$$OwnTasksImplCopyWith<$Res> {
-  __$$OwnTasksImplCopyWithImpl(
-      _$OwnTasksImpl _value, $Res Function(_$OwnTasksImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? models = null,
-  }) {
-    return _then(_$OwnTasksImpl(
-      null == models
-          ? _value._models
-          : models // ignore: cast_nullable_to_non_nullable
-              as List<TaskModel>,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$OwnTasksImpl implements _OwnTasks {
-  const _$OwnTasksImpl(final List<TaskModel> models) : _models = models;
-
-  final List<TaskModel> _models;
-  @override
-  List<TaskModel> get models {
-    if (_models is EqualUnmodifiableListView) return _models;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_models);
-  }
-
-  @override
-  String toString() {
-    return 'HomePageControllerState.ownTasks(models: $models)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$OwnTasksImpl &&
-            const DeepCollectionEquality().equals(other._models, _models));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_models));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$OwnTasksImplCopyWith<_$OwnTasksImpl> get copyWith =>
-      __$$OwnTasksImplCopyWithImpl<_$OwnTasksImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<TaskModel> models) ownTasks,
-    required TResult Function(List<TaskModel> models) tasks,
-    required TResult Function(Object e) error,
-    required TResult Function() networkError,
-  }) {
-    return ownTasks(models);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<TaskModel> models)? ownTasks,
-    TResult? Function(List<TaskModel> models)? tasks,
-    TResult? Function(Object e)? error,
-    TResult? Function()? networkError,
-  }) {
-    return ownTasks?.call(models);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<TaskModel> models)? ownTasks,
-    TResult Function(List<TaskModel> models)? tasks,
-    TResult Function(Object e)? error,
-    TResult Function()? networkError,
-    required TResult orElse(),
-  }) {
-    if (ownTasks != null) {
-      return ownTasks(models);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_OwnTasks value) ownTasks,
-    required TResult Function(_Tasks value) tasks,
-    required TResult Function(_Error value) error,
-    required TResult Function(_NetworkError value) networkError,
-  }) {
-    return ownTasks(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_OwnTasks value)? ownTasks,
-    TResult? Function(_Tasks value)? tasks,
-    TResult? Function(_Error value)? error,
-    TResult? Function(_NetworkError value)? networkError,
-  }) {
-    return ownTasks?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_OwnTasks value)? ownTasks,
-    TResult Function(_Tasks value)? tasks,
-    TResult Function(_Error value)? error,
-    TResult Function(_NetworkError value)? networkError,
-    required TResult orElse(),
-  }) {
-    if (ownTasks != null) {
-      return ownTasks(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _OwnTasks implements HomePageControllerState {
-  const factory _OwnTasks(final List<TaskModel> models) = _$OwnTasksImpl;
-
-  List<TaskModel> get models;
-  @JsonKey(ignore: true)
-  _$$OwnTasksImplCopyWith<_$OwnTasksImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
 abstract class _$$TasksImplCopyWith<$Res> {
   factory _$$TasksImplCopyWith(
           _$TasksImpl value, $Res Function(_$TasksImpl) then) =
       __$$TasksImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<TaskModel> models});
+  $Res call({List<TaskModel> models, List<TaskFilterType> filters});
 }
 
 /// @nodoc
@@ -391,12 +230,17 @@ class __$$TasksImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? models = null,
+    Object? filters = null,
   }) {
     return _then(_$TasksImpl(
       null == models
           ? _value._models
           : models // ignore: cast_nullable_to_non_nullable
               as List<TaskModel>,
+      null == filters
+          ? _value._filters
+          : filters // ignore: cast_nullable_to_non_nullable
+              as List<TaskFilterType>,
     ));
   }
 }
@@ -404,7 +248,10 @@ class __$$TasksImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TasksImpl implements _Tasks {
-  const _$TasksImpl(final List<TaskModel> models) : _models = models;
+  const _$TasksImpl(
+      final List<TaskModel> models, final List<TaskFilterType> filters)
+      : _models = models,
+        _filters = filters;
 
   final List<TaskModel> _models;
   @override
@@ -414,9 +261,17 @@ class _$TasksImpl implements _Tasks {
     return EqualUnmodifiableListView(_models);
   }
 
+  final List<TaskFilterType> _filters;
+  @override
+  List<TaskFilterType> get filters {
+    if (_filters is EqualUnmodifiableListView) return _filters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_filters);
+  }
+
   @override
   String toString() {
-    return 'HomePageControllerState.tasks(models: $models)';
+    return 'HomePageControllerState.tasks(models: $models, filters: $filters)';
   }
 
   @override
@@ -424,12 +279,15 @@ class _$TasksImpl implements _Tasks {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TasksImpl &&
-            const DeepCollectionEquality().equals(other._models, _models));
+            const DeepCollectionEquality().equals(other._models, _models) &&
+            const DeepCollectionEquality().equals(other._filters, _filters));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_models));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_models),
+      const DeepCollectionEquality().hash(_filters));
 
   @JsonKey(ignore: true)
   @override
@@ -441,38 +299,39 @@ class _$TasksImpl implements _Tasks {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<TaskModel> models) ownTasks,
-    required TResult Function(List<TaskModel> models) tasks,
+    required TResult Function(
+            List<TaskModel> models, List<TaskFilterType> filters)
+        tasks,
     required TResult Function(Object e) error,
     required TResult Function() networkError,
   }) {
-    return tasks(models);
+    return tasks(models, filters);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(List<TaskModel> models)? ownTasks,
-    TResult? Function(List<TaskModel> models)? tasks,
+    TResult? Function(List<TaskModel> models, List<TaskFilterType> filters)?
+        tasks,
     TResult? Function(Object e)? error,
     TResult? Function()? networkError,
   }) {
-    return tasks?.call(models);
+    return tasks?.call(models, filters);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<TaskModel> models)? ownTasks,
-    TResult Function(List<TaskModel> models)? tasks,
+    TResult Function(List<TaskModel> models, List<TaskFilterType> filters)?
+        tasks,
     TResult Function(Object e)? error,
     TResult Function()? networkError,
     required TResult orElse(),
   }) {
     if (tasks != null) {
-      return tasks(models);
+      return tasks(models, filters);
     }
     return orElse();
   }
@@ -481,7 +340,6 @@ class _$TasksImpl implements _Tasks {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
-    required TResult Function(_OwnTasks value) ownTasks,
     required TResult Function(_Tasks value) tasks,
     required TResult Function(_Error value) error,
     required TResult Function(_NetworkError value) networkError,
@@ -493,7 +351,6 @@ class _$TasksImpl implements _Tasks {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_OwnTasks value)? ownTasks,
     TResult? Function(_Tasks value)? tasks,
     TResult? Function(_Error value)? error,
     TResult? Function(_NetworkError value)? networkError,
@@ -505,7 +362,6 @@ class _$TasksImpl implements _Tasks {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
-    TResult Function(_OwnTasks value)? ownTasks,
     TResult Function(_Tasks value)? tasks,
     TResult Function(_Error value)? error,
     TResult Function(_NetworkError value)? networkError,
@@ -519,9 +375,12 @@ class _$TasksImpl implements _Tasks {
 }
 
 abstract class _Tasks implements HomePageControllerState {
-  const factory _Tasks(final List<TaskModel> models) = _$TasksImpl;
+  const factory _Tasks(
+          final List<TaskModel> models, final List<TaskFilterType> filters) =
+      _$TasksImpl;
 
   List<TaskModel> get models;
+  List<TaskFilterType> get filters;
   @JsonKey(ignore: true)
   _$$TasksImplCopyWith<_$TasksImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -590,8 +449,9 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<TaskModel> models) ownTasks,
-    required TResult Function(List<TaskModel> models) tasks,
+    required TResult Function(
+            List<TaskModel> models, List<TaskFilterType> filters)
+        tasks,
     required TResult Function(Object e) error,
     required TResult Function() networkError,
   }) {
@@ -602,8 +462,8 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(List<TaskModel> models)? ownTasks,
-    TResult? Function(List<TaskModel> models)? tasks,
+    TResult? Function(List<TaskModel> models, List<TaskFilterType> filters)?
+        tasks,
     TResult? Function(Object e)? error,
     TResult? Function()? networkError,
   }) {
@@ -614,8 +474,8 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<TaskModel> models)? ownTasks,
-    TResult Function(List<TaskModel> models)? tasks,
+    TResult Function(List<TaskModel> models, List<TaskFilterType> filters)?
+        tasks,
     TResult Function(Object e)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -630,7 +490,6 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
-    required TResult Function(_OwnTasks value) ownTasks,
     required TResult Function(_Tasks value) tasks,
     required TResult Function(_Error value) error,
     required TResult Function(_NetworkError value) networkError,
@@ -642,7 +501,6 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_OwnTasks value)? ownTasks,
     TResult? Function(_Tasks value)? tasks,
     TResult? Function(_Error value)? error,
     TResult? Function(_NetworkError value)? networkError,
@@ -654,7 +512,6 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
-    TResult Function(_OwnTasks value)? ownTasks,
     TResult Function(_Tasks value)? tasks,
     TResult Function(_Error value)? error,
     TResult Function(_NetworkError value)? networkError,
@@ -715,8 +572,9 @@ class _$NetworkErrorImpl implements _NetworkError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<TaskModel> models) ownTasks,
-    required TResult Function(List<TaskModel> models) tasks,
+    required TResult Function(
+            List<TaskModel> models, List<TaskFilterType> filters)
+        tasks,
     required TResult Function(Object e) error,
     required TResult Function() networkError,
   }) {
@@ -727,8 +585,8 @@ class _$NetworkErrorImpl implements _NetworkError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(List<TaskModel> models)? ownTasks,
-    TResult? Function(List<TaskModel> models)? tasks,
+    TResult? Function(List<TaskModel> models, List<TaskFilterType> filters)?
+        tasks,
     TResult? Function(Object e)? error,
     TResult? Function()? networkError,
   }) {
@@ -739,8 +597,8 @@ class _$NetworkErrorImpl implements _NetworkError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<TaskModel> models)? ownTasks,
-    TResult Function(List<TaskModel> models)? tasks,
+    TResult Function(List<TaskModel> models, List<TaskFilterType> filters)?
+        tasks,
     TResult Function(Object e)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -755,7 +613,6 @@ class _$NetworkErrorImpl implements _NetworkError {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Loading value) loading,
-    required TResult Function(_OwnTasks value) ownTasks,
     required TResult Function(_Tasks value) tasks,
     required TResult Function(_Error value) error,
     required TResult Function(_NetworkError value) networkError,
@@ -767,7 +624,6 @@ class _$NetworkErrorImpl implements _NetworkError {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_OwnTasks value)? ownTasks,
     TResult? Function(_Tasks value)? tasks,
     TResult? Function(_Error value)? error,
     TResult? Function(_NetworkError value)? networkError,
@@ -779,7 +635,6 @@ class _$NetworkErrorImpl implements _NetworkError {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Loading value)? loading,
-    TResult Function(_OwnTasks value)? ownTasks,
     TResult Function(_Tasks value)? tasks,
     TResult Function(_Error value)? error,
     TResult Function(_NetworkError value)? networkError,

@@ -5,7 +5,7 @@ sealed class ChatPageControllerState with _$ChatPageControllerState {
   const ChatPageControllerState._();
   const factory ChatPageControllerState.loading() = ChatPageLoading;
   const factory ChatPageControllerState.data({
-    required UserModel userModel,
+    required UserModel remoteUser,
     required List<Message> messages,
   }) = ChatPageData;
   const factory ChatPageControllerState.error(AppException error) = ChatPageError;

@@ -157,6 +157,8 @@ class TaskProfilePage extends ConsumerWidget {
             Navigator.pop(context);
             return;
           }),
+          floatingActionButton:
+              bidInfo != null ? _getFloatingActionButton(context, model) : null,
           appBar: AppBar(
             actions: [
               if (!isTaskAssigned)

@@ -9,6 +9,7 @@ import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/shimmering/shimmering_task_tile.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
+import 'package:assisto/widgets/task_tile/tile_status.dart';
 import 'package:assisto/widgets/user_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -134,31 +135,8 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       );
                     },
-                    ownTasks: (List<TaskModel> models) {
-                      if (models.isEmpty) {
-                        return SliverToBoxAdapter(
-                            child: SvgPicture.asset(
-                                'assets/graphics/empty_list.svg'));
-                      }
-                      return SliverList(
-                          delegate: SliverChildBuilderDelegate((ctx, index) {
-                        return TaskTile.owner(
-                            taskModel: models[index],
-                            onAvatarPressed: () {
-                              if (models[index].bid != null) {
-                                showBidderProfileBottomSheet(
-                                    context: context,
-                                    model: models[index].bid!,
-                                    onAcceptOffer: () async {});
-                              }
-                            },
-                            onPressed: () {
-                              TaskProfileRoute(taskId: models[index].id)
-                                  .push(ctx);
-                            });
-                      }, childCount: models.length));
-                    },
-                    tasks: (data) {
+                   
+                    tasks: (data, filters) {
                       if (data.isEmpty) {
                         return SliverToBoxAdapter(
                             child: Column(
@@ -182,12 +160,32 @@ class HomeScreen extends ConsumerWidget {
                       }
                       return SliverList(
                           delegate: SliverChildBuilderDelegate((ctx, index) {
-                        return TaskTile(
-                            taskModel: data[index],
-                            onPressed: () {
-                              TaskProfileRoute(taskId: data[index].id)
-                                  .push(ctx);
-                            });
+                        if (filters.contains(TaskFilterType.you)) {
+                          return TaskTile.owner(
+                              taskModel: data[index],
+                              onAvatarPressed: () {
+                                if (data[index].bid != null) {
+                                  showBidderProfileBottomSheet(
+                                      context: context,
+                                      model: data[index].bid!,
+                                      onAcceptOffer: () async {});
+                                }
+                              },
+                              onPressed: () {
+                                TaskProfileRoute(taskId: data[index].id)
+                                    .push(ctx);
+                              });
+                        } else {
+                          return TaskTile(
+                              taskModel: data[index],
+                              trailing: filters.contains(TaskFilterType.bidded)
+                                  ? TileStatusWidget(data[index].status)
+                                  : null,
+                              onPressed: () {
+                                TaskProfileRoute(taskId: data[index].id)
+                                    .push(ctx);
+                              });
+                        }
                       }, childCount: data.length));
                     },
                     error: (e) {

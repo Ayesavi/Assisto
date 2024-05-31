@@ -29,6 +29,7 @@ abstract class BaseTaskRepository {
 
   Future<UserModel> getTaskAssignedUser(int taskId);
 
-  Future<void> updateTaskStatus(int taskId,TaskStatus status);
+  Future<void> updateTaskStatus(int taskId, TaskStatus status);
 
+  Future<UserModel> getTaskOwner(int taskId);
 }

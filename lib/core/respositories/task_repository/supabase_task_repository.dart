@@ -151,4 +151,19 @@ class SupabaseTaskRepository implements BaseTaskRepository {
           'Failed to update the task status at the moment, try again later.');
     }
   }
+
+  @override
+  Future<UserModel> getTaskOwner(int taskId) async {
+    try {
+      final data = await _supabase
+          .from(_table)
+          .select('owner:owner_id(*)')
+          .eq('id', taskId)
+          .single();
+      return UserModel.fromJson(data['owner']);
+    } catch (e) {
+      throw const AppException(
+          'Failed to get the task owner at the moment, try again later');
+    }
+  }
 }

@@ -292,6 +292,12 @@ class FakeTaskRepository implements BaseTaskRepository {
   Future<void> updateTaskStatus(int taskId,TaskStatus status) {
     throw UnimplementedError();
   }
+  
+  @override
+  Future<UserModel> getTaskOwner(int taskId) {
+    // TODO: implement getTaskOwner
+    throw UnimplementedError();
+  }
 
   // @override
   // Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) {

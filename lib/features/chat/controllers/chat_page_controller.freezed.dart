@@ -19,7 +19,8 @@ mixin _$ChatPageControllerState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(UserModel userModel, List<Message> messages) data,
+    required TResult Function(UserModel remoteUser, List<Message> messages)
+        data,
     required TResult Function(AppException error) error,
     required TResult Function() networkError,
   }) =>
@@ -27,7 +28,7 @@ mixin _$ChatPageControllerState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(UserModel userModel, List<Message> messages)? data,
+    TResult? Function(UserModel remoteUser, List<Message> messages)? data,
     TResult? Function(AppException error)? error,
     TResult? Function()? networkError,
   }) =>
@@ -35,7 +36,7 @@ mixin _$ChatPageControllerState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(UserModel userModel, List<Message> messages)? data,
+    TResult Function(UserModel remoteUser, List<Message> messages)? data,
     TResult Function(AppException error)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -126,7 +127,8 @@ class _$ChatPageLoadingImpl extends ChatPageLoading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(UserModel userModel, List<Message> messages) data,
+    required TResult Function(UserModel remoteUser, List<Message> messages)
+        data,
     required TResult Function(AppException error) error,
     required TResult Function() networkError,
   }) {
@@ -137,7 +139,7 @@ class _$ChatPageLoadingImpl extends ChatPageLoading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(UserModel userModel, List<Message> messages)? data,
+    TResult? Function(UserModel remoteUser, List<Message> messages)? data,
     TResult? Function(AppException error)? error,
     TResult? Function()? networkError,
   }) {
@@ -148,7 +150,7 @@ class _$ChatPageLoadingImpl extends ChatPageLoading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(UserModel userModel, List<Message> messages)? data,
+    TResult Function(UserModel remoteUser, List<Message> messages)? data,
     TResult Function(AppException error)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -208,9 +210,9 @@ abstract class _$$ChatPageDataImplCopyWith<$Res> {
           _$ChatPageDataImpl value, $Res Function(_$ChatPageDataImpl) then) =
       __$$ChatPageDataImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({UserModel userModel, List<Message> messages});
+  $Res call({UserModel remoteUser, List<Message> messages});
 
-  $UserModelCopyWith<$Res> get userModel;
+  $UserModelCopyWith<$Res> get remoteUser;
 }
 
 /// @nodoc
@@ -224,13 +226,13 @@ class __$$ChatPageDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userModel = null,
+    Object? remoteUser = null,
     Object? messages = null,
   }) {
     return _then(_$ChatPageDataImpl(
-      userModel: null == userModel
-          ? _value.userModel
-          : userModel // ignore: cast_nullable_to_non_nullable
+      remoteUser: null == remoteUser
+          ? _value.remoteUser
+          : remoteUser // ignore: cast_nullable_to_non_nullable
               as UserModel,
       messages: null == messages
           ? _value._messages
@@ -241,9 +243,9 @@ class __$$ChatPageDataImplCopyWithImpl<$Res>
 
   @override
   @pragma('vm:prefer-inline')
-  $UserModelCopyWith<$Res> get userModel {
-    return $UserModelCopyWith<$Res>(_value.userModel, (value) {
-      return _then(_value.copyWith(userModel: value));
+  $UserModelCopyWith<$Res> get remoteUser {
+    return $UserModelCopyWith<$Res>(_value.remoteUser, (value) {
+      return _then(_value.copyWith(remoteUser: value));
     });
   }
 }
@@ -252,12 +254,12 @@ class __$$ChatPageDataImplCopyWithImpl<$Res>
 
 class _$ChatPageDataImpl extends ChatPageData {
   const _$ChatPageDataImpl(
-      {required this.userModel, required final List<Message> messages})
+      {required this.remoteUser, required final List<Message> messages})
       : _messages = messages,
         super._();
 
   @override
-  final UserModel userModel;
+  final UserModel remoteUser;
   final List<Message> _messages;
   @override
   List<Message> get messages {
@@ -268,7 +270,7 @@ class _$ChatPageDataImpl extends ChatPageData {
 
   @override
   String toString() {
-    return 'ChatPageControllerState.data(userModel: $userModel, messages: $messages)';
+    return 'ChatPageControllerState.data(remoteUser: $remoteUser, messages: $messages)';
   }
 
   @override
@@ -276,14 +278,14 @@ class _$ChatPageDataImpl extends ChatPageData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatPageDataImpl &&
-            (identical(other.userModel, userModel) ||
-                other.userModel == userModel) &&
+            (identical(other.remoteUser, remoteUser) ||
+                other.remoteUser == remoteUser) &&
             const DeepCollectionEquality().equals(other._messages, _messages));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, userModel, const DeepCollectionEquality().hash(_messages));
+      runtimeType, remoteUser, const DeepCollectionEquality().hash(_messages));
 
   @JsonKey(ignore: true)
   @override
@@ -295,35 +297,36 @@ class _$ChatPageDataImpl extends ChatPageData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(UserModel userModel, List<Message> messages) data,
+    required TResult Function(UserModel remoteUser, List<Message> messages)
+        data,
     required TResult Function(AppException error) error,
     required TResult Function() networkError,
   }) {
-    return data(userModel, messages);
+    return data(remoteUser, messages);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(UserModel userModel, List<Message> messages)? data,
+    TResult? Function(UserModel remoteUser, List<Message> messages)? data,
     TResult? Function(AppException error)? error,
     TResult? Function()? networkError,
   }) {
-    return data?.call(userModel, messages);
+    return data?.call(remoteUser, messages);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(UserModel userModel, List<Message> messages)? data,
+    TResult Function(UserModel remoteUser, List<Message> messages)? data,
     TResult Function(AppException error)? error,
     TResult Function()? networkError,
     required TResult orElse(),
   }) {
     if (data != null) {
-      return data(userModel, messages);
+      return data(remoteUser, messages);
     }
     return orElse();
   }
@@ -368,11 +371,11 @@ class _$ChatPageDataImpl extends ChatPageData {
 
 abstract class ChatPageData extends ChatPageControllerState {
   const factory ChatPageData(
-      {required final UserModel userModel,
+      {required final UserModel remoteUser,
       required final List<Message> messages}) = _$ChatPageDataImpl;
   const ChatPageData._() : super._();
 
-  UserModel get userModel;
+  UserModel get remoteUser;
   List<Message> get messages;
   @JsonKey(ignore: true)
   _$$ChatPageDataImplCopyWith<_$ChatPageDataImpl> get copyWith =>
@@ -444,7 +447,8 @@ class _$ChatPageErrorImpl extends ChatPageError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(UserModel userModel, List<Message> messages) data,
+    required TResult Function(UserModel remoteUser, List<Message> messages)
+        data,
     required TResult Function(AppException error) error,
     required TResult Function() networkError,
   }) {
@@ -455,7 +459,7 @@ class _$ChatPageErrorImpl extends ChatPageError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(UserModel userModel, List<Message> messages)? data,
+    TResult? Function(UserModel remoteUser, List<Message> messages)? data,
     TResult? Function(AppException error)? error,
     TResult? Function()? networkError,
   }) {
@@ -466,7 +470,7 @@ class _$ChatPageErrorImpl extends ChatPageError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(UserModel userModel, List<Message> messages)? data,
+    TResult Function(UserModel remoteUser, List<Message> messages)? data,
     TResult Function(AppException error)? error,
     TResult Function()? networkError,
     required TResult orElse(),
@@ -566,7 +570,8 @@ class _$ChatPageNetworkErrorImpl extends ChatPageNetworkError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(UserModel userModel, List<Message> messages) data,
+    required TResult Function(UserModel remoteUser, List<Message> messages)
+        data,
     required TResult Function(AppException error) error,
     required TResult Function() networkError,
   }) {
@@ -577,7 +582,7 @@ class _$ChatPageNetworkErrorImpl extends ChatPageNetworkError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(UserModel userModel, List<Message> messages)? data,
+    TResult? Function(UserModel remoteUser, List<Message> messages)? data,
     TResult? Function(AppException error)? error,
     TResult? Function()? networkError,
   }) {
@@ -588,7 +593,7 @@ class _$ChatPageNetworkErrorImpl extends ChatPageNetworkError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(UserModel userModel, List<Message> messages)? data,
+    TResult Function(UserModel remoteUser, List<Message> messages)? data,
     TResult Function(AppException error)? error,
     TResult Function()? networkError,
     required TResult orElse(),

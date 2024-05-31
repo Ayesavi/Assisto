@@ -1,3 +1,4 @@
+import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
 import 'package:assisto/features/chat/repositories/chat_page_repository.dart';
@@ -23,7 +24,6 @@ class ChatPageController extends _$ChatPageController {
   @override
   ChatPageControllerState build(int roomId) {
     _roomId = roomId;
-
     loadData();
     return const ChatPageControllerState.loading();
   }
@@ -33,10 +33,11 @@ class ChatPageController extends _$ChatPageController {
       final messages =
           await _repo.fetchMessages(_roomId, limit: 30, offset: _offset);
       _offset += messages.length;
-      final userModel = await _taskRepo.getTaskAssignedUser(roomId);
+      // always for bidder correct this
+      final remoteUser = await _getRemoteUser();
       state = ChatPageControllerState.data(
         messages: messages,
-        userModel: userModel,
+        remoteUser: remoteUser,
       );
     } catch (e) {
       if (e is NetworkException) {
@@ -62,4 +63,16 @@ class ChatPageController extends _$ChatPageController {
   //   _channel.unsubscribe();
   //   _repo.myChannel.unsubscribe();
   // }
+
+  Future<UserModel> _getRemoteUser() async {
+    final ownerModel = await _taskRepo.getTaskOwner(roomId);
+    // it means the use the is the owner of the task
+    // hence show him the bidder details
+    if (ownerModel.id == ref.read(authControllerProvider.notifier).user?.id) {
+      final assignedUser = await _taskRepo.getTaskAssignedUser(roomId);
+      return assignedUser;
+    } else {
+      return ownerModel;
+    }
+  }
 }
