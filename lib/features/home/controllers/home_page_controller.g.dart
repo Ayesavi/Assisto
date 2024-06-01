@@ -9,6 +9,7 @@ part of 'home_page_controller.dart';
 String _$homePageControllerHash() =>
     r'4f3914900b962d54f658ebcd1b44a89780f82179';
 
+
 /// See also [HomePageController].
 @ProviderFor(HomePageController)
 final homePageControllerProvider = AutoDisposeNotifierProvider<
