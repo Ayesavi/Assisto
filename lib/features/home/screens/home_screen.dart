@@ -191,19 +191,52 @@ class HomeScreen extends ConsumerWidget {
                       }, childCount: data.length));
                     },
                     error: (e) {
-                      return const SliverToBoxAdapter(
-                        child: Center(
-                          child: Text('Ooops An Error Occurred'),
+                      return SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 100,
+                              ),
+                              SizedBox.square(
+                                dimension: 200,
+                                child: SvgPicture.asset(
+                                    'assets/graphics/error.svg'),
+                              ),
+                              kWidgetVerticalGap,
+                              const Text(
+                                'Looks like an error occurred from our side, please try again later',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
                     networkError: () {
                       return SliverToBoxAdapter(
-                        child: Column(
-                          children: [
-                            ...List.generate(
-                                12, (index) => const ShimmeringTaskTile())
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 100,
+                              ),
+                              SizedBox.square(
+                                dimension: 200,
+                                child: SvgPicture.asset(
+                                    'assets/graphics/server_down.svg'),
+                              ),
+                              kWidgetVerticalGap,
+                              const Text(
+                                'Can\'t connect to the server, make sure you are connected to the internet!!!',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
