@@ -1,6 +1,6 @@
 import 'package:assisto/core/controllers/address_controller/address_controller.dart';
+import 'package:assisto/core/controllers/internet_connectivity_provider/internet_connectivity_provider.dart';
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/core/respositories/task_repository/fake_task_repository.dart';
 import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,7 @@ class SearchTaskPageController extends _$SearchTaskPageController {
 
   @override
   SearchTaskPageState build() {
+    ref.watch(internetConnectivityProvider);
     final currentAddress = ref.watch(addressControllerProvider);
     if (currentAddress.location) {
       currentLatlng = (

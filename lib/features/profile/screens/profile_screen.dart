@@ -4,6 +4,7 @@ import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/features/profile/controllers/profile_page_controller/profile_page_controller.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/user_model/user_model.dart';
+import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/shimmering/shimmering_profile_widget.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/popup.dart';
@@ -191,18 +192,26 @@ class ProfilePage extends ConsumerWidget {
                             CupertinoListTile(
                               onTap: () async {
                                 WidgetsFlutterBinding.ensureInitialized();
-                                PackageInfo packageInfo =
-                                    await PackageInfo.fromPlatform();
+                                try {
+                                  PackageInfo packageInfo =
+                                      await PackageInfo.fromPlatform();
 
-                                if (context.mounted) {
-                                  showAboutDialog(
-                                      context: context,
-                                      applicationIcon: SizedBox.square(
-                                          dimension: 50,
-                                          child:
-                                              Assets.images.icLauncher.image()),
-                                      applicationName: packageInfo.appName,
-                                      applicationVersion: packageInfo.version);
+                                  if (context.mounted) {
+                                    showAboutDialog(
+                                        context: context,
+                                        applicationIcon: SizedBox.square(
+                                            dimension: 50,
+                                            child: Assets.images.icLauncher
+                                                .image()),
+                                        applicationName: packageInfo.appName,
+                                        applicationVersion:
+                                            packageInfo.version);
+                                  }
+                                } catch (e) {
+                                  if (context.mounted) {
+                                    showSnackBar(context,
+                                        'Unable to display info at the moment.');
+                                  }
                                 }
                               },
                               padding: const EdgeInsets.all(5),

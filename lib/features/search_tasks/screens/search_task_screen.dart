@@ -1,9 +1,12 @@
 import 'package:assisto/core/router/routes.dart';
+import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/search_tasks/controllers/search_task_page_controller/search_task_page_controller.dart';
+import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchTaskScreen extends ConsumerStatefulWidget {
   const SearchTaskScreen({super.key});
@@ -82,9 +85,21 @@ class _SearchTaskScreenState extends ConsumerState<SearchTaskScreen> {
                 controller,
                 state,
               ),
-              const Align(
+              Align(
                 alignment: Alignment.center,
-                child: Text('Network Error'),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox.square(
+                        dimension: 200,
+                        child: SvgPicture.asset(
+                            'assets/graphics/server_down.svg')),
+                    kWidgetVerticalGap,
+                    const Text(
+                      'Please ensure that you are connected to internet',
+                    ),
+                  ],
+                ),
               )
             ],
           );
@@ -146,9 +161,20 @@ class _SearchTaskScreenState extends ConsumerState<SearchTaskScreen> {
                 );
               })),
               if (data.isEmpty)
-                const Align(
+                Align(
                   alignment: Alignment.center,
-                  child: Text('Empty Search'),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox.square(
+                          dimension: 200,
+                          child: SvgPicture.asset(Assets.graphics.emptyList)),
+                      kWidgetVerticalGap,
+                      const Text(
+                        'No tasks found',
+                      ),
+                    ],
+                  ),
                 )
             ],
           );
