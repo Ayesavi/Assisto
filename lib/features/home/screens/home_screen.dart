@@ -5,7 +5,7 @@ import 'package:assisto/features/home/screens/home_appbar_title.dart';
 import 'package:assisto/features/home/widgets/task_filter_widget.dart';
 import 'package:assisto/features/tasks/screens/create_task_page.dart';
 import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
-import 'package:assisto/models/task_model.dart/task_model.dart';
+import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/shimmering/shimmering_task_tile.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
@@ -69,11 +69,14 @@ class HomeScreen extends ConsumerWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8),
                         child: SearchTextField(
-                          hintTexts: ['Washing', 'Cooking'],
+                          onPressed: () {
+                            const SearchPageRoute().go(context);
+                          },
+                          hintTexts: const ['Washing', 'Cooking'],
                         ),
                       ),
                       Padding(
@@ -135,7 +138,6 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       );
                     },
-                   
                     tasks: (data, filters) {
                       if (data.isEmpty) {
                         return SliverToBoxAdapter(
@@ -146,8 +148,8 @@ class HomeScreen extends ConsumerWidget {
                             ),
                             SizedBox.square(
                               dimension: 200,
-                              child: SvgPicture.asset(
-                                  'assets/graphics/empty_list.svg'),
+                              child:
+                                  SvgPicture.asset(Assets.graphics.emptyList),
                             ),
                             kWidgetVerticalGap,
                             const Text(
@@ -183,7 +185,7 @@ class HomeScreen extends ConsumerWidget {
                                   : null,
                               onPressed: () {
                                 TaskProfileRoute(taskId: data[index].id)
-                                    .push(ctx);
+                                    .go(ctx);
                               });
                         }
                       }, childCount: data.length));

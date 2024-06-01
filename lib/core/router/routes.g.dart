@@ -123,6 +123,11 @@ RouteBase get $homeRoute => GoRouteData.$route(
           ],
         ),
         GoRouteData.$route(
+          path: 'search',
+          name: 'search',
+          factory: $SearchPageRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'otp/:phoneNumber/:otpType',
           name: 'verifyOtp',
           factory: $HomeOtpPageRouteExtension._fromState,
@@ -256,6 +261,24 @@ extension $EditProfilePageRouteExtension on EditProfilePageRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile/edit',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $SearchPageRouteExtension on SearchPageRoute {
+  static SearchPageRoute _fromState(GoRouterState state) =>
+      const SearchPageRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/search',
       );
 
   void go(BuildContext context) => context.go(location);
