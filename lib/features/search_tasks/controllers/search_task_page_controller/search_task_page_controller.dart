@@ -22,7 +22,6 @@ class SearchTaskPageController extends _$SearchTaskPageController {
 
   @override
   SearchTaskPageState build() {
-    ref.watch(internetConnectivityProvider);
     final currentAddress = ref.watch(addressControllerProvider);
     if (currentAddress.location) {
       currentLatlng = (

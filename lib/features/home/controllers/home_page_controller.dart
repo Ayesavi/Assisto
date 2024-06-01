@@ -21,7 +21,6 @@ class HomePageController extends _$HomePageController {
   @override
   HomePageControllerState build() {
     final filters = ref.watch(selectedFiltersProvider);
-    ref.watch(internetConnectivityProvider);
     loadData(filters);
     final state = ref.watch(addressControllerProvider);
     if (state.location) {
