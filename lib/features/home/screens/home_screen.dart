@@ -5,7 +5,7 @@ import 'package:assisto/features/home/screens/home_appbar_title.dart';
 import 'package:assisto/features/home/widgets/task_filter_widget.dart';
 import 'package:assisto/features/tasks/screens/create_task_page.dart';
 import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
-import 'package:assisto/models/task_model.dart/task_model.dart';
+import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/shimmering/shimmering_task_tile.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
@@ -69,11 +69,14 @@ class HomeScreen extends ConsumerWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8),
                         child: SearchTextField(
-                          hintTexts: ['Washing', 'Cooking'],
+                          onPressed: () {
+                            const SearchPageRoute().go(context);
+                          },
+                          hintTexts: const ['Washing', 'Cooking'],
                         ),
                       ),
                       Padding(
@@ -135,7 +138,6 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       );
                     },
-                   
                     tasks: (data, filters) {
                       if (data.isEmpty) {
                         return SliverToBoxAdapter(
@@ -146,8 +148,8 @@ class HomeScreen extends ConsumerWidget {
                             ),
                             SizedBox.square(
                               dimension: 200,
-                              child: SvgPicture.asset(
-                                  'assets/graphics/empty_list.svg'),
+                              child:
+                                  SvgPicture.asset(Assets.graphics.emptyList),
                             ),
                             kWidgetVerticalGap,
                             const Text(
@@ -183,25 +185,58 @@ class HomeScreen extends ConsumerWidget {
                                   : null,
                               onPressed: () {
                                 TaskProfileRoute(taskId: data[index].id)
-                                    .push(ctx);
+                                    .go(ctx);
                               });
                         }
                       }, childCount: data.length));
                     },
                     error: (e) {
-                      return const SliverToBoxAdapter(
-                        child: Center(
-                          child: Text('Ooops An Error Occurred'),
+                      return SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 100,
+                              ),
+                              SizedBox.square(
+                                dimension: 200,
+                                child: SvgPicture.asset(
+                                    'assets/graphics/error.svg'),
+                              ),
+                              kWidgetVerticalGap,
+                              const Text(
+                                'Looks like an error occurred from our side, please try again later',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
                     networkError: () {
                       return SliverToBoxAdapter(
-                        child: Column(
-                          children: [
-                            ...List.generate(
-                                12, (index) => const ShimmeringTaskTile())
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 100,
+                              ),
+                              SizedBox.square(
+                                dimension: 200,
+                                child: SvgPicture.asset(
+                                    'assets/graphics/server_down.svg'),
+                              ),
+                              kWidgetVerticalGap,
+                              const Text(
+                                'Can\'t connect to the server, make sure you are connected to the internet!!!',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },

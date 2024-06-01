@@ -41,11 +41,12 @@ class HomePageController extends _$HomePageController {
               : null);
       state = HomePageControllerState.tasks(data, filters);
     } catch (e) {
-      if (e is NetworkException) {
+      final error = appErrorHandler(e);
+      if (error is NetworkException) {
         state = const HomePageControllerState.networkError();
         return;
       }
-      state = HomePageControllerState.error(e);
+      state = HomePageControllerState.error(error);
       return;
     }
   }
