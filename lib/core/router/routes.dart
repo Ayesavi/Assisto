@@ -9,6 +9,7 @@ import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/features/notifications/screens/notification_page.dart';
 import 'package:assisto/features/profile/screens/edit_profile_page.dart';
 import 'package:assisto/features/profile/screens/profile_screen.dart';
+import 'package:assisto/features/search_tasks/screens/search_task_screen.dart';
 import 'package:assisto/features/splash/screens/splash_screen.dart';
 import 'package:assisto/features/tasks/screens/task_profile_page.dart';
 import 'package:assisto/widgets/enter_profile_detail_widget.dart';
@@ -162,4 +163,12 @@ class NotificationPageRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const NotificationsPage();
+}
+
+class SearchPageRoute extends GoRouteData {
+  const SearchPageRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const SearchTaskScreen();
 }
