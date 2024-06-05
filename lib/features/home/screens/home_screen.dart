@@ -8,6 +8,7 @@ import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/features/home/screens/home_appbar_title.dart';
 import 'package:assisto/features/home/widgets/task_filter_widget.dart';
 import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
+import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/shimmering/shimmering_task_tile.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
