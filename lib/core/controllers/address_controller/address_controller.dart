@@ -1,9 +1,9 @@
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
-import 'package:assisto/core/controllers/internet_connectivity_provider/internet_connectivity_provider.dart';
 import 'package:assisto/core/respositories/address_repository.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'address_controller.freezed.dart';
 part 'address_controller.g.dart';
@@ -24,7 +24,6 @@ class AddressController extends _$AddressController {
   @override
   AddressControllerState build() {
     ref.watch(authStateChangesProvider);
-    ref.watch(internetConnectivityProvider);
     fetchAddresses();
     return const AddressControllerState.locationNotSet();
   }

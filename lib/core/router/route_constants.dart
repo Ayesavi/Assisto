@@ -43,12 +43,6 @@ class RouteConstants {
     name: 'edit',
   );
 
-
-  static const searchTasksRoute = TypedGoRoute<SearchPageRoute>(
-    path: 'search',
-    name: 'search',
-  );
-
   static const notificationPageRoute = TypedGoRoute<NotificationPageRoute>(
     path: 'notifications',
     name: 'notifications',
@@ -66,10 +60,7 @@ class RouteConstants {
     fillProfileRoute,
     chatTransactionsPage,
     profileRoute,
-
     createTaskRoute,
-    searchTasksRoute,
-
     homeOtpPageRoute,
     notificationPageRoute,
     chatPage,

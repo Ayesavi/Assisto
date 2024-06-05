@@ -37,7 +37,7 @@ class SupabaseTaskRepository implements BaseTaskRepository {
         'data': {
           if (latlng != null) ...{
             'center_lat': latlng.lat,
-            'center_lng': latlng.lng,
+            'center_lng': latlng.lng
           }
         }
       });
@@ -164,33 +164,6 @@ class SupabaseTaskRepository implements BaseTaskRepository {
     } catch (e) {
       throw const AppException(
           'Failed to get the task owner at the moment, try again later');
-    }
-  }
-
-  @override
-  Future<List<TaskModel>> searchTasks(String searchKey,
-      {LatLng? latlng, int? offset}) async {
-    final data = await _supabase.rpc('search_tasks', params: {
-      'data': {
-        'search_key': searchKey,
-        if (latlng != null) ...{
-          'center_lat': latlng.lat,
-          'center_lng': latlng.lng,
-          'offset': offset ?? 0,
-          'limit': 30
-        }
-      }
-    });
-
-    // Ensure data is not null and is a List
-    if (data != null && data is List) {
-      // Convert each JSON object to a TaskModel and return as a list
-      return data
-          .map((json) => TaskModel.fromJson(json as Map<String, dynamic>))
-          .toList();
-    } else {
-      // Handle error or return empty list if data is null or not a list
-      return [];
     }
   }
 }

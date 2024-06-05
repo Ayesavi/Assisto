@@ -275,43 +275,28 @@ class FakeTaskRepository implements BaseTaskRepository {
     // TODO: implement fetchBidInfoOnTask
     throw UnimplementedError();
   }
-
+  
   @override
   Future<void> blockTask(int taskId) {
     // TODO: implement blockTask
     throw UnimplementedError();
   }
-
+  
   @override
   Future<UserModel> getTaskAssignedUser(int taskId) {
     throw UnimplementedError();
+    
   }
-
+  
   @override
-  Future<void> updateTaskStatus(int taskId, TaskStatus status) {
+  Future<void> updateTaskStatus(int taskId,TaskStatus status) {
     throw UnimplementedError();
   }
-
+  
   @override
   Future<UserModel> getTaskOwner(int taskId) {
     // TODO: implement getTaskOwner
     throw UnimplementedError();
-  }
-
-  @override
-  Future<List<TaskModel>> searchTasks(String searchKey,
-      {LatLng? latlng, int? offset}) async {
-    await Future.delayed(const Duration(seconds: 1), () {});
-    // Filter the tasks based on the searchKey
-    final filteredTasks = _tasks
-        .where((e) =>
-            e.title.contains(searchKey) || e.description.contains(searchKey))
-        .toList();
-
-    // Apply pagination using the offset and limit parameters
-    final paginatedTasks = filteredTasks.skip(offset ?? 0).take(8).toList();
-
-    return paginatedTasks;
   }
 
   // @override

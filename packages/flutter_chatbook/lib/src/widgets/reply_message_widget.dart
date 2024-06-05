@@ -27,7 +27,7 @@ class ReplyMessageWidget extends StatelessWidget {
     final remoteUserName = ChatBookInheritedWidget.of(context)?.recipientName;
 
     final messagedUser = message.repliedMessage?.authorId;
-    final replyBy = replyBySender ? PackageStrings.you : remoteUserName;
+    final replyBy = replyBySender ? PackageStrings.you : messagedUser;
 
     return GestureDetector(
       onTap: onTap,

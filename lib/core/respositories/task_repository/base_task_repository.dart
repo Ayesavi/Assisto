@@ -32,7 +32,4 @@ abstract class BaseTaskRepository {
   Future<void> updateTaskStatus(int taskId, TaskStatus status);
 
   Future<UserModel> getTaskOwner(int taskId);
-
-  Future<List<TaskModel>> searchTasks(String searchKey,
-      {LatLng? latlng, int? offset});
 }

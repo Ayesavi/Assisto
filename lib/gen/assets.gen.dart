@@ -18,9 +18,6 @@ class $AssetsGraphicsGen {
   /// File path: assets/graphics/empty_list.svg
   String get emptyList => 'assets/graphics/empty_list.svg';
 
-  /// File path: assets/graphics/error.svg
-  String get error => 'assets/graphics/error.svg';
-
   /// File path: assets/graphics/login_welcome.svg
   String get loginWelcome => 'assets/graphics/login_welcome.svg';
 
@@ -31,9 +28,6 @@ class $AssetsGraphicsGen {
   /// File path: assets/graphics/no_offers.svg
   String get noOffers => 'assets/graphics/no_offers.svg';
 
-  /// File path: assets/graphics/server_down.svg
-  String get serverDown => 'assets/graphics/server_down.svg';
-
   /// File path: assets/graphics/success_check_mark.svg
   String get successCheckMark => 'assets/graphics/success_check_mark.svg';
 
@@ -41,31 +35,17 @@ class $AssetsGraphicsGen {
   List<dynamic> get values => [
         emptyAddresses,
         emptyList,
-        error,
         loginWelcome,
         magicAi,
         noOffers,
-        serverDown,
         successCheckMark
       ];
-}
-
-class $AssetsImagesGen {
-  const $AssetsImagesGen();
-
-  /// File path: assets/images/ic_launcher.png
-  AssetGenImage get icLauncher =>
-      const AssetGenImage('assets/images/ic_launcher.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [icLauncher];
 }
 
 class Assets {
   Assets._();
 
   static const $AssetsGraphicsGen graphics = $AssetsGraphicsGen();
-  static const $AssetsImagesGen images = $AssetsImagesGen();
   static const String mapStyle = 'assets/map_style.json';
 
   /// List of all assets

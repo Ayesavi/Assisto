@@ -37,27 +37,19 @@ class AppFilledButton extends ConsumerWidget {
             if (onTap != null) {
               onTap!();
             } else if (asyncTap != null && isProgress == false) {
-              try {
-                // Start showing CircularProgressIndicator
-                if (ref.context.mounted) {
-                  ref
-                      .read(progressIndicatorProvider.notifier)
-                      .update((state) => true);
-                  // Call the asyncTap
-                  asyncTap!().then((value) {
-                    if (ref.context.mounted) {
-                      ref.read(progressIndicatorProvider.notifier).state =
-                          false;
-                    }
-                  });
-                }
-                // Stop showing CircularProgressIndicator
-              } catch (e) {
-                if (ref.context.mounted) {
-                  ref.read(progressIndicatorProvider.notifier).state = false;
-                }
-                rethrow;
+              // Start showing CircularProgressIndicator
+              if (ref.context.mounted) {
+                ref
+                    .read(progressIndicatorProvider.notifier)
+                    .update((state) => true);
+                // Call the asyncTap
+                asyncTap!().then((value) {
+                  if (ref.context.mounted) {
+                    ref.read(progressIndicatorProvider.notifier).state = false;
+                  }
+                });
               }
+              // Stop showing CircularProgressIndicator
             }
           },
           child: isProgress
