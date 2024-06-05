@@ -1,4 +1,5 @@
 import 'package:assisto/core/controllers/address_controller/address_controller.dart';
+import 'package:assisto/core/controllers/internet_connectivity_provider/internet_connectivity_provider.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
@@ -37,13 +38,14 @@ class HomePageController extends _$HomePageController {
           latlng: _defaultAddr != null
               ? (lat: _defaultAddr!.latlng.lat, lng: _defaultAddr!.latlng.lng)
               : null);
-        state = HomePageControllerState.tasks(data,filters);
+      state = HomePageControllerState.tasks(data, filters);
     } catch (e) {
-      if (e is NetworkException) {
+      final error = appErrorHandler(e);
+      if (error is NetworkException) {
         state = const HomePageControllerState.networkError();
         return;
       }
-      state = HomePageControllerState.error(e);
+      state = HomePageControllerState.error(error);
       return;
     }
   }

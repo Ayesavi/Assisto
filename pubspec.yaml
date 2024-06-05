@@ -61,7 +61,7 @@ dependencies:
   dio: ^5.4.3+1
   flutter_native_splash: ^2.4.0
   url_launcher: ^6.2.5
-  firebase_messaging: ^14.9.1
+  firebase_messaging: ^14.9.4
   awesome_notifications: ^0.9.3+1
   flutter_chatbook:
     path: packages/flutter_chatbook
@@ -74,6 +74,9 @@ dependencies:
   readmore: ^3.0.0
   flutter_google_maps_webservices: ^1.1.1
   flutter_slidable: ^3.1.0
+  connectivity_plus: ^6.0.3
+  package_info_plus: ^8.0.0
+
 
 dev_dependencies:
 
@@ -121,7 +124,10 @@ flutter:
     - assets/map_style.json
     - assets/graphics/empty_list.svg
     - assets/graphics/no_offers.svg
+    - assets/graphics/server_down.svg
+    - assets/graphics/error.svg
     - assets/graphics/empty_addresses.svg
+    - assets/images/ic_launcher.png
     - .env.dev
     - .env.prod
 

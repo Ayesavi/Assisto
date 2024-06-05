@@ -128,9 +128,19 @@ class LoginScreen extends ConsumerWidget {
                   ),
                   AppFilledButton(
                       asyncTap: () async {
+
                         AppAnalytics.instance.logEvent(
                             name: AnalyticsEvent.auth.googleSignInEvent);
                         await controller.continueWithGoogle();
+
+                        try {
+                          await controller.continueWithGoogle();
+                        } catch (e) {
+                          if (context.mounted) {
+                            showSnackBar(context, appErrorHandler(e).message);
+                          }
+                        }
+
                       },
                       label: LoginScreenText.continueWithGoogleButtonLabel),
                   const SizedBox(
