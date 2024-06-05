@@ -1,6 +1,9 @@
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/addresses/screens/select_address_page.dart';
 import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
+import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/shimmering/shimmering_address_tile.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
@@ -18,12 +21,15 @@ class ManageAddressPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(addressPageControllerProvider);
     final controller = ref.read(addressPageControllerProvider.notifier);
+    final analytics = AppAnalytics.instance;
     return Scaffold(
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(16.0),
           child: AppFilledButton(
             label: 'Add Address',
             onTap: () {
+              analytics.logEvent(
+                  name: AnalyticsEvent.manageAddresses.addAddressPressEvent);
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) {
                   return SelectAddressPage(onAddressSelected: (model) async {
@@ -60,6 +66,9 @@ class ManageAddressPage extends ConsumerWidget {
                           itemBuilder: (context, index) {
                             return EditAddressTile(
                                 onDelete: () {
+                                  analytics.logEvent(
+                                      name: AnalyticsEvent.manageAddresses
+                                          .deleteAddressPressEvent);
                                   showPopup(context,
                                       title: 'Delete address',
                                       content:
@@ -77,6 +86,9 @@ class ManageAddressPage extends ConsumerWidget {
                                   });
                                 },
                                 onEdit: () {
+                                  analytics.logEvent(
+                                      name: AnalyticsEvent.manageAddresses
+                                          .editAddressPressEvent);
                                   if (!kIsWeb) {
                                     Navigator.push(context, MaterialPageRoute(
                                       builder: (context) {
@@ -109,7 +121,7 @@ class ManageAddressPage extends ConsumerWidget {
                           SizedBox.square(
                             dimension: 300,
                             child: SvgPicture.asset(
-                                'assets/graphics/empty_addresses.svg'),
+                                Assets.graphics.emptyAddresses),
                           ),
                           kWidgetVerticalGap,
                           const Text(

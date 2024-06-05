@@ -1,3 +1,5 @@
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme.dart';
@@ -82,6 +84,8 @@ class LoginScreen extends ConsumerWidget {
                       asyncTap: () async {
                         try {
                           final phone = getPhoneNumber(context);
+                          AppAnalytics.instance.logEvent(
+                              name: AnalyticsEvent.auth.phoneNumberSignInEvent);
                           await controller.continueWithPhone(phone);
                           if (context.mounted) {
                             OtpPageRoute(
@@ -124,6 +128,8 @@ class LoginScreen extends ConsumerWidget {
                   ),
                   AppFilledButton(
                       asyncTap: () async {
+                        AppAnalytics.instance.logEvent(
+                            name: AnalyticsEvent.auth.googleSignInEvent);
                         try {
                           await controller.continueWithGoogle();
                         } catch (e) {

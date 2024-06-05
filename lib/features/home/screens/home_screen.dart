@@ -1,3 +1,5 @@
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
 import 'package:assisto/core/services/permission_service.dart';
@@ -5,7 +7,6 @@ import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/features/home/screens/home_appbar_title.dart';
 import 'package:assisto/features/home/widgets/task_filter_widget.dart';
-import 'package:assisto/features/tasks/screens/create_task_page.dart';
 import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/shimmering/shimmering_task_tile.dart';
@@ -70,15 +71,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = ref.read(homePageControllerProvider.notifier);
-
+    final analytics = AppAnalytics.instance;
+    const analyticsEvents = AnalyticsEvent.home;
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return const TaskCreationPage();
-              },
-            ));
+            analytics.logEvent(name: analyticsEvents.createTaskFABEvent);
+            const CreateTaskRoute().go(context);
           },
           child: const Icon(Icons.add_rounded),
         ),
@@ -122,6 +121,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     .toList();
 
                                 _filters = taskFilters;
+                                analytics.logEvent(
+                                    name: analyticsEvents.taskFilterTypeEvent,
+                                    parameters: {
+                                      'filters':
+                                          _filters.map((e) => e.name).join(',')
+                                    });
                                 // controller.loadData(taskFilters);
                               }),
                             ),

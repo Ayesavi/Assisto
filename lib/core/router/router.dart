@@ -44,7 +44,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 class AnalyticsRouteObserver extends NavigatorObserver {
   final analytics = FirebaseAnalytics.instance;
   @override
-  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    analytics.logScreenView(screenName: route.settings.name ?? 'unknown');
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) async {
+    await analytics.logScreenView(screenName: route.settings.name ?? 'unknown');
   }
 }

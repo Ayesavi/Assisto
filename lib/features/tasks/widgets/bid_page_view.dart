@@ -1,3 +1,5 @@
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/tasks/controllers/task_bid/task_bid_widget_controller.dart';
@@ -48,6 +50,9 @@ class BidPageView extends ConsumerWidget {
                                 context: context,
                                 onAcceptOffer: () async {
                                   await controller.acceptBid(bids[index].id);
+                                  AppAnalytics.instance.logEvent(
+                                      name: AnalyticsEvent
+                                          .taskProfile.acceptBidPressEvent);
                                   if (context.mounted) {
                                     const HomeRoute().replace(context);
                                   }
