@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "dev-assisto"
+    "prod": "dev-assisto",
+    "default": "assisto-dev-52a1d"
   }
 }
