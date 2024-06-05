@@ -1,3 +1,5 @@
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/extensions/datetime_extension.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
@@ -47,6 +49,9 @@ class TaskProfilePageView extends ConsumerWidget {
                 if (model.address != null)
                   CupertinoListTile(
                     onTap: () async {
+                      AppAnalytics.instance.logEvent(
+                          name: AnalyticsEvent
+                              .taskProfile.locationTaskProfilePressEvent);
                       if (await canLaunchUrl(Uri.parse(generateGoogleMapsUrl(
                           model.address!.latlng.lat,
                           model.address!.latlng.lng)))) {

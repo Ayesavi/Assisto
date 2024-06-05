@@ -1,11 +1,11 @@
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/features/home/screens/home_appbar_title.dart';
 import 'package:assisto/features/home/widgets/task_filter_widget.dart';
-import 'package:assisto/features/tasks/screens/create_task_page.dart';
 import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
-import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/shimmering/shimmering_task_tile.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
@@ -41,15 +41,13 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final controller = ref.read(homePageControllerProvider.notifier);
-
+    final analytics = AppAnalytics.instance;
+    const analyticsEvents = AnalyticsEvent.home;
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return const TaskCreationPage();
-              },
-            ));
+            analytics.logEvent(name: analyticsEvents.createTaskFABEvent);
+            const CreateTaskRoute().go(context);
           },
           child: const Icon(Icons.add_rounded),
         ),
@@ -90,6 +88,12 @@ class HomeScreen extends ConsumerWidget {
                                     .toList();
 
                                 _filters = taskFilters;
+                                analytics.logEvent(
+                                    name: analyticsEvents.taskFilterTypeEvent,
+                                    parameters: {
+                                      'filters':
+                                          _filters.map((e) => e.name).join(',')
+                                    });
                                 // controller.loadData(taskFilters);
                               }),
                             ),
@@ -135,7 +139,6 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       );
                     },
-                   
                     tasks: (data, filters) {
                       if (data.isEmpty) {
                         return SliverToBoxAdapter(

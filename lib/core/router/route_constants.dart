@@ -47,6 +47,12 @@ class RouteConstants {
     path: 'notifications',
     name: 'notifications',
   );
+
+
+    static const createTaskRoute = TypedGoRoute<CreateTaskRoute>(
+    path: 'createTask',
+    name: 'createTask',
+  );
   static const homeRoute =
       TypedGoRoute<HomeRoute>(path: '/home', name: 'home', routes: [
     addressesRoute,
@@ -54,6 +60,7 @@ class RouteConstants {
     fillProfileRoute,
     chatTransactionsPage,
     profileRoute,
+    createTaskRoute,
     homeOtpPageRoute,
     notificationPageRoute,
     chatPage,

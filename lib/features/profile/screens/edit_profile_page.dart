@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
@@ -237,6 +239,11 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                     AppFilledButton(
                       label: 'Submit',
                       asyncTap: () async {
+                        _handleAnalytics(
+                            phoneController: phoneNumberController,
+                            nameController: nameController,
+                            emailController: emailAddressController);
+
                         if (authController.user != null &&
                             (_formKey.currentState?.validate() ?? false)) {
                           if (validatePhoneNumber(phoneNumberController.text) ==
@@ -255,6 +262,10 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                           await authController.updateProfile(authController
                               .user!
                               .copyWith(name: nameController.text));
+
+                          AppAnalytics.instance.logEvent(
+                              name: AnalyticsEvent
+                                  .editProfile.saveProfilePressEvent);
                         }
                         return;
                       },
@@ -265,5 +276,25 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
             );
           })),
     );
+  }
+
+  _handleAnalytics({
+    required TextEditingController phoneController,
+    required TextEditingController nameController,
+    required TextEditingController emailController,
+  }) {
+    final user = ref.read(authControllerProvider.notifier).user;
+    if (phoneController.text.trim() != user?.phoneNumber) {
+      AppAnalytics.instance.logEvent(
+          name: AnalyticsEvent.editProfile.changePhoneNumberPressEvent);
+    }
+    if (nameController.text.trim() != user?.name) {
+      AppAnalytics.instance
+          .logEvent(name: AnalyticsEvent.editProfile.changeNameEvent);
+    }
+    if (emailController.text.trim() != user?.email) {
+      AppAnalytics.instance
+          .logEvent(name: AnalyticsEvent.editProfile.changeEmailEvent);
+    }
   }
 }

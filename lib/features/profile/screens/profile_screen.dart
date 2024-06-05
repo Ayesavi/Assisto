@@ -1,3 +1,5 @@
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/router/routes.dart';
@@ -32,6 +34,7 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(profilePageControllerProvider);
     final controller = ref.read(profilePageControllerProvider.notifier);
+    final analytics = AppAnalytics.instance;
     return Scaffold(
         appBar: AppBar(
           actions: [
@@ -77,6 +80,9 @@ class ProfilePage extends ConsumerWidget {
                                       ref
                                           .read(authControllerProvider.notifier)
                                           .signOut();
+                                      analytics.logEvent(
+                                          name:
+                                              AnalyticsEvent.auth.logoutEvent);
                                     },
                                   ),
                                 ],
@@ -153,6 +159,8 @@ class ProfilePage extends ConsumerWidget {
                             CupertinoListTile(
                               onTap: () {
                                 showLogOutPopup(context, onConfirm: () {
+                                  analytics.logEvent(
+                                      name: AnalyticsEvent.auth.logoutEvent);
                                   ref
                                       .read(authControllerProvider.notifier)
                                       .signOut();
