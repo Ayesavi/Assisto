@@ -1,6 +1,7 @@
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/router/routes.dart';
+import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
 import 'package:assisto/features/profile/controllers/profile_page_controller/profile_page_controller.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/user_model/user_model.dart';
@@ -76,8 +77,11 @@ class ProfilePage extends ConsumerWidget {
                                   ),
                                   AppFilledButton(
                                     label: "Logout",
-                                    onTap: () {
-                                      ref
+                                    asyncTap: () async {
+                                      await ref
+                                          .read(notificationServiceProvider)
+                                          .removeToken();
+                                      await ref
                                           .read(authControllerProvider.notifier)
                                           .signOut();
                                     },
@@ -141,21 +145,24 @@ class ProfilePage extends ConsumerWidget {
                                   text: 'Share, Edit, Add Aew Addresses'),
                               trailing: const CupertinoListTileChevron(),
                             ),
+                            // CupertinoListTile(
+                            //   onTap: () {
+                            //     //todo: open at map center
+                            //   },
+                            //   padding: const EdgeInsets.all(5),
+                            //   leading: Icon(Icons.payment,
+                            //       color: Theme.of(context).colorScheme.primary),
+                            //   title: const TitleMedium(text: 'Transactions'),
+                            //   subtitle: const BodyMedium(
+                            //       text: 'Payments and Transactions'),
+                            //   trailing: const CupertinoListTileChevron(),
+                            // ),
                             CupertinoListTile(
                               onTap: () {
-                                //todo: open at map center
-                              },
-                              padding: const EdgeInsets.all(5),
-                              leading: Icon(Icons.payment,
-                                  color: Theme.of(context).colorScheme.primary),
-                              title: const TitleMedium(text: 'Transactions'),
-                              subtitle: const BodyMedium(
-                                  text: 'Payments and Transactions'),
-                              trailing: const CupertinoListTileChevron(),
-                            ),
-                            CupertinoListTile(
-                              onTap: () {
-                                showLogOutPopup(context, onConfirm: () {
+                                showLogOutPopup(context, onConfirm: () async {
+                                  await ref
+                                      .read(notificationServiceProvider)
+                                      .removeToken();
                                   ref
                                       .read(authControllerProvider.notifier)
                                       .signOut();

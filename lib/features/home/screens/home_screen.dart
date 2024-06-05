@@ -1,4 +1,6 @@
 import 'package:assisto/core/router/routes.dart';
+import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
+import 'package:assisto/core/services/permission_service.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/features/home/screens/home_appbar_title.dart';
@@ -35,11 +37,38 @@ enum TaskFilterType {
 
 List<TaskFilterType> _filters = [];
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final _permission = PermissionService();
+
+  @override
+  void initState() {
+    super.initState();
+    _permission
+        .requestPermissionIfNeeded(DevicePermission.notification)
+        .then((status) {
+      if (status == DevicePermissionStatus.granted ||
+          status == DevicePermissionStatus.limited) {
+        ref.read(notificationServiceProvider).handleInitialMessage(context);
+        ref.listenManual(onMessageOpenedAppProvider, (prev, next) {
+          if (next.hasValue) {
+            ref
+                .read(notificationServiceProvider)
+                .handlePressNotification(context, next.value!);
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final controller = ref.read(homePageControllerProvider.notifier);
 
     return Scaffold(
