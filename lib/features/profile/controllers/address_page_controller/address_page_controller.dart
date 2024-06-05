@@ -1,4 +1,5 @@
 import 'package:assisto/core/controllers/address_controller/address_controller.dart';
+import 'package:assisto/core/controllers/internet_connectivity_provider/internet_connectivity_provider.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/address_repository.dart';
 import 'package:assisto/models/address_model/address_model.dart';
@@ -18,6 +19,7 @@ class AddressPageController extends _$AddressPageController {
 
   @override
   AddressPageControllerState build() {
+    ref.watch(internetConnectivityProvider);
     fetchAddresses();
     return const _Loading();
   }

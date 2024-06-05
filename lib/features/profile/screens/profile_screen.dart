@@ -3,7 +3,9 @@ import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
 import 'package:assisto/features/profile/controllers/profile_page_controller/profile_page_controller.dart';
+import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/user_model/user_model.dart';
+import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/shimmering/shimmering_profile_widget.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/popup.dart';
@@ -12,6 +14,7 @@ import 'package:assisto/widgets/user_rating_and_review/user_rating_and_review_bo
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -42,7 +45,7 @@ class ProfilePage extends ConsumerWidget {
                 child: const Text('Help'),
                 onPressed: () async {
                   if (!await launchUrl(
-                      Uri.parse('https://www.swachhkabadi.com/help'))) {
+                      Uri.parse('https://www.assisto.ayesavi.in/help'))) {
                     throw Exception('Could not launch url');
                   }
                 },
@@ -194,11 +197,29 @@ class ProfilePage extends ConsumerWidget {
                               trailing: const CupertinoListTileChevron(),
                             ),
                             CupertinoListTile(
-                              onTap: () {
-                                showAboutDialog(
-                                    context: context,
-                                    applicationName: "Assisto",
-                                    applicationVersion: '0.0.1');
+                              onTap: () async {
+                                WidgetsFlutterBinding.ensureInitialized();
+                                try {
+                                  PackageInfo packageInfo =
+                                      await PackageInfo.fromPlatform();
+
+                                  if (context.mounted) {
+                                    showAboutDialog(
+                                        context: context,
+                                        applicationIcon: SizedBox.square(
+                                            dimension: 50,
+                                            child: Assets.images.icLauncher
+                                                .image()),
+                                        applicationName: packageInfo.appName,
+                                        applicationVersion:
+                                            packageInfo.version);
+                                  }
+                                } catch (e) {
+                                  if (context.mounted) {
+                                    showSnackBar(context,
+                                        'Unable to display info at the moment.');
+                                  }
+                                }
                               },
                               padding: const EdgeInsets.all(5),
                               leading: Icon(CupertinoIcons.info_circle,
@@ -216,30 +237,6 @@ class ProfilePage extends ConsumerWidget {
                     ],
                   ),
                 ),
-                // Builder(
-                //   builder: (context) {
-                //     final txnState = ref.watch(transactionsConrollerProvider);
-                //     return txnState.when(loading: () {
-                //       return SliverList(
-                //         delegate: SliverChildBuilderDelegate((ctx, index) {
-                //           return const ShimmeringPickRequestTile();
-                //         }, childCount: 6),
-                //       );
-                //     }, data: (requests) {
-                //       return SliverList(
-                //         delegate: SliverChildBuilderDelegate((ctx, index) {
-                //           return PickRequestTile(
-                //             model: requests[index],
-                //             onTap: (model) {
-                //               RequestInfoPageRoute(model.id).go(context);
-                //             },
-                //           );
-                //         }, childCount: requests.length),
-                //       );
-                //     });
-                //   },
-                // )
-                // const Spacer(),
               ]),
             ),
             const Padding(
