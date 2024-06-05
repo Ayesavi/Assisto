@@ -86,7 +86,7 @@ class NotifyTaskRecommendations {
   private _createMessageData(task: any): BaseMessage {
     return {
       notification: {
-        title: "Task Recommendation", // Ensure this is a valid title
+        title:TASK_RECOMMENDATION_NOTIFICATION_TITLE, 
         body: task.description,
       },
       android: {
