@@ -9,7 +9,6 @@ abstract class ChatRepository {
   Future<List<Message>> fetchMessages(int roomId,
       {int limit = 20, int offset = 0});
   Future<void> addMessage(Message message);
-  Future<Message> messageById(String id);
   Future<UserModel> getUserModelFromRoomId(int roomId);
 }
 
@@ -52,36 +51,18 @@ class SupabaseChatRepository implements ChatRepository {
 
   RealtimeChannel addMessageListener(
     int roomId,
-    void Function(Message message) onMessage,
+    void Function(Map<String, dynamic> rawMessage) onMessage,
   ) {
     return myChannel
         .onPostgresChanges(
           event: PostgresChangeEvent.insert,
           schema: 'public',
           table: _table,
-          callback: (payload) async {
-            Message? repliedMessage;
-            if (payload.newRecord.containsKey('replied_message_id') &&
-                payload.newRecord['replied_message_id'] != null) {
-              repliedMessage =
-                  await messageById(payload.newRecord['replied_message_id']);
-            }
-            final message = Message.fromJson(payload.newRecord);
-
-            onMessage(message.copyWith(repliedMessage: repliedMessage));
+          callback: (payload) {
+            onMessage(payload.newRecord);
           },
         )
         .subscribe();
-  }
-
-  @override
-  Future<Message> messageById(String id) async {
-    try {
-      return Message.fromJson(
-          await _supabase.from(_table).select('*').eq('id', id).single());
-    } catch (e) {
-      throw const AppException('Failed to replied message');
-    }
   }
 }
 
@@ -180,11 +161,5 @@ class FakeChatRepository implements ChatRepository {
         tags: [],
         age: 30,
         gender: 'male');
-  }
-
-  @override
-  Future<Message> messageById(String id) {
-    // TODO: implement messageById
-    throw UnimplementedError();
   }
 }

@@ -55,7 +55,7 @@ class ChatPageController extends _$ChatPageController {
   void addMessageListener(
       int roomId, void Function(Message message) onMessage) {
     _channel = _repo.addMessageListener(roomId, (message) {
-      onMessage(message);
+      onMessage(Message.fromJson(message));
     });
   }
 

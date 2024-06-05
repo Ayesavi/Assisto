@@ -55,30 +55,26 @@ class _AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User?> signInWithGoogle() async {
-    try {
-      if (!kIsWeb && Platform.isAndroid) {
-        final googleUser = await _googleSignIn.signIn();
-        final googleAuth = await googleUser?.authentication;
-        final accessToken = googleAuth?.accessToken;
-        final idToken = googleAuth?.idToken;
-        if (accessToken != null && idToken != null) {
-          final response = await _supabase.auth.signInWithIdToken(
-            provider: OAuthProvider.google,
-            idToken: idToken,
-            accessToken: accessToken,
-          );
-          if (response.user != null) {
-            return (response.user!);
-          }
-          throw UnAuthenticatedUserException();
+    if (!kIsWeb && Platform.isAndroid) {
+      final googleUser = await _googleSignIn.signIn();
+      final googleAuth = await googleUser?.authentication;
+      final accessToken = googleAuth?.accessToken;
+      final idToken = googleAuth?.idToken;
+      if (accessToken != null && idToken != null) {
+        final response = await _supabase.auth.signInWithIdToken(
+          provider: OAuthProvider.google,
+          idToken: idToken,
+          accessToken: accessToken,
+        );
+        if (response.user != null) {
+          return (response.user!);
         }
-      } else {
-        await _supabase.auth.signInWithOAuth(OAuthProvider.google);
+        throw UnAuthenticatedUserException();
       }
-      throw UnAuthenticatedUserException();
-    } catch (e) {
-      rethrow;
+    } else {
+      await _supabase.auth.signInWithOAuth(OAuthProvider.google);
     }
+    throw UnAuthenticatedUserException();
   }
 
   @override

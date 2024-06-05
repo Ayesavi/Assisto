@@ -1,11 +1,8 @@
 import 'dart:io';
 
-import 'package:assisto/core/respositories/auth_repository.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppException implements Exception {
   final String message;
@@ -23,22 +20,25 @@ AppException appErrorHandler(dynamic e) {
     return e;
   } else if (e is SocketException) {
     return NetworkException();
-  } else if (e is PostgrestException ||
-      e is AuthException ||
-      e is AuthPKCEGrantCodeExchangeError ||
-      e is AuthException ||
-      e is TypeError ||
-      e is ArgumentError ||
-      e is RangeError ||
-      e is FormatException ||
-      e is UnsupportedError ||
-      e is UnAuthenticatedUserException) {
-    return AppException(e.toString());
-  } else if (e is PlatformException) {
-    if (e.code == "network_error") {
-      return NetworkException();
-    } else {
-      return const AppException("An error occurred");
+  } else if (e is FirebaseAuthException) {
+    switch (e.code) {
+      case 'user-not-found':
+        return const AppException('User not found');
+      case 'wrong-password':
+        return const AppException('Wrong password provided');
+      case 'invalid-email':
+        return const AppException('Invalid email address');
+      case 'email-already-in-use':
+        return const AppException('Email address is already in use');
+      case 'weak-password':
+        return const AppException('Password is too weak');
+      case 'too-many-requests':
+        return const AppException(
+            'Too many login attempts. Please try again later.');
+      case 'operation-not-allowed':
+        return const AppException('Email/password sign-in is not enabled.');
+      default:
+        return AppException('Firebase Authentication Error: ${e.message}');
     }
   } else if (e is FirebaseAuthException) {
     switch (e.code) {

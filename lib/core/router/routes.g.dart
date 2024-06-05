@@ -123,15 +123,9 @@ RouteBase get $homeRoute => GoRouteData.$route(
           ],
         ),
         GoRouteData.$route(
-
           path: 'createTask',
           name: 'createTask',
           factory: $CreateTaskRouteExtension._fromState,
-
-          path: 'search',
-          name: 'search',
-          factory: $SearchPageRouteExtension._fromState,
-
         ),
         GoRouteData.$route(
           path: 'otp/:phoneNumber/:otpType',
@@ -279,21 +273,12 @@ extension $EditProfilePageRouteExtension on EditProfilePageRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-
 extension $CreateTaskRouteExtension on CreateTaskRoute {
   static CreateTaskRoute _fromState(GoRouterState state) =>
       const CreateTaskRoute();
 
   String get location => GoRouteData.$location(
         '/home/createTask',
-
-extension $SearchPageRouteExtension on SearchPageRoute {
-  static SearchPageRoute _fromState(GoRouterState state) =>
-      const SearchPageRoute();
-
-  String get location => GoRouteData.$location(
-        '/home/search',
-
       );
 
   void go(BuildContext context) => context.go(location);
