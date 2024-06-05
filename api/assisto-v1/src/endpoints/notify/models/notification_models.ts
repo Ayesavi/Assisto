@@ -25,9 +25,13 @@ enum ChatEvents {
 
 interface NotificationModel {
   channel: NotificationChannels;
-  title: string;
-  body: string;
   group_key?: string;
+  notification: {
+    title: string;
+    body: string;
+  };
+  
+  android?:{}
   data: NotificationData;
 }
 

@@ -1,8 +1,8 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { BaseMessage } from "firebase-admin/messaging";
 import {
   ChatEvents,
   NotificationChannels,
-  NotificationModel,
 } from "../models/notification_models";
 import sendNotification from "../send_notification";
 
@@ -28,7 +28,7 @@ class NotifyChats {
     let messageAuthorName = await this._getMessageAuthorName();
     let messageBody = this.createMessageData(messageAuthorName);
     await sendNotification({
-      data: messageBody,
+      ...messageBody,
       tokens: tokens,
     });
   }
@@ -83,18 +83,23 @@ class NotifyChats {
     ).data?.full_name;
   }
 
-  createMessageData(messageAuthorName: string): NotificationModel {
+  createMessageData(messageAuthorName: string): BaseMessage {
     return {
-      channel: NotificationChannels.CHAT,
-      title: messageAuthorName,
-      body: this.record.text,
-      group_key: this.record.room_id,
+      notification: {
+        title: messageAuthorName,
+        body: this.record.text,
+      },
+      android: {
+        notification: {
+          channelId: NotificationChannels.CHAT,
+        },
+      },
       data: {
         event: ChatEvents.INSERT,
-        event_info: {
-          room_id: this.record.room_id,
-          message_id: this.record.id,
-        },
+        room_id: `${this.record.room_id}`,
+        group_key: `${this.record.room_id}`,
+        message_id: this.record.id,
+        channel: NotificationChannels.CHAT,
       },
     };
   }

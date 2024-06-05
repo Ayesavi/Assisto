@@ -10,7 +10,7 @@ import NotifyTaskUpdates from "./endpoints/notify/tasks/updates";
 // Initialize Firebase Admin
 initializeApp({
   credential: applicationDefault(),
-  projectId: "dev-assisto",
+  projectId: process.env.GCLOUD_PROJECT,
 });
 admin.firestore().settings({ ignoreUndefinedProperties: true });
 
@@ -28,7 +28,8 @@ app.get("/", (req, res) => {
 
 app.post("/notify/chat", async (req, res) => {
   try {
-    let mode: string = req.query.env as string;
+    let mode: string =
+      process.env.GCLOUD_PROJECT == "assisto-dev" ? "prod" : "dev";
     let notifyMessage = new NotifyChats(mode, req.body.record);
     await notifyMessage.call();
     res.status(200).send();
@@ -39,7 +40,8 @@ app.post("/notify/chat", async (req, res) => {
 
 app.post("/notify/tasks/update", async (req, res) => {
   try {
-    let mode: string = req.query.env as string;
+    let mode: string =
+      process.env.GCLOUD_PROJECT == "assisto-dev" ? "prod" : "dev";
     const recommendation = new NotifyTaskUpdates(
       mode,
       req.body.old_record,
@@ -55,7 +57,8 @@ app.post("/notify/tasks/update", async (req, res) => {
 
 app.post("/notify/tasks/recommendation", async (req, res) => {
   try {
-    let mode: string = req.query.env as string;
+    let mode: string =
+      process.env.GCLOUD_PROJECT == "assisto-dev" ? "prod" : "dev";
     const recommendation = new NotifyTaskRecommendations(mode);
     await recommendation.sendRecommendations(req.body.record);
     res.status(200).send("Notifications have been sent successfully!");

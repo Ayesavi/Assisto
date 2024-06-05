@@ -3,10 +3,11 @@
   "scripts": {
     "build": "tsc  -t es5",
     "build:watch": "tsc  -t es5 --watch",
-    "serve": "npm run build && firebase emulators:start --only functions",
+    "serve": "npm run build && firebase emulators:start --only functions:assisto-v1 --project assisto-dev-52a1d",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
+    "deploy": "firebase deploy --only functions:assisto-v1 --project assisto-dev-52a1d",
+    "deploy:prod": "firebase deploy --only functions:assisto-v1 --project assisto-dev",
     "logs": "firebase functions:log"
   },
   "engines": {

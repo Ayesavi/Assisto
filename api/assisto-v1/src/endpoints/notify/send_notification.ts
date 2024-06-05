@@ -1,14 +1,11 @@
-import { getMessaging } from "firebase-admin/messaging";
+import { getMessaging, MulticastMessage } from "firebase-admin/messaging";
 
-async function sendNotification(message: any): Promise<void> {
+async function sendNotification(message: MulticastMessage): Promise<void> {
+  console.log(message);
   try {
-    let body = message;
-    body.data.data = JSON.stringify(body.data.data);
-    console.log(body);
-
     if (message.tokens.length > 0) {
-      const response = await getMessaging().sendEachForMulticast(body);
-
+      const response = await getMessaging().sendEachForMulticast(message);
+      console.log(response.responses[0].error);
       if (response.successCount > 0) {
         console.log(
           `Successfully sent message to ${response.successCount} devices.`

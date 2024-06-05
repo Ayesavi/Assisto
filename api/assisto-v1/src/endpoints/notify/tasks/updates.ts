@@ -1,7 +1,7 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { BaseMessage } from "firebase-admin/messaging";
 import {
   NotificationChannels,
-  NotificationModel,
   TaskEvents,
 } from "../models/notification_models";
 import sendNotification from "../send_notification";
@@ -99,8 +99,8 @@ class NotifyTaskUpdates {
       .select("token")
       .eq("user_id", bidder?.bidder_id);
     let message = {
-      data: this._createMessageData(),
-      tokens: deviceTokens?.map((e) => e.token),
+      ...this._createMessageData(),
+      tokens: deviceTokens?.map((e) => e.token) ?? [],
     };
     sendNotification(message);
     if (error) {
@@ -109,29 +109,41 @@ class NotifyTaskUpdates {
     }
   }
 
-  private _createMessageData(): NotificationModel {
+  private _createMessageData(): BaseMessage {
     if (this.isUpdateForAssigningUser) {
       return {
-        title: `You, have been assigned for ${this.newRecord.title}`,
-        body: "You have been asssigned for the asist, tap for more info.",
-        channel: NotificationChannels.TASK,
+        notification: {
+          title: `You, have been assigned for ${this.newRecord.title}`,
+          body: "You have been asssigned for the asist, tap for more info.",
+        },
+        android: {
+          notification: {
+            channelId: NotificationChannels.TASK,
+          },
+        },
         data: {
           event: TaskEvents.UPDATE,
-          event_info: {
-            task_id: this.newRecord.id,
-          },
+          task_id: `${this.newRecord.id}`,
+          channel: NotificationChannels.RECOMMENDATIONS,
+
         },
       };
     } else {
       return {
-        title: `Have you checked ${this.newRecord.title} assist, it's updated recently?`,
-        body: `Assist ${this.newRecord.title} has been ${this.newRecord.status}`,
-        channel: NotificationChannels.TASK,
+        notification: {
+          title: `Have you checked ${this.newRecord.title} assist, it's updated recently?`,
+          body: `Assist ${this.newRecord.title} has been ${this.newRecord.status}`,
+        },
+        android: {
+          notification: {
+            channelId: NotificationChannels.TASK,
+          },
+        },
         data: {
           event: TaskEvents.UPDATE,
-          event_info: {
-            task_id: this.newRecord.id,
-          },
+          task_id: `${this.newRecord.id}`,
+        channel: NotificationChannels.RECOMMENDATIONS,
+
         },
       };
     }

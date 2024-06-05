@@ -1,7 +1,7 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { BaseMessage } from "firebase-admin/messaging";
 import {
   NotificationChannels,
-  NotificationModel,
   RecommendationEvents,
 } from "../models/notification_models";
 import sendNotification from "../send_notification";
@@ -59,7 +59,7 @@ class NotifyTaskRecommendations {
       }
 
       const message = {
-        data: this._createMessageData(task),
+        ...this._createMessageData(task),
         tokens: tokens,
       };
       await sendNotification(message);
@@ -83,21 +83,25 @@ class NotifyTaskRecommendations {
     return tokens.map((token: any) => token["device_token"]);
   }
 
-  private _createMessageData(task: any): NotificationModel {
+  private _createMessageData(task: any): BaseMessage {
     return {
-      channel: NotificationChannels.RECOMMENDATIONS,
-      title: "Task Recommendation", // Ensure this is a valid title
-      body: task.description,
+      notification: {
+        title: "Task Recommendation", // Ensure this is a valid title
+        body: task.description,
+      },
+      android: {
+        notification: {
+          channelId: NotificationChannels.RECOMMENDATIONS,
+        },
+      },
       data: {
         event: RecommendationEvents.NEW_TASK,
-        event_info: {
-          task_id: task.id,
-        },
+        task_id: `${task.id}`,
+        channel: NotificationChannels.RECOMMENDATIONS,
+
       },
     };
   }
-
-  
 }
 
 export default NotifyTaskRecommendations;
