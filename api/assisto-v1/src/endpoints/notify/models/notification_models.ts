@@ -27,6 +27,7 @@ interface NotificationModel {
   channel: NotificationChannels;
   title: string;
   body: string;
+  group_key?: string;
   data: NotificationData;
 }
 

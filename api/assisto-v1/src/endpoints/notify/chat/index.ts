@@ -88,6 +88,7 @@ class NotifyChats {
       channel: NotificationChannels.CHAT,
       title: messageAuthorName,
       body: this.record.text,
+      group_key: this.record.room_id,
       data: {
         event: ChatEvents.INSERT,
         event_info: {
