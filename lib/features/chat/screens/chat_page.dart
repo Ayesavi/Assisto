@@ -63,7 +63,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     }, data: (userModel, messages) {
       return _buildScaffold(
           appBar: _buildAppBar(context, userModel),
-          body: _buildChatBook(userModel, messages));
+          body: _buildChatBook(userModel, messages,
+              remoteUserName: userModel.name));
     }, error: (e) {
       return _buildScaffold(
           body: Center(
@@ -149,15 +150,19 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     ));
   }
 
-  Widget _buildChatBook(UserModel model, List<Message> messages) {
+  Widget _buildChatBook(UserModel model, List<Message> messages,
+      {required String remoteUserName}) {
     final scheme = Theme.of(context).colorScheme;
     final txtTheme = Theme.of(context).textTheme;
 
     return ChatBook(
-        recipientName: 'User 1',
+
         swipeToReplyConfig: SwipeToReplyConfiguration(onLeftSwipe: (message) {
           analytics.logEvent(name: analyticsEvents.chatBubbleReplySwipeEvent);
         }),
+
+        recipientName: remoteUserName,
+
         featureActiveConfig: const FeatureActiveConfig(
             enableSwipeToReply: true, enableSwipeToSeeTime: false),
         sendMessageConfig: SendMessageConfiguration(
