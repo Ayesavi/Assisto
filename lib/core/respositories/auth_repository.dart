@@ -26,7 +26,7 @@ abstract class AuthRepository {
   Future<void> updateProfile(UserModel model);
   Future<void> updateEmail(String email);
   Future<void> updatePhone(String phone);
-  Future<void> uploadUserAvatar(File file);
+  Future<String> uploadUserAvatar(File file);
 }
 
 class UnAuthenticatedUserException implements Exception {
@@ -105,7 +105,8 @@ class _AuthRepositoryImpl implements AuthRepository {
   }
 
   GoogleSignIn get _googleSignIn => GoogleSignIn(
-      serverClientId: FlavorConfig().googleClientId, scopes: ['email', "openid"]);
+      serverClientId: FlavorConfig().googleClientId,
+      scopes: ['email', "openid"]);
 
   @override
   Future<void> sendOtp(
@@ -136,11 +137,13 @@ class _AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<String> uploadUserAvatar(File file) async {
-    final userId = _supabase.auth.currentUser?.id;
-    final path = (await _supabase.storage
-        .from('storage')
-        .upload('$userId/avatar', file));
-    final publicUrl = _supabase.storage.from('storage').getPublicUrl(path);
-    return publicUrl;
+    try {
+      final userId = _supabase.auth.currentUser?.id;
+      final publicUrl =
+          _supabase.storage.from('avatars').getPublicUrl('$userId');
+      return publicUrl;
+    } catch (e) {
+      throw 'Failed to upload avatar';
+    }
   }
 }

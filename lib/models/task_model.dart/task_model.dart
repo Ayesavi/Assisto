@@ -74,7 +74,7 @@ typedef LatLng = ({double lat, double lng});
 class TaskUser with _$TaskUser {
   const factory TaskUser({
     required String id,
-    @JsonKey(name: 'image_url') String? imageUrl,
+    @JsonKey(name: 'avatar_url') String? imageUrl,
   }) = _TaskUser;
 
   factory TaskUser.fromJson(Map<String, dynamic> json) =>

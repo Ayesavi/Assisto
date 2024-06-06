@@ -212,6 +212,8 @@ class _EditProfile {
 
   /// When a user updates bio
   final updateBioEvent = "update_bio_event";
+
+  
 }
 
 class _FillProfileEvents {

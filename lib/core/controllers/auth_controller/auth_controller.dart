@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:assisto/core/respositories/auth_repository.dart';
 import 'package:assisto/core/utils/utils.dart';
 import 'package:assisto/models/user_model/user_model.dart';
@@ -53,6 +55,7 @@ class AuthController extends _$AuthController {
       final imageUrl = userMetadata?.containsKey("avatar_url") ?? false
           ? userMetadata!['avatar_url']
           : null;
+
       final gender = userMetadata?.containsKey("gender") ?? false
           ? userMetadata!['gender']
           : null;
@@ -63,6 +66,10 @@ class AuthController extends _$AuthController {
           userMetadata?.containsKey("email_verified") ?? false
               ? userMetadata!['email_verified']
               : null;
+
+      final description = userMetadata?.containsKey("description") ?? false
+          ? userMetadata!['description']
+          : null;
 
       final isPhoneVerified =
           userMetadata?.containsKey("phone_verified") ?? false
@@ -90,6 +97,7 @@ class AuthController extends _$AuthController {
           avatarUrl: imageUrl,
           gender: gender,
           email: email,
+          description: description,
           phoneNumber: phone,
           tags: [...tags],
           age: calculateAgeFromString(dob));
@@ -107,7 +115,6 @@ class AuthController extends _$AuthController {
   }
 
   Future<void> signOut() async {
-    
     await _repo.signOut();
   }
 
@@ -130,6 +137,13 @@ class AuthController extends _$AuthController {
 
   Future<void> updateProfile(UserModel model) async {
     return await _repo.updateProfile(model);
+  }
+
+  Future<void> updateProfileImg(File file) async {
+    final imageUrl = await _repo.uploadUserAvatar(file);
+    if (user != null) {
+      await _repo.updateProfile(user!.copyWith(avatarUrl: imageUrl));
+    }
   }
 
   Future<void> updatePhone(String phone) async {

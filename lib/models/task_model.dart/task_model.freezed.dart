@@ -553,7 +553,7 @@ TaskUser _$TaskUserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TaskUser {
   String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'image_url')
+  @JsonKey(name: 'avatar_url')
   String? get imageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -567,7 +567,7 @@ abstract class $TaskUserCopyWith<$Res> {
   factory $TaskUserCopyWith(TaskUser value, $Res Function(TaskUser) then) =
       _$TaskUserCopyWithImpl<$Res, TaskUser>;
   @useResult
-  $Res call({String id, @JsonKey(name: 'image_url') String? imageUrl});
+  $Res call({String id, @JsonKey(name: 'avatar_url') String? imageUrl});
 }
 
 /// @nodoc
@@ -607,7 +607,7 @@ abstract class _$$TaskUserImplCopyWith<$Res>
       __$$TaskUserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, @JsonKey(name: 'image_url') String? imageUrl});
+  $Res call({String id, @JsonKey(name: 'avatar_url') String? imageUrl});
 }
 
 /// @nodoc
@@ -641,7 +641,7 @@ class __$$TaskUserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TaskUserImpl implements _TaskUser {
   const _$TaskUserImpl(
-      {required this.id, @JsonKey(name: 'image_url') this.imageUrl});
+      {required this.id, @JsonKey(name: 'avatar_url') this.imageUrl});
 
   factory _$TaskUserImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskUserImplFromJson(json);
@@ -649,7 +649,7 @@ class _$TaskUserImpl implements _TaskUser {
   @override
   final String id;
   @override
-  @JsonKey(name: 'image_url')
+  @JsonKey(name: 'avatar_url')
   final String? imageUrl;
 
   @override
@@ -688,7 +688,7 @@ class _$TaskUserImpl implements _TaskUser {
 abstract class _TaskUser implements TaskUser {
   const factory _TaskUser(
       {required final String id,
-      @JsonKey(name: 'image_url') final String? imageUrl}) = _$TaskUserImpl;
+      @JsonKey(name: 'avatar_url') final String? imageUrl}) = _$TaskUserImpl;
 
   factory _TaskUser.fromJson(Map<String, dynamic> json) =
       _$TaskUserImpl.fromJson;
@@ -696,7 +696,7 @@ abstract class _TaskUser implements TaskUser {
   @override
   String get id;
   @override
-  @JsonKey(name: 'image_url')
+  @JsonKey(name: 'avatar_url')
   String? get imageUrl;
   @override
   @JsonKey(ignore: true)

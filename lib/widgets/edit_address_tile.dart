@@ -93,7 +93,10 @@ class _EditAddressTileState extends ConsumerState<EditAddressTile>
           text: widget.model.label.capitalize,
           weight: FontWeight.bold,
         ),
-        onTap: widget.onTap,
+        onTap: () {
+          widget.onTap?.call();
+          _slidableController.openEndActionPane();
+        },
         leading: Icon(
           CupertinoIcons.location_fill,
           color: Theme.of(context).colorScheme.primary,
@@ -104,6 +107,7 @@ class _EditAddressTileState extends ConsumerState<EditAddressTile>
           color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
           maxLines: 3,
         ),
+
         trailing: IconButton(
             onPressed: () {
               _slidableController.openEndActionPane();
