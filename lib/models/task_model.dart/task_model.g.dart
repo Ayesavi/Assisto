@@ -67,13 +67,13 @@ const _$TaskStatusEnumMap = {
 _$TaskUserImpl _$$TaskUserImplFromJson(Map<String, dynamic> json) =>
     _$TaskUserImpl(
       id: json['id'] as String,
-      imageUrl: json['image_url'] as String?,
+      imageUrl: json['avatar_url'] as String?,
     );
 
 Map<String, dynamic> _$$TaskUserImplToJson(_$TaskUserImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'image_url': instance.imageUrl,
+      'avatar_url': instance.imageUrl,
     };
 
 _$TaskAddressImpl _$$TaskAddressImplFromJson(Map<String, dynamic> json) =>

@@ -30,7 +30,7 @@ class ProfilePage extends ConsumerWidget {
         model.email.isNotNullAndNotEmpty) {
       return '${model.email}';
     } else {
-      return '+91-${model.phoneNumber} | ${model.email}';
+      return '+91-${model.phoneNumber!.substring(2)} | ${model.email}';
     }
   }
 
@@ -48,7 +48,7 @@ class ProfilePage extends ConsumerWidget {
                 child: const Text('Help'),
                 onPressed: () async {
                   if (!await launchUrl(
-                      Uri.parse('https://www.assisto.ayesavi.in/help'))) {
+                      Uri.parse('https://assisto.ayesavi.in/contact.html'))) {
                     throw Exception('Could not launch url');
                   }
                 },
