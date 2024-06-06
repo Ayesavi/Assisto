@@ -1,3 +1,5 @@
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/features/addresses/controller/address_search_controller/address_search_controller.dart';
 import 'package:assisto/features/addresses/repositories/places_repository.dart';
@@ -17,6 +19,7 @@ class AddressSearchPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(addressSearchControllerProvider);
     final controller = ref.read(addressSearchControllerProvider.notifier);
+    final analytics = AppAnalytics.instance;
     final cityData = FakePlacesRepository().list;
     return Scaffold(
       appBar: AppBar(
@@ -48,6 +51,10 @@ class AddressSearchPage extends ConsumerWidget {
                         onSubmitted: (searchQuery) {
                           if (searchQuery.trim().isNotEmpty) {
                             controller.debouncer.call(() {
+                              analytics.logEvent(
+                                  name: AnalyticsEvent
+                                      .manageAddresses.searchAddressPressEvent,
+                                  parameters: {'key': searchQuery.trim()});
                               controller.searchPlaces(searchQuery);
                             });
                           }

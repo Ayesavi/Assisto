@@ -43,13 +43,27 @@ class RouteConstants {
     name: 'edit',
   );
 
+
+  static const searchTasksRoute = TypedGoRoute<SearchPageRoute>(
+    path: 'search',
+    name: 'search',
+  );
+
   static const notificationPageRoute = TypedGoRoute<NotificationPageRoute>(
     path: 'notifications',
     name: 'notifications',
   );
 
+
   static const maintenancePage = TypedGoRoute<MaintenancePageRoute>(
       path: '/maintenance', name: 'maintenance');
+
+
+    static const createTaskRoute = TypedGoRoute<CreateTaskRoute>(
+    path: 'createTask',
+    name: 'createTask',
+  );
+
   static const homeRoute =
       TypedGoRoute<HomeRoute>(path: '/home', name: 'home', routes: [
     addressesRoute,
@@ -57,6 +71,8 @@ class RouteConstants {
     fillProfileRoute,
     chatTransactionsPage,
     profileRoute,
+    createTaskRoute,
+    searchTasksRoute,
     homeOtpPageRoute,
     notificationPageRoute,
     chatPage,
