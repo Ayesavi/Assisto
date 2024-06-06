@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:assisto/core/config/app_config.dart';
+import 'package:assisto/core/config/flavor_config.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/features/addresses/data/indian_city_data.dart';
 import 'package:flutter_google_maps_webservices/geocoding.dart';
@@ -66,10 +66,10 @@ class FakePlacesRepository implements BasePlacesRepository {
 
 class GoogleMapRespository implements BasePlacesRepository {
   final GoogleMapsPlaces _places =
-      GoogleMapsPlaces(apiKey: AppConfig().geoApiKey);
+      GoogleMapsPlaces(apiKey: FlavorConfig().geoApiKey);
 
   final GoogleMapsGeocoding _geolocation =
-      GoogleMapsGeocoding(apiKey: AppConfig().geoApiKey);
+      GoogleMapsGeocoding(apiKey: FlavorConfig().geoApiKey);
   @override
   Future<List<PlacesSearchResult>> getPlacesByText(String searchText) async {
     final response = await _places.searchByText(searchText);

@@ -55,10 +55,15 @@ class RouteConstants {
   );
 
 
+  static const maintenancePage = TypedGoRoute<MaintenancePageRoute>(
+      path: '/maintenance', name: 'maintenance');
+
+
     static const createTaskRoute = TypedGoRoute<CreateTaskRoute>(
     path: 'createTask',
     name: 'createTask',
   );
+
   static const homeRoute =
       TypedGoRoute<HomeRoute>(path: '/home', name: 'home', routes: [
     addressesRoute,

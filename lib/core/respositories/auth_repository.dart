@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:assisto/core/config/app_config.dart';
+import 'package:assisto/core/config/flavor_config.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -105,7 +105,7 @@ class _AuthRepositoryImpl implements AuthRepository {
   }
 
   GoogleSignIn get _googleSignIn => GoogleSignIn(
-      serverClientId: AppConfig().googleClientId, scopes: ['email', "openid"]);
+      serverClientId: FlavorConfig().googleClientId, scopes: ['email', "openid"]);
 
   @override
   Future<void> sendOtp(

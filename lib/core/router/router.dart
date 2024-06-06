@@ -1,3 +1,4 @@
+import 'package:assisto/core/app_config/app_config_service.dart';
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -11,12 +12,17 @@ final routerProvider = Provider<GoRouter>((ref) {
   final GlobalKey<NavigatorState> rootNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'root');
   final appState = ref.watch(authControllerProvider);
+  final config = ref.watch(appConfigKeysProvider);
   _previousRouter = GoRouter(
       navigatorKey: rootNavigatorKey,
       debugLogDiagnostics: true,
       observers: [AnalyticsRouteObserver()],
       initialLocation: _previousRouter?.routeInformationProvider.value.uri.path,
       redirect: (context, state) {
+        if (config.isAppOutage.value()) {
+          return '/maintenance';
+        }
+
         if (appState.isLoading) {
           return '/';
         } else if (appState.isAuthenticated) {

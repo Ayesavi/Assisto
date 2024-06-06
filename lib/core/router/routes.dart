@@ -6,6 +6,7 @@ import 'package:assisto/features/auth/screens/verify_otp_screen.dart';
 import 'package:assisto/features/chat/screens/chat_page.dart';
 import 'package:assisto/features/chat/screens/chat_transactions.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
+import 'package:assisto/features/maintainence/screens/maintenance_page.dart';
 import 'package:assisto/features/notifications/screens/notification_page.dart';
 import 'package:assisto/features/profile/screens/edit_profile_page.dart';
 import 'package:assisto/features/profile/screens/profile_screen.dart';
@@ -166,6 +167,15 @@ class NotificationPageRoute extends GoRouteData {
       const NotificationsPage();
 }
 
+
+@RouteConstants.maintenancePage
+class MaintenancePageRoute extends GoRouteData {
+  const MaintenancePageRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const MaintenancePage();
+
 class CreateTaskRoute extends GoRouteData {
   const CreateTaskRoute();
 
@@ -180,4 +190,5 @@ class SearchPageRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const SearchTaskScreen();
+
 }
