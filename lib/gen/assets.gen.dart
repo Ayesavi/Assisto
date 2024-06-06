@@ -50,6 +50,16 @@ class $AssetsGraphicsGen {
       ];
 }
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/ic_launcher.png
+  AssetGenImage get icLauncher =>
+      const AssetGenImage('assets/images/ic_launcher.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [icLauncher];
+}
 
 class $AssetsLottieGen {
   const $AssetsLottieGen();
@@ -60,38 +70,28 @@ class $AssetsLottieGen {
 
   /// List of all assets
   List<String> get values => [appUnderMaintainence];
-
-class $AssetsImagesGen {
-  const $AssetsImagesGen();
-
-  /// File path: assets/images/ic_launcher.png
-  AssetGenImage get icLauncher =>
-      const AssetGenImage('assets/images/ic_launcher.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [icLauncher];
-
 }
 
 class Assets {
   Assets._();
 
+  static const String envDev = '.env.dev';
+  static const String envProd = '.env.prod';
   static const $AssetsGraphicsGen graphics = $AssetsGraphicsGen();
-
-  static const $AssetsLottieGen lottie = $AssetsLottieGen();
-
   static const $AssetsImagesGen images = $AssetsImagesGen();
-
+  static const $AssetsLottieGen lottie = $AssetsLottieGen();
   static const String mapStyle = 'assets/map_style.json';
 
   /// List of all assets
-  static List<String> get values => [mapStyle];
+  static List<String> get values => [envDev, envProd, mapStyle];
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName);
+  const AssetGenImage(this._assetName, {this.size = null});
 
   final String _assetName;
+
+  final Size? size;
 
   Image image({
     Key? key,

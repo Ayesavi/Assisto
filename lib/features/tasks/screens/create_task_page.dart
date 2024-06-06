@@ -654,7 +654,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                       CustomDropdown<AddressModel>(
                         items: data,
                         onChanged: (value) {
-                          _locationId = value.id;
+                          _locationId = value?.id;
                         },
                         decoration: CustomDropdownDecoration(
                             closedFillColor: Colors.transparent,

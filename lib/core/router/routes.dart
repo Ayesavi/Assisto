@@ -167,7 +167,6 @@ class NotificationPageRoute extends GoRouteData {
       const NotificationsPage();
 }
 
-
 @RouteConstants.maintenancePage
 class MaintenancePageRoute extends GoRouteData {
   const MaintenancePageRoute();
@@ -175,6 +174,7 @@ class MaintenancePageRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const MaintenancePage();
+}
 
 class CreateTaskRoute extends GoRouteData {
   const CreateTaskRoute();
@@ -190,5 +190,4 @@ class SearchPageRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const SearchTaskScreen();
-
 }

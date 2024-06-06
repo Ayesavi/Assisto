@@ -7,7 +7,7 @@ part of 'search_task_page_controller.dart';
 // **************************************************************************
 
 String _$searchTaskPageControllerHash() =>
-    r'84e254973be1c4b62705cfb674c6e3cd18a901ab';
+    r'1ffd50cf413c690ef088e5f0ce2003f061829348';
 
 /// See also [SearchTaskPageController].
 @ProviderFor(SearchTaskPageController)
