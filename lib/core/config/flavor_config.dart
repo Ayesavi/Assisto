@@ -7,14 +7,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum AppFlavors { prod, dev }
 
-class AppConfig {
-  const AppConfig._();
+class FlavorConfig {
+  const FlavorConfig._();
 
   // The single instance of the class
-  static const AppConfig _instance = AppConfig._();
+  static const FlavorConfig _instance = FlavorConfig._();
 
   // Factory constructor to return the same instance every time
-  factory AppConfig() {
+  factory FlavorConfig() {
     return _instance;
   }
 

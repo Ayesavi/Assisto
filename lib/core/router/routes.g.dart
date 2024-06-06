@@ -10,6 +10,7 @@ List<RouteBase> get $appRoutes => [
       $splashRoute,
       $authRoute,
       $homeRoute,
+      $maintenancePageRoute,
     ];
 
 RouteBase get $splashRoute => GoRouteData.$route(
@@ -313,6 +314,30 @@ extension $ChatPageRouteExtension on ChatPageRoute {
 
   String get location => GoRouteData.$location(
         '/home/chat/${Uri.encodeComponent(roomId.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $maintenancePageRoute => GoRouteData.$route(
+      path: '/maintenance',
+      name: 'maintenance',
+      factory: $MaintenancePageRouteExtension._fromState,
+    );
+
+extension $MaintenancePageRouteExtension on MaintenancePageRoute {
+  static MaintenancePageRoute _fromState(GoRouterState state) =>
+      const MaintenancePageRoute();
+
+  String get location => GoRouteData.$location(
+        '/maintenance',
       );
 
   void go(BuildContext context) => context.go(location);

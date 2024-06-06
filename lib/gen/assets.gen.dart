@@ -42,10 +42,22 @@ class $AssetsGraphicsGen {
       ];
 }
 
+class $AssetsLottieGen {
+  const $AssetsLottieGen();
+
+  /// File path: assets/lottie/app_under_maintainence.json
+  String get appUnderMaintainence =>
+      'assets/lottie/app_under_maintainence.json';
+
+  /// List of all assets
+  List<String> get values => [appUnderMaintainence];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsGraphicsGen graphics = $AssetsGraphicsGen();
+  static const $AssetsLottieGen lottie = $AssetsLottieGen();
   static const String mapStyle = 'assets/map_style.json';
 
   /// List of all assets

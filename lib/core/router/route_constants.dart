@@ -47,6 +47,9 @@ class RouteConstants {
     path: 'notifications',
     name: 'notifications',
   );
+
+  static const maintenancePage = TypedGoRoute<MaintenancePageRoute>(
+      path: '/maintenance', name: 'maintenance');
   static const homeRoute =
       TypedGoRoute<HomeRoute>(path: '/home', name: 'home', routes: [
     addressesRoute,
