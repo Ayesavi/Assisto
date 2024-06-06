@@ -107,6 +107,7 @@ class AuthController extends _$AuthController {
   }
 
   Future<void> signOut() async {
+    
     await _repo.signOut();
   }
 

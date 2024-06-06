@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/services/permission_service.dart';
 import 'package:assisto/features/addresses/controller/select_address_page_controller.dart';
 import 'package:assisto/features/addresses/screens/address_search_page.dart';
@@ -29,13 +30,13 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
   final TextEditingController _searchController = TextEditingController();
 
   late final SelectAddressPageControllerProvider provider;
-
+  final analytics = AppAnalytics.instance;
   @override
   void initState() {
     super.initState();
     provider = selectAddressPageControllerProvider(
         editAddressModel: widget.addressModel);
-
+    analytics.logScreen(name: 'select_address_page');
     ref.listenManual(provider, (prev, next) {
       if (next.isLoadMap &&
           (next as SelectAddressPageControllerLoadMap).config.addressModel !=
@@ -232,6 +233,7 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
+                            analytics.logScreen(name: 'address_search_page');
                             return AddressSearchPage(
                               onLocationSelected: (result, position) {
                                 Navigator.pop(context);
