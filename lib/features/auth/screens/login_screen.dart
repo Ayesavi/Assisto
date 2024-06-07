@@ -3,7 +3,6 @@ import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme.dart';
-// import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/auth/controllers/login_page_controller.dart';
 import 'package:assisto/gen/assets.gen.dart';
@@ -16,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreenText {
   static const String logInTitle = 'Log In';
@@ -48,16 +48,21 @@ class LoginScreen extends ConsumerWidget {
     }
   }
 
+  void _launchURL(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch url');
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final state = ref.watch(loginPageControllerProvider);
     final controller = ref.read(loginPageControllerProvider.notifier);
 
     return Scaffold(
       body: Stack(
         children: [
           Padding(
-            padding: kPageColumnPadding,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -81,31 +86,30 @@ class LoginScreen extends ConsumerWidget {
                   PhoneNumberTextField(phoneController),
                   const Padding(padding: kWidgetVerticalPadding),
                   AppFilledButton(
-                      asyncTap: () async {
-                        try {
-                          final phone = getPhoneNumber(context);
-                          AppAnalytics.instance.logEvent(
-                              name: AnalyticsEvent.auth.phoneNumberSignInEvent);
-                          await controller.continueWithPhone(phone);
-                          if (context.mounted) {
-                            OtpPageRoute(
-                                    phoneNumber: getPhoneNumber(context),
-                                    otpType: OtpType.sms.name)
-                                .go(context);
-                          }
-
-                          if (context.mounted) {}
-                        } catch (e) {
-                          if (context.mounted) {
-                            if (e is NetworkException) {
-                              showNetworkErrorPopup(context);
-                            } else {
-                              showSnackBar(context, appErrorHandler(e).message);
-                            }
+                    asyncTap: () async {
+                      try {
+                        final phone = getPhoneNumber(context);
+                        AppAnalytics.instance.logEvent(
+                            name: AnalyticsEvent.auth.phoneNumberSignInEvent);
+                        await controller.continueWithPhone(phone);
+                        if (context.mounted) {
+                          OtpPageRoute(
+                                  phoneNumber: getPhoneNumber(context),
+                                  otpType: OtpType.sms.name)
+                              .go(context);
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          if (e is NetworkException) {
+                            showNetworkErrorPopup(context);
+                          } else {
+                            showSnackBar(context, appErrorHandler(e).message);
                           }
                         }
-                      },
-                      label: LoginScreenText.continueButtonLabel),
+                      }
+                    },
+                    label: LoginScreenText.continueButtonLabel,
+                  ),
                   const Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: 20.0, horizontal: 16),
@@ -122,29 +126,31 @@ class LoginScreen extends ConsumerWidget {
                         Expanded(
                             child: Divider(
                           thickness: 2,
-                        ))
+                        )),
                       ],
                     ),
                   ),
                   AppFilledButton(
-                      asyncTap: () async {
-                        AppAnalytics.instance.logEvent(
-                            name: AnalyticsEvent.auth.googleSignInEvent);
-                        try {
-                          await controller.continueWithGoogle();
-                        } catch (e) {
-                          if (context.mounted) {
-                            showSnackBar(context, appErrorHandler(e).message);
-                          }
+                    asyncTap: () async {
+                      AppAnalytics.instance.logEvent(
+                          name: AnalyticsEvent.auth.googleSignInEvent);
+                      try {
+                        await controller.continueWithGoogle();
+                      } catch (e) {
+                        if (context.mounted) {
+                          showSnackBar(context, appErrorHandler(e).message);
                         }
-                      },
-                      label: LoginScreenText.continueWithGoogleButtonLabel),
+                      }
+                    },
+                    label: LoginScreenText.continueWithGoogleButtonLabel,
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
                   Text.rich(
-                      maxLines: 2,
-                      TextSpan(children: [
+                    maxLines: 2,
+                    TextSpan(
+                      children: [
                         TextSpan(
                           text: LoginScreenText.byClicking,
                           style: TextStyle(
@@ -157,14 +163,20 @@ class LoginScreen extends ConsumerWidget {
                             letterSpacing: 0.10,
                           ),
                         ),
-                        const TextSpan(
-                          text: LoginScreenText.termsAndService,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w500,
-                            decoration: TextDecoration.underline,
+                        WidgetSpan(
+                          child: GestureDetector(
+                            onTap: () => _launchURL(
+                                'https://assisto.ayesavi.in/terms.html'),
+                            child: Text(
+                              LoginScreenText.termsAndService,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontSize: 14,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
                           ),
                         ),
                         const TextSpan(
@@ -176,16 +188,25 @@ class LoginScreen extends ConsumerWidget {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        const TextSpan(
-                            text: LoginScreenText.privacyPolicy,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w500,
-                              decoration: TextDecoration.underline,
-                            )),
-                      ]))
+                        WidgetSpan(
+                          child: GestureDetector(
+                            onTap: () => _launchURL(
+                                'https://assisto.ayesavi.in/privacy.html'),
+                            child: Text(
+                              LoginScreenText.privacyPolicy,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontSize: 14,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w500,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
