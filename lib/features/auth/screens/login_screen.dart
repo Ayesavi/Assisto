@@ -1,5 +1,6 @@
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
+import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme.dart';
@@ -10,6 +11,7 @@ import 'package:assisto/shared/show_network_error_popup.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/phone_number_textfield.dart';
+import 'package:assisto/widgets/popup.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -138,7 +140,21 @@ class LoginScreen extends ConsumerWidget {
                         await controller.continueWithGoogle();
                       } catch (e) {
                         if (context.mounted) {
-                          showSnackBar(context, appErrorHandler(e).message);
+                          if (e is UserDisabledException) {
+                            showPopup(context, onConfirm: () async {
+                              Navigator.pop(context);
+                              await ref
+                                  .read(authControllerProvider.notifier)
+                                  .reactivate(email: e.email, phone: e.phone);
+                            },
+                                content:
+                                    'Your account has been disabled for the following reason: ${e.message}',
+                                title: e.isForDeletion
+                                    ? 'Reactivate Account'
+                                    : "Account Disabled");
+                          } else {
+                            showSnackBar(context, appErrorHandler(e).message);
+                          }
                         }
                       }
                     },

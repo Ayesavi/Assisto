@@ -6,7 +6,9 @@ import * as functions from "firebase-functions";
 import NotifyChats from "./endpoints/notify/chat";
 import NotifyTaskRecommendations from "./endpoints/notify/tasks/recommendation";
 import NotifyTaskUpdates from "./endpoints/notify/tasks/updates";
-
+import UserDelete from "./endpoints/user/delete";
+import DisabledReason from "./endpoints/user/disabled-reason";
+import ReactivateUser from "./endpoints/user/reactivate";
 // Initialize Firebase Admin
 initializeApp({
   credential: applicationDefault(),
@@ -33,6 +35,53 @@ app.post("/notify/chat", async (req, res) => {
     let notifyMessage = new NotifyChats(mode, req.body.record);
     await notifyMessage.call();
     res.status(200).send();
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
+app.post("/user/disabled-reason", async (req, res) => {
+  try {
+    let deleteUser = new DisabledReason();
+    const { email, phone } = req.body;
+    let data = await deleteUser.call(email, phone);
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
+/// to be called from supabase when scanning disabled_users table
+app.post("/user/delete", async (req, res) => {
+  try {
+    let deleteUser = new UserDelete();
+    let data = await deleteUser.deleteUser(`${req.query.uid}`);
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
+// Route for reactivating a user
+app.post("/user/reactivate", async (req, res) => {
+  try {
+    const { email, phone } = req.body;
+    const reactivator = new ReactivateUser();
+    await reactivator.call(email, phone);
+    res.status(200).send("User reactivated successfully");
+  } catch (error) {
+    console.error("Error reactivating user:", error);
+    res.status(500).send(error);
+  }
+});
+
+/// to be called from client side
+app.post("/user/initiate-deletion", async (req, res) => {
+  try {
+    let deleteUser = new UserDelete();
+    const token = req.headers.authorization?.split("Bearer ").pop() ?? "";
+    let data = await deleteUser.initiate(`${token}`);
+    res.status(200).send(data);
   } catch (error) {
     res.status(400).send();
   }
