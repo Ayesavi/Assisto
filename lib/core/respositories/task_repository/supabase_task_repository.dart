@@ -16,7 +16,7 @@ class SupabaseTaskRepository implements BaseTaskRepository {
     return TaskModel.fromJson(await _supabase
         .from(_table)
         .insert(json)
-        .select('*,owner:owner_id(id,avatar_url)')
+        .select('*,owner:owner_id(id,avatar_url,status)')
         .single());
   }
 
@@ -50,7 +50,7 @@ class SupabaseTaskRepository implements BaseTaskRepository {
     final json = await _supabase
         .from(_table)
         .select(
-            '*,owner:owner_id(id,avatar_url),address:address_id(id,latlng,address,house_number)')
+            '*,owner:owner_id(id,avatar_url,status),address:address_id(id,latlng,address,house_number)')
         .eq('id', id)
         .single();
     return TaskModel.fromJson(json);
@@ -81,7 +81,7 @@ class SupabaseTaskRepository implements BaseTaskRepository {
       List<TaskFilterType> filters) async {
     final data = await _supabase
         .from('bidding')
-        .select('task:task_id(*,owner:owner_id(id,avatar_url))')
+        .select('task:task_id(*,owner:owner_id(id,avatar_url,status))')
         .eq('bidder_id', _supabase.auth.currentUser?.id ?? '');
     return data.map((json) {
       return TaskModel.fromJson(json['task']);
@@ -92,7 +92,7 @@ class SupabaseTaskRepository implements BaseTaskRepository {
     final data = await _supabase
         .from('tasks')
         .select(
-            '*,owner:owner_id(id,avatar_url),bid:bid_id(*,bidder:bidder_id(*))')
+            '*,owner:owner_id(id,avatar_url,status),bid:bid_id(*,bidder:bidder_id(*))')
         .eq('owner_id', '${_supabase.auth.currentUser?.id}');
     return data.map((json) => TaskModel.fromJson(json)).toList();
   }
@@ -133,7 +133,7 @@ class SupabaseTaskRepository implements BaseTaskRepository {
           .select('bid:bid_id(bidder:bidder_id(*))')
           .eq('id', taskId)
           .single();
-      return UserModel.fromJson(data['bid']['bidder']);
+      return UserModel.fromSupbase(data['bid']['bidder']);
     } catch (e) {
       throw const AppException(
           'Failed to get details of the assigned user for the task at the moment, try again later.');
@@ -160,7 +160,7 @@ class SupabaseTaskRepository implements BaseTaskRepository {
           .select('owner:owner_id(*)')
           .eq('id', taskId)
           .single();
-      return UserModel.fromJson(data['owner']);
+      return UserModel.fromSupbase(data['owner']);
     } catch (e) {
       throw const AppException(
           'Failed to get the task owner at the moment, try again later');

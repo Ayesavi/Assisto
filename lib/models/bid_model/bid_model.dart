@@ -11,9 +11,10 @@ class BidModel with _$BidModel {
   const factory BidModel({
     required int id,
     @JsonKey(name: 'created_at') required DateTime createdAt,
-    required UserModel bidder,
+    @JsonKey(fromJson: UserModel.fromSupbase) required UserModel bidder,
     required int amount,
   }) = _BidModel;
 
-  factory BidModel.fromJson(Map<String, dynamic> json) => _$BidModelFromJson(json);
+  factory BidModel.fromJson(Map<String, dynamic> json) =>
+      _$BidModelFromJson(json);
 }

@@ -23,6 +23,7 @@ mixin _$BidModel {
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: UserModel.fromSupbase)
   UserModel get bidder => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
 
@@ -40,7 +41,7 @@ abstract class $BidModelCopyWith<$Res> {
   $Res call(
       {int id,
       @JsonKey(name: 'created_at') DateTime createdAt,
-      UserModel bidder,
+      @JsonKey(fromJson: UserModel.fromSupbase) UserModel bidder,
       int amount});
 
   $UserModelCopyWith<$Res> get bidder;
@@ -104,7 +105,7 @@ abstract class _$$BidModelImplCopyWith<$Res>
   $Res call(
       {int id,
       @JsonKey(name: 'created_at') DateTime createdAt,
-      UserModel bidder,
+      @JsonKey(fromJson: UserModel.fromSupbase) UserModel bidder,
       int amount});
 
   @override
@@ -154,7 +155,7 @@ class _$BidModelImpl implements _BidModel {
   const _$BidModelImpl(
       {required this.id,
       @JsonKey(name: 'created_at') required this.createdAt,
-      required this.bidder,
+      @JsonKey(fromJson: UserModel.fromSupbase) required this.bidder,
       required this.amount});
 
   factory _$BidModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -166,6 +167,7 @@ class _$BidModelImpl implements _BidModel {
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @override
+  @JsonKey(fromJson: UserModel.fromSupbase)
   final UserModel bidder;
   @override
   final int amount;
@@ -209,7 +211,7 @@ abstract class _BidModel implements BidModel {
   const factory _BidModel(
       {required final int id,
       @JsonKey(name: 'created_at') required final DateTime createdAt,
-      required final UserModel bidder,
+      @JsonKey(fromJson: UserModel.fromSupbase) required final UserModel bidder,
       required final int amount}) = _$BidModelImpl;
 
   factory _BidModel.fromJson(Map<String, dynamic> json) =
@@ -221,6 +223,7 @@ abstract class _BidModel implements BidModel {
   @JsonKey(name: 'created_at')
   DateTime get createdAt;
   @override
+  @JsonKey(fromJson: UserModel.fromSupbase)
   UserModel get bidder;
   @override
   int get amount;

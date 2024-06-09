@@ -157,4 +157,8 @@ class AuthController extends _$AuthController {
   Future<void> resendOtp({String? phone}) async {
     await _repo.sendOtp(type: OtpType.phoneChange, phone: phone);
   }
+
+  Future<void> reactivate({String? phone, String? email}) async {
+    await _repo.reactivate(phone: phone, email: email);
+  }
 }

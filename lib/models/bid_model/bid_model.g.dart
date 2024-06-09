@@ -10,7 +10,7 @@ _$BidModelImpl _$$BidModelImplFromJson(Map<String, dynamic> json) =>
     _$BidModelImpl(
       id: (json['id'] as num).toInt(),
       createdAt: DateTime.parse(json['created_at'] as String),
-      bidder: UserModel.fromJson(json['bidder'] as Map<String, dynamic>),
+      bidder: UserModel.fromSupbase(json['bidder'] as Map<String, dynamic>),
       amount: (json['amount'] as num).toInt(),
     );
 
