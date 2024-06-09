@@ -83,68 +83,7 @@ export class UserDelete {
         console.error(error);
         throw "Failed to remove user";
       }
-
-      const { error: deleteError } = await this.supabase.auth.admin.deleteUser(
-        uid,
-        // soft delete the account as it let's
-        false
-      );
-
-      if (deleteError) {
-        console.error(deleteError);
-        throw "Failed to remove user";
-      }
-
-      /// anonymise this profiles table
-      const { error: profileError } = await this.supabase
-        .from("profiles")
-        .update({
-          full_name: null,
-          avatar_url: null,
-          age: null,
-          gender: null,
-          status: "deleted",
-          tags: null,
-        })
-        .eq("id", uid);
-
-      if (profileError) {
-        console.error(profileError);
-        throw "Failed to anonymise profiles table";
-      }
-      /// remove records from tables that posses that composition table
-      const { error: deviceError } = await this.supabase
-        .from("devices")
-        .delete()
-        .eq("user_id", uid);
-
-      if (deviceError) {
-        console.error(deviceError);
-        throw "Failed to remove records from devices table";
-      }
-
-      const { error: reviewError } = await this.supabase
-        .from("reviews")
-        .delete()
-        .eq("user_id", uid);
-
-      if (reviewError) {
-        console.error(reviewError);
-        throw "Failed to remove records from reviews table";
-      }
-
-      /// cleanup delete from disabled users too
-      const { error: disabledDeleteError } = await this.supabase
-        .from(this.disabledUsersTable)
-        .delete()
-        .eq("user_id", uid);
-
-      if (disabledDeleteError) {
-        console.error(
-          `Error occurred while removing user from disabled users table: ${deleteError}`
-        );
-        throw `Error occurred while removing user from disabled users table`;
-      }
+      
 
       return "User deleted successfully";
     } catch (error) {
@@ -185,10 +124,6 @@ export class UserDelete {
     now.setDate(now.getDate() + 30);
     return now;
   }
-
-
-
-  
 }
 
 export default UserDelete;
