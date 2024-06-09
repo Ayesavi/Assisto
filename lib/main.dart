@@ -5,6 +5,7 @@ import 'package:assisto/core/services/notification_service/notification_service.
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -18,7 +19,7 @@ void main() async {
   await Supabase.initialize(
       url: FlavorConfig().supabaseApiUrl,
       anonKey: FlavorConfig().supabaseApiKey);
-
+  await MobileAds.instance.initialize();
   Log.intialize();
   // HttpService().usingEmulator(5001);
 

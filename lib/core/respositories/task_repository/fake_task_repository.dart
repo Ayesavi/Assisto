@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
-import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/models/user_model/user_model.dart';
@@ -77,17 +76,14 @@ class FakeTaskRepository implements BaseTaskRepository {
       {filters = const [], LatLng? latlng, int? offset}) async {
     _tasks = [];
     _generateAuthenticTasks();
-    if (filters.contains(TaskFilterType.you)) {
-      final result = _tasks
-          .where((e) =>
-              e.owner.id == Supabase.instance.client.auth.currentUser?.id)
-          .toList();
-      return result;
-    }
-    return _tasks
-        .where(
-            (e) => e.owner.id != Supabase.instance.client.auth.currentUser?.id)
-        .toList();
+    await Future.delayed(const Duration(seconds: 1), () {});
+    // Filter the tasks based on the searchKey
+    final filteredTasks = _tasks.toList();
+
+    // Apply pagination using the offset and limit parameters
+    final paginatedTasks = filteredTasks.skip(offset ?? 0).take(8).toList();
+
+    return paginatedTasks;
   }
 
   @override

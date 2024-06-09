@@ -105,7 +105,9 @@ class TaskProfilePage extends ConsumerWidget {
     } else {
       return TaskProfilePageView(model, onPressMarkAsCompleted: () async {
         await controller.completeTask(taskId);
-        Navigator.pop(context);
+        if (context.mounted) {
+          Navigator.pop(context);
+        }
         return;
       });
     }
