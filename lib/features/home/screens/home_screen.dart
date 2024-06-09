@@ -1,3 +1,4 @@
+import 'package:assisto/core/admob/ad_units.dart';
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/router/routes.dart';
@@ -6,6 +7,7 @@ import 'package:assisto/core/services/permission_service.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/features/home/screens/home_appbar_title.dart';
+import 'package:assisto/features/home/widgets/task_ad_listtile.dart';
 import 'package:assisto/features/home/widgets/task_filter_widget.dart';
 import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
 import 'package:assisto/gen/assets.gen.dart';
@@ -47,6 +49,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final _permission = PermissionService();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -66,6 +69,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         });
       }
     });
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.atEdge &&
+        _scrollController.position.pixels != 0) {
+      // implement pagination
+      ref.read(homePageControllerProvider.notifier).paginate();
+    }
   }
 
   @override
@@ -86,6 +98,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             controller.loadData(_filters);
           },
           child: CustomScrollView(
+            controller: _scrollController,
             slivers: [
               SliverAppBar(
                 automaticallyImplyLeading: false,
@@ -195,34 +208,80 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ));
                       }
                       return SliverList(
-                          delegate: SliverChildBuilderDelegate((ctx, index) {
-                        if (filters.contains(TaskFilterType.you)) {
-                          return TaskTile.owner(
-                              taskModel: data[index],
-                              onAvatarPressed: () {
-                                if (data[index].bid != null) {
-                                  showBidderProfileBottomSheet(
+                        delegate: SliverChildBuilderDelegate(
+                          (ctx, index) {
+                            // Calculate the number of ads inserted so far
+                            const adInterval = 8;
+                            final itemIndex = index - (index ~/ adInterval);
+
+                            // Last index for the loading indicator
+                            final lastIndex =
+                                data.length + (data.length ~/ adInterval);
+
+                            if (index == lastIndex) {
+                              // Show loading indicator at the end of the list
+                              return Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: ValueListenableBuilder(
+                                  valueListenable:
+                                      controller.isPaginatingNotifier,
+                                  builder: (BuildContext context,
+                                      bool isPaginating, Widget? child) {
+                                    return SizedBox.square(
+                                      dimension: isPaginating
+                                          ? 50
+                                          : 0, // Adjust the size if needed
+                                      child: isPaginating
+                                          ? const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            )
+                                          : const SizedBox.shrink(),
+                                    );
+                                  },
+                                ),
+                              );
+                            } else if (index % adInterval == 0 && index != 0) {
+                              // Insert ad widget at every 8th position
+                              return TaskAdListTile(
+                                adId: AdUnits.homeTasksAdUnit.unitId,
+                              );
+                            } else if (filters.contains(TaskFilterType.you)) {
+                              return TaskTile.owner(
+                                taskModel: data[itemIndex],
+                                onAvatarPressed: () {
+                                  if (data[itemIndex].bid != null) {
+                                    showBidderProfileBottomSheet(
                                       context: context,
-                                      model: data[index].bid!,
-                                      onAcceptOffer: () async {});
-                                }
-                              },
-                              onPressed: () {
-                                TaskProfileRoute(taskId: data[index].id)
-                                    .push(ctx);
-                              });
-                        } else {
-                          return TaskTile(
-                              taskModel: data[index],
-                              trailing: filters.contains(TaskFilterType.bidded)
-                                  ? TileStatusWidget(data[index].status)
-                                  : null,
-                              onPressed: () {
-                                TaskProfileRoute(taskId: data[index].id)
-                                    .go(ctx);
-                              });
-                        }
-                      }, childCount: data.length));
+                                      model: data[itemIndex].bid!,
+                                      onAcceptOffer: () async {},
+                                    );
+                                  }
+                                },
+                                onPressed: () {
+                                  TaskProfileRoute(taskId: data[itemIndex].id)
+                                      .push(ctx);
+                                },
+                              );
+                            } else {
+                              return TaskTile(
+                                taskModel: data[itemIndex],
+                                trailing: filters
+                                        .contains(TaskFilterType.bidded)
+                                    ? TileStatusWidget(data[itemIndex].status)
+                                    : null,
+                                onPressed: () {
+                                  TaskProfileRoute(taskId: data[itemIndex].id)
+                                      .go(ctx);
+                                },
+                              );
+                            }
+                          },
+                          childCount: data.length +
+                              (data.length ~/ 8) +
+                              1, // Adjust the count to include ads and the loading indicator
+                        ),
+                      );
                     },
                     error: (e) {
                       return SliverToBoxAdapter(
