@@ -38,13 +38,6 @@ class LocationTileOpenBottomsheet extends ConsumerWidget {
           const SizedBox(
             width: 5,
           ),
-          Transform.rotate(
-            angle: (90 * (22 / 7)) / 180,
-            child: Icon(
-              Icons.chevron_right_rounded,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
-            ),
-          )
         ]),
         subtitle: model != null
             ? Text(
