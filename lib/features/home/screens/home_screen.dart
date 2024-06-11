@@ -16,7 +16,6 @@ import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
 import 'package:assisto/widgets/task_tile/tile_status.dart';
 import 'package:assisto/widgets/user_avatar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -155,11 +154,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          IconButton(
-                              onPressed: () {
-                                const NotificationPageRoute().go(context);
-                              },
-                              icon: const Icon(CupertinoIcons.bell)),
+                          // IconButton(
+                          //     onPressed: () {
+                          //       const NotificationPageRoute().go(context);
+                          //     },
+                          //     icon: const Icon(CupertinoIcons.bell)),
                           UserAvatar.currentUser(
                             ref,
                             onPressed: () async {

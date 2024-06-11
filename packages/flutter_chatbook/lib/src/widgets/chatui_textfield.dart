@@ -109,24 +109,24 @@ class _ChatUITextFieldState extends State<ChatUITextField> {
               elevation: .5,
               child: Row(
                 children: [
-                  if (showButtons) ...[
-                    FilledButton(
-                        onPressed: () {
-                          sendMessageConfig?.onRequest?.call();
-                        },
-                        child: Text('Request')),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    FilledButton(
-                        onPressed: () {
-                          sendMessageConfig?.onPay?.call();
-                        },
-                        child: Text('Pay')),
-                    SizedBox(
-                      width: 10,
-                    ),
-                  ],
+                  // if (showButtons) ...[
+                  //   FilledButton(
+                  //       onPressed: () {
+                  //         sendMessageConfig?.onRequest?.call();
+                  //       },
+                  //       child: Text('Request')),
+                  //   SizedBox(
+                  //     width: 5,
+                  //   ),
+                  //   FilledButton(
+                  //       onPressed: () {
+                  //         sendMessageConfig?.onPay?.call();
+                  //       },
+                  //       child: Text('Pay')),
+                  //   SizedBox(
+                  //     width: 10,
+                  //   ),
+                  // ],
                   Expanded(
                     child: Focus(
                       onFocusChange: (v) {
@@ -182,19 +182,19 @@ class _ChatUITextFieldState extends State<ChatUITextField> {
                                           fontWeight: FontWeight.w400,
                                           letterSpacing: 0.25,
                                         ),
-                                        prefixIcon: IconButton(
-                                          constraints: const BoxConstraints(),
-                                          onPressed: () {
-                                            setState(() {
-                                              showButtons = !showButtons;
-                                            });
-                                          },
-                                          icon: Icon(
-                                            showButtons
-                                                ? Icons.chevron_left
-                                                : Icons.chevron_right,
-                                          ),
-                                        ),
+                                        // prefixIcon: IconButton(
+                                        //   constraints: const BoxConstraints(),
+                                        //   onPressed: () {
+                                        //     setState(() {
+                                        //       showButtons = !showButtons;
+                                        //     });
+                                        //   },
+                                        //   icon: Icon(
+                                        //     showButtons
+                                        //         ? Icons.chevron_left
+                                        //         : Icons.chevron_right,
+                                        //   ),
+                                        // ),
                                         contentPadding:
                                             textFieldConfig?.contentPadding ??
                                                 const EdgeInsets.symmetric(
