@@ -69,7 +69,7 @@ export class UserDelete {
    */
   async deleteUser(uid: string): Promise<string> {
     try {
-      const { data: user, error } = await this.supabase.auth.admin.getUserById(
+      const { data: user } = await this.supabase.auth.admin.getUserById(
         uid
       );
 
@@ -79,11 +79,14 @@ export class UserDelete {
         await this.firestore.collection("users_backup").doc(uid).set(user);
       }
 
-      if (error) {
-        console.error(error);
+      const { error: deleteUser } = await this.supabase.auth.admin.deleteUser(
+        uid
+      );
+
+      if (deleteUser) {
+        console.error(deleteUser);
         throw "Failed to remove user";
       }
-      
 
       return "User deleted successfully";
     } catch (error) {
