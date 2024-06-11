@@ -1,6 +1,7 @@
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
+import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
@@ -12,7 +13,6 @@ import 'package:assisto/shimmering/shimmering_profile_widget.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/popup.dart';
 import 'package:assisto/widgets/text_widgets.dart';
-import 'package:assisto/widgets/user_rating_and_review/user_rating_and_review_bottomsheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -186,15 +186,20 @@ class ProfilePage extends ConsumerWidget {
                             ),
                             CupertinoListTile(
                               onTap: () {
-                                showRatingAndReviewBottomSheet(context,
-                                    onRatingAndReviews: (rating, review) {},
-                                    taskName: 'fsd',
-                                    userModel: const UserModel(
-                                        id: '',
-                                        name: 'John Doe',
-                                        gender: 'male',
-                                        tags: [],
-                                        age: 12));
+                                showPopup(context, onConfirm: () async {
+                                  try {
+                                    await ref
+                                        .read(authControllerProvider.notifier)
+                                        .deleteAccount();
+                                    
+                                  } catch (e) {
+                                    showSnackBar(
+                                        context, appErrorHandler(e).message);
+                                  }
+                                },
+                                    content: 'Delete Account',
+                                    title:
+                                        'Are you sure you want to delete the account? This action can not be undone');
                               },
                               padding: const EdgeInsets.all(5),
                               leading: Icon(CupertinoIcons.delete,

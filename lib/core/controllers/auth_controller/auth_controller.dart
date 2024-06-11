@@ -161,4 +161,9 @@ class AuthController extends _$AuthController {
   Future<void> reactivate({String? phone, String? email}) async {
     await _repo.reactivate(phone: phone, email: email);
   }
+
+  Future<void> deleteAccount() async {
+    await _repo.deactivateAccount();
+    await signOut();
+  }
 }

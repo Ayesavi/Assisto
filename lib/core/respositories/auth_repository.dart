@@ -32,6 +32,8 @@ abstract class AuthRepository {
   Future<Map<String, dynamic>> getDisabledUserReason(
       {String? email, String? phone});
   Future<void> reactivate({String? phone, String? email});
+
+  Future<void> deactivateAccount();
 }
 
 class UnAuthenticatedUserException implements Exception {
@@ -192,6 +194,15 @@ class _AuthRepositoryImpl implements AuthRepository {
       return data;
     } catch (e) {
       throw 'Failed to get disabled user reason';
+    }
+  }
+
+  @override
+  Future<void> deactivateAccount() async {
+    try {
+      await HttpService().post('/apiv1/user/initiate-deletion', {});
+    } catch (e) {
+      throw const AppException('Failed to initiate account deletion');
     }
   }
 }

@@ -24,8 +24,9 @@ class HttpService {
 
   _getHeaders() {
     return {
-      'access_token': Supabase.instance.client.auth.currentSession?.accessToken,
-      ...Supabase.instance.client.auth.headers
+      'authorization':
+          'Bearer ${Supabase.instance.client.auth.currentSession?.accessToken}',
+      // ...Supabase.instance.client.auth.headers
     };
   }
 
