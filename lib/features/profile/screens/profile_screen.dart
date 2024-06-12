@@ -191,14 +191,13 @@ class ProfilePage extends ConsumerWidget {
                                     await ref
                                         .read(authControllerProvider.notifier)
                                         .deleteAccount();
-                                    
                                   } catch (e) {
                                     showSnackBar(
                                         context, appErrorHandler(e).message);
                                   }
                                 },
-                                    content: 'Delete Account',
-                                    title:
+                                    title: 'Delete Account',
+                                    content:
                                         'Are you sure you want to delete the account? This action can not be undone');
                               },
                               padding: const EdgeInsets.all(5),

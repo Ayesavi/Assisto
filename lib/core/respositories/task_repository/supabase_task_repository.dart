@@ -27,14 +27,16 @@ class SupabaseTaskRepository implements BaseTaskRepository {
 
   @override
   Future<List<TaskModel>> fetchTasks(
-      {filters = const [], LatLng? latlng, int? offset}) async {
+      {filters = const [], LatLng? latlng, int offset = 0}) async {
     if (filters.contains(TaskFilterType.you)) {
-      return await _fetchOwnTasks();
+      return await _fetchOwnTasks(limit: 30, offset: offset);
     } else if (filters.contains(TaskFilterType.bidded)) {
-      return await _fetchBiddedTasks(filters);
+      return await _fetchBiddedTasks(filters, limit: 30, offset: offset);
     } else {
       final List<dynamic> data = await _supabase.rpc('get_feed_tasks', params: {
         'data': {
+          'offset': offset,
+          'limit': 30,
           if (latlng != null) ...{
             'center_lat': latlng.lat,
             'center_lng': latlng.lng,
@@ -77,23 +79,26 @@ class SupabaseTaskRepository implements BaseTaskRepository {
     return data.map((e) => BidModel.fromJson(e)).toList();
   }
 
-  Future<List<TaskModel>> _fetchBiddedTasks(
-      List<TaskFilterType> filters) async {
+  Future<List<TaskModel>> _fetchBiddedTasks(List<TaskFilterType> filters,
+      {required int limit, required int offset}) async {
     final data = await _supabase
         .from('bidding')
         .select('task:task_id(*,owner:owner_id(id,avatar_url,status))')
-        .eq('bidder_id', _supabase.auth.currentUser?.id ?? '');
+        .eq('bidder_id', _supabase.auth.currentUser?.id ?? '')
+        .range(offset, offset + limit);
     return data.map((json) {
       return TaskModel.fromJson(json['task']);
     }).toList();
   }
 
-  Future<List<TaskModel>> _fetchOwnTasks() async {
+  Future<List<TaskModel>> _fetchOwnTasks(
+      {required int limit, required int offset}) async {
     final data = await _supabase
         .from('tasks')
         .select(
             '*,owner:owner_id(id,avatar_url,status),bid:bid_id(*,bidder:bidder_id(*))')
-        .eq('owner_id', '${_supabase.auth.currentUser?.id}');
+        .eq('owner_id', '${_supabase.auth.currentUser?.id}')
+        .range(offset, offset + limit);
     return data.map((json) => TaskModel.fromJson(json)).toList();
   }
 

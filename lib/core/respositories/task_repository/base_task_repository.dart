@@ -7,7 +7,7 @@ typedef BidInfo = ({int amount, int taskId});
 
 abstract class BaseTaskRepository {
   Future<List<TaskModel>> fetchTasks(
-      {List<TaskFilterType> filters = const [], LatLng? latlng, int? offset});
+      {List<TaskFilterType> filters = const [], LatLng? latlng, int offset=0});
 
   Future<TaskModel> getTaskById(int id);
 
