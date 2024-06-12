@@ -1,5 +1,6 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { BaseMessage } from "firebase-admin/messaging";
+import { SUPABASE_CLIENT } from "../../../supabase_client";
 import {
   NotificationChannels,
   RecommendationEvents,
@@ -9,17 +10,8 @@ import sendNotification from "../send_notification";
 class NotifyTaskRecommendations {
   private supabase: SupabaseClient;
 
-  constructor(mode: string) {
-    let supabaseKey =
-      mode === "prod"
-        ? process.env.SUPBASE_PROD_KEY || ""
-        : process.env.SUPABASE_DEV_KEY || "";
-    let supabaseUrl =
-      mode === "prod"
-        ? process.env.SUPBASE_PROD_URL || ""
-        : process.env.SUPABASE_DEV_URL || "";
-
-    this.supabase = createClient(supabaseUrl, supabaseKey);
+  constructor() {
+    this.supabase = SUPABASE_CLIENT();
   }
 
   /**
@@ -86,7 +78,7 @@ class NotifyTaskRecommendations {
   private _createMessageData(task: any): BaseMessage {
     return {
       notification: {
-        title:"Here's a new buzz for you", 
+        title: "Here's a new buzz for you",
         body: task.description,
       },
       android: {
@@ -98,7 +90,6 @@ class NotifyTaskRecommendations {
         event: RecommendationEvents.NEW_TASK,
         task_id: `${task.id}`,
         channel: NotificationChannels.RECOMMENDATIONS,
-
       },
     };
   }

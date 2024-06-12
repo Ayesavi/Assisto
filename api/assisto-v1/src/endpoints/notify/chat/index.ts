@@ -1,5 +1,6 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { BaseMessage } from "firebase-admin/messaging";
+import { SUPABASE_CLIENT } from "../../../supabase_client";
 import {
   ChatEvents,
   NotificationChannels,
@@ -10,17 +11,9 @@ class NotifyChats {
   private supabase: SupabaseClient;
   private record: any;
 
-  constructor(mode: string, record: any) {
-    let supabaseKey =
-      mode === "prod"
-        ? process.env.SUPBASE_PROD_KEY || ""
-        : process.env.SUPABASE_DEV_KEY || "";
-    let supabaseUrl =
-      mode === "prod"
-        ? process.env.SUPBASE_PROD_URL || ""
-        : process.env.SUPABASE_DEV_URL || "";
+  constructor(record: any) {
     this.record = record;
-    this.supabase = createClient(supabaseUrl, supabaseKey);
+    this.supabase = SUPABASE_CLIENT();
   }
 
   async call() {

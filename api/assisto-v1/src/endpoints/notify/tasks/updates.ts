@@ -1,5 +1,6 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { BaseMessage } from "firebase-admin/messaging";
+import { SUPABASE_CLIENT } from "../../../supabase_client";
 import {
   NotificationChannels,
   TaskEvents,
@@ -28,18 +29,10 @@ class NotifyTaskUpdates {
     );
   }
 
-  constructor(mode: string, oldRecord: any, newRecord: any) {
-    let supabaseKey =
-      mode === "prod"
-        ? process.env.SUPBASE_PROD_KEY || ""
-        : process.env.SUPABASE_DEV_KEY || "";
-    let supabaseUrl =
-      mode === "prod"
-        ? process.env.SUPBASE_PROD_URL || ""
-        : process.env.SUPABASE_DEV_URL || "";
+  constructor(oldRecord: any, newRecord: any) {
     this.oldRecord = oldRecord;
     this.newRecord = newRecord;
-    this.supabase = createClient(supabaseUrl, supabaseKey);
+    this.supabase = SUPABASE_CLIENT();
   }
   /**
    ```json
@@ -125,7 +118,6 @@ class NotifyTaskUpdates {
           event: TaskEvents.UPDATE,
           task_id: `${this.newRecord.id}`,
           channel: NotificationChannels.RECOMMENDATIONS,
-
         },
       };
     } else {
@@ -142,8 +134,7 @@ class NotifyTaskUpdates {
         data: {
           event: TaskEvents.UPDATE,
           task_id: `${this.newRecord.id}`,
-        channel: NotificationChannels.RECOMMENDATIONS,
-
+          channel: NotificationChannels.RECOMMENDATIONS,
         },
       };
     }

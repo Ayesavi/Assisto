@@ -1,13 +1,13 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 function _SUPABASE_KEY(): string {
-  return process.env.GCLOUD_PROJECT == "assisto-dev" // this one is actually assisto-prod
+  return process.env.GCLOUD_PROJECT == "dev-assisto" // this one is actually assisto-prod
     ? process.env.SUPBASE_PROD_KEY || ""
     : process.env.SUPABASE_DEV_KEY || "";
 }
 
 function _SUPABASE_URL(): string {
-  return process.env.GCLOUD_PROJECT == "assisto-dev" // this one is actually assisto-prod
+  return process.env.GCLOUD_PROJECT == "dev-assisto" // this one is actually assisto-prod
     ? process.env.SUPBASE_PROD_URL || ""
     : process.env.SUPABASE_DEV_URL || "";
 }
@@ -17,7 +17,7 @@ function SUPABASE_CLIENT(): SupabaseClient {
 }
 
 function JWT_SECRET(): string {
-  return process.env.GCLOUD_PROJECT == "assisto-dev" // this one is actually assisto-prod
+  return process.env.GCLOUD_PROJECT == "dev-assisto" // this one is actually assisto-prod
     ? process.env.SUPBASE_PROD_JWT_SECRET || ""
     : process.env.SUPABASE_DEV_JWT_SECRET || "";
 }

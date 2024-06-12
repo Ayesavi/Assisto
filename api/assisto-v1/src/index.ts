@@ -30,9 +30,7 @@ app.get("/", (req, res) => {
 
 app.post("/notify/chat", async (req, res) => {
   try {
-    let mode: string =
-      process.env.GCLOUD_PROJECT == "assisto-dev" ? "prod" : "dev";
-    let notifyMessage = new NotifyChats(mode, req.body.record);
+    let notifyMessage = new NotifyChats(req.body.record);
     await notifyMessage.call();
     res.status(200).send();
   } catch (error) {
@@ -89,10 +87,7 @@ app.post("/user/initiate-deletion", async (req, res) => {
 
 app.post("/notify/tasks/update", async (req, res) => {
   try {
-    let mode: string =
-      process.env.GCLOUD_PROJECT == "assisto-dev" ? "prod" : "dev";
     const recommendation = new NotifyTaskUpdates(
-      mode,
       req.body.old_record,
       req.body.record
     );
@@ -106,9 +101,8 @@ app.post("/notify/tasks/update", async (req, res) => {
 
 app.post("/notify/tasks/recommendation", async (req, res) => {
   try {
-    let mode: string =
-      process.env.GCLOUD_PROJECT == "assisto-dev" ? "prod" : "dev";
-    const recommendation = new NotifyTaskRecommendations(mode);
+ 
+    const recommendation = new NotifyTaskRecommendations();
     await recommendation.sendRecommendations(req.body.record);
     res.status(200).send("Notifications have been sent successfully!");
   } catch (error) {
