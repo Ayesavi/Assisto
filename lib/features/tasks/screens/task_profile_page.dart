@@ -1,3 +1,5 @@
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
@@ -25,6 +27,8 @@ class TaskProfilePage extends ConsumerWidget {
     } else {
       return FloatingActionButton(
         onPressed: () {
+          AppAnalytics.instance.logEvent(
+              name: AnalyticsEvent.taskProfile.chatTaskProfilePressEvent);
           ChatPageRoute(roomId: taskId).go(context);
         },
         tooltip: 'Chat',
@@ -50,6 +54,11 @@ class TaskProfilePage extends ConsumerWidget {
         ],
         currentIndex: 0, // Initial index
         onTap: (index) {
+          if (index == 0) {
+            AppAnalytics.instance.logScreen(name: 'task_profile');
+          } else {
+            AppAnalytics.instance.logScreen(name: 'task_biddings');
+          }
           // Navigate to the selected page
           pageController.animateToPage(
             index,
@@ -76,8 +85,13 @@ class TaskProfilePage extends ConsumerWidget {
                 TaskProfilePageView(
                   model,
                   onPressMarkAsCompleted: () async {
+                    AppAnalytics.instance.logEvent(
+                        name:
+                            AnalyticsEvent.taskProfile.completeTaskPressEvent);
                     await controller.completeTask(taskId);
-                    Navigator.pop(context);
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
                     return;
                   },
                 ),
@@ -91,7 +105,9 @@ class TaskProfilePage extends ConsumerWidget {
     } else {
       return TaskProfilePageView(model, onPressMarkAsCompleted: () async {
         await controller.completeTask(taskId);
-        Navigator.pop(context);
+        if (context.mounted) {
+          Navigator.pop(context);
+        }
         return;
       });
     }
@@ -124,6 +140,9 @@ class TaskProfilePage extends ConsumerWidget {
                         showPopup(context, onConfirm: () async {
                           try {
                             await controller.cancelTask(taskId);
+                            AppAnalytics.instance.logEvent(
+                                name: AnalyticsEvent
+                                    .taskProfile.blockTaskPressEvent);
                             if (context.mounted) {
                               Navigator.pop(context);
                             }
@@ -182,6 +201,13 @@ class TaskProfilePage extends ConsumerWidget {
                             amountController: TextEditingController(),
                             onPriceEntered: (v) async {
                           try {
+                            AppAnalytics.instance.logEvent(
+                                name: AnalyticsEvent
+                                    .taskProfile.placeBidPressEvent,
+                                parameters: {
+                                  'bid_amount': v.toString(),
+                                  'task_id': taskId.toString(),
+                                });
                             await controller.placeBid(v);
                             if (context.mounted) {
                               Navigator.pop(context);

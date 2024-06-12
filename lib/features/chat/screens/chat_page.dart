@@ -1,3 +1,5 @@
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/features/chat/controllers/chat_page_controller.dart';
 import 'package:assisto/features/chat/screens/chat_profile.dart';
@@ -20,11 +22,13 @@ class ChatPage extends ConsumerStatefulWidget {
 class _ChatPageState extends ConsumerState<ChatPage> {
   late ChatController controller;
   late final ChatPageControllerProvider provider;
+
+  final analytics = AppAnalytics.instance;
+  final analyticsEvents = AnalyticsEvent.taskChat;
   @override
   void initState() {
     super.initState();
     provider = chatPageControllerProvider(widget.roomId);
-
     ref.listenManual(provider, (prev, next) {
       if (next.isData) {
         controller = ChatController(
@@ -59,7 +63,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     }, data: (userModel, messages) {
       return _buildScaffold(
           appBar: _buildAppBar(context, userModel),
-          body: _buildChatBook(userModel, messages));
+          body: _buildChatBook(userModel, messages,
+              remoteUserName: userModel.name));
     }, error: (e) {
       return _buildScaffold(
           body: Center(
@@ -95,6 +100,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
         // automaticallyImplyLeading: false,
         title: ListTile(
           onTap: () {
+            analytics.logEvent(name: analyticsEvents.chatAppBarPressEvent);
+
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
                 return ChatProfile(userModel: model);
@@ -143,12 +150,16 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     ));
   }
 
-  Widget _buildChatBook(UserModel model, List<Message> messages) {
+  Widget _buildChatBook(UserModel model, List<Message> messages,
+      {required String remoteUserName}) {
     final scheme = Theme.of(context).colorScheme;
     final txtTheme = Theme.of(context).textTheme;
 
     return ChatBook(
-        recipientName: 'User 1',
+        recipientName: remoteUserName,
+        swipeToReplyConfig: SwipeToReplyConfiguration(onLeftSwipe: (message) {
+          analytics.logEvent(name: analyticsEvents.chatBubbleReplySwipeEvent);
+        }),
         featureActiveConfig: const FeatureActiveConfig(
             enableSwipeToReply: true, enableSwipeToSeeTime: false),
         sendMessageConfig: SendMessageConfiguration(

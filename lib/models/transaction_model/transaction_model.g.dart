@@ -10,10 +10,10 @@ _$TransactionModelImpl _$$TransactionModelImplFromJson(
         Map<String, dynamic> json) =>
     _$TransactionModelImpl(
       id: json['id'] as String,
-      recipient: TransactionUserModel.fromJson(
+      recipient: TransactionUserModel.fromSupabase(
           json['recipient'] as Map<String, dynamic>),
-      sender:
-          TransactionUserModel.fromJson(json['sender'] as Map<String, dynamic>),
+      sender: TransactionUserModel.fromSupabase(
+          json['sender'] as Map<String, dynamic>),
       amount: (json['amount'] as num).toInt(),
       createdAt: DateTime.parse(json['created_at'] as String),
       paymentStatus: $enumDecode(_$PaymentStatusEnumMap, json['paymentStatus']),

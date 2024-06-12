@@ -67,6 +67,7 @@ class ProfilePageController extends _$ProfilePageController {
     final imagePath = pickedFile?.path;
     if (imagePath != null) {
       imageFile = await _validate(File(imagePath));
+      await _controller.updateProfileImg(imageFile!);
     }
     if (_controller.user != null) {
       state = _Data(model: _controller.user!, fileImage: imageFile);

@@ -1,0 +1,29 @@
+swagger: '2.0'
+info:
+  title: Sample API Gateway
+  version: 1.0.0
+basePath: '/'
+schemes:
+  - https
+paths:
+  /trigger-cloud-function:
+    post:
+      summary: Trigger Google Cloud Function
+      operationId: triggerCloudFunction
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+      x-google-backend:
+        address: https://asia-south1-assisto-dev-52a1d.cloudfunctions.net/apiv1
+        path_translation: APPEND_PATH_TO_ADDRESS
+        protocol: h2
+        

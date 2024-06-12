@@ -1,6 +1,8 @@
 import 'dart:io';
 
-import 'package:assisto/core/config/app_config.dart';
+import 'package:assisto/core/config/flavor_config.dart';
+import 'package:assisto/core/error/handler.dart';
+import 'package:assisto/core/services/api_service.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -26,7 +28,12 @@ abstract class AuthRepository {
   Future<void> updateProfile(UserModel model);
   Future<void> updateEmail(String email);
   Future<void> updatePhone(String phone);
-  Future<void> uploadUserAvatar(File file);
+  Future<String> uploadUserAvatar(File file);
+  Future<Map<String, dynamic>> getDisabledUserReason(
+      {String? email, String? phone});
+  Future<void> reactivate({String? phone, String? email});
+
+  Future<void> deactivateAccount();
 }
 
 class UnAuthenticatedUserException implements Exception {
@@ -44,7 +51,17 @@ class _AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> signInWithOtp(String phone) async {
-    await _supabase.auth.signInWithOtp(phone: phone);
+    try {
+      await _supabase.auth.signInWithOtp(phone: phone);
+    } catch (e) {
+      if (e is AuthApiException) {
+        if (e.statusCode == '400') {
+          final response = await getDisabledUserReason(phone: phone);
+          throw UserDisabledException(response['reason'],
+              isForDeletion: response['is_for_deletion'], phone: phone);
+        }
+      }
+    }
   }
 
   /// Signs out from the localdevice
@@ -55,26 +72,40 @@ class _AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User?> signInWithGoogle() async {
-    if (!kIsWeb && Platform.isAndroid) {
-      final googleUser = await _googleSignIn.signIn();
-      final googleAuth = await googleUser?.authentication;
-      final accessToken = googleAuth?.accessToken;
-      final idToken = googleAuth?.idToken;
-      if (accessToken != null && idToken != null) {
-        final response = await _supabase.auth.signInWithIdToken(
-          provider: OAuthProvider.google,
-          idToken: idToken,
-          accessToken: accessToken,
-        );
-        if (response.user != null) {
-          return (response.user!);
+    final googleUser = await _googleSignIn.signIn();
+
+    try {
+      if (!kIsWeb && Platform.isAndroid) {
+        final googleAuth = await googleUser?.authentication;
+        final accessToken = googleAuth?.accessToken;
+        final idToken = googleAuth?.idToken;
+        if (accessToken != null && idToken != null) {
+          final response = await _supabase.auth.signInWithIdToken(
+            provider: OAuthProvider.google,
+            idToken: idToken,
+            accessToken: accessToken,
+          );
+          if (response.user != null) {
+            return (response.user!);
+          }
+          throw UnAuthenticatedUserException();
         }
-        throw UnAuthenticatedUserException();
+      } else {
+        await _supabase.auth.signInWithOAuth(OAuthProvider.google);
       }
-    } else {
-      await _supabase.auth.signInWithOAuth(OAuthProvider.google);
+      throw UnAuthenticatedUserException();
+    } catch (e) {
+      if (e is AuthApiException) {
+        if (e.statusCode == '400') {
+          final response =
+              await getDisabledUserReason(email: googleUser?.email);
+          throw UserDisabledException(response['reason'],
+              isForDeletion: response['is_for_deletion'],
+              email: googleUser?.email);
+        }
+      }
+      rethrow;
     }
-    throw UnAuthenticatedUserException();
   }
 
   @override
@@ -101,7 +132,8 @@ class _AuthRepositoryImpl implements AuthRepository {
   }
 
   GoogleSignIn get _googleSignIn => GoogleSignIn(
-      serverClientId: AppConfig().googleClientId, scopes: ['email', "openid"]);
+      serverClientId: FlavorConfig().googleClientId,
+      scopes: ['email', "openid"]);
 
   @override
   Future<void> sendOtp(
@@ -132,11 +164,45 @@ class _AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<String> uploadUserAvatar(File file) async {
-    final userId = _supabase.auth.currentUser?.id;
-    final path = (await _supabase.storage
-        .from('storage')
-        .upload('$userId/avatar', file));
-    final publicUrl = _supabase.storage.from('storage').getPublicUrl(path);
-    return publicUrl;
+    try {
+      final userId = _supabase.auth.currentUser?.id;
+      final publicUrl =
+          _supabase.storage.from('avatars').getPublicUrl('$userId');
+      return publicUrl;
+    } catch (e) {
+      throw 'Failed to upload avatar';
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> getDisabledUserReason(
+      {String? email, String? phone}) async {
+    try {
+      final data = await HttpService().post(
+          '/apiv1/user/disabled-reason', {"email": email, "phone": phone});
+      return data;
+    } catch (e) {
+      throw 'Failed to get disabled user reason';
+    }
+  }
+
+  @override
+  Future<void> reactivate({String? phone, String? email}) async {
+    try {
+      final data = await HttpService()
+          .post('/apiv1/user/reactivate', {"email": email, "phone": phone});
+      return data;
+    } catch (e) {
+      throw 'Failed to get disabled user reason';
+    }
+  }
+
+  @override
+  Future<void> deactivateAccount() async {
+    try {
+      await HttpService().post('/apiv1/user/initiate-deletion', {});
+    } catch (e) {
+      throw const AppException('Failed to initiate account deletion');
+    }
   }
 }

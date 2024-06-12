@@ -1,6 +1,8 @@
 // ignore_for_file: unused_field
 
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
@@ -17,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TaskCreationPage extends ConsumerStatefulWidget {
   const TaskCreationPage({super.key});
@@ -32,6 +35,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   late final ValueNotifier<Map<String, bool>> _showOptionNotifier;
   late final TextEditingController _selectedDateTimeController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final analytics = AppAnalytics.instance;
 
   @override
   void initState() {
@@ -73,7 +77,17 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(onPressed: () {}, child: const Text('Help')),
+            child: ElevatedButton(
+                onPressed: () async {
+                  analytics.logEvent(
+                      name: AnalyticsEvent
+                          .createTask.helpButtonTaskCreationEvent);
+                  if (!await launchUrl(
+                      Uri.parse('https://assisto.ayesavi.in/contact.html'))) {
+                    throw Exception('Could not launch url');
+                  }
+                },
+                child: const Text('Help')),
           )
         ],
       ),
@@ -154,6 +168,9 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                             children: [
                               IconButton(
                                 onPressed: () {
+                                  analytics.logEvent(
+                                      name: AnalyticsEvent.createTask
+                                          .configureAdavancedTaskConfigurationsEvent);
                                   showMenuBottomSheet(context, params: [
                                     MenuBottomSheetParam(
                                       icon: Icons.timer_outlined,
@@ -162,6 +179,9 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                                           ..._showOptionNotifier.value,
                                           'deadline': true
                                         };
+                                        analytics.logEvent(
+                                            name: AnalyticsEvent.createTask
+                                                .configureDeadlineTaskCreationEvent);
                                         Navigator.pop(context);
                                       },
                                       label: 'Set Deadline',
@@ -173,6 +193,9 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                                           ..._showOptionNotifier.value,
                                           'age': true
                                         };
+                                        analytics.logEvent(
+                                            name: AnalyticsEvent.createTask
+                                                .configureAgeGroupTaskCreationEvent);
                                         Navigator.pop(context);
                                       },
                                       label: 'Add Age Group Filter',
@@ -184,6 +207,9 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                                           ..._showOptionNotifier.value,
                                           'gender': true
                                         };
+                                        analytics.logEvent(
+                                            name: AnalyticsEvent.createTask
+                                                .configureGenderTaskCreationEvent);
                                         Navigator.pop(context);
                                       },
                                       label: 'Apply Gender Filter',
@@ -195,6 +221,9 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                                           ..._showOptionNotifier.value,
                                           'location': true
                                         };
+                                        analytics.logEvent(
+                                            name: AnalyticsEvent.createTask
+                                                .configureLocationTaskCreationEvent);
                                         Navigator.pop(context);
                                       },
                                       label: 'Attach Location',
@@ -206,6 +235,9 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                                           ..._showOptionNotifier.value,
                                           'budget': true
                                         };
+                                        analytics.logEvent(
+                                            name: AnalyticsEvent.createTask
+                                                .configureBudgetTaskCreationEvent);
                                         Navigator.pop(context);
                                       },
                                       label: 'Set Budget',
@@ -296,6 +328,8 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                 label: 'Create Task',
                 asyncTap: () async {
                   try {
+                    analytics.logEvent(
+                        name: AnalyticsEvent.createTask.createTaskEvent);
                     await ref
                         .read(taskPageControllerProvider.notifier)
                         .createTask(getTaskModel());
@@ -620,7 +654,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                       CustomDropdown<AddressModel>(
                         items: data,
                         onChanged: (value) {
-                          _locationId = value.id;
+                          _locationId = value?.id;
                         },
                         decoration: CustomDropdownDecoration(
                             closedFillColor: Colors.transparent,

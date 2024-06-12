@@ -1,17 +1,19 @@
 import 'dart:io';
 
+import 'package:assisto/core/analytics/analytics_events.dart';
+import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
-import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/profile/controllers/profile_page_controller/profile_page_controller.dart';
+import 'package:assisto/features/profile/widgets/tags_input.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/shimmering/shimmering_textfield.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/popup.dart';
 import 'package:assisto/widgets/text_widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
   const EditProfilePage({super.key});
@@ -23,8 +25,16 @@ class EditProfilePage extends ConsumerStatefulWidget {
 
 class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
+  var tags = <String>[];
 
   String? validateName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your name';
+    }
+    return null;
+  }
+
+  String? validateBio(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter your name';
     }
@@ -138,6 +148,8 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
             return const ShimmeringTextField();
           }, data: (data, imageFile) {
             final nameController = TextEditingController(text: data.name);
+            final bioController = TextEditingController(text: data.description);
+            tags = ref.read(authControllerProvider.notifier).user?.tags ?? [];
             final phoneNumberController = TextEditingController(
                 text: data.phoneNumber != null && data.phoneNumber!.isNotEmpty
                     ? data.phoneNumber!.substring(2)
@@ -231,30 +243,82 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                           hintText: 'Enter your email address',
                           fillColor:
                               Theme.of(context).colorScheme.onInverseSurface),
-                      validator: validateName,
+                      validator: validateEmailAddress,
                     ),
+                    kWidgetVerticalGap,
+                    TitleMedium(
+                      text: 'Bio',
+                      weight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    kWidgetMinVerticalGap,
+                    TextFormField(
+                      controller: bioController,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          hintText: 'Enter your bio here',
+                          fillColor:
+                              Theme.of(context).colorScheme.onInverseSurface),
+                      validator: validateBio,
+                    ),
+                    kWidgetVerticalGap,
+                    TitleMedium(
+                      text: 'Tags',
+                      weight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    kWidgetVerticalGap,
+                    TagsInput(
+                        initialTags: tags,
+                        textfieldDecoration: InputDecoration(
+                            hintText: 'Add Tags',
+                            filled: true,
+                            fillColor:
+                                Theme.of(context).colorScheme.onInverseSurface,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none)),
+                        onTagsChanged: (changed) {
+                          tags = changed;
+                        }),
                     kWidgetVerticalGap,
                     AppFilledButton(
                       label: 'Submit',
                       asyncTap: () async {
-                        if (authController.user != null &&
-                            (_formKey.currentState?.validate() ?? false)) {
-                          if (validatePhoneNumber(phoneNumberController.text) ==
-                              null) {
-                            await authController
-                                .updatePhone('91${phoneNumberController.text}');
-                            if (context.mounted) {
-                              HomeOtpPageRoute(
-                                      phoneNumber:
-                                          '91${phoneNumberController.text}',
-                                      otpType: OtpType.phoneChange.name)
-                                  .go(context);
-                            }
-                          }
+                        _handleAnalytics(
+                            phoneController: phoneNumberController,
+                            nameController: nameController,
+                            emailController: emailAddressController,
+                            descriptionController: bioController);
 
-                          await authController.updateProfile(authController
-                              .user!
-                              .copyWith(name: nameController.text));
+                        if (authController.user != null) {
+                          // &&
+                          // (_formKey.currentState?.validate() ?? false)
+                          // if (validatePhoneNumber(phoneNumberController.text) ==
+                          //     null) {
+                          //   await authController
+                          //       .updatePhone('91${phoneNumberController.text}');
+                          //   if (context.mounted) {
+                          //     HomeOtpPageRoute(
+                          //             phoneNumber:
+                          //                 '91${phoneNumberController.text}',
+                          //             otpType: OtpType.phoneChange.name)
+                          //         .go(context);
+                          //   }
+                          // }
+
+                          await authController.updateProfile(
+                              authController.user!.copyWith(
+                                  name: nameController.text,
+                                  description: bioController.text,
+                                  tags: tags));
+
+                          AppAnalytics.instance.logEvent(
+                              name: AnalyticsEvent
+                                  .editProfile.saveProfilePressEvent);
                         }
                         return;
                       },
@@ -265,5 +329,34 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
             );
           })),
     );
+  }
+
+  _handleAnalytics({
+    required TextEditingController phoneController,
+    required TextEditingController nameController,
+    required TextEditingController emailController,
+    required TextEditingController descriptionController,
+  }) {
+    final user = ref.read(authControllerProvider.notifier).user;
+    if (phoneController.text.trim() != user?.phoneNumber) {
+      AppAnalytics.instance.logEvent(
+          name: AnalyticsEvent.editProfile.changePhoneNumberPressEvent);
+    }
+    if (nameController.text.trim() != user?.name) {
+      AppAnalytics.instance
+          .logEvent(name: AnalyticsEvent.editProfile.changeNameEvent);
+    }
+    if (emailController.text.trim() != user?.email) {
+      AppAnalytics.instance
+          .logEvent(name: AnalyticsEvent.editProfile.changeEmailEvent);
+    }
+    if (descriptionController.text.trim() != user?.description) {
+      AppAnalytics.instance
+          .logEvent(name: AnalyticsEvent.editProfile.updateBioEvent);
+    }
+    if (listEquals(tags, user?.tags ?? [])) {
+      AppAnalytics.instance
+          .logEvent(name: AnalyticsEvent.editProfile.updateTagsEvent);
+    }
   }
 }

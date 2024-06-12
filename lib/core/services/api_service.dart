@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HttpService {
@@ -23,16 +24,18 @@ class HttpService {
 
   _getHeaders() {
     return {
-      'access_token': Supabase.instance.client.auth.currentSession?.accessToken,
-      ...Supabase.instance.client.auth.headers
+      'authorization':
+          'Bearer ${Supabase.instance.client.auth.currentSession?.accessToken}',
+      // ...Supabase.instance.client.auth.headers
     };
   }
 
   Future<dynamic> get(String endpoint,
-      {Map<String, dynamic>? queryParameters}) async {
+      {Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? body}) async {
     try {
-      final response =
-          await _dio.get(endpoint, queryParameters: queryParameters);
+      final response = await _dio.get(endpoint,
+          queryParameters: queryParameters, data: body);
       return response.data;
     } catch (e) {
       throw Exception('Failed to connect to the server');
@@ -51,7 +54,7 @@ class HttpService {
   /// When using http service locally.
   usingEmulator(int port) {
     final url =
-        'http://${!kIsWeb && Platform.isAndroid ? '10.0.2.2:${port.toString()}' : 'localhost:${port.toString()}'}/dev-assisto/asia-south1';
+        'http://${!kIsWeb && Platform.isAndroid ? '10.0.2.2:${port.toString()}' : 'localhost:${port.toString()}'}/${appFlavor == 'prod' ? 'dev-assisto' : 'assisto-dev-52a1d'}/asia-south1';
     _dio = Dio(BaseOptions(baseUrl: url, headers: _getHeaders()));
   }
 }

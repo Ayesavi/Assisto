@@ -24,8 +24,18 @@ abstract class UserModel with _$UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
-
-    
+  factory UserModel.fromSupbase(Map<String, dynamic> json) {
+    if (json['status'] == 'deleted') {
+      return UserModel(
+        id: json['id'],
+        name: 'Anonymous(User Deleted)',
+        gender: '',
+        tags: [],
+        age: 0,
+      );
+    }
+    return UserModel.fromJson(json);
+  }
 }
 
 extension SupabaseUserModel on UserModel {

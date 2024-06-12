@@ -21,7 +21,9 @@ TransactionModel _$TransactionModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TransactionModel {
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: TransactionUserModel.fromSupabase)
   TransactionUserModel get recipient => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: TransactionUserModel.fromSupabase)
   TransactionUserModel get sender => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
@@ -42,7 +44,9 @@ abstract class $TransactionModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      @JsonKey(fromJson: TransactionUserModel.fromSupabase)
       TransactionUserModel recipient,
+      @JsonKey(fromJson: TransactionUserModel.fromSupabase)
       TransactionUserModel sender,
       int amount,
       @JsonKey(name: 'created_at') DateTime createdAt,
@@ -127,7 +131,9 @@ abstract class _$$TransactionModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
+      @JsonKey(fromJson: TransactionUserModel.fromSupabase)
       TransactionUserModel recipient,
+      @JsonKey(fromJson: TransactionUserModel.fromSupabase)
       TransactionUserModel sender,
       int amount,
       @JsonKey(name: 'created_at') DateTime createdAt,
@@ -191,7 +197,9 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
 class _$TransactionModelImpl implements _TransactionModel {
   const _$TransactionModelImpl(
       {required this.id,
+      @JsonKey(fromJson: TransactionUserModel.fromSupabase)
       required this.recipient,
+      @JsonKey(fromJson: TransactionUserModel.fromSupabase)
       required this.sender,
       required this.amount,
       @JsonKey(name: 'created_at') required this.createdAt,
@@ -203,8 +211,10 @@ class _$TransactionModelImpl implements _TransactionModel {
   @override
   final String id;
   @override
+  @JsonKey(fromJson: TransactionUserModel.fromSupabase)
   final TransactionUserModel recipient;
   @override
+  @JsonKey(fromJson: TransactionUserModel.fromSupabase)
   final TransactionUserModel sender;
   @override
   final int amount;
@@ -258,7 +268,9 @@ class _$TransactionModelImpl implements _TransactionModel {
 abstract class _TransactionModel implements TransactionModel {
   const factory _TransactionModel(
       {required final String id,
+      @JsonKey(fromJson: TransactionUserModel.fromSupabase)
       required final TransactionUserModel recipient,
+      @JsonKey(fromJson: TransactionUserModel.fromSupabase)
       required final TransactionUserModel sender,
       required final int amount,
       @JsonKey(name: 'created_at') required final DateTime createdAt,
@@ -270,8 +282,10 @@ abstract class _TransactionModel implements TransactionModel {
   @override
   String get id;
   @override
+  @JsonKey(fromJson: TransactionUserModel.fromSupabase)
   TransactionUserModel get recipient;
   @override
+  @JsonKey(fromJson: TransactionUserModel.fromSupabase)
   TransactionUserModel get sender;
   @override
   int get amount;

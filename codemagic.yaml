@@ -25,7 +25,7 @@ workflows:
           echo $FIREBASE_SERVICE_ACCOUNT_CREDENTIALS 
     - name: Build AAB with Flutter
       script: | 
-        flutter build appbundle --flavor dev --release
+        flutter build appbundle --flavor dev --release --build-name=0.0.$PROJECT_BUILD_NUMBER --build-number=$PROJECT_BUILD_NUMBER
 
     - name: Build universal apk
       script: | 
