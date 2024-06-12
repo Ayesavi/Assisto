@@ -7,7 +7,7 @@
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions:assisto-v1 --project assisto-dev-52a1d",
-    "deploy:prod": "firebase deploy --only functions:assisto-v1 --project assisto-dev",
+    "deploy:prod": "firebase deploy --only functions:assisto-v1 --project dev-assisto",
     "logs": "firebase functions:log"
   },
   "engines": {
