@@ -23,17 +23,14 @@ class BidTile extends ConsumerWidget {
         weight: FontWeight.bold,
         text: bidModel.bidder.name.capitalize,
       ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          LabelLarge(
-            text: ' bidModel.bidder.',
-            maxLines: 2,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
-            weight: FontWeight.w500,
-          ),
-        ],
-      ),
+      subtitle: bidModel.bidder.description != null
+          ? LabelLarge(
+              text: bidModel.bidder.description!.capitalize,
+              maxLines: 2,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
+              weight: FontWeight.w500,
+            )
+          : null,
       trailing: Container(
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         decoration: BoxDecoration(
