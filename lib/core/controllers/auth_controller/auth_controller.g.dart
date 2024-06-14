@@ -21,7 +21,7 @@ final authStateChangesProvider = StreamProvider<AuthState>.internal(
 );
 
 typedef AuthStateChangesRef = StreamProviderRef<AuthState>;
-String _$authControllerHash() => r'5936ea87f4ea5b595f13883404f672bb20a17a09';
+String _$authControllerHash() => r'37a49c011a818c5b0e0ea7120b60d9a03d689541';
 
 /// See also [AuthController].
 @ProviderFor(AuthController)

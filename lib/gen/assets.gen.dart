@@ -76,14 +76,14 @@ class Assets {
   Assets._();
 
   static const String aEnv = '.env.dev';
-  static const String prod = '.env.prod';
+  static const String eEnv = '.env.prod';
   static const $AssetsGraphicsGen graphics = $AssetsGraphicsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLottieGen lottie = $AssetsLottieGen();
   static const String mapStyle = 'assets/map_style.json';
 
   /// List of all assets
-  static List<String> get values => [aEnv, prod, mapStyle];
+  static List<String> get values => [aEnv, aEnv, mapStyle];
 }
 
 class AssetGenImage {

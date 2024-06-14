@@ -1,19 +1,15 @@
 import 'dart:math';
 
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
-import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
-import 'package:assisto/models/notification_events/chat_event_info/chat_event_info.dart';
-import 'package:assisto/models/notification_events/recommendations_event_info/new_task_recommendation_event_info/new_task_recommendation_event_info.dart';
-import 'package:assisto/models/notification_events/task_event_info/task_update_event_info.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-enum NotificationChannels { task, recommendations, chat }
-
+enum NotificationChannels { task, recommendations, chat, offer }
 
 class NotificationService {
   final Ref ref;
@@ -31,9 +27,7 @@ class NotificationService {
       _saveToken(token);
     });
     ref.listen(onMessageRecievedProvider, (prev, next) {
-      if (next.hasValue) {
-        showNotification(next.value!);
-      }
+      _handleNotification(next.value);
     });
   }
 
@@ -53,7 +47,7 @@ class NotificationService {
             defaultPrivacy: NotificationPrivacy.Private,
           ),
           NotificationChannel(
-            channelKey: NotificationChannels.task.name,
+            channelKey: NotificationChannels.offer.name,
             channelName: 'Assist Updates',
             channelDescription:
                 'Stay informed about the status of your Assists ',
@@ -64,10 +58,10 @@ class NotificationService {
             defaultPrivacy: NotificationPrivacy.Private,
           ),
           NotificationChannel(
-            channelKey: NotificationChannels.chat.name,
-            channelName: 'Chat',
+            channelKey: NotificationChannels.offer.name,
+            channelName: 'Bids & Offers',
             channelDescription:
-                'Never miss a message on Assist - stay connected with those you\'re helping or getting help from.',
+                'Recieve updates on bids on your created assists.',
             playSound: true,
             onlyAlertOnce: true,
             groupAlertBehavior: GroupAlertBehavior.Children,
@@ -78,6 +72,24 @@ class NotificationService {
         debug: true);
 
     FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
+    // AwesomeNotifications().setListeners(
+    //   onActionReceivedMethod: (ReceivedAction receivedAction) async {
+    //     NotificationController.onActionReceivedMethod(receivedAction);
+    //   },
+    //   onNotificationCreatedMethod:
+    //       (ReceivedNotification receivedNotification) async {
+    //     NotificationController.onNotificationCreatedMethod(
+    //         receivedNotification);
+    //   },
+    //   onNotificationDisplayedMethod:
+    //       (ReceivedNotification receivedNotification) async {
+    //     NotificationController.onNotificationDisplayedMethod(
+    //         receivedNotification);
+    //   },
+    //   onDismissActionReceivedMethod: (ReceivedAction receivedAction) async {
+    //     NotificationController.onDismissActionReceivedMethod(receivedAction);
+    //   },
+    // );
   }
 
   Future<void> _syncToken(AsyncValue<AuthState> event) async {
@@ -106,63 +118,24 @@ class NotificationService {
         handlePressNotification(context, remoteMessage);
       }
     });
+
+    AwesomeNotifications().getInitialNotificationAction().then((action) {
+      if (action != null) {
+        handleActionNotification(context, action);
+      }
+    });
+
+    AwesomeNotifications().setListeners(onActionReceivedMethod: (action) async {
+      handleActionNotification(context, action);
+    });
+  }
+
+  handleActionNotification(BuildContext context, ReceivedAction action) {
+    context.go(action.payload?['navigate'] ?? '');
   }
 
   void handlePressNotification(BuildContext context, RemoteMessage message) {
-    final channel = message.data['channel'];
-    final eventInfo = message.data;
-    switch (channel) {
-      case 'recommendations':
-        _handlePressRecommendations(
-            context, NewTaskRecommendationEventInfo.fromJson(eventInfo));
-        break;
-      case 'task':
-        _handlePressTask(context, TaskUpdateEventInfo.fromJson(eventInfo));
-        break;
-      case 'chat':
-        _handlePressChat(context, ChatEventInfo.fromJson(eventInfo));
-        break;
-    }
-  }
-
-  _handlePressRecommendations(
-      BuildContext context, NewTaskRecommendationEventInfo info) {
-    TaskProfileRoute(taskId: int.parse(info.taskId)).go(context);
-  }
-
-  _handlePressTask(BuildContext context, TaskUpdateEventInfo info) {
-    TaskProfileRoute(taskId: int.parse(info.taskId)).go(context);
-  }
-
-  _handlePressChat(BuildContext context, ChatEventInfo info) {
-    ChatPageRoute(roomId: int.parse(info.roomId)).go(context);
-  }
-
-  void showNotification(
-    RemoteMessage message,
-  ) async {
-    final channel =
-        message.data.containsKey('channel') ? message.data['channel'] : null;
-    final title =
-        message.data.containsKey('title') ? message.data['title'] : null;
-    final body = message.data.containsKey('body') ? message.data['body'] : null;
-    final bigPicture = message.data.containsKey('image_url')
-        ? message.data['image_url']
-        : null;
-    final id = message.data.containsKey('id')
-        ? message.data['id']
-        : Random().nextInt(10000);
-    final groupKey = message.data.containsKey('group_key')
-        ? message.data['group_key']
-        : channel;
-    await AwesomeNotifications().createNotification(
-        content: NotificationContent(
-            id: id,
-            channelKey: channel,
-            title: title,
-            bigPicture: bigPicture,
-            body: body,
-            groupKey: groupKey));
+    context.go(message.data['navigate']);
   }
 }
 
@@ -170,28 +143,39 @@ class NotificationService {
 Future<void> _backgroundMessageHandler(
   RemoteMessage? message,
 ) async {
+  _handleNotification(message);
+}
+
+_handleNotification(RemoteMessage? message) {
   if (message != null) {
     final channel =
         message.data.containsKey('channel') ? message.data['channel'] : null;
-    final title =
-        message.data.containsKey('title') ? message.data['title'] : null;
-    final body = message.data.containsKey('body') ? message.data['body'] : null;
-    final bigPicture = message.data.containsKey('image_url')
-        ? message.data['image_url']
-        : null;
-    final id = message.data.containsKey('id')
-        ? message.data['id']
-        : Random().nextInt(10000);
-    final groupKey = message.data.containsKey('group_key')
-        ? message.data['group_key']
-        : channel;
-    await AwesomeNotifications().createNotification(
-        content: NotificationContent(
-            id: id,
-            channelKey: channel,
-            title: title,
-            bigPicture: bigPicture,
-            body: body,
-            groupKey: groupKey));
+    switch (channel) {
+      case 'chat':
+        _showChatNotification(message);
+        break;
+      default:
+    }
   }
+}
+
+void _showChatNotification(
+  RemoteMessage message,
+) async {
+  final title = message.data['title'];
+  final body = message.data['body'];
+  final userAvatar = message.data['user_avatar'];
+  final groupKey = message.data['group_key'];
+
+  await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+          id: Random().nextInt(1000),
+          channelKey: NotificationChannels.chat.name,
+          payload: {...message.data},
+          title: title,
+          roundedLargeIcon: true,
+          largeIcon: userAvatar,
+          body: body,
+          notificationLayout: NotificationLayout.MessagingGroup,
+          groupKey: groupKey));
 }

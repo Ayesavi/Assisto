@@ -1,10 +1,7 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { BaseMessage } from "firebase-admin/messaging";
 import { SUPABASE_CLIENT } from "../../../supabase_client";
-import {
-  NotificationChannels,
-  TaskEvents,
-} from "../models/notification_models";
+import { NotificationChannels } from "../models/notification_models";
 import sendNotification from "../send_notification";
 
 class NotifyTaskUpdates {
@@ -115,9 +112,8 @@ class NotifyTaskUpdates {
           },
         },
         data: {
-          event: TaskEvents.UPDATE,
-          task_id: `${this.newRecord.id}`,
-          channel: NotificationChannels.RECOMMENDATIONS,
+          navigate: `home/taskProfile/${this.newRecord.id}`,
+          channel: NotificationChannels.TASK,
         },
       };
     } else {
@@ -132,9 +128,8 @@ class NotifyTaskUpdates {
           },
         },
         data: {
-          event: TaskEvents.UPDATE,
-          task_id: `${this.newRecord.id}`,
-          channel: NotificationChannels.RECOMMENDATIONS,
+          navigate: `home/taskProfile/${this.newRecord.id}`,
+          channel: NotificationChannels.TASK,
         },
       };
     }

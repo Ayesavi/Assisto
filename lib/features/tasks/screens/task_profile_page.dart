@@ -15,8 +15,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class TaskProfilePage extends ConsumerWidget {
+  /// id of the task
   final int taskId;
-  const TaskProfilePage({required this.taskId, super.key});
+
+  /// current index of the task useful when the task profile
+  /// is owned by the user.
+  final int pageIndex;
+
+  /// id of the offer if page index is 1
+  final int? offerId;
+
+  const TaskProfilePage(
+      {required this.taskId, super.key, this.pageIndex = 0, this.offerId});
 
   Widget? _getFloatingActionButton(BuildContext context, TaskModel model) {
     final isNotAssignedOrBlocked = model.status == TaskStatus.unassigned ||
@@ -38,7 +48,10 @@ class TaskProfilePage extends ConsumerWidget {
   }
 
   Widget? _getbottomNavigationBar(
-      BuildContext context, TaskModel model, PageController pageController) {
+    BuildContext context,
+    TaskModel model,
+    PageController pageController,
+  ) {
     final isNotAssigned = model.status == TaskStatus.unassigned;
     if (isNotAssigned) {
       return BottomNavigationBar(
@@ -52,7 +65,7 @@ class TaskProfilePage extends ConsumerWidget {
             label: 'Biddings',
           ),
         ],
-        currentIndex: 0, // Initial index
+        currentIndex: pageIndex, // Initial index
         onTap: (index) {
           if (index == 0) {
             AppAnalytics.instance.logScreen(name: 'task_profile');
@@ -96,7 +109,10 @@ class TaskProfilePage extends ConsumerWidget {
                   },
                 ),
                 // Bids tab content
-                BidPageView(model)
+                BidPageView(
+                  model,
+                  offerId: offerId,
+                )
               ],
             ),
           ),
@@ -119,7 +135,8 @@ class TaskProfilePage extends ConsumerWidget {
     final state = ref.watch(provider);
     final controller = ref.read(provider.notifier);
     // Define page controller to handle page changes
-    final PageController pageController = PageController();
+    final PageController pageController =
+        PageController(initialPage: pageIndex);
 
     return state.when(loading: () {
       return _buildScaffold(

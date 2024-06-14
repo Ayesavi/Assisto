@@ -42,4 +42,8 @@ class TaskBidWidgetController extends _$TaskBidWidgetController {
           'Could not accept offer at the moment, try again later');
     }
   }
+
+  Future<BidModel> getBidDetails(int id) async {
+    return await _repository.fetchBidById(id);
+  }
 }

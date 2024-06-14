@@ -125,12 +125,27 @@ class EditProfilePageRoute extends GoRouteData {
 class TaskProfileRoute extends GoRouteData {
   const TaskProfileRoute({required this.taskId});
 
-  /// The phone number associated with the OTP page.
   final int taskId;
 
   @override
   Widget build(BuildContext context, GoRouterState state) => TaskProfilePage(
         taskId: taskId,
+      );
+}
+
+class TaskProfileOffersRoute extends GoRouteData {
+  const TaskProfileOffersRoute({required this.taskId, this.offerId});
+
+  final int taskId;
+  final int? offerId;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => TaskProfilePage(
+        taskId: taskId,
+        pageIndex: 1,
+        offerId: offerId,
+
+        /// 0 for details page and 1 for offers/bids
       );
 }
 
