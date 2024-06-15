@@ -143,10 +143,10 @@ class NotificationService {
 Future<void> _backgroundMessageHandler(
   RemoteMessage? message,
 ) async {
-  _handleNotification(message);
+  _handleNotification(message, isBackground: true);
 }
 
-_handleNotification(RemoteMessage? message) {
+_handleNotification(RemoteMessage? message, {bool isBackground = false}) {
   if (message != null) {
     final channel =
         message.data.containsKey('channel') ? message.data['channel'] : null;
@@ -154,9 +154,32 @@ _handleNotification(RemoteMessage? message) {
       case 'chat':
         _showChatNotification(message);
         break;
+      case 'task':
+        if (!isBackground) {
+          _showNotification(
+              channel: channel,
+              title: message.notification!.title!,
+              payload: {...message.data},
+              body: message.notification!.body!);
+        }
       default:
     }
   }
+}
+
+void _showNotification(
+    {required String channel,
+    required String title,
+    required Map<String, String> payload,
+    required String body}) async {
+  await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+    id: Random().nextInt(1000),
+    channelKey: channel,
+    payload: payload,
+    title: title,
+    body: body,
+  ));
 }
 
 void _showChatNotification(

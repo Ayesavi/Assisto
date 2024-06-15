@@ -125,16 +125,20 @@ class __PopupTextButtonState extends State<_PopupTextButton> {
       _isLoading = true;
     });
     await widget.callback?.call();
-    setState(() {
-      _isLoading = false;
-    });
+
+    if (context.mounted) {
+      // Calling setState after a long process may cause
+      // Null check operator used on a null value
+      setState(() {
+        _isLoading = false;
+      });
+    }
     return;
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-        TextButton(
+    return TextButton(
       onPressed: _onPressed,
       child:
           _isLoading ? const CupertinoActivityIndicator() : Text(widget.label),

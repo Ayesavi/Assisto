@@ -112,7 +112,7 @@ class NotifyTaskUpdates {
           },
         },
         data: {
-          navigate: `home/taskProfile/${this.newRecord.id}`,
+          navigate: `/home/taskProfile/${this.newRecord.id}`,
           channel: NotificationChannels.TASK,
         },
       };
@@ -128,7 +128,7 @@ class NotifyTaskUpdates {
           },
         },
         data: {
-          navigate: `home/taskProfile/${this.newRecord.id}`,
+          navigate: `/home/taskProfile/${this.newRecord.id}`,
           channel: NotificationChannels.TASK,
         },
       };
