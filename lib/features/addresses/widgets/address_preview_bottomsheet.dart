@@ -49,6 +49,7 @@ class _AddressPreviewBottomsheet extends StatelessWidget {
     );
   }
 }
+
 /// Displays an address preview bottom sheet.
 ///
 /// This function shows a bottom sheet with an address title, formatted address,
@@ -67,14 +68,14 @@ class _AddressPreviewBottomsheet extends StatelessWidget {
 /// The bottom sheet is constructed using a [_AddressPreviewBottomsheet] widget, which contains a [ListTile] with the address title and formatted address, and two [AppFilledButton] widgets for the 'Continue' and 'Edit' buttons.
 ///
 /// The bottom sheet is dismissed when either of the buttons is tapped.
-void showAddressPreviewBottomSheet({
+Future<void> showAddressPreviewBottomSheet({
   required BuildContext context,
   required String addressTitle,
   required String formattedAddress,
   required VoidCallback onTapContinue,
   required VoidCallback onTapEdit,
 }) {
-  showModalBottomSheet(
+  return showModalBottomSheet(
     context: context,
     showDragHandle: true,
     builder: (context) {

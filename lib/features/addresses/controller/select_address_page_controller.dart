@@ -1,6 +1,7 @@
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/extensions/widget_extension.dart';
 import 'package:assisto/core/services/permission_service.dart';
+import 'package:assisto/core/utils/debouncer.dart';
 import 'package:assisto/core/utils/utils.dart';
 import 'package:assisto/features/addresses/repositories/places_repository.dart';
 import 'package:assisto/features/addresses/widgets/map_marker.dart';
@@ -29,6 +30,7 @@ class SelectAddressPageController extends _$SelectAddressPageController {
   late GoogleMapController _mapController;
 
   final markerNotifier = ValueNotifier<LatLng?>(null);
+  final _bouncer = Debouncer(delay: const Duration(milliseconds: 10));
 
   final _repo = GoogleMapRespository();
 
@@ -139,13 +141,15 @@ class SelectAddressPageController extends _$SelectAddressPageController {
           addressComponent[0].formattedAddress ?? addressComponent[0].placeId;
       final latlng = LatLng(
           markerNotifier.value!.latitude, markerNotifier.value!.longitude);
-      showAddressPreview(
-        titleAddress: titleAddress,
-        formattedAddress: formattedAddress,
-        latLng: latlng,
-        model: _editAddrModel,
-        controller: this,
-      );
+      _bouncer.call(() {
+        showAddressPreview(
+          titleAddress: titleAddress,
+          formattedAddress: formattedAddress,
+          latLng: latlng,
+          model: _editAddrModel,
+          controller: this,
+        );
+      });
     }
   }
 
