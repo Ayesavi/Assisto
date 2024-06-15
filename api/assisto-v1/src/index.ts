@@ -3,6 +3,7 @@ import * as express from "express";
 import * as admin from "firebase-admin";
 import { applicationDefault, initializeApp } from "firebase-admin/app";
 import * as functions from "firebase-functions";
+import NotifyCreatedBid from "./endpoints/notify/Bid/NotifyCreatedBid";
 import NotifyChats from "./endpoints/notify/chat";
 import NotifyTaskRecommendations from "./endpoints/notify/tasks/recommendation";
 import NotifyTaskUpdates from "./endpoints/notify/tasks/updates";
@@ -99,9 +100,19 @@ app.post("/notify/tasks/update", async (req, res) => {
   }
 });
 
+app.post("/notify/bid", async (req, res) => {
+  try {
+    const recommendation = new NotifyCreatedBid(req.body.record);
+    await recommendation.call();
+    res.status(200).send("Notifications have been sent successfully!");
+  } catch (error) {
+    console.error("Error sending notifications:", error);
+    res.status(500).send("An error has occurred while sending notifications");
+  }
+});
+
 app.post("/notify/tasks/recommendation", async (req, res) => {
   try {
- 
     const recommendation = new NotifyTaskRecommendations();
     await recommendation.sendRecommendations(req.body.record);
     res.status(200).send("Notifications have been sent successfully!");

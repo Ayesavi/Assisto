@@ -309,6 +309,12 @@ class FakeTaskRepository implements BaseTaskRepository {
 
     return paginatedTasks;
   }
+  
+  @override
+  Future<BidModel> fetchBidById(int taskId) {
+    // TODO: implement fetchBidById
+    throw UnimplementedError();
+  }
 
   // @override
   // Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) {

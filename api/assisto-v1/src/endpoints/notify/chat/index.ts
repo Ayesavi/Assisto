@@ -1,10 +1,7 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { BaseMessage } from "firebase-admin/messaging";
 import { SUPABASE_CLIENT } from "../../../supabase_client";
-import {
-  ChatEvents,
-  NotificationChannels,
-} from "../models/notification_models";
+import { NotificationChannels } from "../models/notification_models";
 import sendNotification from "../send_notification";
 
 class NotifyChats {
@@ -18,8 +15,11 @@ class NotifyChats {
 
   async call() {
     let tokens = await this._getRecipientTokens();
-    let messageAuthorName = await this._getMessageAuthorName();
-    let messageBody = this.createMessageData(messageAuthorName);
+    let messageAuthor = await this._getMessageAuthor();
+    let messageBody = this.createMessageData(
+      messageAuthor?.full_name,
+      messageAuthor?.avatar_url
+    );
     await sendNotification({
       ...messageBody,
       tokens: tokens,
@@ -65,32 +65,33 @@ class NotifyChats {
     }
   }
 
-  async _getMessageAuthorName() {
+  async _getMessageAuthor() {
     return (
       await this.supabase
         .from("profiles")
-        .select("full_name")
+        .select("full_name,avatar_url")
         .eq("id", this.record.author_id)
         .limit(1)
         .single()
-    ).data?.full_name;
+    ).data;
   }
 
-  createMessageData(messageAuthorName: string): BaseMessage {
+  createMessageData(messageAuthorName: string, avatarUrl: string): BaseMessage {
     return {
-      notification: {
-        title: messageAuthorName,
-        body: this.record.text,
-      },
-      android: {
-        notification: {
-          channelId: NotificationChannels.CHAT,
-        },
-      },
+      // android: {
+      //   notification: {
+      //     channelId: NotificationChannels.CHAT,
+      //   },
+      // },
       data: {
-        event: ChatEvents.INSERT,
+        title: `${messageAuthorName}`,
+        user_avatar: `${avatarUrl}`,
+        body: this.record.text,
+        navigate: `/home/chat/${this.record.room_id}`,
         room_id: `${this.record.room_id}`,
         group_key: `${this.record.room_id}`,
+        sender_name: "messageAuthorName",
+        message_text: this.record.text,
         message_id: this.record.id,
         channel: NotificationChannels.CHAT,
       },

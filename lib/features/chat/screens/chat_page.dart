@@ -41,8 +41,9 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   }
 
   onMessage(Message message) {
-    if (message.authorId !=
-        ref.read(authControllerProvider.notifier).user?.id) {
+    if (ref.context.mounted &&
+        message.authorId !=
+            ref.read(authControllerProvider.notifier).user?.id) {
       controller.addMessage(message);
     }
   }

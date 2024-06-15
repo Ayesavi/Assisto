@@ -10,11 +10,13 @@ class AppFilledButton extends ConsumerWidget {
     this.bgColor,
     this.onTap,
     this.asyncTap,
+    this.isDisabled = false,
   });
 
   final progressIndicatorProvider = StateProvider<bool>((ref) => false);
 
   final String label;
+  final bool isDisabled;
   final Color? bgColor;
   final VoidCallback? onTap;
   final Future<void> Function()? asyncTap;
@@ -33,33 +35,36 @@ class AppFilledButton extends ConsumerWidget {
               const EdgeInsets.symmetric(vertical: 16),
             ),
           ),
-          onPressed: () async {
-            if (onTap != null) {
-              onTap!();
-            } else if (asyncTap != null && isProgress == false) {
-              try {
-                // Start showing CircularProgressIndicator
-                if (ref.context.mounted) {
-                  ref
-                      .read(progressIndicatorProvider.notifier)
-                      .update((state) => true);
-                  // Call the asyncTap
-                  asyncTap!().then((value) {
-                    if (ref.context.mounted) {
-                      ref.read(progressIndicatorProvider.notifier).state =
-                          false;
+          onPressed: isDisabled
+              ? null
+              : () async {
+                  if (onTap != null) {
+                    onTap!();
+                  } else if (asyncTap != null && isProgress == false) {
+                    try {
+                      // Start showing CircularProgressIndicator
+                      if (ref.context.mounted) {
+                        ref
+                            .read(progressIndicatorProvider.notifier)
+                            .update((state) => true);
+                        // Call the asyncTap
+                        asyncTap!().then((value) {
+                          if (ref.context.mounted) {
+                            ref.read(progressIndicatorProvider.notifier).state =
+                                false;
+                          }
+                        });
+                      }
+                      // Stop showing CircularProgressIndicator
+                    } catch (e) {
+                      if (ref.context.mounted) {
+                        ref.read(progressIndicatorProvider.notifier).state =
+                            false;
+                      }
+                      rethrow;
                     }
-                  });
-                }
-                // Stop showing CircularProgressIndicator
-              } catch (e) {
-                if (ref.context.mounted) {
-                  ref.read(progressIndicatorProvider.notifier).state = false;
-                }
-                rethrow;
-              }
-            }
-          },
+                  }
+                },
           child: isProgress
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,

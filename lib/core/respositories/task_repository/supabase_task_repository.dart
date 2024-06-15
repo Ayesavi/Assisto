@@ -198,4 +198,20 @@ class SupabaseTaskRepository implements BaseTaskRepository {
       return [];
     }
   }
+
+  @override
+  Future<BidModel> fetchBidById(int bidId) async {
+    try {
+      final data = await _supabase
+          .from('bidding')
+          .select('*,bidder:bidder_id(*)')
+          .eq('id', bidId)
+          .limit(1)
+          .single();
+      return BidModel.fromJson(data);
+    } catch (e) {
+      throw const AppException(
+          'Failed to get the bid details at the moment, try again later');
+    }
+  }
 }

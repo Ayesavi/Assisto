@@ -1,10 +1,7 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { BaseMessage } from "firebase-admin/messaging";
 import { SUPABASE_CLIENT } from "../../../supabase_client";
-import {
-  NotificationChannels,
-  RecommendationEvents,
-} from "../models/notification_models";
+import { NotificationChannels } from "../models/notification_models";
 import sendNotification from "../send_notification";
 
 class NotifyTaskRecommendations {
@@ -87,8 +84,7 @@ class NotifyTaskRecommendations {
         },
       },
       data: {
-        event: RecommendationEvents.NEW_TASK,
-        task_id: `${task.id}`,
+        navigate: `home/taskProfile/${task.id}`,
         channel: NotificationChannels.RECOMMENDATIONS,
       },
     };

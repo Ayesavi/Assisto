@@ -31,7 +31,6 @@ class NotificationsPage extends ConsumerWidget {
     final sortedDateKeys = groupedNotifications.keys.toList()
       ..sort((a, b) => DateTime.parse(b).compareTo(DateTime.parse(a)));
     final state = ref.watch(notificationPageControllerProvider);
-    final controller = ref.read(notificationPageControllerProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications'),

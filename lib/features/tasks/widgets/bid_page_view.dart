@@ -11,14 +11,51 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
-class BidPageView extends ConsumerWidget {
+class BidPageView extends ConsumerStatefulWidget {
   final TaskModel model;
-  const BidPageView(this.model, {super.key});
+  final int? offerId;
+
+  const BidPageView(this.model, {this.offerId, super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final provider = taskBidWidgetControllerProvider(model.id);
+  _BidPageViewState createState() => _BidPageViewState();
+}
 
+class _BidPageViewState extends ConsumerState<BidPageView> {
+  late final TaskBidWidgetControllerProvider provider;
+  @override
+  void initState() {
+    provider = taskBidWidgetControllerProvider(widget.model.id);
+    _showObtainedOfferFromPath();
+    super.initState();
+  }
+
+  _showObtainedOfferFromPath() async {
+    if (widget.offerId != null) {
+      final model =
+          await ref.read(provider.notifier).getBidDetails(widget.offerId!);
+      if (context.mounted) {
+        showBidderProfileBottomSheet(
+          context: context,
+          onAcceptOffer: () async {
+            await ref.read(provider.notifier).acceptBid(widget.offerId!);
+            AppAnalytics.instance.logEvent(
+              name: AnalyticsEvent.taskProfile.acceptBidPressEvent,
+            );
+            if (context.mounted) {
+              const HomeRoute().replace(context);
+            }
+            return;
+          },
+          model: model,
+          showAcceptOffer: true,
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(provider);
     final controller = ref.read(provider.notifier);
 
@@ -30,63 +67,73 @@ class BidPageView extends ConsumerWidget {
           weight: FontWeight.bold,
         ),
         kWidgetVerticalGap,
-        state.when(loading: () {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }, data: (bids) {
-          return Expanded(
-            child: Stack(
-              children: [
-                RefreshIndicator(
-                  onRefresh: () async {},
-                  child: ListView.builder(
-                    itemCount: bids.length,
-                    itemBuilder: (context, index) {
-                      return BidTile(
+        state.when(
+          loading: () {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+          data: (bids) {
+            return Expanded(
+              child: Stack(
+                children: [
+                  RefreshIndicator(
+                    onRefresh: () async {},
+                    child: ListView.builder(
+                      itemCount: bids.length,
+                      itemBuilder: (context, index) {
+                        return BidTile(
                           bidModel: bids[index],
                           onPressed: () {
                             showBidderProfileBottomSheet(
-                                context: context,
-                                onAcceptOffer: () async {
-                                  await controller.acceptBid(bids[index].id);
-                                  AppAnalytics.instance.logEvent(
-                                      name: AnalyticsEvent
-                                          .taskProfile.acceptBidPressEvent);
-                                  if (context.mounted) {
-                                    const HomeRoute().replace(context);
-                                  }
-                                  return;
-                                },
-                                model: bids[index],
-                                showAcceptOffer: true);
-                          });
-                    },
+                              context: context,
+                              onAcceptOffer: () async {
+                                await controller.acceptBid(bids[index].id);
+                                AppAnalytics.instance.logEvent(
+                                  name: AnalyticsEvent
+                                      .taskProfile.acceptBidPressEvent,
+                                );
+                                if (context.mounted) {
+                                  const HomeRoute().replace(context);
+                                }
+                                return;
+                              },
+                              model: bids[index],
+                              showAcceptOffer: true,
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox.square(
-                          dimension: 200,
-                          child: SvgPicture.asset(
-                              'assets/graphics/no_offers.svg')),
-                      kWidgetVerticalGap,
-                      const Text('No offers yet to display'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        }, networkError: () {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }, error: (e) {
-          return Text(e.toString());
-        })
+                  if (bids.isEmpty)
+                    Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox.square(
+                            dimension: 200,
+                            child: SvgPicture.asset(
+                                'assets/graphics/no_offers.svg'),
+                          ),
+                          kWidgetVerticalGap,
+                          const Text('No offers yet to display'),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            );
+          },
+          networkError: () {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+          error: (e) {
+            return Text(e.toString());
+          },
+        ),
       ],
     );
   }

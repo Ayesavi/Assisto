@@ -22,6 +22,9 @@ class RouteConstants {
   static const taskProfile = TypedGoRoute<TaskProfileRoute>(
       path: 'taskProfile/:taskId', name: 'taskProfile');
 
+  static const taskProfileOffers = TypedGoRoute<TaskProfileOffersRoute>(
+      path: 'taskProfile/:taskId/offers/:offerId', name: 'taskProfileOffers');
+
   static const chatPage = TypedGoRoute<ChatPageRoute>(
     path: 'chat/:roomId',
     name: 'chat',
@@ -43,7 +46,6 @@ class RouteConstants {
     name: 'edit',
   );
 
-
   static const searchTasksRoute = TypedGoRoute<SearchPageRoute>(
     path: 'search',
     name: 'search',
@@ -54,12 +56,10 @@ class RouteConstants {
     name: 'notifications',
   );
 
-
   static const maintenancePage = TypedGoRoute<MaintenancePageRoute>(
       path: '/maintenance', name: 'maintenance');
 
-
-    static const createTaskRoute = TypedGoRoute<CreateTaskRoute>(
+  static const createTaskRoute = TypedGoRoute<CreateTaskRoute>(
     path: 'createTask',
     name: 'createTask',
   );
@@ -73,7 +73,7 @@ class RouteConstants {
     profileRoute,
     createTaskRoute,
     searchTasksRoute,
-    homeOtpPageRoute,
+    homeOtpPageRoute,taskProfileOffers,
     notificationPageRoute,
     chatPage,
   ]);

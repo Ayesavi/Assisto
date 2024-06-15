@@ -139,6 +139,11 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $HomeOtpPageRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'taskProfile/:taskId/offers/:offerId',
+          name: 'taskProfileOffers',
+          factory: $TaskProfileOffersRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'notifications',
           name: 'notifications',
           factory: $NotificationPageRouteExtension._fromState,
@@ -323,6 +328,27 @@ extension $HomeOtpPageRouteExtension on HomeOtpPageRoute {
 
   String get location => GoRouteData.$location(
         '/home/otp/${Uri.encodeComponent(phoneNumber)}/${Uri.encodeComponent(otpType)}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $TaskProfileOffersRouteExtension on TaskProfileOffersRoute {
+  static TaskProfileOffersRoute _fromState(GoRouterState state) =>
+      TaskProfileOffersRoute(
+        taskId: int.parse(state.pathParameters['taskId']!),
+        offerId: int.parse(state.pathParameters['offerId']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/taskProfile/${Uri.encodeComponent(taskId.toString())}/offers/${Uri.encodeComponent(offerId!.toString())}',
       );
 
   void go(BuildContext context) => context.go(location);
