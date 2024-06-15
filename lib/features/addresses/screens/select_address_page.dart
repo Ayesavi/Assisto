@@ -55,7 +55,7 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
         editAddressModel: widget.addressModel);
     analytics.logScreen(name: 'select_address_page');
 
-    if (widget.addressModel != null) {
+    if (widget.addressModel == null) {
       ref.read(provider.notifier).requestLocationPermission(
         onDenied: () {
           showSnackBar(context, 'Location permission is denied');

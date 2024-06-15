@@ -1,10 +1,6 @@
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/core/extensions/widget_extension.dart';
 import 'package:assisto/core/services/permission_service.dart';
-import 'package:assisto/core/utils/debouncer.dart';
 import 'package:assisto/core/utils/utils.dart';
-import 'package:assisto/features/addresses/repositories/places_repository.dart';
-import 'package:assisto/features/addresses/widgets/map_marker.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_google_maps_webservices/places.dart' as places;
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -24,15 +21,11 @@ class SelectAddressPageController extends _$SelectAddressPageController {
   late String _mapStyle;
   AddressModel? _editAddrModel;
   final double zoom = 18.0;
-  late Marker _marker;
   final permissionService = PermissionService();
   bool _isCameraAnimating = false;
   late GoogleMapController _mapController;
 
   final markerNotifier = ValueNotifier<LatLng?>(null);
-  final _bouncer = Debouncer(delay: const Duration(milliseconds: 10));
-
-  final _repo = GoogleMapRespository();
 
   @override
   SelectAddressPageControllerState build({AddressModel? editAddressModel}) {
@@ -47,35 +40,27 @@ class SelectAddressPageController extends _$SelectAddressPageController {
             zoom: zoom,
           ),
           style: _mapStyle,
-          marker: _marker.copyWith(positionParam: latlng),
           addressModel: editAddressModel,
         ));
       });
     } else {
       _loadMapStyle().then((value) {
         state = SelectAddressPageControllerState.loadMap(_MapConfig(
-            cameraPosition: CameraPosition(
-              target: kCenterLatlng,
-              zoom: zoom,
-            ),
-            style: _mapStyle,
-            marker: _marker));
+          cameraPosition: CameraPosition(
+            target: kCenterLatlng,
+            zoom: zoom,
+          ),
+          style: _mapStyle,
+        ));
       });
     }
     return const SelectAddressPageControllerInitial();
   }
 
   Future<void> _loadMapStyle() async {
-    _mapStyle = await rootBundle.loadString(Assets.mapStyle);
-    _marker = Marker(
-        markerId: const MarkerId('content-marker'),
-        icon: await _getMarkerWidget());
-  }
+    // request permission
 
-  Future<BitmapDescriptor> _getMarkerWidget() async {
-    return const ConeMarker(
-      text: "Please the pin accurately to your address",
-    ).toBitmapDescriptor();
+    _mapStyle = await rootBundle.loadString(Assets.mapStyle);
   }
 
   void setLocation(PlacesSearchResult result) {
@@ -124,60 +109,28 @@ class SelectAddressPageController extends _$SelectAddressPageController {
     _isCameraAnimating = false;
   }
 
-  void onCameraIdle(
-      void Function({
-        required String titleAddress,
-        required String formattedAddress,
-        required LatLng latLng,
-        required SelectAddressPageController controller,
-        AddressModel? model,
-      }) showAddressPreview) async {
-    if (markerNotifier.value != null) {
-      final addressComponent =
-          await _repo.getPlaceAddressFromLatLng(markerNotifier.value!);
-      final titleAddress =
-          addressComponent[0].formattedAddress ?? addressComponent[0].placeId;
-      final formattedAddress =
-          addressComponent[0].formattedAddress ?? addressComponent[0].placeId;
-      final latlng = LatLng(
-          markerNotifier.value!.latitude, markerNotifier.value!.longitude);
-      _bouncer.call(() {
-        showAddressPreview(
-          titleAddress: titleAddress,
-          formattedAddress: formattedAddress,
-          latLng: latlng,
-          model: _editAddrModel,
-          controller: this,
-        );
-      });
-    }
-  }
-
   void requestLocationPermission({
     VoidCallback? onDenied,
     VoidCallback? onPermanentlyDenied,
   }) async {
-    //   await _loadMapStyle();
-
-    //   final status = await permissionService
-    //       .requestPermissionIfNeeded(DevicePermission.location);
-    //   if (status.isGranted || status.isLimited) {
-    //     state = SelectAddressPageControllerState.loadMap(_MapConfig(
-    //         cameraPosition: CameraPosition(
-    //           target: kCenterLatlng,
-    //           zoom: zoom,
-    //         ),
-    //         enableLocation: true,
-    //         style: _mapStyle,
-    //         addressModel: _editAddrModel,
-    //         marker: _marker));
-    //   }
-    //   if (status.isDenied) {
-    //     onDenied?.call();
-    //   }
-    //   if (status.isPermanentlyDenied) {
-    //     onPermanentlyDenied?.call();
-    //   }
-    return;
+    // await _loadMapStyle();
+    try {
+      final status = await permissionService
+          .requestPermissionIfNeeded(DevicePermission.location);
+      if (status.isGranted || status.isLimited) {
+        final currentPosition = await Geolocator.getCurrentPosition();
+        animateCamera(
+            LatLng(currentPosition.latitude, currentPosition.longitude));
+      }
+      if (status.isDenied) {
+        onDenied?.call();
+      }
+      if (status.isPermanentlyDenied) {
+        onPermanentlyDenied?.call();
+      }
+      return;
+    } catch (e) {
+      rethrow;
+    }
   }
 }
