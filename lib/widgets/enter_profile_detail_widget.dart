@@ -1,5 +1,6 @@
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/error/handler.dart';
+import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/utils/debouncer.dart';
 import 'package:assisto/core/utils/utils.dart';
 import 'package:assisto/features/home/screens/select_categories_page.dart';
@@ -162,7 +163,10 @@ class _EnterProfileDetailWidgetState
         child: CircularProgressIndicator(),
       );
     }, authenticated: (model) {
-      return const CircularProgressIndicator();
+      Future.delayed(const Duration(milliseconds: 200), () {
+        const HomeRoute().go(context);
+      });
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }, unAuthenticated: () {
       return const CircularProgressIndicator();
     }, inCompleteProfile: (userDetails, isPhoneVerified, isEmailVerified) {
