@@ -70,6 +70,9 @@ class _TaskCreationEvents {
   /// When a task is created
   final createTaskEvent = "create_task_event";
 
+  /// When a task is updated
+  final updateTaskEvent = "update_task_event";
+
   /// When user presses menu button for advanced configurations
   /// during task creation
   final configureAdavancedTaskConfigurationsEvent =
@@ -212,8 +215,6 @@ class _EditProfile {
 
   /// When a user updates bio
   final updateBioEvent = "update_bio_event";
-
-  
 }
 
 class _FillProfileEvents {
