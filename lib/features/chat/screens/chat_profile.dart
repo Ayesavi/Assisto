@@ -1,9 +1,7 @@
-import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:assisto/widgets/user_avatar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,10 +26,10 @@ class ChatProfile extends ConsumerWidget {
               radius: 50,
             ),
             kWidgetVerticalGap,
-            BodyLarge(
-              text: userModel.name.toUpperCase(),
-              letterSpacing: 10,
+            TitleLarge(
+              text: userModel.name,
               maxLines: 3,
+              weight: FontWeight.w400,
               align: TextAlign.center,
             ),
             kWidgetVerticalGap,
@@ -41,7 +39,7 @@ class ChatProfile extends ConsumerWidget {
               tileColor: Theme.of(context).colorScheme.onInverseSurface,
               style: ListTileStyle.list,
               trailing: IconButton(
-                  onPressed: () {},
+                  onPressed: userModel.phoneNumber == null ? null : () {},
                   icon: Icon(
                     Icons.phone,
                     color: Theme.of(context).colorScheme.primary,
@@ -51,38 +49,38 @@ class ChatProfile extends ConsumerWidget {
                 userModel.phoneNumber ?? "Not available",
               ),
             ),
-            ListTile(
-              leading: Icon(
-                Icons.block,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              trailing: SizedBox.square(
-                dimension: 50,
-                child: Switch(value: false, onChanged: (v) {}),
-              ),
-              title: const TitleMedium(text: 'Block'),
-            ),
-            ListTile(
-              onTap: () {
-                ChatTransactionsPageRoute(recipientId: userModel.id)
-                    .go(context);
-              },
-              leading: Icon(
-                CupertinoIcons.money_dollar_circle,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              trailing: const CupertinoListTileChevron(),
-              title: const TitleMedium(text: 'See Transactions'),
-            ),
-            ListTile(
-              onTap: () {},
-              leading: Icon(
-                Icons.flag_circle_outlined,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              trailing: const CupertinoListTileChevron(),
-              title: const TitleMedium(text: 'Report'),
-            ),
+            // ListTile(
+            //   leading: Icon(
+            //     Icons.block,
+            //     color: Theme.of(context).colorScheme.primary,
+            //   ),
+            //   trailing: SizedBox.square(
+            //     dimension: 50,
+            //     child: Switch(value: false, onChanged: (v) {}),
+            //   ),
+            //   title: const TitleMedium(text: 'Block'),
+            // ),
+            // ListTile(
+            //   onTap: () {
+            //     ChatTransactionsPageRoute(recipientId: userModel.id)
+            //         .go(context);
+            //   },
+            //   leading: Icon(
+            //     CupertinoIcons.money_dollar_circle,
+            //     color: Theme.of(context).colorScheme.primary,
+            //   ),
+            //   trailing: const CupertinoListTileChevron(),
+            //   title: const TitleMedium(text: 'See Transactions'),
+            // ),
+            // ListTile(
+            //   onTap: () {},
+            //   leading: Icon(
+            //     Icons.flag_circle_outlined,
+            //     color: Theme.of(context).colorScheme.primary,
+            //   ),
+            //   trailing: const CupertinoListTileChevron(),
+            //   title: const TitleMedium(text: 'Report'),
+            // ),
           ],
         ),
       ),

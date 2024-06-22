@@ -259,7 +259,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 },
                                 onPressed: () {
                                   TaskProfileRoute(taskId: data[itemIndex].id)
-                                      .push(ctx);
+                                      .go(ctx);
                                 },
                               );
                             } else {
