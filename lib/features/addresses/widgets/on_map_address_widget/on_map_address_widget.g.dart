@@ -6,7 +6,7 @@ part of 'on_map_address_widget.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$addressFromLatlngHash() => r'b5a57ec8112b36c5f67d322e661d5bed80e6eb4a';
+String _$addressFromLatlngHash() => r'f6bf030f2c1ed8fbbf1aa404a71b420454e1e9dc';
 
 /// Copied from Dart SDK
 class _SystemHash {

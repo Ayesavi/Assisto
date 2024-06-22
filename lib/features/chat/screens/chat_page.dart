@@ -15,6 +15,8 @@ class ChatPage extends ConsumerStatefulWidget {
   final int roomId;
   const ChatPage({super.key, required this.roomId});
 
+  static int? activeRoom;
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ChatPageState();
 }
@@ -27,6 +29,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   final analyticsEvents = AnalyticsEvent.taskChat;
   @override
   void initState() {
+    ChatPage.activeRoom = widget.roomId;
     super.initState();
     provider = chatPageControllerProvider(widget.roomId);
     ref.listenManual(provider, (prev, next) {
@@ -50,6 +53,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   @override
   void dispose() {
+    ChatPage.activeRoom = null;
     super.dispose();
   }
 
@@ -110,14 +114,18 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             ));
           },
           contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-          leading: const UserAvatar(),
+          leading: UserAvatar(
+            imageUrl: model.avatarUrl,
+          ),
           title: TitleLarge(text: model.name),
-          trailing: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.phone,
-                color: Theme.of(context).colorScheme.primary,
-              )),
+          trailing: model.phoneNumber != null
+              ? IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.phone,
+                    color: Theme.of(context).colorScheme.primary,
+                  ))
+              : null,
         ));
   }
 

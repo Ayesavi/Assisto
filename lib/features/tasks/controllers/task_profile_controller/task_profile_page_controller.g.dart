@@ -6,7 +6,8 @@ part of 'task_profile_page_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$taskProfilePageHash() => r'd26cc1a7ecd377d50db5080cbfbdd3c58b6e546f';
+String _$taskProfilePageControllerHash() =>
+    r'd9ff84501c8b87c1049ae7f13ed290d32e8fb3ea';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,7 +30,7 @@ class _SystemHash {
   }
 }
 
-abstract class _$TaskProfilePage
+abstract class _$TaskProfilePageController
     extends BuildlessAutoDisposeNotifier<TaskProfilePageState> {
   late final int taskId;
 
@@ -38,27 +39,27 @@ abstract class _$TaskProfilePage
   );
 }
 
-/// See also [TaskProfilePage].
-@ProviderFor(TaskProfilePage)
-const taskProfilePageProvider = TaskProfilePageFamily();
+/// See also [TaskProfilePageController].
+@ProviderFor(TaskProfilePageController)
+const taskProfilePageControllerProvider = TaskProfilePageControllerFamily();
 
-/// See also [TaskProfilePage].
-class TaskProfilePageFamily extends Family<TaskProfilePageState> {
-  /// See also [TaskProfilePage].
-  const TaskProfilePageFamily();
+/// See also [TaskProfilePageController].
+class TaskProfilePageControllerFamily extends Family<TaskProfilePageState> {
+  /// See also [TaskProfilePageController].
+  const TaskProfilePageControllerFamily();
 
-  /// See also [TaskProfilePage].
-  TaskProfilePageProvider call(
+  /// See also [TaskProfilePageController].
+  TaskProfilePageControllerProvider call(
     int taskId,
   ) {
-    return TaskProfilePageProvider(
+    return TaskProfilePageControllerProvider(
       taskId,
     );
   }
 
   @override
-  TaskProfilePageProvider getProviderOverride(
-    covariant TaskProfilePageProvider provider,
+  TaskProfilePageControllerProvider getProviderOverride(
+    covariant TaskProfilePageControllerProvider provider,
   ) {
     return call(
       provider.taskId,
@@ -77,30 +78,30 @@ class TaskProfilePageFamily extends Family<TaskProfilePageState> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'taskProfilePageProvider';
+  String? get name => r'taskProfilePageControllerProvider';
 }
 
-/// See also [TaskProfilePage].
-class TaskProfilePageProvider extends AutoDisposeNotifierProviderImpl<
-    TaskProfilePage, TaskProfilePageState> {
-  /// See also [TaskProfilePage].
-  TaskProfilePageProvider(
+/// See also [TaskProfilePageController].
+class TaskProfilePageControllerProvider extends AutoDisposeNotifierProviderImpl<
+    TaskProfilePageController, TaskProfilePageState> {
+  /// See also [TaskProfilePageController].
+  TaskProfilePageControllerProvider(
     int taskId,
   ) : this._internal(
-          () => TaskProfilePage()..taskId = taskId,
-          from: taskProfilePageProvider,
-          name: r'taskProfilePageProvider',
+          () => TaskProfilePageController()..taskId = taskId,
+          from: taskProfilePageControllerProvider,
+          name: r'taskProfilePageControllerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$taskProfilePageHash,
-          dependencies: TaskProfilePageFamily._dependencies,
+                  : _$taskProfilePageControllerHash,
+          dependencies: TaskProfilePageControllerFamily._dependencies,
           allTransitiveDependencies:
-              TaskProfilePageFamily._allTransitiveDependencies,
+              TaskProfilePageControllerFamily._allTransitiveDependencies,
           taskId: taskId,
         );
 
-  TaskProfilePageProvider._internal(
+  TaskProfilePageControllerProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -114,7 +115,7 @@ class TaskProfilePageProvider extends AutoDisposeNotifierProviderImpl<
 
   @override
   TaskProfilePageState runNotifierBuild(
-    covariant TaskProfilePage notifier,
+    covariant TaskProfilePageController notifier,
   ) {
     return notifier.build(
       taskId,
@@ -122,10 +123,10 @@ class TaskProfilePageProvider extends AutoDisposeNotifierProviderImpl<
   }
 
   @override
-  Override overrideWith(TaskProfilePage Function() create) {
+  Override overrideWith(TaskProfilePageController Function() create) {
     return ProviderOverride(
       origin: this,
-      override: TaskProfilePageProvider._internal(
+      override: TaskProfilePageControllerProvider._internal(
         () => create()..taskId = taskId,
         from: from,
         name: null,
@@ -138,14 +139,14 @@ class TaskProfilePageProvider extends AutoDisposeNotifierProviderImpl<
   }
 
   @override
-  AutoDisposeNotifierProviderElement<TaskProfilePage, TaskProfilePageState>
-      createElement() {
-    return _TaskProfilePageProviderElement(this);
+  AutoDisposeNotifierProviderElement<TaskProfilePageController,
+      TaskProfilePageState> createElement() {
+    return _TaskProfilePageControllerProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is TaskProfilePageProvider && other.taskId == taskId;
+    return other is TaskProfilePageControllerProvider && other.taskId == taskId;
   }
 
   @override
@@ -157,19 +158,19 @@ class TaskProfilePageProvider extends AutoDisposeNotifierProviderImpl<
   }
 }
 
-mixin TaskProfilePageRef
+mixin TaskProfilePageControllerRef
     on AutoDisposeNotifierProviderRef<TaskProfilePageState> {
   /// The parameter `taskId` of this provider.
   int get taskId;
 }
 
-class _TaskProfilePageProviderElement
-    extends AutoDisposeNotifierProviderElement<TaskProfilePage,
-        TaskProfilePageState> with TaskProfilePageRef {
-  _TaskProfilePageProviderElement(super.provider);
+class _TaskProfilePageControllerProviderElement
+    extends AutoDisposeNotifierProviderElement<TaskProfilePageController,
+        TaskProfilePageState> with TaskProfilePageControllerRef {
+  _TaskProfilePageControllerProviderElement(super.provider);
 
   @override
-  int get taskId => (origin as TaskProfilePageProvider).taskId;
+  int get taskId => (origin as TaskProfilePageControllerProvider).taskId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

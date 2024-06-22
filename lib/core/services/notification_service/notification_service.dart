@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
+import 'package:assisto/features/chat/screens/chat_page.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,16 @@ class NotificationService {
             channelName: 'Bids & Offers',
             channelDescription:
                 'Recieve updates on bids on your created assists.',
+            playSound: true,
+            onlyAlertOnce: true,
+            groupAlertBehavior: GroupAlertBehavior.Children,
+            importance: NotificationImportance.High,
+            defaultPrivacy: NotificationPrivacy.Private,
+          ),
+          NotificationChannel(
+            channelKey: NotificationChannels.chat.name,
+            channelName: 'Chat',
+            channelDescription: 'Recieve Chat Notifications',
             playSound: true,
             onlyAlertOnce: true,
             groupAlertBehavior: GroupAlertBehavior.Children,
@@ -152,7 +163,9 @@ _handleNotification(RemoteMessage? message, {bool isBackground = false}) {
         message.data.containsKey('channel') ? message.data['channel'] : null;
     switch (channel) {
       case 'chat':
-        _showChatNotification(message);
+        if (ChatPage.activeRoom.toString() != message.data['group_key']) {
+          _showChatNotification(message);
+        }
         break;
       case 'task':
         if (!isBackground) {

@@ -11,7 +11,7 @@ part 'task_profile_page_controller.g.dart';
 part 'task_profile_page_controller_state.dart';
 
 @riverpod
-class TaskProfilePage extends _$TaskProfilePage {
+class TaskProfilePageController extends _$TaskProfilePageController {
   final _repository = SupabaseTaskRepository();
   @override
   TaskProfilePageState build(int taskId) {
@@ -48,10 +48,13 @@ class TaskProfilePage extends _$TaskProfilePage {
   }
 
   Future<void> cancelTask(int taskId) async {
+    ref.invalidate(homePageControllerProvider);
+  
     await _repository.blockTask(taskId);
   }
 
   Future<void> completeTask(int taskId) async {
+
     await _repository.updateTaskStatus(taskId, TaskStatus.completed);
     ref.invalidate(homePageControllerProvider);
   }

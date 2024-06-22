@@ -23,76 +23,73 @@ class AddressSearchPage extends ConsumerWidget {
     final cityData = FakePlacesRepository().list;
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 80,
-        automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Hero(
-            tag: 'searchBar',
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.onInverseSurface,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Material(
-                color: Colors.transparent,
-                child: Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: const Icon(Icons.arrow_back)),
-                    Expanded(
-                      child: TextField(
-                        controller: controller.controller,
-                        textInputAction: TextInputAction.search,
-                        keyboardType: TextInputType.text,
-                        onSubmitted: (searchQuery) {
-                          if (searchQuery.trim().isNotEmpty) {
-                            controller.debouncer.call(() {
-                              analytics.logEvent(
-                                  name: AnalyticsEvent
-                                      .manageAddresses.searchAddressPressEvent,
-                                  parameters: {'key': searchQuery.trim()});
-                              controller.searchPlaces(searchQuery);
-                            });
-                          }
-                        },
-                        onChanged: (searchQuery) {
-                          if (searchQuery.trim().isNotEmpty) {
-                            controller.debouncer.call(() {
-                              controller.searchPlaces(searchQuery);
-                            });
-                          }
-                        },
-                        decoration: InputDecoration(
-                          hintStyle: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(fontWeight: FontWeight.w400),
-                          hintText: "Search Here...",
-                          filled: true,
-                          fillColor:
-                              Theme.of(context).colorScheme.onInverseSurface,
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(12),
+          title: const Text('Search Locations'),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(65),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Hero(
+                tag: 'searchBar',
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.onInverseSurface,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: controller.controller,
+                            textInputAction: TextInputAction.search,
+                            keyboardType: TextInputType.text,
+                            onSubmitted: (searchQuery) {
+                              if (searchQuery.trim().isNotEmpty) {
+                                controller.debouncer.call(() {
+                                  analytics.logEvent(
+                                      name: AnalyticsEvent.manageAddresses
+                                          .searchAddressPressEvent,
+                                      parameters: {'key': searchQuery.trim()});
+                                  controller.searchPlaces(searchQuery);
+                                });
+                              }
+                            },
+                            onChanged: (searchQuery) {
+                              if (searchQuery.trim().isNotEmpty) {
+                                controller.debouncer.call(() {
+                                  controller.searchPlaces(searchQuery);
+                                });
+                              }
+                            },
+                            decoration: InputDecoration(
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.w400),
+                              hintText: "Search Here...",
+                              filled: true,
+                              fillColor: Theme.of(context)
+                                  .colorScheme
+                                  .onInverseSurface,
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        const Icon(Icons.search),
+                        const SizedBox(
+                          width: 20,
+                        )
+                      ],
                     ),
-                    const Icon(Icons.search),
-                    const SizedBox(
-                      width: 20,
-                    )
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-      ),
+          )),
       // backgroundColor: Colors.grey,
       body: Column(
         children: [

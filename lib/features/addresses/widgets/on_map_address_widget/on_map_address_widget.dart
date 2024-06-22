@@ -45,8 +45,16 @@ class OnMapAddressWidget extends ConsumerWidget {
     return Container(
         color: Theme.of(context).canvasColor,
         width: MediaQuery.sizeOf(context).width,
-        padding: const EdgeInsets.all(16.0),
-        child: param.when(
+        padding: const EdgeInsets.only(
+          bottom: 16.0,
+        ),
+        child:
+            // const Column(
+            //   mainAxisSize: MainAxisSize.min,
+            //   children: [LinearProgressIndicator(), ShimmeringOnMapAddressWidget()],
+            // )
+
+            param.when(
           data: (data) {
             return Column(
               mainAxisSize: MainAxisSize.min,
@@ -69,20 +77,29 @@ class OnMapAddressWidget extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 16.0),
-                AppFilledButton(
-                  onTap: () => onTapContinue?.call(data),
-                  label: ('Continue'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: AppFilledButton(
+                    onTap: () => onTapContinue?.call(data),
+                    label: ('Continue'),
+                  ),
                 ),
               ],
             );
           },
           error: (e, s) {
-            return const SizedBox.shrink();
+            return const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [ShimmeringOnMapAddressWidget()],
+            );
           },
           loading: () {
             return const Column(
               mainAxisSize: MainAxisSize.min,
-              children: [ShimmeringOnMapAddressWidget()],
+              children: [
+                LinearProgressIndicator(),
+                ShimmeringOnMapAddressWidget()
+              ],
             );
           },
         ));

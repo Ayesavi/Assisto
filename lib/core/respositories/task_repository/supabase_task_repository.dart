@@ -61,8 +61,10 @@ class SupabaseTaskRepository implements BaseTaskRepository {
   @override
   Future<void> updateTask(TaskModel newTask) async {
     final json = newTask.toSupaJson();
-    TaskModel.fromJson(
-        await _supabase.from(_table).update(json).eq('id', newTask.id));
+
+    final data =
+        await _supabase.from(_table).update(json).eq('id', newTask.id).select();
+    return;
   }
 
   @override
