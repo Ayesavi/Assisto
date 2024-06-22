@@ -16,7 +16,6 @@ abstract class ChatRepository {
 class SupabaseChatRepository implements ChatRepository {
   final _supabase = Supabase.instance.client;
   final _table = 'messages';
-  final myChannel = Supabase.instance.client.channel('message');
 
   @override
   Future<void> addMessage(Message message) async {
@@ -54,10 +53,16 @@ class SupabaseChatRepository implements ChatRepository {
     int roomId,
     void Function(Message message) onMessage,
   ) {
+    final myChannel = Supabase.instance.client.channel('message');
+
     return myChannel
         .onPostgresChanges(
           event: PostgresChangeEvent.insert,
           schema: 'public',
+          filter: PostgresChangeFilter(
+              type: PostgresChangeFilterType.eq,
+              column: 'room_id',
+              value: roomId),
           table: _table,
           callback: (payload) async {
             Message? repliedMessage;
