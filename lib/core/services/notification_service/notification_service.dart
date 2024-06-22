@@ -68,6 +68,16 @@ class NotificationService {
             importance: NotificationImportance.High,
             defaultPrivacy: NotificationPrivacy.Private,
           ),
+          NotificationChannel(
+            channelKey: NotificationChannels.chat.name,
+            channelName: 'Chat',
+            channelDescription: 'Recieve Chat Notifications',
+            playSound: true,
+            onlyAlertOnce: true,
+            groupAlertBehavior: GroupAlertBehavior.Children,
+            importance: NotificationImportance.High,
+            defaultPrivacy: NotificationPrivacy.Private,
+          ),
         ],
         debug: true);
 

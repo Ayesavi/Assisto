@@ -4,6 +4,7 @@ import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/tasks/controllers/task_profile_controller/task_profile_page_controller.dart';
+import 'package:assisto/features/tasks/screens/create_task_page.dart';
 import 'package:assisto/features/tasks/widgets/bid_page_view.dart';
 import 'package:assisto/features/tasks/widgets/show_bidding_bottomsheet.dart';
 import 'package:assisto/features/tasks/widgets/task_profile_page_view.dart';
@@ -131,7 +132,7 @@ class TaskProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = taskProfilePageProvider(taskId);
+    final provider = taskProfilePageControllerProvider(taskId);
     final state = ref.watch(provider);
     final controller = ref.read(provider.notifier);
     // Define page controller to handle page changes
@@ -148,35 +149,10 @@ class TaskProfilePage extends ConsumerWidget {
           appBar: AppBar(
             actions: [
               if (!([TaskStatus.blocked, TaskStatus.completed]
-                  .contains(model.status)))
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                      style: const ButtonStyle(),
-                      onPressed: () {
-                        showPopup(context, onConfirm: () async {
-                          try {
-                            await controller.cancelTask(taskId);
-                            AppAnalytics.instance.logEvent(
-                                name: AnalyticsEvent
-                                    .taskProfile.blockTaskPressEvent);
-                            if (context.mounted) {
-                              Navigator.pop(context);
-                            }
-                            return;
-                          } catch (e) {
-                            if (context.mounted) {
-                              showSnackBar(context,
-                                  'Unable to cancel task at the moment, try again later.');
-                            }
-                          }
-                        },
-                            content:
-                                'Do you really want to cancel the task ${model.title}?',
-                            title: 'Cancel Task');
-                      },
-                      child: const Text('Cancel Task')),
-                ),
+                  .contains(model.status))) ...[
+                buildPopupMenuButton(context,
+                    model: model, controller: controller)
+              ]
             ],
           ),
           floatingActionButton: _getFloatingActionButton(context, model),
@@ -285,5 +261,65 @@ class TaskProfilePage extends ConsumerWidget {
         child: body,
       ),
     );
+  }
+
+  PopupMenuButton<int> buildPopupMenuButton(BuildContext context,
+      {required TaskModel model,
+      required TaskProfilePageController controller}) {
+    return PopupMenuButton<int>(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
+        PopupMenuItem<int>(
+          value: 0,
+          child: const Text('Update'),
+          onTap: () {
+            _onPressUpdate(context, model: model);
+          },
+        ),
+        PopupMenuItem<int>(
+          value: 1,
+          onTap: () {
+            _onPressCancel(context, model: model, controller: controller);
+          },
+          child: const Text('Cancel'),
+        ),
+      ],
+    );
+  }
+
+  void _onPressUpdate(
+    BuildContext context, {
+    required TaskModel model,
+  }) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return TaskCreationPage(
+        editTaskModel: model,
+      );
+    }));
+  }
+
+  Future<void> _onPressCancel(BuildContext context,
+      {required TaskModel model,
+      required TaskProfilePageController controller}) async {
+    showPopup(context, onConfirm: () async {
+      try {
+        await controller.cancelTask(taskId);
+        AppAnalytics.instance
+            .logEvent(name: AnalyticsEvent.taskProfile.blockTaskPressEvent);
+        if (context.mounted) {
+          Navigator.pop(context);
+        }
+        return;
+      } catch (e) {
+        if (context.mounted) {
+          showSnackBar(
+              context, 'Unable to cancel task at the moment, try again later.');
+        }
+      }
+    },
+        content: 'Do you really want to cancel the task ${model.title}?',
+        title: 'Cancel Task');
   }
 }

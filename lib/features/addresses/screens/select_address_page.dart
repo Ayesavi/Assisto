@@ -143,6 +143,7 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
                       onTapContinue: (address) {
                         showLocationFormBottomSheet(
                           context: context,
+                          title: address.titleAddress,
                           addressModel: widget.addressModel,
                           address: address.formattedAddress,
                           latLng: (

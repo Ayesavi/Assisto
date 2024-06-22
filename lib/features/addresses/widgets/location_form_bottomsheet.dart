@@ -14,12 +14,14 @@ class _LocationFormBottomSheet extends StatefulWidget {
   final String? address;
   final String? houseBlockNumber;
   final LatLng latLng;
+  final String? title;
   final AddressModel? addressModel;
   final Future<void> Function(AddressModel model)? onContinue;
 
   const _LocationFormBottomSheet({
     // ignore: unused_element
     super.key,
+    this.title,
     this.label,
     this.addressModel,
     required this.address,
@@ -87,11 +89,11 @@ class _FormBottomSheetState extends State<_LocationFormBottomSheet> {
               leading: Icon(CupertinoIcons.location_fill,
                   color: Theme.of(context).colorScheme.appRed(context).color),
               title: TitleMedium(
-                text: widget.address ?? widget.addressModel?.address ?? '',
+                text: widget.title ?? 'Address',
                 weight: FontWeight.bold,
               ),
-              subtitle: const Text(
-                  'Enter the bidding amount for the task to be bid, It can not be edited later.'),
+              subtitle:
+                  Text(widget.address ?? widget.addressModel?.address ?? ''),
             ),
             kWidgetVerticalGap,
             BodyMedium(
@@ -193,6 +195,7 @@ void showLocationFormBottomSheet({
   String? label,
   String? address,
   String? houseBlockNumber,
+  String? title,
   AddressModel? addressModel,
   required LatLng latLng,
   Future<void> Function(AddressModel model)? onContinue,
@@ -212,6 +215,7 @@ void showLocationFormBottomSheet({
           address: address,
           addressModel: addressModel,
           onContinue: onContinue,
+          title: title,
           houseBlockNumber: houseBlockNumber, // Optional
           latLng: latLng,
         ),

@@ -4,6 +4,7 @@ import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/error/handler.dart';
+import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
@@ -22,7 +23,9 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TaskCreationPage extends ConsumerStatefulWidget {
-  const TaskCreationPage({super.key});
+  final TaskModel? editTaskModel;
+
+  const TaskCreationPage({super.key, this.editTaskModel});
 
   @override
   _TaskCreationPageState createState() => _TaskCreationPageState();
@@ -30,8 +33,9 @@ class TaskCreationPage extends ConsumerStatefulWidget {
 
 class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   final TextEditingController _tagController = TextEditingController();
+  late final TextEditingController _descriptionController;
+
   late final ValueNotifier<List<String>> _chips;
-  late final ValueNotifier<bool> _progressNotifier;
   late final ValueNotifier<Map<String, bool>> _showOptionNotifier;
   late final TextEditingController _selectedDateTimeController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -40,15 +44,28 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   @override
   void initState() {
     super.initState();
-    _chips = ValueNotifier<List<String>>([]);
-    _progressNotifier = ValueNotifier<bool>(false);
-    _selectedDateTimeController = TextEditingController();
+    final editAddressModelDeadline = widget.editTaskModel?.deadline;
+    _locationId = widget.editTaskModel?.address?.id;
+    _gender = widget.editTaskModel?.gender;
+    _ageGroup = widget.editTaskModel?.ageGroup;
+    _budget = widget.editTaskModel?.expectedPrice;
+    _title = widget.editTaskModel?.title ?? '';
+    _description = widget.editTaskModel?.description ?? '';
+    _descriptionController =
+        TextEditingController(text: widget.editTaskModel?.description);
+    _chips = ValueNotifier<List<String>>(widget.editTaskModel?.tags ?? []);
+
+    _selectedDateTimeController = TextEditingController(
+        text: editAddressModelDeadline != null
+            ? DateFormat('dd MMM yyyy hh:mm a')
+                .format(widget.editTaskModel!.deadline!.toLocal())
+            : null);
     _showOptionNotifier = ValueNotifier<Map<String, bool>>({
-      'age': false,
-      'gender': false,
-      'deadline': false,
-      'location': false,
-      'budget': false,
+      'age': _ageGroup != null ? true : false,
+      'gender': _gender != null ? true : false,
+      'deadline': editAddressModelDeadline != null ? true : false,
+      'location': _locationId != null ? true : false,
+      'budget': _budget != null ? true : false,
       'documents': false,
     });
   }
@@ -56,7 +73,6 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   @override
   void dispose() {
     _chips.dispose();
-    _progressNotifier.dispose();
     _showOptionNotifier.dispose();
     super.dispose();
   }
@@ -73,7 +89,8 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Task'),
+        title: Text(
+            widget.editTaskModel != null ? 'Update Assist' : 'Create Assist'),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -105,6 +122,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
               ),
               const Padding(padding: kWidgetMinVerticalPadding),
               TextFormField(
+                initialValue: _title,
                 onChanged: (v) {
                   _title = v;
                 },
@@ -142,6 +160,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                   Stack(
                     children: [
                       TypingTextField(
+                        controller: _descriptionController,
                         maxLines: 6,
                         hintText:
                             'Buy me given groceries from the nearest store. \n \n 1. Milk \n 2. 2 Kg Tomatoes ',
@@ -325,16 +344,26 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
               ),
               kWidgetVerticalGap,
               AppFilledButton(
-                label: 'Create Task',
+                label: widget.editTaskModel != null
+                    ? 'Update Assist'
+                    : 'Create Assist',
                 asyncTap: () async {
                   try {
-                    analytics.logEvent(
-                        name: AnalyticsEvent.createTask.createTaskEvent);
-                    await ref
-                        .read(taskPageControllerProvider.notifier)
-                        .createTask(getTaskModel());
+                    if (widget.editTaskModel != null) {
+                      analytics.logEvent(
+                          name: AnalyticsEvent.createTask.updateTaskEvent);
+                      await ref
+                          .read(taskPageControllerProvider.notifier)
+                          .updateTask(getTaskModel());
+                    } else {
+                      analytics.logEvent(
+                          name: AnalyticsEvent.createTask.createTaskEvent);
+                      await ref
+                          .read(taskPageControllerProvider.notifier)
+                          .createTask(getTaskModel());
+                    }
                     if (context.mounted) {
-                      Navigator.pop(context);
+                      const HomeRoute().pushReplacement(context);
                     }
                   } catch (e) {
                     if (context.mounted) {
@@ -353,15 +382,27 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   TaskModel getTaskModel() {
     if ((_formKey.currentState?.validate() ?? false) &&
         _chips.value.length > 4) {
-      return TaskModel.partial(
-          tags: _chips.value,
-          title: _title,
-          description: _description,
-          deadline: _deadline,
-          addressId: _locationId,
-          gender: _gender,
-          ageGroup: _ageGroup,
-          expectedPrice: _budget);
+      if (widget.editTaskModel != null) {
+        return widget.editTaskModel!.copyWith(
+            tags: _chips.value,
+            title: _title,
+            description: _description,
+            deadline: _deadline,
+            addressId: _locationId,
+            gender: _gender,
+            ageGroup: _ageGroup,
+            expectedPrice: _budget);
+      } else {
+        return TaskModel.partial(
+            tags: _chips.value,
+            title: _title,
+            description: _description,
+            deadline: _deadline,
+            addressId: _locationId,
+            gender: _gender,
+            ageGroup: _ageGroup,
+            expectedPrice: _budget);
+      }
     }
     if (_chips.value.length < 5) {
       throw const AppException('Add atleast 5 tags');

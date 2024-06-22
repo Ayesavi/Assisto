@@ -1,4 +1,5 @@
 import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
+import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -18,6 +19,15 @@ class TaskPageController extends _$TaskPageController {
 
   Future<void> createTask(TaskModel model) async {
     await _repository.addTask(model);
+    ref.invalidate(homePageControllerProvider);
+
+    return;
+  }
+
+  Future<void> updateTask(TaskModel model) async {
+    await _repository.updateTask(model);
+    ref.invalidate(homePageControllerProvider);
+
     return;
   }
 }

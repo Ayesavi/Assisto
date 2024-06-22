@@ -12,12 +12,14 @@ class TypingTextField extends StatefulWidget {
       this.decoration,
       this.formKey,
       this.validator,
+      this.initialValue,
       this.maxLines});
   final String hintText;
   final InputDecoration? decoration;
   final int? maxLines;
   final BoxDecoration? bgDecoration;
   final Key? formKey;
+  final String? initialValue;
   final void Function(String chunk)? onChanged;
   final String? Function(String? chunk)? validator;
   final TextEditingController? controller;
@@ -65,6 +67,7 @@ class _TypingTextFieldState extends State<TypingTextField> {
         valueListenable: _hintNotifier,
         builder: (BuildContext context, String hintText, Widget? child) {
           return TextFormField(
+            initialValue: widget.initialValue,
             onChanged: widget.onChanged,
             key: widget.formKey,
             controller: _controller,
