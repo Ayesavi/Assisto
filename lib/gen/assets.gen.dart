@@ -53,12 +53,15 @@ class $AssetsGraphicsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/ai.png
+  AssetGenImage get ai => const AssetGenImage('assets/images/ai.png');
+
   /// File path: assets/images/ic_launcher.png
   AssetGenImage get icLauncher =>
       const AssetGenImage('assets/images/ic_launcher.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [icLauncher];
+  List<AssetGenImage> get values => [ai, icLauncher];
 }
 
 class $AssetsLottieGen {
@@ -76,7 +79,7 @@ class Assets {
   Assets._();
 
   static const String aEnv = '.env.dev';
-  static const String eEnv = '.env.prod';
+  static const StringeEnv = '.env.prod';
   static const $AssetsGraphicsGen graphics = $AssetsGraphicsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLottieGen lottie = $AssetsLottieGen();

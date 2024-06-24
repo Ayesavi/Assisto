@@ -5,10 +5,13 @@ import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/router/routes.dart';
+import 'package:assisto/core/services/app_functions.dart';
 import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
 import 'package:assisto/features/tasks/controllers/task_page_controller.dart';
+import 'package:assisto/features/tasks/widgets/create_task_using_ai_bottomsheet.dart';
+import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/shared/show_snackbar.dart';
@@ -20,7 +23,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TaskCreationPage extends ConsumerStatefulWidget {
   final TaskModel? editTaskModel;
@@ -85,6 +87,15 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   String _description = '';
   DateTime? _deadline;
 
+  _askAIAndCreateAssistDraft(String prompt) async {
+    try {
+      final assist = await AppFunctions.instance.createAssistUsingAI(prompt);
+    } catch (e) {
+      const AppException(
+          'Cant create assist at the moment please try again later!');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,20 +103,28 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         title: Text(
             widget.editTaskModel != null ? 'Update Assist' : 'Create Assist'),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-                onPressed: () async {
-                  analytics.logEvent(
-                      name: AnalyticsEvent
-                          .createTask.helpButtonTaskCreationEvent);
-                  if (!await launchUrl(
-                      Uri.parse('https://assisto.ayesavi.in/contact.html'))) {
-                    throw Exception('Could not launch url');
-                  }
-                },
-                child: const Text('Help')),
-          )
+          IconButton(
+              icon: Assets.images.ai.image(width: 30, height: 30),
+              onPressed: () async {
+                showCreateTaskUsingAIBottomSheet(context,
+                    onTextEntered: (v) async {
+                  _askAIAndCreateAssistDraft(v);
+                });
+              }),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: ElevatedButton(
+          //       onPressed: () async {
+          //         analytics.logEvent(
+          //             name: AnalyticsEvent
+          //                 .createTask.helpButtonTaskCreationEvent);
+          //         if (!await launchUrl(
+          //             Uri.parse('https://assisto.ayesavi.in/contact.html'))) {
+          //           throw Exception('Could not launch url');
+          //         }
+          //       },
+          //       child: const Text('Help')),
+          // )
         ],
       ),
       body: Form(

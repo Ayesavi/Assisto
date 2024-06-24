@@ -134,6 +134,9 @@ flutter:
     - assets/lottie/app_under_maintainence.json
 
     - assets/images/ic_launcher.png
+    - assets/images/ai.png
+
+
 
     - .env.dev
     - .env.prod

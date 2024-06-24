@@ -3,6 +3,7 @@ import * as express from "express";
 import * as admin from "firebase-admin";
 import { applicationDefault, initializeApp } from "firebase-admin/app";
 import * as functions from "firebase-functions";
+import CreateAssistUsingAI from "./endpoints/ai/CreateAssist";
 import NotifyCreatedBid from "./endpoints/notify/Bid/NotifyCreatedBid";
 import NotifyChats from "./endpoints/notify/chat";
 import NotifyTaskRecommendations from "./endpoints/notify/tasks/recommendation";
@@ -44,6 +45,17 @@ app.post("/user/disabled-reason", async (req, res) => {
     let deleteUser = new DisabledReason();
     const { email, phone } = req.body;
     let data = await deleteUser.call(email, phone);
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
+app.post("/assists/createUsingAI", async (req, res) => {
+  try {
+    let ai = new CreateAssistUsingAI();
+    const { context } = req.body;
+    let data = await ai.call(context as string);
     res.status(200).send(data);
   } catch (error) {
     res.status(400).send();

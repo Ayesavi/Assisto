@@ -1,6 +1,5 @@
 import 'package:assisto/core/router/router.dart';
 import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
-import 'package:assisto/core/services/permission_service.dart';
 import 'package:assisto/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
