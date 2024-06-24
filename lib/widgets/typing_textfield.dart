@@ -12,8 +12,10 @@ class TypingTextField extends StatefulWidget {
       this.decoration,
       this.formKey,
       this.validator,
+      this.autofocus=false,
       this.initialValue,
       this.maxLines});
+  final bool autofocus;
   final String hintText;
   final InputDecoration? decoration;
   final int? maxLines;
@@ -67,6 +69,7 @@ class _TypingTextFieldState extends State<TypingTextField> {
         valueListenable: _hintNotifier,
         builder: (BuildContext context, String hintText, Widget? child) {
           return TextFormField(
+            autofocus: widget.autofocus ,
             initialValue: widget.initialValue,
             onChanged: widget.onChanged,
             key: widget.formKey,

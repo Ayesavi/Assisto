@@ -29,8 +29,8 @@ class AppFunctions implements BaseAppFunctions {
 
   @override
   Future<TaskModel> createAssistUsingAI(String context) async {
-    final data =
-        await _apiService.post('/assists/createUsingAI', {'context': context});
+    final data = await _apiService
+        .post('/apiv1/assists/createUsingAI', {'context': context});
 
     // Handle null values and typecasting
     final List<String> tags = List<String>.from(data['tags']);
@@ -39,6 +39,10 @@ class AppFunctions implements BaseAppFunctions {
     final DateTime? deadline = data['deadline'] != null
         ? DateTime.parse(data['deadline']).toLocal()
         : null;
+    final String? ageGroup = data['ageGroup'] as String?;
+    final Gender gender =
+        data['gender'] == 'male' ? Gender.male : Gender.female;
+
     final int? expectedPrice =
         data['budget'] != null ? data['budget'] as int : null;
 
@@ -47,6 +51,8 @@ class AppFunctions implements BaseAppFunctions {
       title: title,
       description: description,
       deadline: deadline,
+      ageGroup: ageGroup,
+      gender: gender,
       expectedPrice: expectedPrice,
     );
   }

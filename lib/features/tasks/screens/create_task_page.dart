@@ -36,6 +36,7 @@ class TaskCreationPage extends ConsumerStatefulWidget {
 class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   final TextEditingController _tagController = TextEditingController();
   late final TextEditingController _descriptionController;
+  late final TextEditingController _titleController;
 
   late final ValueNotifier<List<String>> _chips;
   late final ValueNotifier<Map<String, bool>> _showOptionNotifier;
@@ -52,6 +53,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
     _ageGroup = widget.editTaskModel?.ageGroup;
     _budget = widget.editTaskModel?.expectedPrice;
     _title = widget.editTaskModel?.title ?? '';
+    _titleController = TextEditingController(text: _title);
     _description = widget.editTaskModel?.description ?? '';
     _descriptionController =
         TextEditingController(text: widget.editTaskModel?.description);
@@ -90,6 +92,35 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   _askAIAndCreateAssistDraft(String prompt) async {
     try {
       final assist = await AppFunctions.instance.createAssistUsingAI(prompt);
+      _title = assist.title;
+      _titleController.text = assist.title;
+
+      _description = assist.description;
+      _descriptionController.text = assist.description;
+
+      _budget = assist.expectedPrice;
+      _deadline = assist.deadline;
+      _chips.value = assist.tags;
+      _ageGroup = assist.ageGroup;
+      _gender = assist.gender;
+
+      setState(() {});
+
+      if (_budget != null) {
+        _showOptionNotifier.value['budget'] = true;
+      }
+
+      if (_deadline != null) {
+        _showOptionNotifier.value['deadline'] = true;
+      }
+
+      if (_ageGroup != null) {
+        _showOptionNotifier.value['ageGroup'] = true;
+      }
+
+      if (_gender != null) {
+        _showOptionNotifier.value['gender'] = true;
+      }
     } catch (e) {
       const AppException(
           'Cant create assist at the moment please try again later!');
@@ -104,11 +135,20 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
             widget.editTaskModel != null ? 'Update Assist' : 'Create Assist'),
         actions: [
           IconButton(
-              icon: Assets.images.ai.image(width: 30, height: 30),
+              icon: Assets.images.ai.image(width: 20, height: 30),
               onPressed: () async {
                 showCreateTaskUsingAIBottomSheet(context,
+                
+                    controller: TextEditingController(),
                     onTextEntered: (v) async {
-                  _askAIAndCreateAssistDraft(v);
+                  try {
+                    await _askAIAndCreateAssistDraft(v);
+                    Navigator.pop(context);
+                  } catch (e) {
+                    if (context.mounted) {
+                      showSnackBar(context, appErrorHandler(e).message);
+                    }
+                  }
                 });
               }),
           // Padding(
@@ -135,13 +175,13 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TitleMedium(
-                text: 'Task Title',
+                text: 'Assist Title',
                 weight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.primary,
               ),
               const Padding(padding: kWidgetMinVerticalPadding),
               TextFormField(
-                initialValue: _title,
+                controller: _titleController,
                 onChanged: (v) {
                   _title = v;
                 },
@@ -162,7 +202,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
               kWidgetMinVerticalGap,
               BodyLarge(
                 text:
-                    'Give an appropriate title to the task, it must clarify purpose in minimum words',
+                    'Give an appropriate title to the assist, it must clarify purpose in minimum words',
                 color: Theme.of(context).colorScheme.onSurface,
                 maxLines: 2,
               ),
@@ -305,7 +345,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                   const BodyLarge(
                       maxLines: 3,
                       text:
-                          'It must clearly specify the task in simple and short words, avoid using aronyms')
+                          'It must clearly specify the assist in simple and short words, avoid using aronyms')
                 ],
               ),
               kWidgetVerticalGap,
@@ -538,7 +578,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         ),
         kWidgetMinVerticalGap,
         BodyLarge(
-          text: 'Enter the age group for this task',
+          text: 'Enter the age group for this assist',
           color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),
@@ -601,7 +641,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         ),
         kWidgetMinVerticalGap,
         BodyLarge(
-          text: 'Select the gender for this task',
+          text: 'Select the gender for this assist',
           color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),
@@ -678,7 +718,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         ),
         kWidgetMinVerticalGap,
         BodyLarge(
-          text: 'Select the deadline for this task',
+          text: 'Select the deadline for this assist',
           color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),
@@ -752,7 +792,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
           kWidgetMinVerticalGap,
           BodyLarge(
             text:
-                'Select the location for this task, So that only users under 50 kms of location can do this.',
+                'Select the location for this assist, So that only users under 50 kms of location can do this.',
             color: Theme.of(context).colorScheme.onSurface,
             maxLines: 4,
           ),
@@ -806,7 +846,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         ),
         kWidgetMinVerticalGap,
         BodyLarge(
-          text: 'Enter the maximum budget for this task',
+          text: 'Enter the maximum budget for this assist',
           color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),
