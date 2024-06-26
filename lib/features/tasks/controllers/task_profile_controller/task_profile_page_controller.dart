@@ -49,12 +49,11 @@ class TaskProfilePageController extends _$TaskProfilePageController {
 
   Future<void> cancelTask(int taskId) async {
     ref.invalidate(homePageControllerProvider);
-  
+
     await _repository.blockTask(taskId);
   }
 
   Future<void> completeTask(int taskId) async {
-
     await _repository.updateTaskStatus(taskId, TaskStatus.completed);
     ref.invalidate(homePageControllerProvider);
   }

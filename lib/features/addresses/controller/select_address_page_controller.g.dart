@@ -7,7 +7,7 @@ part of 'select_address_page_controller.dart';
 // **************************************************************************
 
 String _$selectAddressPageControllerHash() =>
-    r'2f5ee4e569f6a82d96ed91b27cf1f13a7fe4c2fe';
+    r'13d82284736129c102adcbe20fd4cf59121b8eb5';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -32,9 +32,11 @@ class _SystemHash {
 
 abstract class _$SelectAddressPageController
     extends BuildlessAutoDisposeNotifier<SelectAddressPageControllerState> {
+  late final BuildContext context;
   late final AddressModel? editAddressModel;
 
-  SelectAddressPageControllerState build({
+  SelectAddressPageControllerState build(
+    BuildContext context, {
     AddressModel? editAddressModel,
   });
 }
@@ -50,10 +52,12 @@ class SelectAddressPageControllerFamily
   const SelectAddressPageControllerFamily();
 
   /// See also [SelectAddressPageController].
-  SelectAddressPageControllerProvider call({
+  SelectAddressPageControllerProvider call(
+    BuildContext context, {
     AddressModel? editAddressModel,
   }) {
     return SelectAddressPageControllerProvider(
+      context,
       editAddressModel: editAddressModel,
     );
   }
@@ -63,6 +67,7 @@ class SelectAddressPageControllerFamily
     covariant SelectAddressPageControllerProvider provider,
   ) {
     return call(
+      provider.context,
       editAddressModel: provider.editAddressModel,
     );
   }
@@ -87,10 +92,12 @@ class SelectAddressPageControllerProvider
     extends AutoDisposeNotifierProviderImpl<SelectAddressPageController,
         SelectAddressPageControllerState> {
   /// See also [SelectAddressPageController].
-  SelectAddressPageControllerProvider({
+  SelectAddressPageControllerProvider(
+    BuildContext context, {
     AddressModel? editAddressModel,
   }) : this._internal(
           () => SelectAddressPageController()
+            ..context = context
             ..editAddressModel = editAddressModel,
           from: selectAddressPageControllerProvider,
           name: r'selectAddressPageControllerProvider',
@@ -101,6 +108,7 @@ class SelectAddressPageControllerProvider
           dependencies: SelectAddressPageControllerFamily._dependencies,
           allTransitiveDependencies:
               SelectAddressPageControllerFamily._allTransitiveDependencies,
+          context: context,
           editAddressModel: editAddressModel,
         );
 
@@ -111,9 +119,11 @@ class SelectAddressPageControllerProvider
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
+    required this.context,
     required this.editAddressModel,
   }) : super.internal();
 
+  final BuildContext context;
   final AddressModel? editAddressModel;
 
   @override
@@ -121,6 +131,7 @@ class SelectAddressPageControllerProvider
     covariant SelectAddressPageController notifier,
   ) {
     return notifier.build(
+      context,
       editAddressModel: editAddressModel,
     );
   }
@@ -130,12 +141,15 @@ class SelectAddressPageControllerProvider
     return ProviderOverride(
       origin: this,
       override: SelectAddressPageControllerProvider._internal(
-        () => create()..editAddressModel = editAddressModel,
+        () => create()
+          ..context = context
+          ..editAddressModel = editAddressModel,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
+        context: context,
         editAddressModel: editAddressModel,
       ),
     );
@@ -150,12 +164,14 @@ class SelectAddressPageControllerProvider
   @override
   bool operator ==(Object other) {
     return other is SelectAddressPageControllerProvider &&
+        other.context == context &&
         other.editAddressModel == editAddressModel;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, context.hashCode);
     hash = _SystemHash.combine(hash, editAddressModel.hashCode);
 
     return _SystemHash.finish(hash);
@@ -164,6 +180,9 @@ class SelectAddressPageControllerProvider
 
 mixin SelectAddressPageControllerRef
     on AutoDisposeNotifierProviderRef<SelectAddressPageControllerState> {
+  /// The parameter `context` of this provider.
+  BuildContext get context;
+
   /// The parameter `editAddressModel` of this provider.
   AddressModel? get editAddressModel;
 }
@@ -173,6 +192,9 @@ class _SelectAddressPageControllerProviderElement
         SelectAddressPageControllerState> with SelectAddressPageControllerRef {
   _SelectAddressPageControllerProviderElement(super.provider);
 
+  @override
+  BuildContext get context =>
+      (origin as SelectAddressPageControllerProvider).context;
   @override
   AddressModel? get editAddressModel =>
       (origin as SelectAddressPageControllerProvider).editAddressModel;

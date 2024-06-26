@@ -1,7 +1,9 @@
 import 'package:assisto/core/services/api_service.dart';
+import 'package:assisto/models/task_model.dart/task_model.dart';
 
 abstract class BaseAppFunctions {
   Future<List<String>> genCategoriesByDescription(String context);
+  Future<TaskModel> createAssistUsingAI(String context);
 }
 
 class AppFunctions implements BaseAppFunctions {
@@ -23,5 +25,35 @@ class AppFunctions implements BaseAppFunctions {
     } else {
       throw Exception('Unexpected response data format');
     }
+  }
+
+  @override
+  Future<TaskModel> createAssistUsingAI(String context) async {
+    final data = await _apiService
+        .post('/apiv1/assists/createUsingAI', {'context': context});
+
+    // Handle null values and typecasting
+    final List<String> tags = List<String>.from(data['tags']);
+    final String title = data['title'] as String;
+    final String description = data['description'] as String;
+    final DateTime? deadline = data['deadline'] != null
+        ? DateTime.parse(data['deadline']).toLocal()
+        : null;
+    final String? ageGroup = data['ageGroup'] as String?;
+    final Gender gender =
+        data['gender'] == 'male' ? Gender.male : Gender.female;
+
+    final int? expectedPrice =
+        data['budget'] != null ? data['budget'] as int : null;
+
+    return TaskModel.partial(
+      tags: tags,
+      title: title,
+      description: description,
+      deadline: deadline,
+      ageGroup: ageGroup,
+      gender: gender,
+      expectedPrice: expectedPrice,
+    );
   }
 }

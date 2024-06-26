@@ -11,19 +11,14 @@ class TaskFilterWidget extends StatelessWidget {
     return FilterWidget(
       filters: const [
         TaskFilterType.all,
-        TaskFilterType.deadline,
-        TaskFilterType.location,
         TaskFilterType.you,
         TaskFilterType.bidded
       ],
       filterLabel: (t) {
         switch (t) {
-          case TaskFilterType.location:
-            return 'Location';
           case TaskFilterType.bidded:
             return 'Bidded';
-          case TaskFilterType.deadline:
-            return 'Deadline';
+
           case TaskFilterType.all:
             return 'All';
           case TaskFilterType.you:
@@ -34,8 +29,8 @@ class TaskFilterWidget extends StatelessWidget {
       onSelected: onSelected,
       collisionMap: const {
         TaskFilterType.you: [TaskFilterType.all, TaskFilterType.bidded],
-        TaskFilterType.all: [TaskFilterType.you],
-        TaskFilterType.bidded: [TaskFilterType.you]
+        TaskFilterType.all: [TaskFilterType.you, TaskFilterType.bidded],
+        TaskFilterType.bidded: [TaskFilterType.you, TaskFilterType.all]
       },
     );
   }

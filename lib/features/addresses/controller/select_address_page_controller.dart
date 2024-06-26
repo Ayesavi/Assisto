@@ -28,10 +28,10 @@ class SelectAddressPageController extends _$SelectAddressPageController {
   final markerNotifier = ValueNotifier<LatLng?>(null);
 
   @override
-  SelectAddressPageControllerState build({AddressModel? editAddressModel}) {
+  SelectAddressPageControllerState build(BuildContext context,{AddressModel? editAddressModel}) {
     _editAddrModel = editAddressModel;
     if (editAddressModel != null) {
-      _loadMapStyle().then((value) {
+      _loadMapStyle(context).then((value) {
         final latlng =
             LatLng(editAddressModel.latlng.lat, editAddressModel.latlng.lng);
         state = SelectAddressPageControllerState.loadMap(_MapConfig(
@@ -44,7 +44,7 @@ class SelectAddressPageController extends _$SelectAddressPageController {
         ));
       });
     } else {
-      _loadMapStyle().then((value) {
+      _loadMapStyle(context).then((value) {
         state = SelectAddressPageControllerState.loadMap(_MapConfig(
           cameraPosition: CameraPosition(
             target: kCenterLatlng,
@@ -57,10 +57,13 @@ class SelectAddressPageController extends _$SelectAddressPageController {
     return const SelectAddressPageControllerInitial();
   }
 
-  Future<void> _loadMapStyle() async {
+  Future<void> _loadMapStyle(BuildContext context) async {
     // request permission
 
-    _mapStyle = await rootBundle.loadString(Assets.mapStyle);
+    _mapStyle = await rootBundle.loadString(
+        Theme.of(context).brightness == Brightness.light
+            ? Assets.mapStyleLight
+            : Assets.mapStyleDark);
   }
 
   void setLocation(PlacesSearchResult result) {

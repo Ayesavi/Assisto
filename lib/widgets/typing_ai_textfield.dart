@@ -6,9 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TypingAITextField extends StatefulWidget {
-  const TypingAITextField({super.key, this.controller, this.onSend});
+  const TypingAITextField(
+      {super.key,
+      this.hintText,
+      this.controller,
+      this.onSend,
+      this.autofocus = false,
+      this.decoration});
   final Future<void> Function(String key)? onSend;
+  final bool? autofocus;
+  final String? hintText;
   final TextEditingController? controller;
+  final InputDecoration? decoration;
   @override
   // ignore: library_private_types_in_public_api
   _TypingTextFieldState createState() => _TypingTextFieldState();
@@ -19,7 +28,6 @@ class _TypingTextFieldState extends State<TypingAITextField> {
   late final ValueNotifier<String> _hintNotifier;
   final FocusNode _focusNode = FocusNode();
   final ValueNotifier<bool> _progressNotifier = ValueNotifier(false);
-
   @override
   void initState() {
     super.initState();
@@ -36,7 +44,7 @@ class _TypingTextFieldState extends State<TypingAITextField> {
   }
 
   void _startTypingAnimation() {
-    const String hintText =
+    String hintText = widget.hintText ??
         'I can drive, good at cleaning and provide services like driving, househelp, homework and teaching.';
     int index = 0;
     Timer.periodic(const Duration(milliseconds: 100), (timer) {
@@ -64,10 +72,14 @@ class _TypingTextFieldState extends State<TypingAITextField> {
                   controller: _controller,
                   focusNode: _focusNode,
                   maxLines: 2,
-                  decoration: InputDecoration(
-                    hintText: hintText,
-                    border: InputBorder.none,
-                  ),
+                  decoration: widget.decoration?.copyWith(
+                        hintText: hintText,
+                        border: InputBorder.none,
+                      ) ??
+                      InputDecoration(
+                        hintText: hintText,
+                        border: InputBorder.none,
+                      ),
                 );
               },
             ),

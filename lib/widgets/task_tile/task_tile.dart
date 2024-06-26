@@ -77,45 +77,43 @@ class TaskTile extends StatelessWidget {
         ],
       ),
       trailing: trailing ??
-          (taskModel.deadline != null
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          (Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (taskModel.deadline != null)
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: LabelMedium(
+                      text: formatTime(
+                        taskModel.deadline!,
+                      ),
+                      color: Theme.of(context).colorScheme.onPrimary),
+                ),
+              if (distance != null) ...[
+                Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          borderRadius: BorderRadius.circular(8)),
-                      child: LabelMedium(
-                          text: formatTime(
-                            taskModel.deadline!,
-                          ),
-                          color: Theme.of(context).colorScheme.onPrimary),
+                    Icon(
+                      Icons.near_me_outlined,
+                      size: 14,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
-                    if (taskModel.distance != null) ...[
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.near_me_outlined,
-                            size: 14,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          const SizedBox(
-                            width: 2,
-                          ),
-                          LabelMedium(
-                            text: '${distance.toString()} km\'s',
-                            weight: FontWeight.w400,
-                            color:
-                                Theme.of(context).colorScheme.outline.tone(50),
-                          )
-                        ],
-                      )
-                    ]
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    LabelMedium(
+                      text: '${distance.toString()} km\'s',
+                      weight: FontWeight.w400,
+                      color: Theme.of(context).colorScheme.outline.tone(50),
+                    )
                   ],
                 )
-              : null),
+              ]
+            ],
+          )),
     );
   }
 }
