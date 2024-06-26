@@ -12,7 +12,7 @@ class TypingTextField extends StatefulWidget {
       this.decoration,
       this.formKey,
       this.validator,
-      this.autofocus=false,
+      this.autofocus = false,
       this.initialValue,
       this.maxLines});
   final bool autofocus;
@@ -31,21 +31,21 @@ class TypingTextField extends StatefulWidget {
 }
 
 class _TypingTextFieldState extends State<TypingTextField> {
-  late final TextEditingController _controller;
+  late final TextEditingController? _controller;
   late final ValueNotifier<String> _hintNotifier;
   final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _controller = widget.controller ?? TextEditingController();
+    _controller = widget.controller;
     _hintNotifier = ValueNotifier('');
     _startTypingAnimation();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -69,9 +69,10 @@ class _TypingTextFieldState extends State<TypingTextField> {
         valueListenable: _hintNotifier,
         builder: (BuildContext context, String hintText, Widget? child) {
           return TextFormField(
-            autofocus: widget.autofocus ,
+            autofocus: widget.autofocus,
             initialValue: widget.initialValue,
             onChanged: widget.onChanged,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             key: widget.formKey,
             controller: _controller,
             focusNode: _focusNode,

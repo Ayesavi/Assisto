@@ -28,8 +28,13 @@ class CreateTaskUsingAIBottomSheet extends StatelessWidget {
           TypingTextField(
             autofocus: true,
             hintText: 'I need someone to buy groceries for me 1ltr milk...',
-            // autofocus: true,
-            controller: controller,
+            validator: (chunk) {
+              if (chunk?.trimRight().isEmpty ?? true) {
+                return 'Prompt cannot be empty';
+              }
+
+              return null;
+            },
             decoration: const InputDecoration(
               labelText: 'Enter Prompt',
               border: OutlineInputBorder(),

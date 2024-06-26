@@ -105,6 +105,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
       _gender = assist.gender;
 
       setState(() {});
+      Navigator.pop(context);
 
       if (_budget != null) {
         _showOptionNotifier.value['budget'] = true;
@@ -122,7 +123,8 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         _showOptionNotifier.value['gender'] = true;
       }
     } catch (e) {
-      const AppException(
+      Navigator.pop(context);
+      throw const AppException(
           'Cant create assist at the moment please try again later!');
     }
   }
