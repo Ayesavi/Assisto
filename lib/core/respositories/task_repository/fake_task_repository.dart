@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
+import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/models/user_model/user_model.dart';
@@ -80,6 +81,14 @@ class FakeTaskRepository implements BaseTaskRepository {
     // Filter the tasks based on the searchKey
     final filteredTasks = _tasks.toList();
 
+    if (filters.contains(TaskFilterType.you)) {
+      return filteredTasks
+          .where((e) => e.isUserTaskUser)
+          .skip(offset ?? 0)
+          .take(8)
+          .toList();
+    }
+
     // Apply pagination using the offset and limit parameters
     final paginatedTasks = filteredTasks.skip(offset ?? 0).take(8).toList();
 
@@ -89,8 +98,7 @@ class FakeTaskRepository implements BaseTaskRepository {
   @override
   Future<TaskModel> getTaskById(int id) async {
     await Future.delayed(const Duration(seconds: 1));
-    return _tasks.firstWhere((task) => task.id == id,
-        orElse: () => throw Exception('Task not found'));
+    return _tasks.firstWhere((task) => task.id == id);
   }
 
   @override
@@ -190,8 +198,9 @@ class FakeTaskRepository implements BaseTaskRepository {
       "764 Raspberry St, Springview, USA",
       "877 Blackberry Ln, Riverside, USA",
     ];
-    final isUser = Random().nextBool();
     for (int i = 0; i < 20; i++) {
+      final isUser = Random().nextBool();
+
       final status =
           TaskStatus.values[Random().nextInt(TaskStatus.values.length)];
 
@@ -222,7 +231,7 @@ class FakeTaskRepository implements BaseTaskRepository {
             100, // Random price between $100 and $1000
         status: status,
 
-        id: _tasks.length + 1, // Incremental ID
+        id: i, // Incremental ID
         bid: status != TaskStatus.unassigned
             ? BidModel(
                 id: 0,
@@ -240,16 +249,14 @@ class FakeTaskRepository implements BaseTaskRepository {
   List<String> _generateRandomTags(int count) {
     final Random random = Random();
     const tags = [
-      'tag1',
-      'tag2',
-      'tag3',
-      'tag4',
-      'tag5',
-      'tag6',
-      'tag7',
-      'tag8',
-      'tag9',
-      'tag10'
+      'grocery',
+      'teaching',
+      'eldercare',
+      'househelp',
+      'cleaning',
+      'plumbing',
+      'groceries',
+      'driving',
     ];
     return List.generate(count, (index) => tags[random.nextInt(tags.length)]);
   }
@@ -309,7 +316,7 @@ class FakeTaskRepository implements BaseTaskRepository {
 
     return paginatedTasks;
   }
-  
+
   @override
   Future<BidModel> fetchBidById(int taskId) {
     // TODO: implement fetchBidById

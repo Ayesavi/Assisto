@@ -138,7 +138,6 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
               icon: Assets.images.ai.image(width: 20, height: 30),
               onPressed: () async {
                 showCreateTaskUsingAIBottomSheet(context,
-                
                     controller: TextEditingController(),
                     onTextEntered: (v) async {
                   try {
@@ -188,6 +187,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                 decoration: InputDecoration(
                   hintText: 'Groceries Shopping',
                   filled: true,
+                  fillColor: Theme.of(context).colorScheme.onInverseSurface,
                   border: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(12)),
@@ -225,6 +225,8 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                             'Buy me given groceries from the nearest store. \n \n 1. Milk \n 2. 2 Kg Tomatoes ',
                         decoration: InputDecoration(
                           filled: true,
+                          fillColor:
+                              Theme.of(context).colorScheme.onInverseSurface,
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(12)),

@@ -40,7 +40,7 @@ class CreateTaskUsingAIBottomSheet extends StatelessWidget {
             asyncTap: () async {
               await onTextEntered(controller.text);
             },
-            label: ('Place Bidding'),
+            label: ('Generate Assist'),
           ),
         ],
       ),
@@ -55,6 +55,7 @@ void showCreateTaskUsingAIBottomSheet(
 }) {
   showModalBottomSheet(
     context: context,
+    showDragHandle: true,
     isScrollControlled: true,
     builder: (context) {
       return Padding(
