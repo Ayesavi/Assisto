@@ -35,6 +35,7 @@ class CreateTaskUsingAIBottomSheet extends StatelessWidget {
 
               return null;
             },
+            controller: controller,
             decoration: const InputDecoration(
               labelText: 'Enter Prompt',
               border: OutlineInputBorder(),

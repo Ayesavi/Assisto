@@ -51,7 +51,7 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
   @override
   void initState() {
     super.initState();
-    provider = selectAddressPageControllerProvider(
+    provider = selectAddressPageControllerProvider(context,
         editAddressModel: widget.addressModel);
     analytics.logScreen(name: 'select_address_page');
 

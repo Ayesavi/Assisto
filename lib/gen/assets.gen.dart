@@ -71,22 +71,26 @@ class $AssetsLottieGen {
   String get appUnderMaintainence =>
       'assets/lottie/app_under_maintainence.json';
 
+  /// File path: assets/lottie/searching.json
+  String get searching => 'assets/lottie/searching.json';
+
   /// List of all assets
-  List<String> get values => [appUnderMaintainence];
+  List<String> get values => [appUnderMaintainence, searching];
 }
 
 class Assets {
   Assets._();
 
   static const String aEnv = '.env.dev';
-  static const StringeEnv = '.env.prod';
+  static const String eEnv = '.env.prod';
   static const $AssetsGraphicsGen graphics = $AssetsGraphicsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLottieGen lottie = $AssetsLottieGen();
-  static const String mapStyle = 'assets/map_style.json';
+  static const String mapStyleDark = 'assets/map_style_dark.json';
+  static const String mapStyleLight = 'assets/map_style_light.json';
 
   /// List of all assets
-  static List<String> get values => [aEnv, aEnv, mapStyle];
+  static List<String> get values => [aEnv, aEnv, mapStyleDark, mapStyleLight];
 }
 
 class AssetGenImage {

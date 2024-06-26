@@ -21,11 +21,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
 enum TaskFilterType {
-  /// order tasks by location
-  location,
 
-  /// order tasks by deadline
-  deadline,
 
   /// order tasks by nothing returns all tasks
   all,

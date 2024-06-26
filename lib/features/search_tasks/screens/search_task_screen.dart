@@ -7,6 +7,7 @@ import 'package:assisto/widgets/task_tile/task_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
 class SearchTaskScreen extends ConsumerStatefulWidget {
   const SearchTaskScreen({super.key});
@@ -57,9 +58,9 @@ class _SearchTaskScreenState extends ConsumerState<SearchTaskScreen> {
                 controller,
                 state,
               ),
-              const Align(
+              Align(
                 alignment: Alignment.center,
-                child: Text('Search Tasks'),
+                child: Lottie.asset(Assets.lottie.searching),
               )
             ],
           );
@@ -71,9 +72,9 @@ class _SearchTaskScreenState extends ConsumerState<SearchTaskScreen> {
                 controller,
                 state,
               ),
-              const Align(
+              Align(
                 alignment: Alignment.center,
-                child: CircularProgressIndicator(),
+                child: Lottie.asset(Assets.lottie.searching),
               )
             ],
           );

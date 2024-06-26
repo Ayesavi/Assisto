@@ -105,7 +105,6 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
       _gender = assist.gender;
 
       setState(() {});
-      Navigator.pop(context);
 
       if (_budget != null) {
         _showOptionNotifier.value['budget'] = true;

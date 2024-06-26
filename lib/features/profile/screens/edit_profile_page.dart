@@ -208,25 +208,25 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                       validator: validateName,
                     ),
                     kWidgetVerticalGap,
-                    TitleMedium(
-                      text: 'Phone Number',
-                      weight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    kWidgetMinVerticalGap,
-                    TextFormField(
-                      controller: phoneNumberController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          hintText: 'Enter your phone number',
-                          fillColor:
-                              Theme.of(context).colorScheme.onInverseSurface),
-                      validator: validatePhoneNumber,
-                    ),
-                    kWidgetVerticalGap,
+                    // TitleMedium(
+                    //   text: 'Phone Number',
+                    //   weight: FontWeight.bold,
+                    //   color: Theme.of(context).colorScheme.primary,
+                    // ),
+                    // kWidgetMinVerticalGap,
+                    // TextFormField(
+                    //   controller: phoneNumberController,
+                    //   decoration: InputDecoration(
+                    //       border: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(12),
+                    //           borderSide: BorderSide.none),
+                    //       filled: true,
+                    //       hintText: 'Enter your phone number',
+                    //       fillColor:
+                    //           Theme.of(context).colorScheme.onInverseSurface),
+                    //   validator: validatePhoneNumber,
+                    // ),
+                    // kWidgetVerticalGap,
                     TitleMedium(
                       text: 'Email',
                       weight: FontWeight.bold,
@@ -234,6 +234,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                     ),
                     kWidgetMinVerticalGap,
                     TextFormField(
+                      readOnly: true,
                       controller: emailAddressController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
