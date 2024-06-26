@@ -53,12 +53,15 @@ class $AssetsGraphicsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/ai.png
+  AssetGenImage get ai => const AssetGenImage('assets/images/ai.png');
+
   /// File path: assets/images/ic_launcher.png
   AssetGenImage get icLauncher =>
       const AssetGenImage('assets/images/ic_launcher.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [icLauncher];
+  List<AssetGenImage> get values => [ai, icLauncher];
 }
 
 class $AssetsLottieGen {
@@ -68,8 +71,11 @@ class $AssetsLottieGen {
   String get appUnderMaintainence =>
       'assets/lottie/app_under_maintainence.json';
 
+  /// File path: assets/lottie/searching.json
+  String get searching => 'assets/lottie/searching.json';
+
   /// List of all assets
-  List<String> get values => [appUnderMaintainence];
+  List<String> get values => [appUnderMaintainence, searching];
 }
 
 class Assets {
@@ -80,10 +86,11 @@ class Assets {
   static const $AssetsGraphicsGen graphics = $AssetsGraphicsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLottieGen lottie = $AssetsLottieGen();
-  static const String mapStyle = 'assets/map_style.json';
+  static const String mapStyleDark = 'assets/map_style_dark.json';
+  static const String mapStyleLight = 'assets/map_style_light.json';
 
   /// List of all assets
-  static List<String> get values => [aEnv, aEnv, mapStyle];
+  static List<String> get values => [aEnv, aEnv, mapStyleDark, mapStyleLight];
 }
 
 class AssetGenImage {

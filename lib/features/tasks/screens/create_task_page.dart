@@ -5,10 +5,13 @@ import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/router/routes.dart';
+import 'package:assisto/core/services/app_functions.dart';
 import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
 import 'package:assisto/features/tasks/controllers/task_page_controller.dart';
+import 'package:assisto/features/tasks/widgets/create_task_using_ai_bottomsheet.dart';
+import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/shared/show_snackbar.dart';
@@ -20,7 +23,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TaskCreationPage extends ConsumerStatefulWidget {
   final TaskModel? editTaskModel;
@@ -34,6 +36,7 @@ class TaskCreationPage extends ConsumerStatefulWidget {
 class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   final TextEditingController _tagController = TextEditingController();
   late final TextEditingController _descriptionController;
+  late final TextEditingController _titleController;
 
   late final ValueNotifier<List<String>> _chips;
   late final ValueNotifier<Map<String, bool>> _showOptionNotifier;
@@ -50,6 +53,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
     _ageGroup = widget.editTaskModel?.ageGroup;
     _budget = widget.editTaskModel?.expectedPrice;
     _title = widget.editTaskModel?.title ?? '';
+    _titleController = TextEditingController(text: _title);
     _description = widget.editTaskModel?.description ?? '';
     _descriptionController =
         TextEditingController(text: widget.editTaskModel?.description);
@@ -85,6 +89,45 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   String _description = '';
   DateTime? _deadline;
 
+  _askAIAndCreateAssistDraft(String prompt) async {
+    try {
+      final assist = await AppFunctions.instance.createAssistUsingAI(prompt);
+      _title = assist.title;
+      _titleController.text = assist.title;
+
+      _description = assist.description;
+      _descriptionController.text = assist.description;
+
+      _budget = assist.expectedPrice;
+      _deadline = assist.deadline;
+      _chips.value = assist.tags;
+      _ageGroup = assist.ageGroup;
+      _gender = assist.gender;
+
+      setState(() {});
+
+      if (_budget != null) {
+        _showOptionNotifier.value['budget'] = true;
+      }
+
+      if (_deadline != null) {
+        _showOptionNotifier.value['deadline'] = true;
+      }
+
+      if (_ageGroup != null) {
+        _showOptionNotifier.value['ageGroup'] = true;
+      }
+
+      if (_gender != null) {
+        _showOptionNotifier.value['gender'] = true;
+      }
+    } catch (e) {
+      Navigator.pop(context);
+      throw const AppException(
+          'Cant create assist at the moment please try again later!');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,20 +135,36 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         title: Text(
             widget.editTaskModel != null ? 'Update Assist' : 'Create Assist'),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-                onPressed: () async {
-                  analytics.logEvent(
-                      name: AnalyticsEvent
-                          .createTask.helpButtonTaskCreationEvent);
-                  if (!await launchUrl(
-                      Uri.parse('https://assisto.ayesavi.in/contact.html'))) {
-                    throw Exception('Could not launch url');
+          IconButton(
+              icon: Assets.images.ai.image(width: 20, height: 30),
+              onPressed: () async {
+                showCreateTaskUsingAIBottomSheet(context,
+                    controller: TextEditingController(),
+                    onTextEntered: (v) async {
+                  try {
+                    await _askAIAndCreateAssistDraft(v);
+                    Navigator.pop(context);
+                  } catch (e) {
+                    if (context.mounted) {
+                      showSnackBar(context, appErrorHandler(e).message);
+                    }
                   }
-                },
-                child: const Text('Help')),
-          )
+                });
+              }),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: ElevatedButton(
+          //       onPressed: () async {
+          //         analytics.logEvent(
+          //             name: AnalyticsEvent
+          //                 .createTask.helpButtonTaskCreationEvent);
+          //         if (!await launchUrl(
+          //             Uri.parse('https://assisto.ayesavi.in/contact.html'))) {
+          //           throw Exception('Could not launch url');
+          //         }
+          //       },
+          //       child: const Text('Help')),
+          // )
         ],
       ),
       body: Form(
@@ -116,19 +175,20 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TitleMedium(
-                text: 'Task Title',
+                text: 'Assist Title',
                 weight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.primary,
               ),
               const Padding(padding: kWidgetMinVerticalPadding),
               TextFormField(
-                initialValue: _title,
+                controller: _titleController,
                 onChanged: (v) {
                   _title = v;
                 },
                 decoration: InputDecoration(
                   hintText: 'Groceries Shopping',
                   filled: true,
+                  fillColor: Theme.of(context).colorScheme.onInverseSurface,
                   border: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(12)),
@@ -143,7 +203,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
               kWidgetMinVerticalGap,
               BodyLarge(
                 text:
-                    'Give an appropriate title to the task, it must clarify purpose in minimum words',
+                    'Give an appropriate title to the assist, it must clarify purpose in minimum words',
                 color: Theme.of(context).colorScheme.onSurface,
                 maxLines: 2,
               ),
@@ -166,6 +226,8 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                             'Buy me given groceries from the nearest store. \n \n 1. Milk \n 2. 2 Kg Tomatoes ',
                         decoration: InputDecoration(
                           filled: true,
+                          fillColor:
+                              Theme.of(context).colorScheme.onInverseSurface,
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(12)),
@@ -286,7 +348,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                   const BodyLarge(
                       maxLines: 3,
                       text:
-                          'It must clearly specify the task in simple and short words, avoid using aronyms')
+                          'It must clearly specify the assist in simple and short words, avoid using aronyms')
                 ],
               ),
               kWidgetVerticalGap,
@@ -519,7 +581,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         ),
         kWidgetMinVerticalGap,
         BodyLarge(
-          text: 'Enter the age group for this task',
+          text: 'Enter the age group for this assist',
           color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),
@@ -582,7 +644,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         ),
         kWidgetMinVerticalGap,
         BodyLarge(
-          text: 'Select the gender for this task',
+          text: 'Select the gender for this assist',
           color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),
@@ -659,7 +721,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         ),
         kWidgetMinVerticalGap,
         BodyLarge(
-          text: 'Select the deadline for this task',
+          text: 'Select the deadline for this assist',
           color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),
@@ -733,7 +795,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
           kWidgetMinVerticalGap,
           BodyLarge(
             text:
-                'Select the location for this task, So that only users under 50 kms of location can do this.',
+                'Select the location for this assist, So that only users under 50 kms of location can do this.',
             color: Theme.of(context).colorScheme.onSurface,
             maxLines: 4,
           ),
@@ -787,7 +849,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
         ),
         kWidgetMinVerticalGap,
         BodyLarge(
-          text: 'Enter the maximum budget for this task',
+          text: 'Enter the maximum budget for this assist',
           color: Theme.of(context).colorScheme.onSurface,
           maxLines: 2,
         ),

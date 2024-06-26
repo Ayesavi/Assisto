@@ -49,21 +49,17 @@ class SupabaseTaskRepository implements BaseTaskRepository {
 
   @override
   Future<TaskModel> getTaskById(int id) async {
-    final json = await _supabase
-        .from(_table)
-        .select(
-            '*,owner:owner_id(id,avatar_url,status),address:address_id(id,latlng,address,house_number)')
-        .eq('id', id)
-        .single();
-    return TaskModel.fromJson(json);
+    final json = await _supabase.rpc('get_task_by_id', params: {
+      'task_uid': id,
+    });
+    return TaskModel.fromJson(json[0]);
   }
 
   @override
   Future<void> updateTask(TaskModel newTask) async {
     final json = newTask.toSupaJson();
 
-    final data =
-        await _supabase.from(_table).update(json).eq('id', newTask.id).select();
+    await _supabase.from(_table).update(json).eq('id', newTask.id).select();
     return;
   }
 
