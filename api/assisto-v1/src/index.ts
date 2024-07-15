@@ -8,6 +8,7 @@ import NotifyCreatedBid from "./endpoints/notify/Bid/NotifyCreatedBid";
 import NotifyChats from "./endpoints/notify/chat";
 import NotifyTaskRecommendations from "./endpoints/notify/tasks/recommendation";
 import NotifyTaskUpdates from "./endpoints/notify/tasks/updates";
+import CreateOrder from "./endpoints/payments/CreateOrder";
 import UserDelete from "./endpoints/user/delete";
 import DisabledReason from "./endpoints/user/disabled-reason";
 import ReactivateUser from "./endpoints/user/reactivate";
@@ -92,6 +93,17 @@ app.post("/user/initiate-deletion", async (req, res) => {
     let deleteUser = new UserDelete();
     const token = req.headers.authorization?.split("Bearer ").pop() ?? "";
     let data = await deleteUser.initiate(`${token}`);
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
+app.post("/payments/createOrder", async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split("Bearer ").pop() ?? "";
+    let order = new CreateOrder(token);
+    let data = await order.createOrder(req.body.bidId);
     res.status(200).send(data);
   } catch (error) {
     res.status(400).send();

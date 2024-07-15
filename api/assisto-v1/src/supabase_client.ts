@@ -1,4 +1,5 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { Cashfree } from "cashfree-pg";
 
 function _SUPABASE_KEY(): string {
   return process.env.GCLOUD_PROJECT == "dev-assisto" // this one is actually assisto-prod
@@ -22,6 +23,17 @@ function JWT_SECRET(): string {
     : process.env.SUPABASE_DEV_JWT_SECRET || "";
 }
 
+function initializePayment() {
+  if (process.env.GCLOUD_PROJECT == "dev-assisto") {
+    Cashfree.XClientId = process.env.CF_APP_ID;
+    Cashfree.XClientSecret = process.env.CF_API_KEY;
+    Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
+  } else {
+    console.log(process.env.CF_DEV_APP_ID, process.env.CF_DEV_API_KEY);
+    Cashfree.XClientId = process.env.CF_DEV_APP_ID;
+    Cashfree.XClientSecret = process.env.CF_DEV_API_KEY;
+    Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+  }
+}
 
-
-export { JWT_SECRET, SUPABASE_CLIENT };
+export { initializePayment, JWT_SECRET, SUPABASE_CLIENT };
