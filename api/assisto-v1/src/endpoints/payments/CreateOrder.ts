@@ -56,10 +56,7 @@ class CreateOrder {
           customer_email: "example@gmail.com",
           customer_phone: "9999999999",
         },
-        order_meta: {
-          return_url:
-            "https://test.cashfree.com/pgappsdemos/return.php?order_id=order_123",
-        },
+
         order_note: "Test order",
       };
 
