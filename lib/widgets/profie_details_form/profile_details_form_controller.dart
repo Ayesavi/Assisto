@@ -9,7 +9,7 @@ class ProfileFormController {
   final notifier = ValueNotifier(0);
 
   void next() {
-    if (notifier.value <= entries.length) {
+    if (notifier.value < entries.length) {
       notifier.value++;
     }
   }

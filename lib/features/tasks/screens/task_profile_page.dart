@@ -1,7 +1,9 @@
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/error/handler.dart';
+import 'package:assisto/core/payments/base_app_payments.dart';
 import 'package:assisto/core/router/routes.dart';
+import 'package:assisto/core/services/app_functions.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/tasks/controllers/task_profile_controller/task_profile_page_controller.dart';
 import 'package:assisto/features/tasks/screens/create_task_page.dart';
@@ -10,6 +12,7 @@ import 'package:assisto/features/tasks/widgets/show_bidding_bottomsheet.dart';
 import 'package:assisto/features/tasks/widgets/task_profile_page_view.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/shared/show_snackbar.dart';
+import 'package:assisto/widgets/pay_bider_button/pay_bidder_button.dart';
 import 'package:assisto/widgets/popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +29,9 @@ class TaskProfilePage extends ConsumerWidget {
   /// id of the offer if page index is 1
   final int? offerId;
 
-  const TaskProfilePage(
+  final paymentLoadingNotifier = ValueNotifier(false);
+
+  TaskProfilePage(
       {required this.taskId, super.key, this.pageIndex = 0, this.offerId});
 
   Widget? _getFloatingActionButton(BuildContext context, TaskModel model) {
@@ -36,16 +41,119 @@ class TaskProfilePage extends ConsumerWidget {
     if (isNotAssignedOrBlocked) {
       return null;
     } else {
-      return FloatingActionButton(
-        onPressed: () {
-          AppAnalytics.instance.logEvent(
-              name: AnalyticsEvent.taskProfile.chatTaskProfilePressEvent);
-          ChatPageRoute(roomId: taskId).go(context);
-        },
-        tooltip: 'Chat',
-        child: const Icon(Icons.chat),
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            onPressed: () async {
+              AppAnalytics.instance.logEvent(
+                  name: AnalyticsEvent.taskProfile.chatTaskProfilePressEvent);
+              ChatPageRoute(roomId: taskId).go(context);
+            },
+            tooltip: 'Chat',
+            child: const Icon(Icons.chat),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          if (model.isUserTaskUser)
+            ValueNotifierFAB(
+              onPress: () async {
+                try {
+                  paymentLoadingNotifier.value = true;
+                  AppAnalytics.instance.logEvent(
+                      name: AnalyticsEvent.taskProfile.payTaskBidderEvent);
+                  if (model.bid != null) {
+                    final order =
+                        await AppFunctions.instance.createOrder(model.bid!.id);
+                    AppPayments().setPaymentListener(
+                        verifyPaymentCallback: (v) {
+                      paymentLoadingNotifier.value = false;
+
+                      showPaymentSuccessPopup(context);
+                    }, onErrorCallback: (s, e) {
+                      paymentLoadingNotifier.value = false;
+                      showPaymentFailedPopup(context);
+                      throw e;
+                    });
+                    AppPayments().checkOut(order);
+                  }
+                } catch (e) {
+                  paymentLoadingNotifier.value = false;
+                  rethrow;
+                }
+              },
+              isLoading: paymentLoadingNotifier,
+            ),
+        ],
       );
     }
+  }
+
+  void showPaymentSuccessPopup(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          content: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                  size: 50.0,
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  "Payment Successful!",
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  "Your payment has been processed successfully.",
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void showPaymentFailedPopup(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          content: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: 50.0,
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  "Payment Failed",
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  "There was an error processing your payment. Please try again.",
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget? _getbottomNavigationBar(

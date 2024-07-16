@@ -28,7 +28,8 @@ class SelectAddressPageController extends _$SelectAddressPageController {
   final markerNotifier = ValueNotifier<LatLng?>(null);
 
   @override
-  SelectAddressPageControllerState build(BuildContext context,{AddressModel? editAddressModel}) {
+  SelectAddressPageControllerState build(BuildContext context,
+      {AddressModel? editAddressModel}) {
     _editAddrModel = editAddressModel;
     if (editAddressModel != null) {
       _loadMapStyle(context).then((value) {

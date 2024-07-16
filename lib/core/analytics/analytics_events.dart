@@ -140,6 +140,9 @@ class _TaskProfile {
   /// When a user presses on block task button
   final blockTaskPressEvent = "block_task_press_event";
 
+  final payTaskBidderEvent = "pay_task_bidder";
+
+
   /// When a user presses on place bid button
   final placeBidPressEvent = "place_bid_press_event";
 

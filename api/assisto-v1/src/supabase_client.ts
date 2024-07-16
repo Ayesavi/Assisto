@@ -25,7 +25,7 @@ function JWT_SECRET(): string {
 
 function initializePayment() {
   if (process.env.GCLOUD_PROJECT == "dev-assisto") {
-    Cashfree.XClientId = process.env.CF_APP_ID;
+  Cashfree.XClientId = process.env.CF_APP_ID;
     Cashfree.XClientSecret = process.env.CF_API_KEY;
     Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
   } else {

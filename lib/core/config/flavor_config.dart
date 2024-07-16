@@ -3,6 +3,7 @@ import 'package:assisto/flavors/dev/dev_options.dart' as dev;
 import 'package:assisto/flavors/prod/prod_options.dart' as prod;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cashfree_pg_sdk/utils/cfenums.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum AppFlavors { prod, dev }
@@ -33,6 +34,7 @@ class FlavorConfig {
   String get supabaseApiKey => 'SUPABASE_KEY'.fromEnv;
   String get geoApiKey => 'GEO_API_KEY'.fromEnv;
   String get googleClientId => "GOOGLE_SIGN_IN".fromEnv;
+  CFEnvironment get paymentEnvironment => _getPaymentEnvironment();
 
   FirebaseOptions get firebaseOptions {
     switch (currentFlavor) {
@@ -40,6 +42,15 @@ class FlavorConfig {
         return dev.DefaultFirebaseOptions.currentPlatform;
       case AppFlavors.prod:
         return prod.DefaultFirebaseOptions.currentPlatform;
+    }
+  }
+
+  CFEnvironment _getPaymentEnvironment() {
+    switch (appFlavor) {
+      case 'prod':
+        return CFEnvironment.PRODUCTION;
+      default:
+        return CFEnvironment.SANDBOX;
     }
   }
 
