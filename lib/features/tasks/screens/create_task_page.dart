@@ -751,7 +751,6 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 state.when(data: (data) {
-                  print(data[0].toString());
                   return Stack(
                     children: [
                       CustomDropdown<AddressModel>(

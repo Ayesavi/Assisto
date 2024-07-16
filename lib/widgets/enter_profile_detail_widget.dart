@@ -20,6 +20,8 @@ class EnterProfileDetailWidgetConstants {
   static const dobText = "What's your date of birth?";
   static const phoneText = "How can we contact you?";
   static const emailText = "What is your email?";
+  static const upiId = "What's your UPI id?";
+
   static const successText = 'Success!';
   static const profileSucessFullyCreated =
       'Congratulations! Your profile has been successfully created';
@@ -88,6 +90,7 @@ class _EnterProfileDetailWidgetState
   List<ProfileFormParams> getParams() {
     return [
       ProfileFormParams(key: 'name', builder: _nameBuilder),
+      ProfileFormParams(key: 'upi_id', builder: _upiIdBuilder),
       ProfileFormParams(key: 'gender', builder: _genderBuilder),
       ProfileFormParams(key: 'dob', builder: _dobBuilder),
       ProfileFormParams(key: 'tags', builder: _tagsBuilder),
@@ -213,15 +216,18 @@ class _EnterProfileDetailWidgetState
           : null,
       onCategorySelected: (categories) async {
         try {
-          await ref.read(authControllerProvider.notifier).updateProfile(
-              UserModel(
-                  id: '',
-                  tags: categories.map((e) => e.label).toList(),
-                  name: _userDetails['name'],
-                  avatarUrl: _userDetails['avatar_url'],
-                  gender: _selectedGender!,
-                  age: calculateAgeFromString(_userDetails['dob']),
-                  dob: _userDetails['dob']));
+          await ref
+              .read(authControllerProvider.notifier)
+              .updateProfile(UserModel(
+                id: '',
+                tags: categories.map((e) => e.label).toList(),
+                name: _userDetails['name'],
+                avatarUrl: _userDetails['avatar_url'],
+                gender: _selectedGender!,
+                age: calculateAgeFromString(_userDetails['dob']),
+                dob: _userDetails['dob'],
+                upiId: _userDetails['upi_id'],
+              ));
           return;
         } catch (e) {
           if (context.mounted) {
@@ -256,10 +262,64 @@ class _EnterProfileDetailWidgetState
               _userDetails['name'] = value;
             }
           },
-          onFieldSubmitted: (s) {
-            if (_formKey.currentState!.validate() &&
-                _currentQuestionIndex < 2) {}
+          onFieldSubmitted: (s) {},
+          validator: _validateInput, // Add validator
+        );
+      },
+    );
+  }
+
+  Widget _upiIdBuilder(BuildContext context) {
+    return _profileDetailCard(
+      key: 'upi_id',
+      question: EnterProfileDetailWidgetConstants.upiId,
+      buttonLabel: 'Continue',
+      onNext: () async {
+        if (_formKey.currentState!.validate()) {
+          if (differentiatedList.length > 1) {
+            _formController.next();
+          } else {
+            try {
+              await ref
+                  .read(authControllerProvider.notifier)
+                  .updateProfile(UserModel(
+                    id: '',
+                    tags: (_userDetails['tags'] as List)
+                        .map((e) => e.toString())
+                        .toList(),
+                    name: _userDetails['name'],
+                    avatarUrl: _userDetails['avatar_url'],
+                    gender: _selectedGender!,
+                    age: calculateAgeFromString(_userDetails['dob']),
+                    dob: _userDetails['dob'],
+                    upiId: _userDetails['upi_id'],
+                  ));
+              return;
+            } catch (e) {
+              if (context.mounted) {
+                showSnackBar(context, appErrorHandler(e).message);
+              }
+            }
+          }
+        }
+      },
+      builder: (context) {
+        return TextFormField(
+          initialValue: _userDetails['upi_id'],
+
+          decoration: InputDecoration(
+            hintText: 'Tomcruise@okaxis',
+            labelText: 'UPI Id',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+          onChanged: (value) {
+            if (_formKey.currentState!.validate()) {
+              _userDetails['upi_id'] = value;
+            }
           },
+          onFieldSubmitted: (s) {},
           validator: _validateInput, // Add validator
         );
       },

@@ -31,6 +31,8 @@ mixin _$UserModel {
   String? get description => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
+  @JsonKey(name: 'upi_id')
+  String? get upiId => throw _privateConstructorUsedError;
   String? get phoneNumber => throw _privateConstructorUsedError;
   String? get dob => throw _privateConstructorUsedError;
 
@@ -54,6 +56,7 @@ abstract class $UserModelCopyWith<$Res> {
       String? description,
       int age,
       String? email,
+      @JsonKey(name: 'upi_id') String? upiId,
       String? phoneNumber,
       String? dob});
 }
@@ -79,6 +82,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? description = freezed,
     Object? age = null,
     Object? email = freezed,
+    Object? upiId = freezed,
     Object? phoneNumber = freezed,
     Object? dob = freezed,
   }) {
@@ -115,6 +119,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
+      upiId: freezed == upiId
+          ? _value.upiId
+          : upiId // ignore: cast_nullable_to_non_nullable
+              as String?,
       phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -144,6 +152,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String? description,
       int age,
       String? email,
+      @JsonKey(name: 'upi_id') String? upiId,
       String? phoneNumber,
       String? dob});
 }
@@ -167,6 +176,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? description = freezed,
     Object? age = null,
     Object? email = freezed,
+    Object? upiId = freezed,
     Object? phoneNumber = freezed,
     Object? dob = freezed,
   }) {
@@ -203,6 +213,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
+      upiId: freezed == upiId
+          ? _value.upiId
+          : upiId // ignore: cast_nullable_to_non_nullable
+              as String?,
       phoneNumber: freezed == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -227,6 +241,7 @@ class _$UserModelImpl implements _UserModel {
       this.description,
       required this.age,
       this.email,
+      @JsonKey(name: 'upi_id') this.upiId,
       this.phoneNumber,
       this.dob})
       : _tags = tags;
@@ -260,13 +275,16 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String? email;
   @override
+  @JsonKey(name: 'upi_id')
+  final String? upiId;
+  @override
   final String? phoneNumber;
   @override
   final String? dob;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, avatarUrl: $avatarUrl, gender: $gender, tags: $tags, description: $description, age: $age, email: $email, phoneNumber: $phoneNumber, dob: $dob)';
+    return 'UserModel(id: $id, name: $name, avatarUrl: $avatarUrl, gender: $gender, tags: $tags, description: $description, age: $age, email: $email, upiId: $upiId, phoneNumber: $phoneNumber, dob: $dob)';
   }
 
   @override
@@ -284,6 +302,7 @@ class _$UserModelImpl implements _UserModel {
                 other.description == description) &&
             (identical(other.age, age) || other.age == age) &&
             (identical(other.email, email) || other.email == email) &&
+            (identical(other.upiId, upiId) || other.upiId == upiId) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
             (identical(other.dob, dob) || other.dob == dob));
@@ -301,6 +320,7 @@ class _$UserModelImpl implements _UserModel {
       description,
       age,
       email,
+      upiId,
       phoneNumber,
       dob);
 
@@ -328,6 +348,7 @@ abstract class _UserModel implements UserModel {
       final String? description,
       required final int age,
       final String? email,
+      @JsonKey(name: 'upi_id') final String? upiId,
       final String? phoneNumber,
       final String? dob}) = _$UserModelImpl;
 
@@ -353,6 +374,9 @@ abstract class _UserModel implements UserModel {
   int get age;
   @override
   String? get email;
+  @override
+  @JsonKey(name: 'upi_id')
+  String? get upiId;
   @override
   String? get phoneNumber;
   @override

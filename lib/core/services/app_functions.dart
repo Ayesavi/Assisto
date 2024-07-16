@@ -1,4 +1,5 @@
 import 'package:assisto/core/services/api_service.dart';
+import 'package:assisto/models/payments/payment_req_model/payment_req_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 
 abstract class BaseAppFunctions {
@@ -25,6 +26,13 @@ class AppFunctions implements BaseAppFunctions {
     } else {
       throw Exception('Unexpected response data format');
     }
+  }
+
+  Future<PaymentReqModel> createOrder(int bidId) async {
+    final data =
+        await _apiService.post('/apiv1/payments/createOrder', {'bidId': bidId});
+
+    return PaymentReqModel.fromJson(data);
   }
 
   @override

@@ -150,6 +150,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
             final nameController = TextEditingController(text: data.name);
             final bioController = TextEditingController(text: data.description);
             tags = ref.read(authControllerProvider.notifier).user?.tags ?? [];
+            final upiIdController = TextEditingController(text: data.upiId);
             final phoneNumberController = TextEditingController(
                 text: data.phoneNumber != null && data.phoneNumber!.isNotEmpty
                     ? data.phoneNumber!.substring(2)
@@ -267,6 +268,25 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                     ),
                     kWidgetVerticalGap,
                     TitleMedium(
+                      text: 'UPI Id',
+                      weight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    kWidgetMinVerticalGap,
+                    TextFormField(
+                      controller: upiIdController,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          hintText: 'Enter your UPI id here',
+                          fillColor:
+                              Theme.of(context).colorScheme.onInverseSurface),
+                      validator: validateBio,
+                    ),
+                    kWidgetVerticalGap,
+                    TitleMedium(
                       text: 'Tags',
                       weight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,
@@ -314,6 +334,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                           await authController.updateProfile(
                               authController.user!.copyWith(
                                   name: nameController.text,
+                                  upiId: upiIdController.text,
                                   description: bioController.text,
                                   tags: tags));
 

@@ -17,7 +17,9 @@ class HttpService {
   }
 
   HttpService._internal() {
-    _dio = Dio(BaseOptions(baseUrl: _baseUrl, headers: _getHeaders()));
+    _dio = Dio(BaseOptions(
+      baseUrl: _baseUrl,
+    ));
   }
 
   Dio get dio => _dio;
@@ -34,8 +36,11 @@ class HttpService {
       {Map<String, dynamic>? queryParameters,
       Map<String, dynamic>? body}) async {
     try {
-      final response = await _dio.get(endpoint,
-          queryParameters: queryParameters, data: body);
+      final response = await _dio.get(
+        endpoint,
+        queryParameters: queryParameters,
+        data: body,
+      );
       return response.data;
     } catch (e) {
       throw Exception('Failed to connect to the server');
@@ -44,7 +49,8 @@ class HttpService {
 
   Future post(String endpoint, dynamic data) async {
     try {
-      final response = await _dio.post(endpoint, data: data);
+      final response = await _dio.post(endpoint,
+          data: data, options: Options(headers: _getHeaders()));
       return response.data;
     } catch (e) {
       throw Exception('Failed to connect to the server');

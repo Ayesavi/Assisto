@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:assisto/core/analytics/app_analytics.dart';
-import 'package:assisto/core/services/permission_service.dart';
 import 'package:assisto/features/addresses/controller/select_address_page_controller.dart';
 import 'package:assisto/features/addresses/screens/address_search_page.dart';
 import 'package:assisto/features/addresses/widgets/location_form_bottomsheet.dart';
@@ -10,7 +9,6 @@ import 'package:assisto/features/addresses/widgets/on_map_address_widget/on_map_
 import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/shared/show_snackbar.dart';
-import 'package:assisto/widgets/popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -55,22 +53,22 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
         editAddressModel: widget.addressModel);
     analytics.logScreen(name: 'select_address_page');
 
-    if (widget.addressModel == null) {
-      ref.read(provider.notifier).requestLocationPermission(
-        onDenied: () {
-          showSnackBar(context, 'Location permission is denied');
-        },
-        onPermanentlyDenied: () {
-          showPopup(context,
-              title: 'Permission Denied',
-              content:
-                  'Permission for location is denied enable in app settings',
-              onConfirm: () async {
-            PermissionService().openSettings();
-          });
-        },
-      );
-    }
+    // if (widget.addressModel == null) {
+    //   ref.read(provider.notifier).requestLocationPermission(
+    //     onDenied: () {
+    //       showSnackBar(context, 'Location permission is denied');
+    //     },
+    //     onPermanentlyDenied: () {
+    //       showPopup(context,
+    //           title: 'Permission Denied',
+    //           content:
+    //               'Permission for location is denied enable in app settings',
+    //           onConfirm: () async {
+    //         PermissionService().openSettings();
+    //       });
+    //     },
+    //   );
+    // }
   }
 
   /// Builds the user interface for the SelectAddressPage widget.

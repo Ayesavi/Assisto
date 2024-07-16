@@ -62,6 +62,10 @@ class AuthController extends _$AuthController {
       final dob = userMetadata?.containsKey("dob") ?? false
           ? userMetadata!['dob']
           : null;
+
+      final upi = userMetadata?.containsKey("upi_id") ?? false
+          ? userMetadata!['upi_id']
+          : null;
       final isEmailVerified =
           userMetadata?.containsKey("email_verified") ?? false
               ? userMetadata!['email_verified']
@@ -81,7 +85,7 @@ class AuthController extends _$AuthController {
           : null;
 
       if ((checkNullOrEmpty(
-              [name, gender, dob, tags])) && // todo: add image url, email
+              [name, gender, dob, tags, upi])) && // todo: add image url, email
           userMetadata != null) {
         return _IncompleteProfile(userMetadata,
             isPhoneVerified: isPhoneVerified, isEmailVerified: isEmailVerified);
@@ -97,6 +101,7 @@ class AuthController extends _$AuthController {
           avatarUrl: imageUrl,
           gender: gender,
           email: email,
+          upiId: upi,
           description: description,
           phoneNumber: phone,
           tags: [...tags],
