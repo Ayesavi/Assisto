@@ -56,7 +56,8 @@ class TaskProfilePage extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          if (model.isUserTaskUser)
+          if (model.isUserTaskUser &&
+              !([TaskStatus.completed, TaskStatus.paid].contains(model.status)))
             ValueNotifierFAB(
               onPress: () async {
                 try {

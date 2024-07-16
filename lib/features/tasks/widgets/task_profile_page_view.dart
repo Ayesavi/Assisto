@@ -189,8 +189,7 @@ class _TaskProfilePageViewState extends ConsumerState<TaskProfilePageView> {
           kWidgetVerticalGap,
           if (isTaskAssigned &&
               model.isUserTaskUser &&
-              ![TaskStatus.blocked, TaskStatus.completed]
-                  .contains(model.status))
+              model.status == TaskStatus.paid)
             AppFilledButton(
               label: 'Mark as completed',
               asyncTap: widget.onPressMarkAsCompleted,

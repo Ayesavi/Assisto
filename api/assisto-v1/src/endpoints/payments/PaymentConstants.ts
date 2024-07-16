@@ -1,0 +1,6 @@
+enum PaymentWebhookEvents {
+  PAYMENT_SUCCESS_WEBHOOK='PAYMENT_SUCCESS_WEBHOOK',
+  PAYMENT_FAILED_WEBHOOK='PAYMENT_FAILED_WEBHOOK'
+}
+
+export { PaymentWebhookEvents };

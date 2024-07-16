@@ -34,7 +34,9 @@ class CreateOrder {
       // Fetch bid amount from the Supabase database
       const { data, error } = await this.supabase
         .from("bidding")
-        .select("amount")
+        .select(
+          "amount,bidder:bidder_id(id,full_name),task:task_id(owner_id,id,title)"
+        )
         .eq("id", bidId)
         .single();
 
@@ -46,18 +48,31 @@ class CreateOrder {
       if (!data) {
         throw new Error("Bid not found");
       }
+      console.log(data);
+      const { data: userData, error: userError } =
+        await this.supabase.auth.admin.getUserById((data.bidder as any).id);
+
+      if (userError) {
+        console.error(`Error fetching user: ${userError.message}`);
+        throw new Error("Failed to fetch user data");
+      }
 
       const request: CreateOrderRequest = {
         order_amount: data.amount + 5,
         order_currency: "INR",
         customer_details: {
-          customer_id: "node_sdk_test",
-          customer_name: "John Doe",
-          customer_email: "example@gmail.com",
-          customer_phone: "9999999999",
+          customer_id: userData.user.id || "",
+          customer_name: userData.user.user_metadata?.full_name || "",
+          customer_email: userData.user.email,
+          customer_phone: userData.user.phone || "9999999999",
         },
-
-        order_note: "Test order",
+        order_tags: {
+          taskId: `${(data.task as any).id}`,
+          bidderId: `${(data.bidder as any).id}`,
+          taskOwnerId: (data.task as any).owner_id,
+          taskName: (data.task as any).title,
+        },
+        order_note: `Payment to ${userData.user.user_metadata?.full_name}`,
       };
 
       // Create the order using Cashfree's createOrder method
