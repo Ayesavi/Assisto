@@ -52,7 +52,9 @@ class _AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> signInWithOtp(String phone) async {
     try {
-      await _supabase.auth.signInWithOtp(phone: phone);
+      await _supabase.auth.signInWithOtp(
+        phone: phone,
+      );
     } catch (e) {
       if (e is AuthApiException) {
         if (e.statusCode == '400') {
@@ -115,7 +117,11 @@ class _AuthRepositoryImpl implements AuthRepository {
       String? email,
       required OtpType otpType}) async {
     final response = (await _supabase.auth.verifyOTP(
-            token: t, type: otpType, phone: phoneNumber, email: email))
+      token: t,
+      type: otpType,
+      phone: phoneNumber,
+      email: email,
+    ))
         .user;
     if (response != null) {
       return (response);

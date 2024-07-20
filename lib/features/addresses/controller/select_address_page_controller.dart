@@ -40,7 +40,7 @@ class SelectAddressPageController extends _$SelectAddressPageController {
             target: latlng,
             zoom: zoom,
           ),
-          style: _mapStyle,
+          // style: _mapStyle,
           addressModel: editAddressModel,
         ));
       });
@@ -51,7 +51,7 @@ class SelectAddressPageController extends _$SelectAddressPageController {
             target: kCenterLatlng,
             zoom: zoom,
           ),
-          style: _mapStyle,
+          // style: _mapStyle,
         ));
       });
     }
@@ -78,7 +78,7 @@ class SelectAddressPageController extends _$SelectAddressPageController {
               zoom: zoom,
             ),
             pickResult: result,
-            style: _mapStyle,
+            // style: _mapStyle,
             addressModel: _editAddrModel));
       }
       {

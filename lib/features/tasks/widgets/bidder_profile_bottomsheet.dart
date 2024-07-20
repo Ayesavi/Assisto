@@ -82,14 +82,14 @@ class BidderProfileBottomSheet extends StatelessWidget {
                 trimLines: 3,
               ),
             ],
-            ListTile(
-              leading: const Icon(Icons.person_outline),
-              title: const TitleMedium(
-                text: 'Age',
-                weight: FontWeight.w500,
-              ),
-              trailing: BodyLarge(text: model.bidder.age.toString()),
-            ),
+            // ListTile(
+            //   leading: const Icon(Icons.person_outline),
+            //   title: const TitleMedium(
+            //     text: 'Age',
+            //     weight: FontWeight.w500,
+            //   ),
+            //   trailing: BodyLarge(text: model.bidder.),
+            // ),
             ListTile(
               leading: const Icon(Icons.male),
               title: const TitleMedium(

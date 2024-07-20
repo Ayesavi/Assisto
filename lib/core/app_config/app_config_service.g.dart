@@ -22,7 +22,7 @@ final _remoteConfigUpdateProvider = StreamProvider<RemoteConfigUpdate>.internal(
 );
 
 typedef _RemoteConfigUpdateRef = StreamProviderRef<RemoteConfigUpdate>;
-String _$appConfigKeysHash() => r'c3a1c51f69f9c6185104ae9f42cd6954497b6692';
+String _$appConfigKeysHash() => r'6c8a3256aa13abfbdf6520a2777b5f1368fb3f59';
 
 /// See also [appConfigKeys].
 @ProviderFor(appConfigKeys)

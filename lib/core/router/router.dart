@@ -29,12 +29,12 @@ final routerProvider = Provider<GoRouter>((ref) {
           if (state.fullPath?.startsWith('/home') ?? false) {
             return null;
           }
-          return '/home';
+          return '/home/chat';
         } else if (appState.isInCompleteProfile) {
-          if (state.fullPath?.startsWith('/home/fillProfile') ?? false) {
+          if (state.fullPath?.startsWith('/fillProfile') ?? false) {
             return null;
           }
-          return '/home/fillProfile';
+          return '/fillProfile';
         } else {
           if (state.fullPath?.startsWith('/auth') ?? false) {
             return null;

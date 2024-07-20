@@ -43,7 +43,7 @@ class _BidPageViewState extends ConsumerState<BidPageView> {
               name: AnalyticsEvent.taskProfile.acceptBidPressEvent,
             );
             if (context.mounted) {
-              const HomeRoute().replace(context);
+              HomeRoute().replace(context);
             }
             return;
           },
@@ -94,7 +94,7 @@ class _BidPageViewState extends ConsumerState<BidPageView> {
                                       .taskProfile.acceptBidPressEvent,
                                 );
                                 if (context.mounted) {
-                                  const HomeRoute().replace(context);
+                                   HomeRoute().replace(context);
                                 }
                                 return;
                               },

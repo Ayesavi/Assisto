@@ -42,11 +42,8 @@ class AuthController extends _$AuthController {
       final sessionUser = authStates.value!.session!.user;
       final userMetadata = sessionUser.userMetadata;
       final email = sessionUser.email;
-      final phone = sessionUser.phone?.isNotEmpty ?? false
-          ? sessionUser.phone
-          : (userMetadata != null && userMetadata.containsKey("phone")
-              ? userMetadata['phone']
-              : null);
+      final phone =
+          sessionUser.phone?.isNotEmpty ?? false ? sessionUser.phone : null;
 
       final id = sessionUser.id;
       final name = userMetadata?.containsKey("full_name") ?? false
@@ -68,7 +65,7 @@ class AuthController extends _$AuthController {
           : null;
       final isEmailVerified =
           userMetadata?.containsKey("email_verified") ?? false
-              ? userMetadata!['email_verified']
+              ? userMetadata!['email_verified'] as bool
               : null;
 
       final description = userMetadata?.containsKey("description") ?? false
@@ -77,15 +74,22 @@ class AuthController extends _$AuthController {
 
       final isPhoneVerified =
           userMetadata?.containsKey("phone_verified") ?? false
-              ? userMetadata!['phone_verified']
+              ? userMetadata!['phone_verified'] as bool
               : null;
 
       final tags = userMetadata?.containsKey("tags") ?? false
           ? userMetadata!['tags'].map((e) => e.toString()).toList()
           : null;
 
-      if ((checkNullOrEmpty(
-              [name, gender, dob, tags, upi])) && // todo: add image url, email
+      if ((checkNullOrEmpty([
+            name,
+            gender,
+            dob,
+            tags,
+            upi,
+            phone,
+            email
+          ])) && // todo: add image url, email
           userMetadata != null) {
         return _IncompleteProfile(userMetadata,
             isPhoneVerified: isPhoneVerified, isEmailVerified: isEmailVerified);
@@ -96,16 +100,16 @@ class AuthController extends _$AuthController {
       );
 
       final model = UserModel(
-          id: id,
-          name: name,
-          avatarUrl: imageUrl,
-          gender: gender,
-          email: email,
-          upiId: upi,
-          description: description,
-          phoneNumber: phone,
-          tags: [...tags],
-          age: calculateAgeFromString(dob));
+        id: id,
+        name: name,
+        avatarUrl: imageUrl,
+        gender: gender,
+        email: email,
+        upiId: upi,
+        description: description,
+        phoneNumber: phone,
+        tags: [...tags],
+      );
       _user = model;
       return _Authenticated(model);
     } else {

@@ -3,17 +3,22 @@ import 'dart:io';
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
+import 'package:assisto/core/extensions/string_extension.dart';
+import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/profile/controllers/profile_page_controller/profile_page_controller.dart';
+import 'package:assisto/features/profile/widgets/profile_form_field.dart';
 import 'package:assisto/features/profile/widgets/tags_input.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/shimmering/shimmering_textfield.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
+import 'package:assisto/widgets/edit_textfield_widget.dart';
 import 'package:assisto/widgets/popup.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
   const EditProfilePage({super.key});
@@ -147,13 +152,14 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
           }, loading: () {
             return const ShimmeringTextField();
           }, data: (data, imageFile) {
-            final nameController = TextEditingController(text: data.name);
+            final nameController =
+                TextEditingController(text: data.name.capitalizWords);
             final bioController = TextEditingController(text: data.description);
             tags = ref.read(authControllerProvider.notifier).user?.tags ?? [];
             final upiIdController = TextEditingController(text: data.upiId);
             final phoneNumberController = TextEditingController(
                 text: data.phoneNumber != null && data.phoneNumber!.isNotEmpty
-                    ? data.phoneNumber!.substring(2)
+                    ? data.phoneNumber!
                     : null);
             final emailAddressController =
                 TextEditingController(text: data.email);
@@ -190,99 +196,57 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                       ],
                     ),
                     kWidgetVerticalGap,
-                    TitleMedium(
-                      text: 'Name',
-                      weight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    kWidgetMinVerticalGap,
-                    TextFormField(
+                    ProfileFormField(
+                      label: 'Name',
+                      hintText: 'Enter your name',
                       controller: nameController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          hintText: 'Enter your name',
-                          fillColor:
-                              Theme.of(context).colorScheme.onInverseSurface),
                       validator: validateName,
                     ),
                     kWidgetVerticalGap,
-                    // TitleMedium(
-                    //   text: 'Phone Number',
-                    //   weight: FontWeight.bold,
-                    //   color: Theme.of(context).colorScheme.primary,
-                    // ),
-                    // kWidgetMinVerticalGap,
-                    // TextFormField(
-                    //   controller: phoneNumberController,
-                    //   decoration: InputDecoration(
-                    //       border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(12),
-                    //           borderSide: BorderSide.none),
-                    //       filled: true,
-                    //       hintText: 'Enter your phone number',
-                    //       fillColor:
-                    //           Theme.of(context).colorScheme.onInverseSurface),
-                    //   validator: validatePhoneNumber,
-                    // ),
-                    // kWidgetVerticalGap,
-                    TitleMedium(
-                      text: 'Email',
-                      weight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                    EditTextFieldWidget(
+                      labelText: 'Email',
+                      hintText: 'Enter your email address',
+                      onSave: (v) async {
+                        final email = emailAddressController.text.trim();
+                        HomeOtpPageRoute(
+                                contact: email,
+                                otpType: OtpType.emailChange.name,
+                                verificationType: 'email')
+                            .go(context);
+                        await authController
+                            .updatePhone(phoneNumberController.text.trim());
+                      },
+                      textEditingController: emailAddressController,
+                      validator: validateBio,
                     ),
-                    kWidgetMinVerticalGap,
-                    TextFormField(
-                      readOnly: true,
-                      controller: emailAddressController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          hintText: 'Enter your email address',
-                          fillColor:
-                              Theme.of(context).colorScheme.onInverseSurface),
-                      validator: validateEmailAddress,
-                    ),
-                    kWidgetVerticalGap,
-                    TitleMedium(
-                      text: 'Bio',
-                      weight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    kWidgetMinVerticalGap,
-                    TextFormField(
+                    ProfileFormField(
+                      label: 'Bio',
+                      hintText: 'Explain yourself in short ',
                       controller: bioController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          hintText: 'Enter your bio here',
-                          fillColor:
-                              Theme.of(context).colorScheme.onInverseSurface),
                       validator: validateBio,
                     ),
                     kWidgetVerticalGap,
-                    TitleMedium(
-                      text: 'UPI Id',
-                      weight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    kWidgetMinVerticalGap,
-                    TextFormField(
+                    ProfileFormField(
+                      label: 'UPI',
+                      hintText: 'Your UPI lets you get paid',
                       controller: upiIdController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          hintText: 'Enter your UPI id here',
-                          fillColor:
-                              Theme.of(context).colorScheme.onInverseSurface),
+                      validator: validateBio,
+                    ),
+                    kWidgetVerticalGap,
+                    EditTextFieldWidget(
+                      labelText: 'Phone Number',
+                      hintText: 'Enter your phone number',
+                      onSave: (v) async {
+                        final phone = phoneNumberController.text.trim();
+                        HomeOtpPageRoute(
+                                contact: phone,
+                                verificationType: 'phone',
+                                otpType: OtpType.phoneChange.name)
+                            .go(context);
+                        await authController
+                            .updatePhone(phoneNumberController.text.trim());
+                      },
+                      textEditingController: phoneNumberController,
                       validator: validateBio,
                     ),
                     kWidgetVerticalGap,
@@ -316,21 +280,6 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                             descriptionController: bioController);
 
                         if (authController.user != null) {
-                          // &&
-                          // (_formKey.currentState?.validate() ?? false)
-                          // if (validatePhoneNumber(phoneNumberController.text) ==
-                          //     null) {
-                          //   await authController
-                          //       .updatePhone('91${phoneNumberController.text}');
-                          //   if (context.mounted) {
-                          //     HomeOtpPageRoute(
-                          //             phoneNumber:
-                          //                 '91${phoneNumberController.text}',
-                          //             otpType: OtpType.phoneChange.name)
-                          //         .go(context);
-                          //   }
-                          // }
-
                           await authController.updateProfile(
                               authController.user!.copyWith(
                                   name: nameController.text,

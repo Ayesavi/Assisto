@@ -41,14 +41,28 @@ class AuthRoute extends GoRouteData {
 
 @RouteConstants.homeRoute
 class HomeRoute extends GoRouteData {
-  const HomeRoute();
+  HomeRoute({this.destination = 'feed'});
+
+  final String destination;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const HomeScreen();
+  Widget build(BuildContext context, GoRouterState state) => HomeScreen(
+        destination: getDestination(destination),
+      );
 
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
     return null;
+  }
+
+  HomePageBars getDestination(String destination) {
+    if (destination == 'chat') {
+      return HomePageBars.chats;
+    } else if (destination == 'search') {
+      return HomePageBars.search;
+    } else {
+      return HomePageBars.feed;
+    }
   }
 }
 
@@ -65,15 +79,24 @@ class OtpPageRoute extends GoRouteData {
 }
 
 class HomeOtpPageRoute extends GoRouteData {
-  const HomeOtpPageRoute({required this.phoneNumber, required this.otpType});
+  const HomeOtpPageRoute(
+      {required this.contact,
+      required this.verificationType,
+      required this.otpType});
 
   /// The phone number associated with the OTP page.
-  final String phoneNumber;
+  final String contact;
   final String otpType;
 
+  /// any of email or phone
+  final String verificationType;
+
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      VerifyOtpScreen(otpType: otpType, phone: phoneNumber);
+  Widget build(BuildContext context, GoRouterState state) => VerifyOtpScreen(
+        otpType: otpType,
+        phone: verificationType == 'phone' ? contact : null,
+        email: verificationType == 'email' ? contact : null,
+      );
 }
 
 class VerifyPageRoute extends GoRouteData {
@@ -88,6 +111,7 @@ class VerifyPageRoute extends GoRouteData {
       VerifyOtpScreen(otpType: otpType, phone: phoneNumber);
 }
 
+@RouteConstants.fillProfileRoute
 class FullFillProfileRoute extends GoRouteData {
   const FullFillProfileRoute();
 

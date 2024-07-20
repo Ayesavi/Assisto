@@ -1,11 +1,11 @@
-import 'package:assisto/features/home/screens/home_screen.dart';
+import 'package:assisto/features/home/screens/feed_page.dart';
 import 'package:assisto/widgets/small_chip_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Create a StateProvider for managing selected filters
 final selectedFiltersProvider =
-    StateProvider<List<TaskFilterType>>((ref) => []);
+    StateProvider<List<TaskFilterType>>((ref) => [TaskFilterType.all]);
 
 class FilterWidget extends ConsumerWidget {
   final List<TaskFilterType> filters;

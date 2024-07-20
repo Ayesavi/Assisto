@@ -4,7 +4,6 @@ import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/extensions/datetime_extension.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
-import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/core/utils/string_constants.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
@@ -71,6 +70,7 @@ class _TaskProfilePageViewState extends ConsumerState<TaskProfilePageView> {
           TitleLarge(
             text: model.title.capitalize,
             weight: FontWeight.bold,
+            maxLines: 5,
           ),
           kWidgetMinVerticalGap,
           ReadMoreText(model.description.capitalize),
@@ -135,35 +135,35 @@ class _TaskProfilePageViewState extends ConsumerState<TaskProfilePageView> {
                   ),
               ],
             ),
-          CupertinoListSection(
-            header: const TitleLarge(text: 'Tags', weight: FontWeight.bold),
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            children: [
-              CupertinoListTile(
-                padding: const EdgeInsets.all(5),
-                leading: Icon(Icons.tag,
-                    color: Theme.of(context).colorScheme.tertiary),
-                title: Wrap(
-                  spacing: 8.0,
-                  children: [
-                    ...model.tags.map(
-                      (tag) => Chip(
-                        side: BorderSide.none,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primary.tone(80),
-                        label: Text(
-                          tag,
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          // CupertinoListSection(
+          //   header: const TitleLarge(text: 'Tags', weight: FontWeight.bold),
+          //   backgroundColor: Theme.of(context).colorScheme.surface,
+          //   children: [
+          //     CupertinoListTile(
+          //       padding: const EdgeInsets.all(5),
+          //       leading: Icon(Icons.tag,
+          //           color: Theme.of(context).colorScheme.tertiary),
+          //       title: Wrap(
+          //         spacing: 8.0,
+          //         children: [
+          //           ...model.tags.map(
+          //             (tag) => Chip(
+          //               side: BorderSide.none,
+          //               backgroundColor:
+          //                   Theme.of(context).colorScheme.primary.tone(80),
+          //               label: Text(
+          //                 tag,
+          //                 style: TextStyle(
+          //                     color: Theme.of(context).colorScheme.onPrimary,
+          //                     fontWeight: FontWeight.bold),
+          //               ),
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
           kWidgetVerticalGap,
           if (bidInfo != null)
             CupertinoListSection(

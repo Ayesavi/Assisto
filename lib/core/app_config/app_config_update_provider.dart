@@ -8,6 +8,6 @@ Stream<RemoteConfigUpdate> _remoteConfigUpdate(_RemoteConfigUpdateRef ref) {
 @Riverpod(keepAlive: true)
 AppConfigKeys appConfigKeys(AppConfigKeysRef ref) {
   ref.watch(_remoteConfigUpdateProvider);
-  AppConfigService.activate();
+  AppConfigService.fetchAndSettle();
   return AppConfigKeys.instance;
 }

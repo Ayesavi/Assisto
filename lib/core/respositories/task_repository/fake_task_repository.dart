@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
-import 'package:assisto/features/home/screens/home_screen.dart';
+import 'package:assisto/features/home/screens/feed_page.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/models/user_model/user_model.dart';
@@ -38,7 +38,6 @@ class FakeTaskRepository implements BaseTaskRepository {
         avatarUrl: avatarUrls[random.nextInt(avatarUrls.length)],
         gender: random.nextBool() ? 'male' : 'female',
         tags: ['tag1', 'tag2', 'tag3'], // Example tags
-        age: random.nextInt(80) + 18, // Random age between 18 and 98
       );
 
       final int amount =
@@ -121,7 +120,6 @@ class FakeTaskRepository implements BaseTaskRepository {
       return UserModel(
           id: "",
           avatarUrl: "https://randomuser.me/api/portraits/med/women/$index.jpg",
-          age: 2,
           name: "john doe",
           gender: Gender.male.name,
           tags: ['fd']);
@@ -296,9 +294,8 @@ class FakeTaskRepository implements BaseTaskRepository {
   }
 
   @override
-  Future<UserModel> getTaskOwner(int taskId) {
-    // TODO: implement getTaskOwner
-    throw UnimplementedError();
+  Future<UserModel> getTaskOwner(int taskId) async {
+    return const UserModel(gender: 'male', id: '1', name: 'name', tags: []);
   }
 
   @override

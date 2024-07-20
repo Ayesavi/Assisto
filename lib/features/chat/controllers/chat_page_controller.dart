@@ -1,6 +1,8 @@
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/error/handler.dart';
+import 'package:assisto/core/respositories/task_repository/fake_task_repository.dart';
 import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
+import 'package:assisto/features/chat/controllers/chats_list_page_controller/chats_list_page_controller.dart';
 import 'package:assisto/features/chat/repositories/chat_page_repository.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:flutter_chatbook/flutter_chatbook.dart';
@@ -21,6 +23,7 @@ class ChatPageController extends _$ChatPageController {
   late final RealtimeChannel _channel;
   final _repo = SupabaseChatRepository();
   final _taskRepo = SupabaseTaskRepository();
+
   @override
   ChatPageControllerState build(int roomId) {
     _roomId = roomId;
@@ -50,10 +53,12 @@ class ChatPageController extends _$ChatPageController {
 
   addMessage(Message message) async {
     await _repo.addMessage(message);
+    ref.read(chatsListPageControllerProvider.notifier).setLastMessage(message);
   }
 
   void addMessageListener(
       int roomId, void Function(Message message) onMessage) {
+    /// todo: uncomment this only for testing
     _channel = _repo.addMessageListener(roomId, (message) {
       onMessage(message);
     });

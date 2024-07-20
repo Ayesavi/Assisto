@@ -7,7 +7,7 @@ part of 'select_address_page_controller.dart';
 // **************************************************************************
 
 String _$selectAddressPageControllerHash() =>
-    r'13d82284736129c102adcbe20fd4cf59121b8eb5';
+    r'79e6e742d5fb282adc517e266f690b250528458c';
 
 /// Copied from Dart SDK
 class _SystemHash {

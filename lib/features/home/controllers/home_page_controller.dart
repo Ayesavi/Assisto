@@ -1,6 +1,7 @@
 import 'package:assisto/core/controllers/address_controller/address_controller.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
+import 'package:assisto/features/home/screens/feed_page.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';

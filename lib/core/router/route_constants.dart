@@ -14,7 +14,7 @@ class RouteConstants {
   );
 
   static const homeOtpPageRoute = TypedGoRoute<HomeOtpPageRoute>(
-      path: 'otp/:phoneNumber/:otpType', name: 'verifyOtp');
+      path: ':/verificationType/otp/:contact/:otpType', name: 'verifyOtp');
 
   static const addressesRoute =
       TypedGoRoute<AddressesPageRoute>(path: 'addresses', name: 'addresses');
@@ -34,12 +34,14 @@ class RouteConstants {
       path: 'transactions/:recipientId', name: 'transactions');
 
   static const fillProfileRoute = TypedGoRoute<FullFillProfileRoute>(
-    path: 'fillProfile',
+    path: '/fillProfile',
     name: 'fillProfile',
   );
 
   static const profileRoute = TypedGoRoute<ProfilePageRoute>(
-      path: 'profile', name: 'profile', routes: [editProfileRoute]);
+      path: 'profile',
+      name: 'profile',
+      routes: [editProfileRoute, addressesRoute]);
 
   static const editProfileRoute = TypedGoRoute<EditProfilePageRoute>(
     path: 'edit',
@@ -64,17 +66,18 @@ class RouteConstants {
     name: 'createTask',
   );
 
-  static const homeRoute =
-      TypedGoRoute<HomeRoute>(path: '/home', name: 'home', routes: [
-    addressesRoute,
-    taskProfile,
-    fillProfileRoute,
-    chatTransactionsPage,
-    profileRoute,
-    createTaskRoute,
-    searchTasksRoute,
-    homeOtpPageRoute,taskProfileOffers,
-    notificationPageRoute,
-    chatPage,
-  ]);
+  static const homeRoute = TypedGoRoute<HomeRoute>(
+      path: '/home',
+      name: 'home',
+      routes: [
+        taskProfile,
+        chatTransactionsPage,
+        profileRoute,
+        createTaskRoute,
+        searchTasksRoute,
+        homeOtpPageRoute,
+        taskProfileOffers,
+        notificationPageRoute,
+        chatPage,
+      ]);
 }

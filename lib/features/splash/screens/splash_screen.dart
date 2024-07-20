@@ -10,7 +10,7 @@ class SplashScreen extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     ref.listen(authStateChangesProvider, (prev, next) {
       if (next.value != null) {
-        const HomeRoute().go(context);
+         HomeRoute().go(context);
       } else {
         const AuthRoute().go(context);
       }
