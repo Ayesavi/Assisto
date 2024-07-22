@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_page_controller.dart';
+part of 'remote_config_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homePageControllerHash() =>
-    r'8035834cd4d1000ce062930f04a034819d92c57d';
+String _$remoteConfigUpdateHash() =>
+    r'475c13987ae5260834a5cb4f904866d75a664d91';
 
-/// See also [HomePageController].
-@ProviderFor(HomePageController)
-final homePageControllerProvider = AutoDisposeNotifierProvider<
-    HomePageController, HomePageControllerState>.internal(
-  HomePageController.new,
-  name: r'homePageControllerProvider',
+/// See also [remoteConfigUpdate].
+@ProviderFor(remoteConfigUpdate)
+final remoteConfigUpdateProvider = StreamProvider<RemoteConfigUpdate>.internal(
+  remoteConfigUpdate,
+  name: r'remoteConfigUpdateProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$homePageControllerHash,
+      : _$remoteConfigUpdateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$HomePageController = AutoDisposeNotifier<HomePageControllerState>;
+typedef RemoteConfigUpdateRef = StreamProviderRef<RemoteConfigUpdate>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

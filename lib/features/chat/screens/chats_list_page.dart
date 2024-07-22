@@ -27,7 +27,6 @@ class _ChatsListPageState extends ConsumerState<ChatsListPage> {
   @override
   void initState() {
     _scrollController.addListener(_onScroll);
-
     super.initState();
   }
 
@@ -68,6 +67,17 @@ class _ChatsListPageState extends ConsumerState<ChatsListPage> {
               );
             },
             data: (chatRooms) {
+              if (chatRooms.isEmpty) {
+                return const SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(
+                    child: Text(
+                      'No chats found',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                );
+              }
               return SliverList(
                 delegate: SliverChildBuilderDelegate((
                   ctx,
@@ -95,10 +105,12 @@ class _ChatsListPageState extends ConsumerState<ChatsListPage> {
                       ),
                     );
                   }
+
                   return ChatRoomTile(
                     chatRoom: chatRooms[index],
                     onPressed: () {
-                      const ChatPageRoute(roomId: 14).go(context);
+                      ChatPageRoute(roomId: chatRooms[index].chatId)
+                          .go(context);
                     },
                   );
                 }, childCount: chatRooms.length + 1),

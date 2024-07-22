@@ -5,6 +5,8 @@ import 'package:assisto/features/auth/screens/login_screen.dart';
 import 'package:assisto/features/auth/screens/verify_otp_screen.dart';
 import 'package:assisto/features/chat/screens/chat_page.dart';
 import 'package:assisto/features/chat/screens/chat_transactions.dart';
+import 'package:assisto/features/chat/screens/chats_list_page.dart';
+import 'package:assisto/features/home/screens/feed_page.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/features/maintainence/screens/maintenance_page.dart';
 import 'package:assisto/features/notifications/screens/notification_page.dart';
@@ -14,6 +16,7 @@ import 'package:assisto/features/search_tasks/screens/search_task_screen.dart';
 import 'package:assisto/features/splash/screens/splash_screen.dart';
 import 'package:assisto/features/tasks/screens/create_task_page.dart';
 import 'package:assisto/features/tasks/screens/task_profile_page.dart';
+import 'package:assisto/widgets/app_requires_update/app_requires_update_widget.dart';
 import 'package:assisto/widgets/enter_profile_detail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +24,12 @@ import 'package:go_router/go_router.dart';
 import './route_constants.dart';
 
 part 'routes.g.dart';
+
+final GlobalKey<NavigatorState> rootNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'root');
+
+final GlobalKey<NavigatorState> shellNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 @RouteConstants.splashRoute
 class SplashRoute extends GoRouteData {
@@ -39,31 +48,39 @@ class AuthRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) => LoginScreen();
 }
 
-@RouteConstants.homeRoute
-class HomeRoute extends GoRouteData {
-  HomeRoute({this.destination = 'feed'});
+@RouteConstants.homeShellRoute
+class HomeShellRoute extends ShellRouteData {
+  HomeShellRoute();
+
+  static final GlobalKey<NavigatorState> $navigatorKey = shellNavigatorKey;
+
+  @override
+  Widget builder(BuildContext context, GoRouterState state, Widget navigator) {
+    return HomeScreen(
+      destination: navigator,
+      index: getCurrentIndex(context),
+    );
+  }
+
+  int getCurrentIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).uri.path;
+    if (location.startsWith('/home/search')) {
+      return 1;
+    } else if (location.startsWith('/home/chats')) {
+      return 2;
+    }
+    return 0;
+  }
+}
+
+class FeedPageRoute extends GoRouteData {
+  FeedPageRoute({this.destination = 'feed'});
 
   final String destination;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => HomeScreen(
-        destination: getDestination(destination),
-      );
-
-  @override
-  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-    return null;
-  }
-
-  HomePageBars getDestination(String destination) {
-    if (destination == 'chat') {
-      return HomePageBars.chats;
-    } else if (destination == 'search') {
-      return HomePageBars.search;
-    } else {
-      return HomePageBars.feed;
-    }
-  }
+  Widget build(BuildContext context, GoRouterState state) =>
+      const HomeFeedPage();
 }
 
 class OtpPageRoute extends GoRouteData {
@@ -87,6 +104,7 @@ class HomeOtpPageRoute extends GoRouteData {
   /// The phone number associated with the OTP page.
   final String contact;
   final String otpType;
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   /// any of email or phone
   final String verificationType;
@@ -114,6 +132,7 @@ class VerifyPageRoute extends GoRouteData {
 @RouteConstants.fillProfileRoute
 class FullFillProfileRoute extends GoRouteData {
   const FullFillProfileRoute();
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
@@ -122,8 +141,17 @@ class FullFillProfileRoute extends GoRouteData {
       );
 }
 
+class ChatsListPageRoute extends GoRouteData {
+  const ChatsListPageRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const ChatsListPage();
+}
+
 class AddressesPageRoute extends GoRouteData {
   const AddressesPageRoute();
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
@@ -132,6 +160,7 @@ class AddressesPageRoute extends GoRouteData {
 
 class ProfilePageRoute extends GoRouteData {
   const ProfilePageRoute();
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
@@ -140,6 +169,7 @@ class ProfilePageRoute extends GoRouteData {
 
 class EditProfilePageRoute extends GoRouteData {
   const EditProfilePageRoute();
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
@@ -151,9 +181,29 @@ class TaskProfileRoute extends GoRouteData {
 
   final int taskId;
 
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
+
   @override
-  Widget build(BuildContext context, GoRouterState state) => TaskProfilePage(
-        taskId: taskId,
+  buildPage(BuildContext context, GoRouterState state) =>
+      CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: TaskProfilePage(
+          taskId: taskId,
+        ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0); // Slide from right to left
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
       );
 }
 
@@ -162,6 +212,7 @@ class TaskProfileOffersRoute extends GoRouteData {
 
   final int taskId;
   final int? offerId;
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) => TaskProfilePage(
@@ -179,6 +230,8 @@ class ChatPageRoute extends GoRouteData {
   /// The phone number associated with the OTP page.
   final int roomId;
 
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
+
   @override
   Widget build(BuildContext context, GoRouterState state) => ChatPage(
         roomId: roomId,
@@ -191,6 +244,8 @@ class ChatTransactionsPageRoute extends GoRouteData {
   /// The phone number associated with the OTP page.
   final String recipientId;
 
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       ChatTransactionsPage(
@@ -200,6 +255,8 @@ class ChatTransactionsPageRoute extends GoRouteData {
 
 class NotificationPageRoute extends GoRouteData {
   const NotificationPageRoute();
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
@@ -215,12 +272,21 @@ class MaintenancePageRoute extends GoRouteData {
       const MaintenancePage();
 }
 
-class CreateTaskRoute extends GoRouteData {
-  const CreateTaskRoute();
+@RouteConstants.appRequiresUpdate
+class ForceUpdatePageRoute extends GoRouteData {
+  const ForceUpdatePageRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const TaskCreationPage();
+      const AppRequiresUpdatePage();
+}
+
+class CreateTaskRoute extends GoRouteData {
+  const CreateTaskRoute();
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  build(BuildContext context, GoRouterState state) => const TaskCreationPage();
 }
 
 class SearchPageRoute extends GoRouteData {

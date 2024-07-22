@@ -7,7 +7,7 @@ part of 'chat_page_controller.dart';
 // **************************************************************************
 
 String _$chatPageControllerHash() =>
-    r'd2d77271b6068a74261eac33ece5e1227f9c28b2';
+    r'accf8c54a01f3935c20060082279e80dd4e2a0ca';
 
 /// Copied from Dart SDK
 class _SystemHash {

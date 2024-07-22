@@ -38,6 +38,13 @@ class RouteConstants {
     name: 'fillProfile',
   );
 
+  static const chatsListPageRoute = TypedGoRoute<ChatsListPageRoute>(
+      path: '/home/chats',
+      name: 'chats',
+      routes: [
+        chatPage,
+      ]);
+
   static const profileRoute = TypedGoRoute<ProfilePageRoute>(
       path: 'profile',
       name: 'profile',
@@ -49,7 +56,7 @@ class RouteConstants {
   );
 
   static const searchTasksRoute = TypedGoRoute<SearchPageRoute>(
-    path: 'search',
+    path: '/home/search',
     name: 'search',
   );
 
@@ -61,23 +68,28 @@ class RouteConstants {
   static const maintenancePage = TypedGoRoute<MaintenancePageRoute>(
       path: '/maintenance', name: 'maintenance');
 
+  static const appRequiresUpdate = TypedGoRoute<ForceUpdatePageRoute>(
+      path: '/appRequiresUpdate', name: 'appRequiresUpdate');
+
   static const createTaskRoute = TypedGoRoute<CreateTaskRoute>(
     path: 'createTask',
     name: 'createTask',
   );
 
-  static const homeRoute = TypedGoRoute<HomeRoute>(
-      path: '/home',
-      name: 'home',
-      routes: [
-        taskProfile,
-        chatTransactionsPage,
-        profileRoute,
-        createTaskRoute,
-        searchTasksRoute,
-        homeOtpPageRoute,
-        taskProfileOffers,
-        notificationPageRoute,
-        chatPage,
-      ]);
+  static const homeShellRoute = TypedShellRoute<HomeShellRoute>(routes: [
+    feedPageRoute,
+    searchTasksRoute,
+    chatsListPageRoute,
+  ]);
+
+  static const feedPageRoute =
+      TypedGoRoute<FeedPageRoute>(path: '/home', name: 'home', routes: [
+    taskProfile,
+    chatTransactionsPage,
+    profileRoute,
+    createTaskRoute,
+    homeOtpPageRoute,
+    taskProfileOffers,
+    notificationPageRoute,
+  ]);
 }

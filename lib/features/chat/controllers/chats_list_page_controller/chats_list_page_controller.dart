@@ -19,7 +19,7 @@ class ChatsListPageController extends _$ChatsListPageController {
   int _offset = 0;
   TaskStatus? _status;
 
-  final _repo = FakeChatRepository();
+  final _repo = SupabaseChatRepository();
   final TextEditingController searchController = TextEditingController();
 
   final _chats = <ChatRoomModel>[];

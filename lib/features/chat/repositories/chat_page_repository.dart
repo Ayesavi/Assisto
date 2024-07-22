@@ -248,7 +248,7 @@ class FakeChatRepository implements ChatRepository {
           name: 'Complete Report',
           status: TaskStatus.completed,
         ),
-        chatId: 14,
+        chatId: 1,
       ),
       ChatRoomModel(
         message: ChatRoomMessage(
@@ -263,7 +263,7 @@ class FakeChatRepository implements ChatRepository {
           name: 'Team Meeting',
           status: TaskStatus.completed,
         ),
-        chatId: 14,
+        chatId: 2,
       ),
       ChatRoomModel(
         message: ChatRoomMessage(
@@ -278,7 +278,7 @@ class FakeChatRepository implements ChatRepository {
           name: 'Code Review',
           status: TaskStatus.completed,
         ),
-        chatId: 144,
+        chatId: 3,
       ),
       ChatRoomModel(
         message: ChatRoomMessage(

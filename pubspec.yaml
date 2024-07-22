@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.2.0+18
+version: 0.3.0+19
 
 environment:
   sdk: '>=3.3.2 <4.0.0'
@@ -82,6 +82,7 @@ dependencies:
   flutter_cashfree_pg_sdk: ^2.1.3+33
   cached_network_image: ^3.3.1
   animated_bottom_navigation_bar: ^1.3.3
+  in_app_update: ^4.2.3
 
 
 dev_dependencies:
@@ -136,43 +137,16 @@ flutter:
     - assets/graphics/empty_addresses.svg
     - assets/lottie/searching.json
     - assets/lottie/app_under_maintainence.json
+    - assets/lottie/error_lottie.json
     - assets/images/ic_launcher.png
     - assets/images/ai.png
-
-
-
+    - assets/lottie/app_requires_update.json
     - .env.dev
     - .env.prod
 
-  #   - images/a_dot_ham.jpeg
 
 scripts:
     firebase:
       dev: "scripts/dev-firebase-configure.sh"
       prod: "scripts/prod-firebase-configure.sh"
 
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages

@@ -51,7 +51,7 @@ class _EnterProfileDetailWidgetState
       );
     }, authenticated: (model) {
       Future.delayed(const Duration(milliseconds: 200), () {
-        HomeRoute().go(context);
+        FeedPageRoute().go(context);
       });
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }, unAuthenticated: () {

@@ -476,10 +476,9 @@ class ProfileListItem extends StatelessWidget {
           width: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: Theme.of(context).dividerColor.withOpacity(.06),
+            color: Theme.of(context).colorScheme.primary.withOpacity(.06),
           ),
-          child: Icon(icon,
-              color: CupertinoColors.systemGrey2.resolveFrom(context))),
+          child: Icon(icon, color: Theme.of(context).colorScheme.primary)),
       title: TitleMedium(
         text: text,
       ),

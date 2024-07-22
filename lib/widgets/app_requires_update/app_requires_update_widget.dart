@@ -1,12 +1,11 @@
 import 'package:assisto/core/remote_config/remote_config_service.dart';
-import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 
-class MaintenancePage extends ConsumerWidget {
-  const MaintenancePage({super.key});
+class AppRequiresUpdatePage extends ConsumerWidget {
+  const AppRequiresUpdatePage({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -15,9 +14,9 @@ class MaintenancePage extends ConsumerWidget {
         padding: const EdgeInsets.all(8.0),
         child: FilledButton(
           onPressed: () {
-            FeedPageRoute().go(context);
+            // TODO: Implement the logic to navigate to the Play Store
           },
-          child: const Text('Refresh'),
+          child: const Text('Visit Play Store'),
         ),
       ),
       body: RefreshIndicator(
@@ -25,13 +24,13 @@ class MaintenancePage extends ConsumerWidget {
         child: CustomScrollView(
           slivers: [
             SliverFillRemaining(
-              hasScrollBody: false, // Prevent default scrolling behavior
+              hasScrollBody: false,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Lottie.asset(
-                      Assets.lottie.appUnderMaintainence,
+                      Assets.lottie.appRequiresUpdate,
                       width: 300,
                       height: 300,
                       fit: BoxFit.cover,
@@ -39,15 +38,16 @@ class MaintenancePage extends ConsumerWidget {
                     const Padding(
                       padding: EdgeInsets.all(16.0),
                       child: Text(
-                        'We\'re under maintenance!',
+                        'Oops, looks like you are missing something',
                         style: TextStyle(
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     const Text(
-                      '  We\'re currently working on some improvements and will be back soon. Please check back later.   ',
+                      'Please update your app to enjoy the best possible services.',
                       style: TextStyle(fontSize: 16.0),
                       textAlign: TextAlign.center,
                     ),
@@ -63,7 +63,6 @@ class MaintenancePage extends ConsumerWidget {
   }
 
   Future<void> _handleRefresh(WidgetRef ref) async {
-    RemoteConfigService.fetchAndSettle();
-    ref.invalidate(remoteConfigUpdateProvider);
+    await RemoteConfigService.fetchAndSettle();
   }
 }

@@ -2,9 +2,6 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/router/routes.dart';
-import 'package:assisto/features/chat/screens/chats_list_page.dart';
-import 'package:assisto/features/home/screens/feed_page.dart';
-import 'package:assisto/features/search_tasks/screens/search_task_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,48 +13,46 @@ enum HomePageBars {
 }
 
 class HomeScreen extends ConsumerStatefulWidget {
-  final HomePageBars destination;
+  final Widget destination;
+  final int index;
 
-  const HomeScreen({super.key, this.destination = HomePageBars.feed});
+  const HomeScreen({super.key, required this.destination, required this.index});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  late int _selectedIndex;
+  // late int _selectedIndex;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  // }
 
-  final _widgets = [
-    const HomeFeedPage(),
-    const SearchTaskScreen(),
-    const ChatsListPage(),
-  ];
+  // final _widgets = [
+  //   const HomeFeedPage(),
+  //   const SearchTaskScreen(),
+  //   const ChatsListPage(),
+  // ];
 
-  initializeCurrentIndex() {
-    switch (widget.destination) {
-      case HomePageBars.chats:
-        _selectedIndex = 2;
-        break;
-      case HomePageBars.search:
-        _selectedIndex = 1;
-        break;
-      case HomePageBars.feed:
-        _selectedIndex = 0;
-        break;
+  onTapNavBar(int index) {
+    switch (index) {
+      case 0:
+        return FeedPageRoute().go(context);
+      case 1:
+        return const SearchPageRoute().go(context);
+      case 2:
+        return const ChatsListPageRoute().go(context);
       default:
-        _selectedIndex = 0;
+        return FeedPageRoute().go(context);
     }
   }
 
   @override
   void initState() {
-    initializeCurrentIndex();
+    // onTapNavBar();
     super.initState();
   }
 
@@ -75,7 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: const Icon(Icons.add_rounded),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      body: _widgets[_selectedIndex],
+      body: widget.destination,
       bottomNavigationBar: AnimatedBottomNavigationBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         icons: const [
@@ -83,11 +78,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           CupertinoIcons.search,
           CupertinoIcons.chat_bubble_text,
         ],
-        activeIndex: _selectedIndex,
+        activeIndex: widget.index,
         gapLocation: GapLocation.end,
         activeColor: Theme.of(context).primaryColor,
         notchSmoothness: NotchSmoothness.defaultEdge,
-        onTap: _onItemTapped,
+        onTap: onTapNavBar,
         //other params
       ),
     );
