@@ -1,4 +1,3 @@
-import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -20,28 +19,20 @@ class ShimmeringOnMapAddressWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ListTile(
-            leading: Shimmer.fromColors(
-              baseColor: baseColor,
-              highlightColor: highlightColor,
-              child: Icon(
+          Shimmer.fromColors(
+            baseColor: baseColor,
+            highlightColor: highlightColor,
+            child: ListTile(
+              leading: Icon(
                 Icons.near_me_outlined,
                 color: theme.colorScheme.primary,
               ),
-            ),
-            title: Shimmer.fromColors(
-              baseColor: baseColor,
-              highlightColor: highlightColor,
-              child: Container(
+              title: Container(
                 width: double.infinity,
                 height: 14,
                 color: Colors.white,
               ),
-            ),
-            subtitle: Shimmer.fromColors(
-              baseColor: baseColor,
-              highlightColor: highlightColor,
-              child: Container(
+              subtitle: Container(
                 width: double.infinity,
                 height: 14,
                 color: Colors.white,
@@ -49,9 +40,17 @@ class ShimmeringOnMapAddressWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16.0),
-          AppFilledButton(
-            label: 'Continue',
-            isDisabled: true,
+          Shimmer.fromColors(
+            baseColor: baseColor,
+            highlightColor: highlightColor,
+            child: Container(
+              width: double.infinity,
+              height: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
+              ),
+            ),
           )
         ],
       ),

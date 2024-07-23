@@ -73,7 +73,6 @@ dependencies:
   animated_custom_dropdown: ^3.0.0
   readmore: ^3.0.0
   flutter_google_maps_webservices: ^1.1.1
-  flutter_slidable: ^3.1.1
   firebase_remote_config: ^4.4.7
   connectivity_plus: ^6.0.3
   package_info_plus: ^8.0.0

@@ -126,9 +126,11 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     final authController = ref.read(authControllerProvider.notifier);
     final controller = ref.read(profilePageControllerProvider.notifier);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Edit Profile'),
+      ),
       body: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: state.when(error: (e) {
             return Center(
               child: Column(
@@ -294,6 +296,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                         return;
                       },
                     ),
+                    kWidgetVerticalGap
                   ],
                 ),
               ),
