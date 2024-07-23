@@ -6,6 +6,7 @@ import 'package:assisto/core/services/app_update_service/app_update_service.dart
 import 'package:assisto/core/services/notification_service/notification_service.dart';
 import 'package:assisto/widgets/app_error_widget/app_error_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -26,7 +27,7 @@ void main() async {
   await AppUpdateService.instance.initialize();
   Log.intialize();
   RemoteConfigService.initialize();
-  ErrorWidget.builder = (_) => const AppErrorWidget();
+  if (kReleaseMode) ErrorWidget.builder = (_) => const AppErrorWidget();
 
   // HttpService().usingEmulator(5001);
 

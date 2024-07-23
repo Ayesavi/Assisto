@@ -164,8 +164,9 @@ class _AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> updatePhone(String phone) async {
-    (await _supabase.auth
-        .updateUser(UserAttributes(phone: phone, data: {'phone': phone})));
+    (await _supabase.auth.updateUser(UserAttributes(
+      phone: phone,
+    )));
   }
 
   @override

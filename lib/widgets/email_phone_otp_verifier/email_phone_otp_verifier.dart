@@ -1,7 +1,12 @@
+import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
+import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
 import 'package:assisto/core/theme/theme.dart';
+import 'package:assisto/widgets/app_filled_button.dart';
+import 'package:assisto/widgets/loading_alert_dialog/loading_alert_dialog.dart';
 import 'package:assisto/widgets/otp_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinput/pinput.dart';
 
 class EmailPhoneOtpStepper extends StatefulWidget {
@@ -10,14 +15,15 @@ class EmailPhoneOtpStepper extends StatefulWidget {
   final String? email;
   final bool showOtp;
   final Function(String otp, String phone) onConfirmOtp;
-  final VoidCallback onResendOtp;
-
+  final Function(String) onResendOtp;
+  final bool isForPhone;
   const EmailPhoneOtpStepper({
     super.key,
     required this.onSendOtp,
     required this.onConfirmOtp,
     this.showOtp = false,
     this.email,
+    this.isForPhone = true,
     this.phone,
     required this.onResendOtp,
   });
@@ -31,7 +37,6 @@ class _EmailPhoneOtpStepperState extends State<EmailPhoneOtpStepper> {
   final _otpFormKey = GlobalKey<FormState>();
   late final TextEditingController _contactController;
   late final TextEditingController _otpController;
-
   late int _currentStep;
   bool _isOtpSent = false;
 
@@ -39,7 +44,7 @@ class _EmailPhoneOtpStepperState extends State<EmailPhoneOtpStepper> {
   void initState() {
     _currentStep = widget.showOtp ? 1 : 0;
     _contactController =
-        TextEditingController(text: widget.phone ?? widget.email);
+        TextEditingController(text: widget.phone?.substring(2) ?? widget.email);
     _otpController = TextEditingController();
     super.initState();
   }
@@ -57,14 +62,64 @@ class _EmailPhoneOtpStepperState extends State<EmailPhoneOtpStepper> {
       appBar: AppBar(
         title: const Text('Verify Otp'),
       ),
-      body: Stepper(
-        // type: StepperType.horizontal,
-        currentStep: _currentStep,
-        onStepContinue: _nextStep,
-        onStepCancel: _previousStep,
-        steps: _getSteps(),
+      body: Column(
+        children: [
+          Stepper(
+            // type: StepperType.horizontal,
+            currentStep: _currentStep,
+            onStepContinue: _nextStep,
+            onStepCancel: _previousStep,
+            steps: _getSteps(),
+          ),
+          const Spacer(),
+          Consumer(
+            builder: (context, ref, child) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: AppFilledButton(
+                    label: 'LogOut',
+                    onTap: () async {
+                      ref.read(notificationServiceProvider).removeToken();
+                      final future =
+                          ref.read(authControllerProvider.notifier).signOut();
+                      showLoadingDialog(context, future);
+                    }),
+              );
+            },
+          )
+        ],
       ),
     );
+  }
+
+  String? validatePhoneNumber(String? value) {
+    // Ensure the input is not empty
+    if (value == null || value.isEmpty) {
+      return 'Please enter your phone number';
+    }
+
+    // Ensure the input is numeric and has 10 digits
+    final numericRegex = RegExp(r'^[0-9]{10}$');
+    if (!numericRegex.hasMatch(value)) {
+      return 'Please enter a valid phone number';
+    }
+
+    return null;
+  }
+
+  String? validateEmail(String? value) {
+    // Ensure the input is not empty
+    if (value == null || value.isEmpty) {
+      return 'Please enter your email';
+    }
+
+    // Validate the email format
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    if (!emailRegex.hasMatch(value)) {
+      return 'Please enter a valid email address';
+    }
+
+    return null;
   }
 
   List<Step> _getSteps() {
@@ -76,15 +131,12 @@ class _EmailPhoneOtpStepperState extends State<EmailPhoneOtpStepper> {
           child: Column(
             children: [
               TextFormField(
-                controller: _contactController,
-                decoration: const InputDecoration(labelText: 'Email or Phone'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email or phone number';
-                  }
-                  return null;
-                },
-              ),
+                  controller: _contactController,
+                  decoration: InputDecoration(
+                      labelText:
+                          widget.isForPhone ? 'Phone Number' : 'Email Id'),
+                  validator:
+                      widget.isForPhone ? validatePhoneNumber : validateEmail),
             ],
           ),
         ),
@@ -183,7 +235,9 @@ class _EmailPhoneOtpStepperState extends State<EmailPhoneOtpStepper> {
 
   void _sendOtp() {
     if (_formKey.currentState!.validate()) {
-      widget.onSendOtp(_contactController.text);
+      widget.onSendOtp(widget.isForPhone
+          ? '91${_contactController.text}'
+          : _contactController.text.trim());
       setState(() {
         _isOtpSent = true;
         _currentStep = 1;
@@ -194,12 +248,17 @@ class _EmailPhoneOtpStepperState extends State<EmailPhoneOtpStepper> {
   void _confirmOtp() {
     if (_otpFormKey.currentState!.validate()) {
       widget.onConfirmOtp(
-          _otpController.text.trim(), _contactController.text.trim());
+          _otpController.text.trim(),
+          widget.isForPhone
+              ? '91${_contactController.text.trim()}'
+              : _contactController.text.trim());
     }
   }
 
   void _resendOtp() {
-    widget.onResendOtp();
+    widget.onResendOtp(widget.isForPhone
+        ? '91${_contactController.text.trim()}'
+        : _contactController.text.trim());
   }
 
   void _nextStep() {

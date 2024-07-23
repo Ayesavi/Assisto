@@ -42,7 +42,7 @@ _$ChatRoomAuthorModelImpl _$$ChatRoomAuthorModelImplFromJson(
         Map<String, dynamic> json) =>
     _$ChatRoomAuthorModelImpl(
       name: json['name'] as String,
-      avatarUrl: json['avatar_url'] as String,
+      avatarUrl: json['avatar_url'] as String?,
     );
 
 Map<String, dynamic> _$$ChatRoomAuthorModelImplToJson(

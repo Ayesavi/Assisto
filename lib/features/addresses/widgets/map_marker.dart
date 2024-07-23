@@ -9,7 +9,7 @@ class ConeMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56,
+      height: 65,
       width: 200,
       child: Column(
         mainAxisSize: MainAxisSize.min,

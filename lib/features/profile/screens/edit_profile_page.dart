@@ -237,7 +237,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                     kWidgetVerticalGap,
                     EditTextFieldWidget(
                       labelText: 'Phone Number',
-                      hintText: 'Enter your phone number',
+                      hintText: 'Enter your phone number', 
                       onSave: (v) async {
                         final phone = phoneNumberController.text.trim();
                         HomeOtpPageRoute(

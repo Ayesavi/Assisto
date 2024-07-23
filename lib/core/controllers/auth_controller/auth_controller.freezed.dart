@@ -91,6 +91,9 @@ class _$AuthControllerStateCopyWithImpl<$Res, $Val extends AuthControllerState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AuthControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -108,6 +111,9 @@ class __$$AuthControllerLoadingImplCopyWithImpl<$Res>
   __$$AuthControllerLoadingImplCopyWithImpl(_$AuthControllerLoadingImpl _value,
       $Res Function(_$AuthControllerLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AuthControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -236,6 +242,8 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
       _$AuthenticatedImpl _value, $Res Function(_$AuthenticatedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AuthControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -249,6 +257,8 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AuthControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserModelCopyWith<$Res> get model {
@@ -282,7 +292,9 @@ class _$AuthenticatedImpl extends _Authenticated {
   @override
   int get hashCode => Object.hash(runtimeType, model);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthenticatedImplCopyWith<_$AuthenticatedImpl> get copyWith =>
@@ -375,7 +387,10 @@ abstract class _Authenticated extends AuthControllerState {
   const _Authenticated._() : super._();
 
   UserModel get model;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AuthControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AuthenticatedImplCopyWith<_$AuthenticatedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -394,6 +409,9 @@ class __$$UnAuthenticatedImplCopyWithImpl<$Res>
   __$$UnAuthenticatedImplCopyWithImpl(
       _$UnAuthenticatedImpl _value, $Res Function(_$UnAuthenticatedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AuthControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -522,6 +540,8 @@ class __$$IncompleteProfileImplCopyWithImpl<$Res>
       $Res Function(_$IncompleteProfileImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AuthControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -591,7 +611,9 @@ class _$IncompleteProfileImpl extends _IncompleteProfile {
       isPhoneVerified,
       isEmailVerified);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IncompleteProfileImplCopyWith<_$IncompleteProfileImpl> get copyWith =>
@@ -689,7 +711,10 @@ abstract class _IncompleteProfile extends AuthControllerState {
   Map<String, dynamic> get data;
   bool? get isPhoneVerified;
   bool? get isEmailVerified;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AuthControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IncompleteProfileImplCopyWith<_$IncompleteProfileImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

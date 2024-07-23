@@ -1,5 +1,6 @@
 import 'package:assisto/models/chat_room_model/chat_room_model.dart';
 import 'package:assisto/widgets/task_tile/tile_status.dart';
+import 'package:assisto/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoomTile extends StatelessWidget {
@@ -10,8 +11,8 @@ class ChatRoomTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(chatRoom.author.avatarUrl),
+      leading: UserAvatar(
+        imageUrl: chatRoom.author.avatarUrl,
         radius: 30,
       ),
       title: Text(

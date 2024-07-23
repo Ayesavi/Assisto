@@ -79,6 +79,9 @@ class _$AddressControllerStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AddressControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -95,6 +98,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AddressControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -203,6 +209,9 @@ class __$$EmptyImplCopyWithImpl<$Res>
   __$$EmptyImplCopyWithImpl(
       _$EmptyImpl _value, $Res Function(_$EmptyImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AddressControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -316,6 +325,8 @@ class __$$LocationImplCopyWithImpl<$Res>
       _$LocationImpl _value, $Res Function(_$LocationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AddressControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -329,6 +340,8 @@ class __$$LocationImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of AddressControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AddressModelCopyWith<$Res> get model {
@@ -362,7 +375,9 @@ class _$LocationImpl implements Location {
   @override
   int get hashCode => Object.hash(runtimeType, model);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AddressControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LocationImplCopyWith<_$LocationImpl> get copyWith =>
@@ -441,7 +456,10 @@ abstract class Location implements AddressControllerState {
   const factory Location(final AddressModel model) = _$LocationImpl;
 
   AddressModel get model;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AddressControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LocationImplCopyWith<_$LocationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

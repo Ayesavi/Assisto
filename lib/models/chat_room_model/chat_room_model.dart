@@ -33,7 +33,7 @@ class ChatRoomMessage with _$ChatRoomMessage {
 class ChatRoomAuthorModel with _$ChatRoomAuthorModel {
   const factory ChatRoomAuthorModel({
     required String name,
-    @JsonKey(name: "avatar_url") required String avatarUrl,
+    @JsonKey(name: "avatar_url")  String? avatarUrl,
   }) = _ChatRoomAuthorModel;
 
   factory ChatRoomAuthorModel.fromJson(Map<String, dynamic> json) =>

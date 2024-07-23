@@ -26,8 +26,12 @@ mixin _$ChatRoomModel {
   @JsonKey(name: "chat_id")
   int get chatId => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatRoomModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatRoomModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatRoomModelCopyWith<ChatRoomModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -59,6 +63,8 @@ class _$ChatRoomModelCopyWithImpl<$Res, $Val extends ChatRoomModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatRoomModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +93,8 @@ class _$ChatRoomModelCopyWithImpl<$Res, $Val extends ChatRoomModel>
     ) as $Val);
   }
 
+  /// Create a copy of ChatRoomModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatRoomMessageCopyWith<$Res> get message {
@@ -95,6 +103,8 @@ class _$ChatRoomModelCopyWithImpl<$Res, $Val extends ChatRoomModel>
     });
   }
 
+  /// Create a copy of ChatRoomModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatRoomAuthorModelCopyWith<$Res> get author {
@@ -103,6 +113,8 @@ class _$ChatRoomModelCopyWithImpl<$Res, $Val extends ChatRoomModel>
     });
   }
 
+  /// Create a copy of ChatRoomModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChatRoomTaskModelCopyWith<$Res> get task {
@@ -142,6 +154,8 @@ class __$$ChatRoomModelImplCopyWithImpl<$Res>
       _$ChatRoomModelImpl _value, $Res Function(_$ChatRoomModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatRoomModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -209,11 +223,13 @@ class _$ChatRoomModelImpl implements _ChatRoomModel {
             (identical(other.chatId, chatId) || other.chatId == chatId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, message, author, task, chatId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatRoomModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatRoomModelImplCopyWith<_$ChatRoomModelImpl> get copyWith =>
@@ -247,8 +263,11 @@ abstract class _ChatRoomModel implements ChatRoomModel {
   @override
   @JsonKey(name: "chat_id")
   int get chatId;
+
+  /// Create a copy of ChatRoomModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatRoomModelImplCopyWith<_$ChatRoomModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -263,8 +282,12 @@ mixin _$ChatRoomMessage {
   @JsonKey(name: "created_at")
   DateTime get createdAt => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatRoomMessage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatRoomMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatRoomMessageCopyWith<ChatRoomMessage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -288,6 +311,8 @@ class _$ChatRoomMessageCopyWithImpl<$Res, $Val extends ChatRoomMessage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatRoomMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -326,6 +351,8 @@ class __$$ChatRoomMessageImplCopyWithImpl<$Res>
       _$ChatRoomMessageImpl _value, $Res Function(_$ChatRoomMessageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatRoomMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -376,11 +403,13 @@ class _$ChatRoomMessageImpl implements _ChatRoomMessage {
                 other.createdAt == createdAt));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, text, createdAt);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatRoomMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatRoomMessageImplCopyWith<_$ChatRoomMessageImpl> get copyWith =>
@@ -409,8 +438,11 @@ abstract class _ChatRoomMessage implements ChatRoomMessage {
   @override
   @JsonKey(name: "created_at")
   DateTime get createdAt;
+
+  /// Create a copy of ChatRoomMessage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatRoomMessageImplCopyWith<_$ChatRoomMessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -423,10 +455,14 @@ ChatRoomAuthorModel _$ChatRoomAuthorModelFromJson(Map<String, dynamic> json) {
 mixin _$ChatRoomAuthorModel {
   String get name => throw _privateConstructorUsedError;
   @JsonKey(name: "avatar_url")
-  String get avatarUrl => throw _privateConstructorUsedError;
+  String? get avatarUrl => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatRoomAuthorModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatRoomAuthorModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatRoomAuthorModelCopyWith<ChatRoomAuthorModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -437,7 +473,7 @@ abstract class $ChatRoomAuthorModelCopyWith<$Res> {
           ChatRoomAuthorModel value, $Res Function(ChatRoomAuthorModel) then) =
       _$ChatRoomAuthorModelCopyWithImpl<$Res, ChatRoomAuthorModel>;
   @useResult
-  $Res call({String name, @JsonKey(name: "avatar_url") String avatarUrl});
+  $Res call({String name, @JsonKey(name: "avatar_url") String? avatarUrl});
 }
 
 /// @nodoc
@@ -450,21 +486,23 @@ class _$ChatRoomAuthorModelCopyWithImpl<$Res, $Val extends ChatRoomAuthorModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatRoomAuthorModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? name = null,
-    Object? avatarUrl = null,
+    Object? avatarUrl = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      avatarUrl: null == avatarUrl
+      avatarUrl: freezed == avatarUrl
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -477,7 +515,7 @@ abstract class _$$ChatRoomAuthorModelImplCopyWith<$Res>
       __$$ChatRoomAuthorModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, @JsonKey(name: "avatar_url") String avatarUrl});
+  $Res call({String name, @JsonKey(name: "avatar_url") String? avatarUrl});
 }
 
 /// @nodoc
@@ -488,21 +526,23 @@ class __$$ChatRoomAuthorModelImplCopyWithImpl<$Res>
       $Res Function(_$ChatRoomAuthorModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatRoomAuthorModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? name = null,
-    Object? avatarUrl = null,
+    Object? avatarUrl = freezed,
   }) {
     return _then(_$ChatRoomAuthorModelImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      avatarUrl: null == avatarUrl
+      avatarUrl: freezed == avatarUrl
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -511,8 +551,7 @@ class __$$ChatRoomAuthorModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ChatRoomAuthorModelImpl implements _ChatRoomAuthorModel {
   const _$ChatRoomAuthorModelImpl(
-      {required this.name,
-      @JsonKey(name: "avatar_url") required this.avatarUrl});
+      {required this.name, @JsonKey(name: "avatar_url") this.avatarUrl});
 
   factory _$ChatRoomAuthorModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatRoomAuthorModelImplFromJson(json);
@@ -521,7 +560,7 @@ class _$ChatRoomAuthorModelImpl implements _ChatRoomAuthorModel {
   final String name;
   @override
   @JsonKey(name: "avatar_url")
-  final String avatarUrl;
+  final String? avatarUrl;
 
   @override
   String toString() {
@@ -538,11 +577,13 @@ class _$ChatRoomAuthorModelImpl implements _ChatRoomAuthorModel {
                 other.avatarUrl == avatarUrl));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, avatarUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatRoomAuthorModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatRoomAuthorModelImplCopyWith<_$ChatRoomAuthorModelImpl> get copyWith =>
@@ -560,7 +601,7 @@ class _$ChatRoomAuthorModelImpl implements _ChatRoomAuthorModel {
 abstract class _ChatRoomAuthorModel implements ChatRoomAuthorModel {
   const factory _ChatRoomAuthorModel(
           {required final String name,
-          @JsonKey(name: "avatar_url") required final String avatarUrl}) =
+          @JsonKey(name: "avatar_url") final String? avatarUrl}) =
       _$ChatRoomAuthorModelImpl;
 
   factory _ChatRoomAuthorModel.fromJson(Map<String, dynamic> json) =
@@ -570,9 +611,12 @@ abstract class _ChatRoomAuthorModel implements ChatRoomAuthorModel {
   String get name;
   @override
   @JsonKey(name: "avatar_url")
-  String get avatarUrl;
+  String? get avatarUrl;
+
+  /// Create a copy of ChatRoomAuthorModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatRoomAuthorModelImplCopyWith<_$ChatRoomAuthorModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -586,8 +630,12 @@ mixin _$ChatRoomTaskModel {
   String get name => throw _privateConstructorUsedError;
   TaskStatus get status => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatRoomTaskModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatRoomTaskModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatRoomTaskModelCopyWith<ChatRoomTaskModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -611,6 +659,8 @@ class _$ChatRoomTaskModelCopyWithImpl<$Res, $Val extends ChatRoomTaskModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatRoomTaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -649,6 +699,8 @@ class __$$ChatRoomTaskModelImplCopyWithImpl<$Res>
       $Res Function(_$ChatRoomTaskModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatRoomTaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -695,11 +747,13 @@ class _$ChatRoomTaskModelImpl implements _ChatRoomTaskModel {
             (identical(other.status, status) || other.status == status));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, status);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatRoomTaskModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatRoomTaskModelImplCopyWith<_$ChatRoomTaskModelImpl> get copyWith =>
@@ -726,8 +780,11 @@ abstract class _ChatRoomTaskModel implements ChatRoomTaskModel {
   String get name;
   @override
   TaskStatus get status;
+
+  /// Create a copy of ChatRoomTaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatRoomTaskModelImplCopyWith<_$ChatRoomTaskModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

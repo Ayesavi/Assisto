@@ -25,8 +25,12 @@ mixin _$ChatEventInfo {
   @JsonKey(name: 'message_id')
   String get messageId => throw _privateConstructorUsedError;
 
+  /// Serializes this ChatEventInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatEventInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChatEventInfoCopyWith<ChatEventInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -52,6 +56,8 @@ class _$ChatEventInfoCopyWithImpl<$Res, $Val extends ChatEventInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChatEventInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,6 +98,8 @@ class __$$ChatEventInfoImplCopyWithImpl<$Res>
       _$ChatEventInfoImpl _value, $Res Function(_$ChatEventInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatEventInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -143,11 +151,13 @@ class _$ChatEventInfoImpl implements _ChatEventInfo {
                 other.messageId == messageId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, roomId, messageId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatEventInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatEventInfoImplCopyWith<_$ChatEventInfoImpl> get copyWith =>
@@ -176,8 +186,11 @@ abstract class _ChatEventInfo implements ChatEventInfo {
   @override
   @JsonKey(name: 'message_id')
   String get messageId;
+
+  /// Create a copy of ChatEventInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatEventInfoImplCopyWith<_$ChatEventInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

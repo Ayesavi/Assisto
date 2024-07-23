@@ -23,8 +23,12 @@ mixin _$TaskUpdateEventInfo {
   @JsonKey(name: "task_id")
   String get taskId => throw _privateConstructorUsedError;
 
+  /// Serializes this TaskUpdateEventInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TaskUpdateEventInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TaskUpdateEventInfoCopyWith<TaskUpdateEventInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +52,8 @@ class _$TaskUpdateEventInfoCopyWithImpl<$Res, $Val extends TaskUpdateEventInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TaskUpdateEventInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,6 +87,8 @@ class __$$TaskUpdateEventInfoImplCopyWithImpl<$Res>
       $Res Function(_$TaskUpdateEventInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TaskUpdateEventInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -121,11 +129,13 @@ class _$TaskUpdateEventInfoImpl implements _TaskUpdateEventInfo {
             (identical(other.taskId, taskId) || other.taskId == taskId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, taskId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TaskUpdateEventInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TaskUpdateEventInfoImplCopyWith<_$TaskUpdateEventInfoImpl> get copyWith =>
@@ -151,8 +161,11 @@ abstract class _TaskUpdateEventInfo implements TaskUpdateEventInfo {
   @override
   @JsonKey(name: "task_id")
   String get taskId;
+
+  /// Create a copy of TaskUpdateEventInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TaskUpdateEventInfoImplCopyWith<_$TaskUpdateEventInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

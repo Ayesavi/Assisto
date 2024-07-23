@@ -86,6 +86,9 @@ class _$ChatPageControllerStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChatPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -102,6 +105,9 @@ class __$$ChatPageLoadingImplCopyWithImpl<$Res>
   __$$ChatPageLoadingImplCopyWithImpl(
       _$ChatPageLoadingImpl _value, $Res Function(_$ChatPageLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ChatPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -223,6 +229,8 @@ class __$$ChatPageDataImplCopyWithImpl<$Res>
       _$ChatPageDataImpl _value, $Res Function(_$ChatPageDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -241,6 +249,8 @@ class __$$ChatPageDataImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of ChatPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserModelCopyWith<$Res> get remoteUser {
@@ -287,7 +297,9 @@ class _$ChatPageDataImpl extends ChatPageData {
   int get hashCode => Object.hash(
       runtimeType, remoteUser, const DeepCollectionEquality().hash(_messages));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatPageDataImplCopyWith<_$ChatPageDataImpl> get copyWith =>
@@ -377,7 +389,10 @@ abstract class ChatPageData extends ChatPageControllerState {
 
   UserModel get remoteUser;
   List<Message> get messages;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatPageDataImplCopyWith<_$ChatPageDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -399,6 +414,8 @@ class __$$ChatPageErrorImplCopyWithImpl<$Res>
       _$ChatPageErrorImpl _value, $Res Function(_$ChatPageErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -437,7 +454,9 @@ class _$ChatPageErrorImpl extends ChatPageError {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChatPageErrorImplCopyWith<_$ChatPageErrorImpl> get copyWith =>
@@ -524,7 +543,10 @@ abstract class ChatPageError extends ChatPageControllerState {
   const ChatPageError._() : super._();
 
   AppException get error;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChatPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChatPageErrorImplCopyWith<_$ChatPageErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -544,6 +566,9 @@ class __$$ChatPageNetworkErrorImplCopyWithImpl<$Res>
   __$$ChatPageNetworkErrorImplCopyWithImpl(_$ChatPageNetworkErrorImpl _value,
       $Res Function(_$ChatPageNetworkErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ChatPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

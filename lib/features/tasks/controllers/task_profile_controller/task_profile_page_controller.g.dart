@@ -7,7 +7,7 @@ part of 'task_profile_page_controller.dart';
 // **************************************************************************
 
 String _$taskProfilePageControllerHash() =>
-    r'20d468288bc46b6bf3911a4d297bafb34731f814';
+    r'ebf81db5e82b10f7fd78fb63ba05eb71468737c3';
 
 /// Copied from Dart SDK
 class _SystemHash {

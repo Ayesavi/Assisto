@@ -85,15 +85,16 @@ class _EnterProfileDetailWidgetState
           : EmailPhoneOtpStepper(
               phone: isPhoneVerified != null ? userDetails['phone'] : null,
               showOtp: isPhoneVerified == false ? true : false,
+              isForPhone: isPhoneVerified == null
+                  ? true
+                  : isPhoneVerified == false
+                      ? true
+                      : false,
               onSendOtp: (phone) {
                 final future = ref
                     .read(authControllerProvider.notifier)
                     .updatePhone(phone);
-                showLoadingDialog(context, future, onFinish: () {
-                  OtpPageRoute(
-                          phoneNumber: phone, otpType: OtpType.phoneChange.name)
-                      .go(context);
-                });
+                showLoadingDialog(context, future, onFinish: () {});
               },
               onConfirmOtp: (otp, phone) {
                 final future = ref
@@ -102,7 +103,7 @@ class _EnterProfileDetailWidgetState
                         token: otp, phone: phone, type: OtpType.phoneChange);
                 showLoadingDialog(context, future);
               },
-              onResendOtp: () {});
+              onResendOtp: (e) {});
     });
   }
 }

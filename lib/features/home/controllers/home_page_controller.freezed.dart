@@ -89,6 +89,9 @@ class _$HomePageControllerStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of HomePageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -105,6 +108,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of HomePageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -226,6 +232,8 @@ class __$$TasksImplCopyWithImpl<$Res>
       _$TasksImpl _value, $Res Function(_$TasksImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomePageControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -289,7 +297,9 @@ class _$TasksImpl implements _Tasks {
       const DeepCollectionEquality().hash(_models),
       const DeepCollectionEquality().hash(_filters));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomePageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TasksImplCopyWith<_$TasksImpl> get copyWith =>
@@ -381,7 +391,10 @@ abstract class _Tasks implements HomePageControllerState {
 
   List<TaskModel> get models;
   List<TaskFilterType> get filters;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HomePageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TasksImplCopyWith<_$TasksImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -403,6 +416,8 @@ class __$$ErrorImplCopyWithImpl<$Res>
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HomePageControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -439,7 +454,9 @@ class _$ErrorImpl implements _Error {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HomePageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
@@ -528,7 +545,10 @@ abstract class _Error implements HomePageControllerState {
   const factory _Error(final Object e) = _$ErrorImpl;
 
   Object get e;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HomePageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -547,6 +567,9 @@ class __$$NetworkErrorImplCopyWithImpl<$Res>
   __$$NetworkErrorImplCopyWithImpl(
       _$NetworkErrorImpl _value, $Res Function(_$NetworkErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of HomePageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

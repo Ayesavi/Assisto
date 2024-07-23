@@ -72,10 +72,7 @@ class AuthController extends _$AuthController {
           ? userMetadata!['description']
           : null;
 
-      final isPhoneVerified =
-          userMetadata?.containsKey("phone_verified") ?? false
-              ? userMetadata!['phone_verified'] as bool
-              : null;
+      final isPhoneVerified = sessionUser.phoneConfirmedAt != null;
 
       final tags = userMetadata?.containsKey("tags") ?? false
           ? userMetadata!['tags'].map((e) => e.toString()).toList()
@@ -92,7 +89,8 @@ class AuthController extends _$AuthController {
           ])) && // todo: add image url, email
           userMetadata != null) {
         return _IncompleteProfile(userMetadata,
-            isPhoneVerified: isPhoneVerified, isEmailVerified: isEmailVerified);
+            isPhoneVerified: phone != null ? isPhoneVerified : null,
+            isEmailVerified: isEmailVerified);
       }
 
       FirebaseAnalytics.instance.setUserId(
