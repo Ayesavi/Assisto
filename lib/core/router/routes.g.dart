@@ -9,8 +9,10 @@ part of 'routes.dart';
 List<RouteBase> get $appRoutes => [
       $splashRoute,
       $authRoute,
-      $homeRoute,
+      $homeShellRoute,
+      $fullFillProfileRoute,
       $maintenancePageRoute,
+      $forceUpdatePageRoute,
     ];
 
 RouteBase get $splashRoute => GoRouteData.$route(
@@ -86,99 +88,108 @@ extension $OtpPageRouteExtension on OtpPageRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $homeRoute => GoRouteData.$route(
-      path: '/home',
-      name: 'home',
-      factory: $HomeRouteExtension._fromState,
+RouteBase get $homeShellRoute => ShellRouteData.$route(
+      navigatorKey: HomeShellRoute.$navigatorKey,
+      factory: $HomeShellRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
-          path: 'addresses',
-          name: 'addresses',
-          factory: $AddressesPageRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: 'taskProfile/:taskId',
-          name: 'taskProfile',
-          factory: $TaskProfileRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: 'fillProfile',
-          name: 'fillProfile',
-          factory: $FullFillProfileRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: 'transactions/:recipientId',
-          name: 'transactions',
-          factory: $ChatTransactionsPageRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: 'profile',
-          name: 'profile',
-          factory: $ProfilePageRouteExtension._fromState,
+          path: '/home',
+          name: 'home',
+          factory: $FeedPageRouteExtension._fromState,
           routes: [
             GoRouteData.$route(
-              path: 'edit',
-              name: 'edit',
-              factory: $EditProfilePageRouteExtension._fromState,
+              path: 'taskProfile/:taskId',
+              name: 'taskProfile',
+              parentNavigatorKey: TaskProfileRoute.$parentNavigatorKey,
+              factory: $TaskProfileRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'transactions/:recipientId',
+              name: 'transactions',
+              parentNavigatorKey: ChatTransactionsPageRoute.$parentNavigatorKey,
+              factory: $ChatTransactionsPageRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'profile',
+              name: 'profile',
+              parentNavigatorKey: ProfilePageRoute.$parentNavigatorKey,
+              factory: $ProfilePageRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'edit',
+                  name: 'edit',
+                  parentNavigatorKey: EditProfilePageRoute.$parentNavigatorKey,
+                  factory: $EditProfilePageRouteExtension._fromState,
+                ),
+                GoRouteData.$route(
+                  path: 'addresses',
+                  name: 'addresses',
+                  parentNavigatorKey: AddressesPageRoute.$parentNavigatorKey,
+                  factory: $AddressesPageRouteExtension._fromState,
+                ),
+              ],
+            ),
+            GoRouteData.$route(
+              path: 'createTask',
+              name: 'createTask',
+              parentNavigatorKey: CreateTaskRoute.$parentNavigatorKey,
+              factory: $CreateTaskRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: ':/verificationType/otp/:contact/:otpType',
+              name: 'verifyOtp',
+              parentNavigatorKey: HomeOtpPageRoute.$parentNavigatorKey,
+              factory: $HomeOtpPageRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'taskProfile/:taskId/offers/:offerId',
+              name: 'taskProfileOffers',
+              parentNavigatorKey: TaskProfileOffersRoute.$parentNavigatorKey,
+              factory: $TaskProfileOffersRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'notifications',
+              name: 'notifications',
+              parentNavigatorKey: NotificationPageRoute.$parentNavigatorKey,
+              factory: $NotificationPageRouteExtension._fromState,
             ),
           ],
         ),
         GoRouteData.$route(
-          path: 'createTask',
-          name: 'createTask',
-          factory: $CreateTaskRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: 'search',
+          path: '/home/search',
           name: 'search',
           factory: $SearchPageRouteExtension._fromState,
         ),
         GoRouteData.$route(
-          path: 'otp/:phoneNumber/:otpType',
-          name: 'verifyOtp',
-          factory: $HomeOtpPageRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: 'taskProfile/:taskId/offers/:offerId',
-          name: 'taskProfileOffers',
-          factory: $TaskProfileOffersRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: 'notifications',
-          name: 'notifications',
-          factory: $NotificationPageRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: 'chat/:roomId',
-          name: 'chat',
-          factory: $ChatPageRouteExtension._fromState,
+          path: '/home/chats',
+          name: 'chats',
+          factory: $ChatsListPageRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'chat/:roomId',
+              name: 'chat',
+              parentNavigatorKey: ChatPageRoute.$parentNavigatorKey,
+              factory: $ChatPageRouteExtension._fromState,
+            ),
+          ],
         ),
       ],
     );
 
-extension $HomeRouteExtension on HomeRoute {
-  static HomeRoute _fromState(GoRouterState state) => const HomeRoute();
+extension $HomeShellRouteExtension on HomeShellRoute {
+  static HomeShellRoute _fromState(GoRouterState state) => HomeShellRoute();
+}
+
+extension $FeedPageRouteExtension on FeedPageRoute {
+  static FeedPageRoute _fromState(GoRouterState state) => FeedPageRoute(
+        destination: state.uri.queryParameters['destination'] ?? 'feed',
+      );
 
   String get location => GoRouteData.$location(
         '/home',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-extension $AddressesPageRouteExtension on AddressesPageRoute {
-  static AddressesPageRoute _fromState(GoRouterState state) =>
-      const AddressesPageRoute();
-
-  String get location => GoRouteData.$location(
-        '/home/addresses',
+        queryParams: {
+          if (destination != 'feed') 'destination': destination,
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -198,24 +209,6 @@ extension $TaskProfileRouteExtension on TaskProfileRoute {
 
   String get location => GoRouteData.$location(
         '/home/taskProfile/${Uri.encodeComponent(taskId.toString())}',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-extension $FullFillProfileRouteExtension on FullFillProfileRoute {
-  static FullFillProfileRoute _fromState(GoRouterState state) =>
-      const FullFillProfileRoute();
-
-  String get location => GoRouteData.$location(
-        '/home/fillProfile',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -284,6 +277,24 @@ extension $EditProfilePageRouteExtension on EditProfilePageRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $AddressesPageRouteExtension on AddressesPageRoute {
+  static AddressesPageRoute _fromState(GoRouterState state) =>
+      const AddressesPageRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/profile/addresses',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $CreateTaskRouteExtension on CreateTaskRoute {
   static CreateTaskRoute _fromState(GoRouterState state) =>
       const CreateTaskRoute();
@@ -302,32 +313,18 @@ extension $CreateTaskRouteExtension on CreateTaskRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $SearchPageRouteExtension on SearchPageRoute {
-  static SearchPageRoute _fromState(GoRouterState state) =>
-      const SearchPageRoute();
-
-  String get location => GoRouteData.$location(
-        '/home/search',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
 extension $HomeOtpPageRouteExtension on HomeOtpPageRoute {
   static HomeOtpPageRoute _fromState(GoRouterState state) => HomeOtpPageRoute(
-        phoneNumber: state.pathParameters['phoneNumber']!,
+        contact: state.pathParameters['contact']!,
         otpType: state.pathParameters['otpType']!,
+        verificationType: state.uri.queryParameters['verification-type']!,
       );
 
   String get location => GoRouteData.$location(
-        '/home/otp/${Uri.encodeComponent(phoneNumber)}/${Uri.encodeComponent(otpType)}',
+        '/home/:/verificationType/otp/${Uri.encodeComponent(contact)}/${Uri.encodeComponent(otpType)}',
+        queryParams: {
+          'verification-type': verificationType,
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -379,13 +376,74 @@ extension $NotificationPageRouteExtension on NotificationPageRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $SearchPageRouteExtension on SearchPageRoute {
+  static SearchPageRoute _fromState(GoRouterState state) =>
+      const SearchPageRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/search',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ChatsListPageRouteExtension on ChatsListPageRoute {
+  static ChatsListPageRoute _fromState(GoRouterState state) =>
+      const ChatsListPageRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/chats',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $ChatPageRouteExtension on ChatPageRoute {
   static ChatPageRoute _fromState(GoRouterState state) => ChatPageRoute(
         roomId: int.parse(state.pathParameters['roomId']!),
       );
 
   String get location => GoRouteData.$location(
-        '/home/chat/${Uri.encodeComponent(roomId.toString())}',
+        '/home/chats/chat/${Uri.encodeComponent(roomId.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $fullFillProfileRoute => GoRouteData.$route(
+      path: '/fillProfile',
+      name: 'fillProfile',
+      parentNavigatorKey: FullFillProfileRoute.$parentNavigatorKey,
+      factory: $FullFillProfileRouteExtension._fromState,
+    );
+
+extension $FullFillProfileRouteExtension on FullFillProfileRoute {
+  static FullFillProfileRoute _fromState(GoRouterState state) =>
+      const FullFillProfileRoute();
+
+  String get location => GoRouteData.$location(
+        '/fillProfile',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -410,6 +468,30 @@ extension $MaintenancePageRouteExtension on MaintenancePageRoute {
 
   String get location => GoRouteData.$location(
         '/maintenance',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $forceUpdatePageRoute => GoRouteData.$route(
+      path: '/appRequiresUpdate',
+      name: 'appRequiresUpdate',
+      factory: $ForceUpdatePageRouteExtension._fromState,
+    );
+
+extension $ForceUpdatePageRouteExtension on ForceUpdatePageRoute {
+  static ForceUpdatePageRoute _fromState(GoRouterState state) =>
+      const ForceUpdatePageRoute();
+
+  String get location => GoRouteData.$location(
+        '/appRequiresUpdate',
       );
 
   void go(BuildContext context) => context.go(location);

@@ -73,6 +73,9 @@ class _$LoginPageControllerStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of LoginPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -92,6 +95,9 @@ class __$$LoginPageControllerInitialImplCopyWithImpl<$Res>
       _$LoginPageControllerInitialImpl _value,
       $Res Function(_$LoginPageControllerInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of LoginPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -197,6 +203,9 @@ class __$$NetworkErrorImplCopyWithImpl<$Res>
   __$$NetworkErrorImplCopyWithImpl(
       _$NetworkErrorImpl _value, $Res Function(_$NetworkErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of LoginPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

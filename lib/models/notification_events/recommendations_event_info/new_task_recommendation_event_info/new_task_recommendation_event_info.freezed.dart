@@ -24,8 +24,12 @@ mixin _$NewTaskRecommendationEventInfo {
   @JsonKey(name: 'task_id')
   String get taskId => throw _privateConstructorUsedError;
 
+  /// Serializes this NewTaskRecommendationEventInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NewTaskRecommendationEventInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NewTaskRecommendationEventInfoCopyWith<NewTaskRecommendationEventInfo>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -52,6 +56,8 @@ class _$NewTaskRecommendationEventInfoCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NewTaskRecommendationEventInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -88,6 +94,8 @@ class __$$NewTaskRecommendationEventInfoImplCopyWithImpl<$Res>
       $Res Function(_$NewTaskRecommendationEventInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NewTaskRecommendationEventInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -130,11 +138,13 @@ class _$NewTaskRecommendationEventInfoImpl
             (identical(other.taskId, taskId) || other.taskId == taskId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, taskId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NewTaskRecommendationEventInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NewTaskRecommendationEventInfoImplCopyWith<
@@ -162,8 +172,11 @@ abstract class _NewTaskRecommendationEventInfo
   @override
   @JsonKey(name: 'task_id')
   String get taskId;
+
+  /// Create a copy of NewTaskRecommendationEventInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NewTaskRecommendationEventInfoImplCopyWith<
           _$NewTaskRecommendationEventInfoImpl>
       get copyWith => throw _privateConstructorUsedError;

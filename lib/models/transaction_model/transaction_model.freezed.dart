@@ -30,8 +30,12 @@ mixin _$TransactionModel {
   DateTime get createdAt => throw _privateConstructorUsedError;
   PaymentStatus get paymentStatus => throw _privateConstructorUsedError;
 
+  /// Serializes this TransactionModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionModelCopyWith<TransactionModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -66,6 +70,8 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -104,6 +110,8 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
     ) as $Val);
   }
 
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionUserModelCopyWith<$Res> get recipient {
@@ -112,6 +120,8 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
     });
   }
 
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionUserModelCopyWith<$Res> get sender {
@@ -153,6 +163,8 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
       $Res Function(_$TransactionModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -245,12 +257,14 @@ class _$TransactionModelImpl implements _TransactionModel {
                 other.paymentStatus == paymentStatus));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, recipient, sender, amount, createdAt, paymentStatus);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionModelImplCopyWith<_$TransactionModelImpl> get copyWith =>
@@ -294,8 +308,11 @@ abstract class _TransactionModel implements TransactionModel {
   DateTime get createdAt;
   @override
   PaymentStatus get paymentStatus;
+
+  /// Create a copy of TransactionModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionModelImplCopyWith<_$TransactionModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -311,8 +328,12 @@ mixin _$TransactionUserModel {
   @JsonKey(name: "avatar_url")
   String get avatarUrl => throw _privateConstructorUsedError;
 
+  /// Serializes this TransactionUserModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransactionUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransactionUserModelCopyWith<TransactionUserModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -338,6 +359,8 @@ class _$TransactionUserModelCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransactionUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -382,6 +405,8 @@ class __$$TransactionUserModelImplCopyWithImpl<$Res>
       $Res Function(_$TransactionUserModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransactionUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -441,11 +466,13 @@ class _$TransactionUserModelImpl implements _TransactionUserModel {
                 other.avatarUrl == avatarUrl));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name, id, avatarUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransactionUserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionUserModelImplCopyWith<_$TransactionUserModelImpl>
@@ -478,8 +505,11 @@ abstract class _TransactionUserModel implements TransactionUserModel {
   @override
   @JsonKey(name: "avatar_url")
   String get avatarUrl;
+
+  /// Create a copy of TransactionUserModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransactionUserModelImplCopyWith<_$TransactionUserModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

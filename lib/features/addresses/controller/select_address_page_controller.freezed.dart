@@ -90,6 +90,9 @@ class _$SelectAddressPageControllerStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SelectAddressPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -109,6 +112,9 @@ class __$$SelectAddressPageControllerInitialImplCopyWithImpl<$Res>
       _$SelectAddressPageControllerInitialImpl _value,
       $Res Function(_$SelectAddressPageControllerInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SelectAddressPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -237,6 +243,8 @@ class __$$SelectAddressPageControllerErrorImplCopyWithImpl<$Res>
       $Res Function(_$SelectAddressPageControllerErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SelectAddressPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -276,7 +284,9 @@ class _$SelectAddressPageControllerErrorImpl
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SelectAddressPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SelectAddressPageControllerErrorImplCopyWith<
@@ -369,7 +379,10 @@ abstract class SelectAddressPageControllerError
   const SelectAddressPageControllerError._() : super._();
 
   AppException get error;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SelectAddressPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SelectAddressPageControllerErrorImplCopyWith<
           _$SelectAddressPageControllerErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -392,6 +405,9 @@ class __$$SelectAddressPageControllerNetworkErrorImplCopyWithImpl<$Res>
       _$SelectAddressPageControllerNetworkErrorImpl _value,
       $Res Function(_$SelectAddressPageControllerNetworkErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SelectAddressPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -520,6 +536,8 @@ class __$$SelectAddressPageControllerLoadMapImplCopyWithImpl<$Res>
       $Res Function(_$SelectAddressPageControllerLoadMapImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SelectAddressPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -559,7 +577,9 @@ class _$SelectAddressPageControllerLoadMapImpl
   @override
   int get hashCode => Object.hash(runtimeType, config);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SelectAddressPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SelectAddressPageControllerLoadMapImplCopyWith<
@@ -652,7 +672,10 @@ abstract class SelectAddressPageControllerLoadMap
   const SelectAddressPageControllerLoadMap._() : super._();
 
   _MapConfig get config;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SelectAddressPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SelectAddressPageControllerLoadMapImplCopyWith<
           _$SelectAddressPageControllerLoadMapImpl>
       get copyWith => throw _privateConstructorUsedError;

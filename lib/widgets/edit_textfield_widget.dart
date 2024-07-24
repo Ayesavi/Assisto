@@ -42,6 +42,7 @@ class EditTextFieldWidget extends ConsumerWidget {
                 readOnly: textEditingController.text.isNotEmpty && !value,
                 decoration: InputDecoration(
                   hintText: hintText,
+                  filled: false,
                   labelText: labelText,
                   errorText: validator != null && !value
                       ? validator!(textEditingController.text)

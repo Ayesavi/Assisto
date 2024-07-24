@@ -2,7 +2,6 @@ import 'package:assisto/features/addresses/repositories/places_repository.dart';
 import 'package:assisto/features/addresses/widgets/on_map_address_widget/shimmerinig_on_map_address_widget.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
-import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -65,15 +64,20 @@ class OnMapAddressWidget extends ConsumerWidget {
                     Icons.near_me_outlined,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  title: TitleMedium(
-                    text: data.titleAddress,
-                    weight: FontWeight.bold,
+                  title: Text(
+                    data.titleAddress,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 18),
                     maxLines: 1,
                   ),
-                  subtitle: LabelLarge(
-                    text: data.formattedAddress,
-                    weight: FontWeight.w400,
-                    maxLines: 1,
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      data.formattedAddress,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w400, fontSize: 16),
+                      maxLines: 2,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16.0),

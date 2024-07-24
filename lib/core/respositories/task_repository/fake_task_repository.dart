@@ -1,17 +1,27 @@
 import 'dart:math';
 
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
-import 'package:assisto/features/home/screens/home_screen.dart';
+import 'package:assisto/features/home/screens/feed_page.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class FakeTaskRepository implements BaseTaskRepository {
-  FakeTaskRepository() {
+  // Private static instance of the class
+  static final FakeTaskRepository _instance = FakeTaskRepository._internal();
+
+  // Private constructor
+  FakeTaskRepository._internal() {
     _generateAuthenticTasks();
   }
-  List<TaskModel> _tasks = [];
+
+  // Factory constructor to return the same instance
+  factory FakeTaskRepository() {
+    return _instance;
+  }
+
+  final List<TaskModel> _tasks = [];
 
   List<String> avatarUrls = [
     'https://randomuser.me/api/portraits/men/1.jpg',
@@ -38,7 +48,6 @@ class FakeTaskRepository implements BaseTaskRepository {
         avatarUrl: avatarUrls[random.nextInt(avatarUrls.length)],
         gender: random.nextBool() ? 'male' : 'female',
         tags: ['tag1', 'tag2', 'tag3'], // Example tags
-        age: random.nextInt(80) + 18, // Random age between 18 and 98
       );
 
       final int amount =
@@ -75,8 +84,6 @@ class FakeTaskRepository implements BaseTaskRepository {
   @override
   Future<List<TaskModel>> fetchTasks(
       {filters = const [], LatLng? latlng, int? offset}) async {
-    _tasks = [];
-    _generateAuthenticTasks();
     await Future.delayed(const Duration(seconds: 1), () {});
     // Filter the tasks based on the searchKey
     final filteredTasks = _tasks.toList();
@@ -113,6 +120,7 @@ class FakeTaskRepository implements BaseTaskRepository {
 
   @override
   Future<void> acceptBid(int bidId) async {
+    await Future.delayed(const Duration(seconds: 2), () {});
     return;
   }
 
@@ -121,7 +129,6 @@ class FakeTaskRepository implements BaseTaskRepository {
       return UserModel(
           id: "",
           avatarUrl: "https://randomuser.me/api/portraits/med/women/$index.jpg",
-          age: 2,
           name: "john doe",
           gender: Gender.male.name,
           tags: ['fd']);
@@ -263,7 +270,7 @@ class FakeTaskRepository implements BaseTaskRepository {
 
   @override
   Future<List<BidModel>> fetchBids(int bidId, {int? offset}) async {
-    await Future.delayed(const Duration(seconds: 1), () {});
+    await Future.delayed(const Duration(seconds: 4), () {});
     return generateBidModels('3', ['d', 's']);
   }
 
@@ -296,9 +303,8 @@ class FakeTaskRepository implements BaseTaskRepository {
   }
 
   @override
-  Future<UserModel> getTaskOwner(int taskId) {
-    // TODO: implement getTaskOwner
-    throw UnimplementedError();
+  Future<UserModel> getTaskOwner(int taskId) async {
+    return const UserModel(gender: 'male', id: '1', name: 'name', tags: []);
   }
 
   @override
@@ -322,59 +328,4 @@ class FakeTaskRepository implements BaseTaskRepository {
     // TODO: implement fetchBidById
     throw UnimplementedError();
   }
-
-  // @override
-  // Future<List<TaskModel>> fetchOwnTasks({LatLng? latlng}) {
-  //   return Future.delayed(const Duration(seconds: 1), () {
-  //     return [
-  //       TaskModel(
-  //           owner: const TaskUser(
-  //             id: '3ca90470-042a-41dd-a9e1-d9547b59cda2',
-  //             imageUrl:
-  //                 'https://randomuser.me/api/portraits/med/women/1.jpg', // Assuming user profile images
-  //           ),
-  //           tags: _generateRandomTags(Random().nextInt(6)),
-  //           address: const TaskAddress(
-  //             latlng: (lat: 23, lng: 32),
-  //             id: 2,
-  //             address: '123 Main St, Anytown, USA',
-  //             houseNumber: '1',
-  //           ),
-  //           status: TaskStatus.unassigned,
-  //           deadline: DateTime.now().add(Duration(days: Random().nextInt(2))),
-  //           title: 'Grocery Shopping',
-  //           id: 1,
-  //           description:
-  //               'Need someone to help with grocery shopping. Will provide the list.',
-  //           ageGroup: '${Random().nextInt(100)}-${Random().nextInt(100)}',
-  //           distance: Random().nextDouble()),
-  //       TaskModel(
-  //           owner: const TaskUser(
-  //             id: '3ca90470-042a-41dd-a9e1-d9547b59cda2',
-  //             imageUrl:
-  //                 'https://randomuser.me/api/portraits/med/women/1.jpg', // Assuming user profile images
-  //           ),
-  //           tags: _generateRandomTags(Random().nextInt(6)),
-  //           address: const TaskAddress(
-  //             latlng: (lat: 23, lng: 32),
-  //             id: 2,
-  //             address: '123 Main St, Anytown, USA',
-  //             houseNumber: '1',
-  //           ),
-  //           status: TaskStatus.completed,
-  //           bid: BidModel(
-  //               id: 0,
-  //               createdAt: DateTime.now(),
-  //               bidder: _getAssigned(TaskStatus.completed, 50)!,
-  //               amount: 352), // Initiall
-  //           deadline: DateTime.now().add(Duration(days: Random().nextInt(2))),
-  //           title: 'Grocery Shopping',
-  //           id: 2,
-  //           description:
-  //               'Need someone to help with grocery shopping. Will provide the list.',
-  //           ageGroup: '${Random().nextInt(100)}-${Random().nextInt(100)}',
-  //           distance: Random().nextDouble())
-  //     ];
-  //   });
-  // }
 }

@@ -364,6 +364,29 @@ class MaterialTheme {
   ThemeData theme(ColorScheme colorScheme) => ThemeData(
         useMaterial3: true,
         brightness: colorScheme.brightness,
+        filledButtonTheme: FilledButtonThemeData(
+            style: ButtonStyle(
+          shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+          minimumSize: const WidgetStatePropertyAll(
+            Size(double.infinity, 50),
+          ),
+        )),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+            style: ButtonStyle(
+          shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+          minimumSize: const WidgetStatePropertyAll(
+            Size(double.infinity, 50),
+          ),
+        )),
+        inputDecorationTheme: InputDecorationTheme(
+            border: UnderlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            filled: true,
+            fillColor: colorScheme.onInverseSurface),
         colorScheme: colorScheme,
         textTheme: textTheme.apply(
           bodyColor: colorScheme.onSurface,

@@ -6,7 +6,7 @@ abstract class CategoriesRepository {
 }
 
 class FakeCategoriesRepository implements CategoriesRepository {
-  final List<ServiceCategoryModel> _categories = [
+  final List<ServiceCategoryModel> categories = [
     ServiceCategoryModel(
         description:
             'ride, safar, commute, carpool, drive, drop-off, pick-up, सवारी',
@@ -85,13 +85,13 @@ class FakeCategoriesRepository implements CategoriesRepository {
   Future<List<ServiceCategoryModel>> fetchCategories() async {
     // Simulate delay to mimic asynchronous behavior
     await Future.delayed(const Duration(milliseconds: 500));
-    return _categories;
+    return categories;
   }
 
   @override
   Future<List<ServiceCategoryModel>> fetchCategoryByKey(String key) async {
     // Find category by key
-    final categories = _categories
+    categories
         .where(
           (element) => (element.label.contains(key) ||
               element.description.contains(key)),

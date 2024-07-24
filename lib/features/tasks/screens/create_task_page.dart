@@ -425,7 +425,7 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
                           .createTask(getTaskModel());
                     }
                     if (context.mounted) {
-                      const HomeRoute().pushReplacement(context);
+                      FeedPageRoute().pushReplacement(context);
                     }
                   } catch (e) {
                     if (context.mounted) {

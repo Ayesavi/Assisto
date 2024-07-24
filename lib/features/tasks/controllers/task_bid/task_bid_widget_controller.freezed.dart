@@ -88,6 +88,9 @@ class _$TaskBidWidgetControllerStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of TaskBidWidgetControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -107,6 +110,9 @@ class __$$TaskBidWidgetControllerLoadingImplCopyWithImpl<$Res>
       _$TaskBidWidgetControllerLoadingImpl _value,
       $Res Function(_$TaskBidWidgetControllerLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TaskBidWidgetControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -233,6 +239,8 @@ class __$$TaskBidWidgetControllerDataImplCopyWithImpl<$Res>
       $Res Function(_$TaskBidWidgetControllerDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TaskBidWidgetControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -279,7 +287,9 @@ class _$TaskBidWidgetControllerDataImpl extends TaskBidWidgetControllerData {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_bids));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TaskBidWidgetControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TaskBidWidgetControllerDataImplCopyWith<_$TaskBidWidgetControllerDataImpl>
@@ -369,7 +379,10 @@ abstract class TaskBidWidgetControllerData
   const TaskBidWidgetControllerData._() : super._();
 
   List<BidModel> get bids;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TaskBidWidgetControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TaskBidWidgetControllerDataImplCopyWith<_$TaskBidWidgetControllerDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -391,6 +404,9 @@ class __$$TaskBidWidgetControllerNetworkErrorImplCopyWithImpl<$Res>
       _$TaskBidWidgetControllerNetworkErrorImpl _value,
       $Res Function(_$TaskBidWidgetControllerNetworkErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TaskBidWidgetControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -517,6 +533,8 @@ class __$$TaskBidWidgetControllerErrorImplCopyWithImpl<$Res>
       $Res Function(_$TaskBidWidgetControllerErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TaskBidWidgetControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -553,7 +571,9 @@ class _$TaskBidWidgetControllerErrorImpl extends TaskBidWidgetControllerError {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(error));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TaskBidWidgetControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TaskBidWidgetControllerErrorImplCopyWith<
@@ -644,7 +664,10 @@ abstract class TaskBidWidgetControllerError
   const TaskBidWidgetControllerError._() : super._();
 
   Object get error;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TaskBidWidgetControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TaskBidWidgetControllerErrorImplCopyWith<
           _$TaskBidWidgetControllerErrorImpl>
       get copyWith => throw _privateConstructorUsedError;

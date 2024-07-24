@@ -14,7 +14,7 @@ class RouteConstants {
   );
 
   static const homeOtpPageRoute = TypedGoRoute<HomeOtpPageRoute>(
-      path: 'otp/:phoneNumber/:otpType', name: 'verifyOtp');
+      path: ':/verificationType/otp/:contact/:otpType', name: 'verifyOtp');
 
   static const addressesRoute =
       TypedGoRoute<AddressesPageRoute>(path: 'addresses', name: 'addresses');
@@ -34,12 +34,21 @@ class RouteConstants {
       path: 'transactions/:recipientId', name: 'transactions');
 
   static const fillProfileRoute = TypedGoRoute<FullFillProfileRoute>(
-    path: 'fillProfile',
+    path: '/fillProfile',
     name: 'fillProfile',
   );
 
+  static const chatsListPageRoute = TypedGoRoute<ChatsListPageRoute>(
+      path: '/home/chats',
+      name: 'chats',
+      routes: [
+        chatPage,
+      ]);
+
   static const profileRoute = TypedGoRoute<ProfilePageRoute>(
-      path: 'profile', name: 'profile', routes: [editProfileRoute]);
+      path: 'profile',
+      name: 'profile',
+      routes: [editProfileRoute, addressesRoute]);
 
   static const editProfileRoute = TypedGoRoute<EditProfilePageRoute>(
     path: 'edit',
@@ -47,7 +56,7 @@ class RouteConstants {
   );
 
   static const searchTasksRoute = TypedGoRoute<SearchPageRoute>(
-    path: 'search',
+    path: '/home/search',
     name: 'search',
   );
 
@@ -59,22 +68,28 @@ class RouteConstants {
   static const maintenancePage = TypedGoRoute<MaintenancePageRoute>(
       path: '/maintenance', name: 'maintenance');
 
+  static const appRequiresUpdate = TypedGoRoute<ForceUpdatePageRoute>(
+      path: '/appRequiresUpdate', name: 'appRequiresUpdate');
+
   static const createTaskRoute = TypedGoRoute<CreateTaskRoute>(
     path: 'createTask',
     name: 'createTask',
   );
 
-  static const homeRoute =
-      TypedGoRoute<HomeRoute>(path: '/home', name: 'home', routes: [
-    addressesRoute,
+  static const homeShellRoute = TypedShellRoute<HomeShellRoute>(routes: [
+    feedPageRoute,
+    searchTasksRoute,
+    chatsListPageRoute,
+  ]);
+
+  static const feedPageRoute =
+      TypedGoRoute<FeedPageRoute>(path: '/home', name: 'home', routes: [
     taskProfile,
-    fillProfileRoute,
     chatTransactionsPage,
     profileRoute,
     createTaskRoute,
-    searchTasksRoute,
-    homeOtpPageRoute,taskProfileOffers,
+    homeOtpPageRoute,
+    taskProfileOffers,
     notificationPageRoute,
-    chatPage,
   ]);
 }

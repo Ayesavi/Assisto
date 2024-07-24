@@ -4,7 +4,6 @@ import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/payments/base_app_payments.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/services/app_functions.dart';
-import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/tasks/controllers/task_profile_controller/task_profile_page_controller.dart';
 import 'package:assisto/features/tasks/screens/create_task_page.dart';
 import 'package:assisto/features/tasks/widgets/bid_page_view.dart';
@@ -286,18 +285,7 @@ class TaskProfilePage extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ElevatedButton(
-                      style: const ButtonStyle(
-                          // foregroundColor: WidgetStatePropertyAll(
-                          //     Theme.of(context)
-                          //         .colorScheme
-                          //         .appGreen(context)
-                          //         .colorContainer),
-                          // backgroundColor: WidgetStatePropertyAll(
-                          //     Theme.of(context)
-                          //         .colorScheme
-                          //         .appGreen(context)
-                          //         .color)
-                          ),
+                      style: const ButtonStyle(),
                       onPressed: () {
                         showBidBottomSheet(context,
                             amountController: TextEditingController(),
@@ -365,10 +353,7 @@ class TaskProfilePage extends ConsumerWidget {
       appBar: appBar,
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomNavigationBar,
-      body: Padding(
-        padding: kWidgetHorizontalPadding,
-        child: body,
-      ),
+      body: body,
     );
   }
 

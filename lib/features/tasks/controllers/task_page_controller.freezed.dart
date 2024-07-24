@@ -80,6 +80,9 @@ class _$TaskPageControllerStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of TaskPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -99,6 +102,9 @@ class __$$TaskPageControllerLoadingImplCopyWithImpl<$Res>
       _$TaskPageControllerLoadingImpl _value,
       $Res Function(_$TaskPageControllerLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TaskPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -216,6 +222,8 @@ class __$$TaskPageControllerErrorImplCopyWithImpl<$Res>
       $Res Function(_$TaskPageControllerErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TaskPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -252,7 +260,9 @@ class _$TaskPageControllerErrorImpl extends TaskPageControllerError {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(e));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TaskPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TaskPageControllerErrorImplCopyWith<_$TaskPageControllerErrorImpl>
@@ -335,7 +345,10 @@ abstract class TaskPageControllerError extends TaskPageControllerState {
   const TaskPageControllerError._() : super._();
 
   Object get e;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TaskPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TaskPageControllerErrorImplCopyWith<_$TaskPageControllerErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -357,6 +370,9 @@ class __$$TaskPageControllerNetworkErrorImplCopyWithImpl<$Res>
       _$TaskPageControllerNetworkErrorImpl _value,
       $Res Function(_$TaskPageControllerNetworkErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TaskPageControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

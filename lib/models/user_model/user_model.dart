@@ -15,7 +15,6 @@ abstract class UserModel with _$UserModel {
     required String gender,
     required List<String> tags,
     String? description,
-    required int age,
     String? email,
     @JsonKey(name: 'upi_id') String? upiId,
     String? phoneNumber,
@@ -32,7 +31,6 @@ abstract class UserModel with _$UserModel {
         name: 'Anonymous(User Deleted)',
         gender: '',
         tags: [],
-        age: 0,
       );
     }
     return UserModel.fromJson(json);

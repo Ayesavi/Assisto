@@ -1,4 +1,3 @@
-import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +9,7 @@ class ConeMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56,
+      height: 65,
       width: 200,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -20,19 +19,21 @@ class ConeMarker extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             constraints: const BoxConstraints(maxWidth: 200),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onSurface,
+              color: Theme.of(context).colorScheme.primary,
               borderRadius: BorderRadius.circular(6),
             ),
             child: LabelMedium(
               text: text,
+              weight: FontWeight.w400,
               maxLines: 2,
-              color: Theme.of(context).colorScheme.onSurface.tone(60),
+              align: TextAlign.center,
+              color: Theme.of(context).colorScheme.onPrimary,
             ),
           ),
           CustomPaint(
             size: const Size(18, 8),
             painter: TrianglePainter(
-              color: Theme.of(context).colorScheme.onSurface,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ],

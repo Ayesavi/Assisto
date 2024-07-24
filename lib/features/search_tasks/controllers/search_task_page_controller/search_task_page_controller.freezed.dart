@@ -91,6 +91,9 @@ class _$SearchTaskPageStateCopyWithImpl<$Res, $Val extends SearchTaskPageState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SearchTaskPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -110,6 +113,9 @@ class __$$SearchTaskPageStateInitialImplCopyWithImpl<$Res>
       _$SearchTaskPageStateInitialImpl _value,
       $Res Function(_$SearchTaskPageStateInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SearchTaskPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -236,6 +242,9 @@ class __$$SearchTaskPageStateLoadingImplCopyWithImpl<$Res>
       _$SearchTaskPageStateLoadingImpl _value,
       $Res Function(_$SearchTaskPageStateLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SearchTaskPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -362,6 +371,9 @@ class __$$SearchTaskPageStateNetworkErrorImplCopyWithImpl<$Res>
       _$SearchTaskPageStateNetworkErrorImpl _value,
       $Res Function(_$SearchTaskPageStateNetworkErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SearchTaskPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -493,6 +505,8 @@ class __$$SearchTaskPageStateErrorImplCopyWithImpl<$Res>
       $Res Function(_$SearchTaskPageStateErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchTaskPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -531,7 +545,9 @@ class _$SearchTaskPageStateErrorImpl extends SearchTaskPageStateError {
   @override
   int get hashCode => Object.hash(runtimeType, e);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchTaskPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SearchTaskPageStateErrorImplCopyWith<_$SearchTaskPageStateErrorImpl>
@@ -626,7 +642,10 @@ abstract class SearchTaskPageStateError extends SearchTaskPageState {
   const SearchTaskPageStateError._() : super._();
 
   AppException get e;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SearchTaskPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SearchTaskPageStateErrorImplCopyWith<_$SearchTaskPageStateErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -651,6 +670,8 @@ class __$$SearchTaskPageStateDataImplCopyWithImpl<$Res>
       $Res Function(_$SearchTaskPageStateDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchTaskPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -697,7 +718,9 @@ class _$SearchTaskPageStateDataImpl extends SearchTaskPageStateData {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_tasks));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchTaskPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SearchTaskPageStateDataImplCopyWith<_$SearchTaskPageStateDataImpl>
@@ -792,7 +815,10 @@ abstract class SearchTaskPageStateData extends SearchTaskPageState {
   const SearchTaskPageStateData._() : super._();
 
   List<TaskModel> get tasks;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SearchTaskPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SearchTaskPageStateDataImplCopyWith<_$SearchTaskPageStateDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

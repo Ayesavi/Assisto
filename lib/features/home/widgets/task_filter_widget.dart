@@ -1,4 +1,4 @@
-import 'package:assisto/features/home/screens/home_screen.dart';
+import 'package:assisto/features/home/screens/feed_page.dart';
 import 'package:assisto/widgets/filter_widget/filter_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +23,8 @@ class TaskFilterWidget extends StatelessWidget {
             return 'All';
           case TaskFilterType.you:
             return 'By you';
+          default:
+            return 'Unknown';
         }
       },
       allowMultipleSelection: true,

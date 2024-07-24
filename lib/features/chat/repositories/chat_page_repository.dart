@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:assisto/core/error/handler.dart';
+import 'package:assisto/models/chat_room_model/chat_room_model.dart';
+import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:flutter_chatbook/flutter_chatbook.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -11,6 +13,8 @@ abstract class ChatRepository {
   Future<void> addMessage(Message message);
   Future<Message> messageById(String id);
   Future<UserModel> getUserModelFromRoomId(int roomId);
+  Future<List<ChatRoomModel>> getChatRooms(
+      {int offset = 0, int limit = 20, String? searchKey, TaskStatus? status});
 }
 
 class SupabaseChatRepository implements ChatRepository {
@@ -88,6 +92,30 @@ class SupabaseChatRepository implements ChatRepository {
       throw const AppException('Failed to replied message');
     }
   }
+
+  @override
+  Future<List<ChatRoomModel>> getChatRooms(
+      {int offset = 0,
+      int limit = 20,
+      String? searchKey,
+      TaskStatus? status}) async {
+    try {
+      final data = await _supabase.rpc('get_message_rooms', params: {
+        "params": {
+          'search_key': searchKey ?? '',
+          'task_status': status,
+          'limit': limit,
+          'offset': offset
+        }
+      });
+
+      return (data as List<dynamic>)
+          .map((element) => ChatRoomModel.fromJson(element))
+          .toList();
+    } catch (e) {
+      throw appErrorHandler(e);
+    }
+  }
 }
 
 class FakeChatRepository implements ChatRepository {
@@ -107,6 +135,13 @@ class FakeChatRepository implements ChatRepository {
     // Simulating an async operation, like adding a message to a database
     await Future.delayed(const Duration(milliseconds: 500));
     _messages.add(message);
+  }
+
+  addMessageListener(
+    int roomId,
+    void Function(Message message) onMessage,
+  ) {
+    return null;
   }
 
   @override
@@ -183,7 +218,6 @@ class FakeChatRepository implements ChatRepository {
         avatarUrl: "https://picsum.photos/200/300",
         phoneNumber: '+917489016865',
         tags: [],
-        age: 30,
         gender: 'male');
   }
 
@@ -191,5 +225,99 @@ class FakeChatRepository implements ChatRepository {
   Future<Message> messageById(String id) {
     // TODO: implement messageById
     throw UnimplementedError();
+  }
+
+  @override
+  Future<List<ChatRoomModel>> getChatRooms(
+      {int offset = 0,
+      int limit = 20,
+      String? searchKey,
+      TaskStatus? status}) async {
+    await Future.delayed(const Duration(seconds: 2));
+    List<ChatRoomModel> sampleChatRooms = [
+      ChatRoomModel(
+        message: ChatRoomMessage(
+          text: 'Hey, how are you?',
+          createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
+        ),
+        author: const ChatRoomAuthorModel(
+          name: 'Alice',
+          avatarUrl: 'https://i.pravatar.cc/150?u=foobar',
+        ),
+        task: const ChatRoomTaskModel(
+          name: 'Complete Report',
+          status: TaskStatus.completed,
+        ),
+        chatId: 1,
+      ),
+      ChatRoomModel(
+        message: ChatRoomMessage(
+          text: 'Meeting at 3 PM',
+          createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+        ),
+        author: const ChatRoomAuthorModel(
+          name: 'Bob',
+          avatarUrl: 'https://i.pravatar.cc/150?u=foobar',
+        ),
+        task: const ChatRoomTaskModel(
+          name: 'Team Meeting',
+          status: TaskStatus.completed,
+        ),
+        chatId: 2,
+      ),
+      ChatRoomModel(
+        message: ChatRoomMessage(
+          text: 'Can you review the code?',
+          createdAt: DateTime.now().subtract(const Duration(minutes: 15)),
+        ),
+        author: const ChatRoomAuthorModel(
+          name: 'Charlie',
+          avatarUrl: 'https://i.pravatar.cc/150?u=avatar3.jpg',
+        ),
+        task: const ChatRoomTaskModel(
+          name: 'Code Review',
+          status: TaskStatus.completed,
+        ),
+        chatId: 3,
+      ),
+      ChatRoomModel(
+        message: ChatRoomMessage(
+          text: 'Lunch break at 12?',
+          createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+        ),
+        author: const ChatRoomAuthorModel(
+          name: 'David',
+          avatarUrl: 'https://i.pravatar.cc/150?u=avatar4.jpg',
+        ),
+        task: const ChatRoomTaskModel(
+          name: 'Plan Lunch',
+          status: TaskStatus.completed,
+        ),
+        chatId: 14,
+      ),
+      ChatRoomModel(
+        message: ChatRoomMessage(
+          text: 'Happy Birthday!',
+          createdAt: DateTime.now().subtract(const Duration(days: 1)),
+        ),
+        author: const ChatRoomAuthorModel(
+          name: 'Eve',
+          avatarUrl: 'https://i.pravatar.cc/150?u=avatar5.jpg',
+        ),
+        task: const ChatRoomTaskModel(
+          name: 'Birthday Party',
+          status: TaskStatus.paid,
+        ),
+        chatId: 14,
+      ),
+    ];
+    final list = [...sampleChatRooms, ...sampleChatRooms, ...sampleChatRooms];
+    return list
+        .where((e) =>
+            e.author.name.toLowerCase().contains(searchKey ?? '') ||
+            e.task.name.toLowerCase().contains(searchKey ?? ''))
+        .skip(offset)
+        .take(limit)
+        .toList();
   }
 }

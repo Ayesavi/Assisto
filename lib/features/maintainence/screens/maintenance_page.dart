@@ -1,6 +1,6 @@
-import 'package:assisto/core/app_config/app_config_service.dart';
+import 'package:assisto/core/remote_config/remote_config_service.dart';
+import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/gen/assets.gen.dart';
-import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
@@ -13,11 +13,11 @@ class MaintenancePage extends ConsumerWidget {
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: AppFilledButton(
-          // onPressed: () {
-          //   // Handle "Contact Us" button press (e.g., open email app)
-          // },
-          label: ('Contact Us'),
+        child: FilledButton(
+          onPressed: () {
+            FeedPageRoute().go(context);
+          },
+          child: const Text('Refresh'),
         ),
       ),
       body: RefreshIndicator(
@@ -63,7 +63,7 @@ class MaintenancePage extends ConsumerWidget {
   }
 
   Future<void> _handleRefresh(WidgetRef ref) async {
-    AppConfigService.fetchAndSettle();
-    ref.invalidate(appConfigKeysProvider);
+    RemoteConfigService.fetchAndSettle();
+    ref.invalidate(remoteConfigUpdateProvider);
   }
 }
