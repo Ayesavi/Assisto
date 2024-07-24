@@ -6,6 +6,7 @@ import {
   JWT_SECRET,
   SUPABASE_CLIENT,
 } from "../../supabase_client";
+import { SupabasePaymentStatus } from "./PaymentConstants";
 
 class CreateOrder {
   private supabase: SupabaseClient;
@@ -48,7 +49,6 @@ class CreateOrder {
       if (!data) {
         throw new Error("Bid not found");
       }
-      console.log(data);
       const { data: userData, error: userError } =
         await this.supabase.auth.admin.getUserById((data.bidder as any).id);
 
@@ -77,7 +77,22 @@ class CreateOrder {
 
       // Create the order using Cashfree's createOrder method
       const response = await Cashfree.PGCreateOrder("2023-08-01", request);
-      return response.data;
+      let order = response.data;
+      const { error: orderError } = await this.supabase
+        .from("user_payments")
+        .insert({
+          id: order.order_id,
+          to_user_id: `${(data.bidder as any).id}`,
+          from_user_id: `${(data.task as any).owner_id}`,
+          amt: order.order_amount,
+          status: SupabasePaymentStatus.PENDING,
+        })
+        .select();
+      if (orderError) {
+        console.error(`Error inserting order: ${orderError.message}`);
+        throw new Error("Failed to insert order data into supabase");
+      }
+      return order;
     } catch (error) {
       if (error) {
         console.error("Error creating order:", error);

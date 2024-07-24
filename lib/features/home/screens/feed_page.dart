@@ -12,6 +12,7 @@ import 'package:assisto/features/home/widgets/task_filter_widget.dart';
 import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/shimmering/shimmering_task_tile.dart';
+import 'package:assisto/widgets/common_network_error_widget/common_network_error_widget.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
 import 'package:assisto/widgets/task_tile/tile_status.dart';
@@ -291,29 +292,11 @@ class _HomeFeedPageState extends ConsumerState<HomeFeedPage> {
                   );
                 },
                 networkError: () {
-                  return SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 100,
-                          ),
-                          SizedBox.square(
-                            dimension: 200,
-                            child: SvgPicture.asset(
-                                'assets/graphics/server_down.svg'),
-                          ),
-                          kWidgetVerticalGap,
-                          const Text(
-                            'Can\'t connect to the server, make sure you are connected to the internet!!!',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                  return SliverToBoxAdapter(child: CommonNetworkErrorWidget(
+                    onReload: () {
+                      controller.loadData(_filters);
+                    },
+                  ));
                 },
               );
             },

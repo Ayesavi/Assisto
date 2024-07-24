@@ -1,9 +1,11 @@
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
+import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/features/chat/controllers/chat_page_controller.dart';
 import 'package:assisto/features/chat/screens/chat_profile.dart';
 import 'package:assisto/features/chat/screens/payment_page.dart';
+import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:assisto/widgets/user_avatar.dart';
@@ -101,32 +103,69 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   PreferredSizeWidget _buildAppBar(BuildContext context, UserModel model) {
     return AppBar(
-        leadingWidth: 30,
-        // automaticallyImplyLeading: false,
-        title: ListTile(
-          onTap: () {
-            analytics.logEvent(name: analyticsEvents.chatAppBarPressEvent);
+      automaticallyImplyLeading: false,
+      title: GestureDetector(
+        onTap: () {
+          analytics.logEvent(name: analyticsEvents.chatAppBarPressEvent);
 
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return ChatProfile(userModel: model);
-              },
-            ));
-          },
-          contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-          leading: UserAvatar(
-            imageUrl: model.avatarUrl,
-          ),
-          title: TitleLarge(text: model.name),
-          trailing: model.phoneNumber != null
-              ? IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.phone,
-                    color: Theme.of(context).colorScheme.primary,
-                  ))
-              : null,
-        ));
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return ChatProfile(userModel: model,taskId: widget.roomId,);
+            },
+          ));
+        },
+        child: Row(
+          children: [
+            const BackButton(),
+            UserAvatar(
+              imageUrl: model.avatarUrl,
+            ),
+            const SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  model.name.capitalize,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+
+    // AppBar(
+    //     leadingWidth: 30,
+    //     // automaticallyImplyLeading: false,
+    //     title: ListTile(
+    //       enableFeedback: false,
+    //       onTap: () {
+    //         analytics.logEvent(name: analyticsEvents.chatAppBarPressEvent);
+
+    //         Navigator.push(context, MaterialPageRoute(
+    //           builder: (context) {
+    //             return ChatProfile(userModel: model);
+    //           },
+    //         ));
+    //       },
+    //       contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+    //       leading: UserAvatar(
+    //         imageUrl: model.avatarUrl,
+    //       ),
+    //       title: TitleLarge(text: model.name.capitalize),
+    //       trailing: model.phoneNumber != null
+    //           ? IconButton(
+    //               onPressed: () {},
+    //               icon: Icon(
+    //                 Icons.phone,
+    //                 color: Theme.of(context).colorScheme.primary,
+    //               ))
+    //           : null,
+    //     ));
   }
 
   _pushPaymentPage(BuildContext context, PaymentType type, UserModel model) {
@@ -141,7 +180,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
             /// make payment then
             final paymentMsg = PaymentMessage(
-                paymentStatus: PaymentStatus.completed,
+                paymentStatus: PaymentStatus.success,
                 paymentType: type,
                 amount: amount,
                 authorId: 'currentUserId',
@@ -164,54 +203,72 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     final scheme = Theme.of(context).colorScheme;
     final txtTheme = Theme.of(context).textTheme;
 
-    return ChatBook(
-        recipientName: remoteUserName,
-        swipeToReplyConfig: SwipeToReplyConfiguration(onLeftSwipe: (message) {
-          analytics.logEvent(name: analyticsEvents.chatBubbleReplySwipeEvent);
-        }),
-        featureActiveConfig: const FeatureActiveConfig(
-            enableSwipeToReply: true, enableSwipeToSeeTime: false),
-        sendMessageConfig: SendMessageConfiguration(
-            onPay: () {
-              _pushPaymentPage(context, PaymentType.payment, model);
+    return Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: ExactAssetImage(Assets.images.chatLight.path),
+            fit: BoxFit.fill,
+            alignment: Alignment.topCenter,
+          ),
+        ),
+        child: ChatBook(
+            recipientName: remoteUserName,
+            swipeToReplyConfig:
+                SwipeToReplyConfiguration(onLeftSwipe: (message) {
+              analytics.logEvent(
+                  name: analyticsEvents.chatBubbleReplySwipeEvent);
+            }),
+            featureActiveConfig: const FeatureActiveConfig(
+                enableSwipeToReply: true, enableSwipeToSeeTime: false),
+            sendMessageConfig: SendMessageConfiguration(
+                onPay: () {
+                  _pushPaymentPage(context, PaymentType.payment, model);
+                },
+                onRequest: () {
+                  _pushPaymentPage(context, PaymentType.request, model);
+                },
+                textFieldConfig: TextFieldConfiguration(
+                    padding: const EdgeInsets.all(2),
+                    borderRadius: BorderRadius.circular(16),
+                    hintText: ' Send Message'),
+                textFieldBackgroundColor: scheme.onInverseSurface),
+            chatBubbleConfig: ChatBubbleConfiguration(
+                inComingChatBubbleConfig: ChatBubble(
+                    timeStampTextStyle: txtTheme.labelLarge?.copyWith(
+                        color: scheme.onPrimary, fontWeight: FontWeight.w400),
+                    textStyle: TextStyle(fontSize: 16, color: scheme.onPrimary),
+                    paymentConfig: PaymentConfig(
+                        senderNameTextStyle: txtTheme.titleMedium
+                            ?.copyWith(color: scheme.onPrimary),
+                        paymentAmountTextStyle: txtTheme.titleLarge
+                            ?.copyWith(color: scheme.onPrimary),
+                        paymentStatusTextStyle: txtTheme.labelSmall
+                            ?.copyWith(color: scheme.onPrimary)),
+                    color: scheme.primary),
+                outgoingChatBubbleConfig: ChatBubble(
+                    timeStampTextStyle: txtTheme.labelLarge
+                        ?.copyWith(fontWeight: FontWeight.w400),
+                    paymentConfig: PaymentConfig(
+                        senderNameTextStyle: txtTheme.titleMedium
+                            ?.copyWith(color: scheme.onSurface),
+                        paymentAmountTextStyle: txtTheme.titleLarge
+                            ?.copyWith(color: scheme.onSurface)),
+                    color: scheme.onInverseSurface,
+                    textStyle:
+                        TextStyle(fontSize: 16, color: scheme.onSurface))),
+            chatController: controller,
+            onSendTap: (m) async {
+              controller.addMessage(m.copyWith(
+                  authorId:
+                      ref.read(authControllerProvider.notifier).user?.id));
+              ref.read(provider.notifier).addMessage(m);
             },
-            onRequest: () {
-              _pushPaymentPage(context, PaymentType.request, model);
-            },
-            textFieldConfig:
-                const TextFieldConfiguration(hintText: ' Send Message'),
-            textFieldBackgroundColor: scheme.onInverseSurface),
-        chatBubbleConfig: ChatBubbleConfiguration(
-            inComingChatBubbleConfig: ChatBubble(
-                timeStampTextStyle:
-                    txtTheme.labelSmall?.copyWith(color: scheme.onPrimary),
-                textStyle: TextStyle(color: scheme.onPrimary),
-                paymentConfig: PaymentConfig(
-                    senderNameTextStyle:
-                        txtTheme.titleMedium?.copyWith(color: scheme.onPrimary),
-                    paymentAmountTextStyle:
-                        txtTheme.titleLarge?.copyWith(color: scheme.onPrimary),
-                    paymentStatusTextStyle:
-                        txtTheme.labelSmall?.copyWith(color: scheme.onPrimary)),
-                color: scheme.primary),
-            outgoingChatBubbleConfig: ChatBubble(
-                timeStampTextStyle: txtTheme.labelSmall,
-                paymentConfig: PaymentConfig(
-                    senderNameTextStyle:
-                        txtTheme.titleMedium?.copyWith(color: scheme.onSurface),
-                    paymentAmountTextStyle:
-                        txtTheme.titleLarge?.copyWith(color: scheme.onSurface)),
-                color: scheme.onInverseSurface,
-                textStyle: TextStyle(color: scheme.onSurface))),
-        chatController: controller,
-        onSendTap: (m) async {
-          controller.addMessage(m.copyWith(
-              authorId: ref.read(authControllerProvider.notifier).user?.id));
-          ref.read(provider.notifier).addMessage(m);
-        },
-        currentUserId: ref.read(authControllerProvider.notifier).user?.id ?? '',
-        roomId: widget.roomId,
-        repliedMessageConfig: const RepliedMessageConfiguration(),
-        chatBookState: ChatBookState.hasMessages);
+            currentUserId:
+                ref.read(authControllerProvider.notifier).user?.id ?? '',
+            roomId: widget.roomId,
+            repliedMessageConfig: const RepliedMessageConfiguration(),
+            chatBookState: ChatBookState.hasMessages));
   }
 }

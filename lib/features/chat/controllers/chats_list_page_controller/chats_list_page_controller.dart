@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/features/chat/repositories/chat_page_repository.dart';
+import 'package:assisto/features/chat/repositories/base_chat_repository.dart';
+import 'package:assisto/features/chat/repositories/chat_repository_provider.dart';
 import 'package:assisto/models/chat_room_model/chat_room_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class ChatsListPageController extends _$ChatsListPageController {
   int _offset = 0;
   TaskStatus? _status;
 
-  final _repo = SupabaseChatRepository();
+  late final BaseChatRepository _repo;
   final TextEditingController searchController = TextEditingController();
 
   final _chats = <ChatRoomModel>[];
@@ -28,6 +29,7 @@ class ChatsListPageController extends _$ChatsListPageController {
   List<ChatRoomModel> get rooms => _chats;
   @override
   ChatsListPageControllerState build() {
+    _repo = ref.read(chatRepositoryProvider);
     loadChatRooms();
     return const ChatsListPageControllerState.loading();
   }

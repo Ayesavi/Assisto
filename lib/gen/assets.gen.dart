@@ -56,12 +56,20 @@ class $AssetsImagesGen {
   /// File path: assets/images/ai.png
   AssetGenImage get ai => const AssetGenImage('assets/images/ai.png');
 
+  /// File path: assets/images/chat_dark.png
+  AssetGenImage get chatDark =>
+      const AssetGenImage('assets/images/chat_dark.png');
+
+  /// File path: assets/images/chat_light.png
+  AssetGenImage get chatLight =>
+      const AssetGenImage('assets/images/chat_light.png');
+
   /// File path: assets/images/ic_launcher.png
   AssetGenImage get icLauncher =>
       const AssetGenImage('assets/images/ic_launcher.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [ai, icLauncher];
+  List<AssetGenImage> get values => [ai, chatDark, chatLight, icLauncher];
 }
 
 class $AssetsLottieGen {

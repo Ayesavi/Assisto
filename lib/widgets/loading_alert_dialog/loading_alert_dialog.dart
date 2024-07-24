@@ -21,11 +21,8 @@ class _LoadingAlertDialog extends StatefulWidget {
   State<_LoadingAlertDialog> createState() => __LoadingAlertDialogState();
 }
 
-class __LoadingAlertDialogState extends State<_LoadingAlertDialog>
-    with SingleTickerProviderStateMixin {
+class __LoadingAlertDialogState extends State<_LoadingAlertDialog> {
   bool _canPop = false;
-
-  late AnimationController _controller;
 
   @override
   void initState() {
@@ -42,10 +39,6 @@ class __LoadingAlertDialogState extends State<_LoadingAlertDialog>
       Navigator.pop(context);
     });
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat(reverse: true);
   }
 
   @override

@@ -8,7 +8,7 @@ part 'payment_message.g.dart';
 
 enum PaymentStatus {
   pending,
-  completed,
+  success,
   failed,
 }
 

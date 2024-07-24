@@ -1,5 +1,4 @@
 import 'package:assisto/features/home/screens/feed_page.dart';
-import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/models/user_model/user_model.dart';

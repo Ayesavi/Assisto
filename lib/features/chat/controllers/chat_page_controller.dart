@@ -1,8 +1,10 @@
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
+import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
+import 'package:assisto/core/respositories/task_repository/task_repository_provider.dart';
 import 'package:assisto/features/chat/controllers/chats_list_page_controller/chats_list_page_controller.dart';
-import 'package:assisto/features/chat/repositories/chat_page_repository.dart';
+import 'package:assisto/features/chat/repositories/base_chat_repository.dart';
+import 'package:assisto/features/chat/repositories/chat_repository_provider.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:flutter_chatbook/flutter_chatbook.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -20,12 +22,14 @@ class ChatPageController extends _$ChatPageController {
   int get roomId => _roomId;
   int _offset = 0;
   late final RealtimeChannel _channel;
-  final _repo = SupabaseChatRepository();
-  final _taskRepo = SupabaseTaskRepository();
+  late final BaseChatRepository _repo;
+  late final BaseTaskRepository _taskRepo;
 
   @override
   ChatPageControllerState build(int roomId) {
     _roomId = roomId;
+    _repo = ref.read(chatRepositoryProvider);
+    _taskRepo = ref.read(taskRepositoryProvider);
     loadData();
     return const ChatPageControllerState.loading();
   }

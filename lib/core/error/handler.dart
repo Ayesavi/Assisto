@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:assisto/core/respositories/auth_repository.dart';
+import 'package:assisto/core/respositories/address_repository/auth_repository.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

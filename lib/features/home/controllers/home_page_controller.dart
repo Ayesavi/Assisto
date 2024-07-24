@@ -1,7 +1,7 @@
 import 'package:assisto/core/controllers/address_controller/address_controller.dart';
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/core/respositories/task_repository/fake_task_repository.dart';
-import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
+import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
+import 'package:assisto/core/respositories/task_repository/task_repository_provider.dart';
 import 'package:assisto/features/home/screens/feed_page.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
@@ -16,7 +16,7 @@ part 'home_page_controller_state.dart';
 
 @riverpod
 class HomePageController extends _$HomePageController {
-  final _repo = SupabaseTaskRepository();
+  late final BaseTaskRepository _repo;
   AddressModel? _defaultAddr;
   int offset = 0;
   final limit = 30;
@@ -29,6 +29,7 @@ class HomePageController extends _$HomePageController {
   HomePageControllerState build() {
     final filters = ref.watch(selectedFiltersProvider);
     loadData(filters);
+    _repo = ref.read(taskRepositoryProvider);
     final state = ref.watch(addressControllerProvider);
     if (state.location) {
       _defaultAddr = (state as Location).model;

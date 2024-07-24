@@ -2,6 +2,7 @@ import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/features/auth/screens/fill_user_details_page.dart';
 import 'package:assisto/models/user_model/user_model.dart';
+import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/email_phone_otp_verifier/email_phone_otp_verifier.dart';
 import 'package:assisto/widgets/loading_alert_dialog/loading_alert_dialog.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,13 @@ class _EnterProfileDetailWidgetState
                         token: otp, phone: phone, type: OtpType.phoneChange);
                 showLoadingDialog(context, future);
               },
-              onResendOtp: (e) {});
+              onResendOtp: (e) {
+                final future = ref
+                    .read(authControllerProvider.notifier)
+                    .resendOtp(phone: userDetails['phone']);
+                showLoadingDialog(context, future);
+                showSnackBar(context, 'Otp has been successfully resend');
+              });
     });
   }
 }

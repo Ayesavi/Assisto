@@ -28,7 +28,6 @@ class MessageTimeWidget extends StatelessWidget {
         children: [
           Text(DateFormat('hh:mm a').format((message.createdAt)),
               style: config?.timeStampTextStyle),
-          const SizedBox(width: 5),
         ],
       );
 }
