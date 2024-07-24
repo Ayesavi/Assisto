@@ -193,6 +193,7 @@ class _TaskProfilePageViewState extends ConsumerState<TaskProfilePageView> {
               width: double.infinity,
               child: AdWidget(ad: _bannerAd),
             ),
+
             kWidgetVerticalGap,
             if (isTaskAssigned &&
                 model.isUserTaskUser &&
@@ -204,6 +205,7 @@ class _TaskProfilePageViewState extends ConsumerState<TaskProfilePageView> {
               ),
           ],
         ),
+
       ),
     );
   }

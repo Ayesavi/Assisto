@@ -12,6 +12,7 @@ import CreateOrder from "./endpoints/payments/CreateOrder";
 import UserDelete from "./endpoints/user/delete";
 import DisabledReason from "./endpoints/user/disabled-reason";
 import ReactivateUser from "./endpoints/user/reactivate";
+import PaymentWebhook from "./endpoints/payments/OnPaymentSucceeded";
 // Initialize Firebase Admin
 initializeApp({
   credential: applicationDefault(),
@@ -57,6 +58,17 @@ app.post("/assists/createUsingAI", async (req, res) => {
     let ai = new CreateAssistUsingAI();
     const { context } = req.body;
     let data = await ai.call(context as string);
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
+app.post("/webhook/payments", async (req, res) => {
+  try {
+    let payment = new PaymentWebhook();
+   
+    let data = await payment.handle(req.body);
     res.status(200).send(data);
   } catch (error) {
     res.status(400).send();
