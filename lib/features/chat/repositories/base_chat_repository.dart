@@ -17,4 +17,6 @@ abstract class BaseChatRepository {
     int roomId,
     void Function(Message message) onMessage,
   );
+
+
 }

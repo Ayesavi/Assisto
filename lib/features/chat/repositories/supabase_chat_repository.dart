@@ -41,34 +41,37 @@ class SupabaseChatRepository implements BaseChatRepository {
     throw UnimplementedError();
   }
 
+  @override
   RealtimeChannel addMessageListener(
     int roomId,
     void Function(Message message) onMessage,
   ) {
-    final myChannel = Supabase.instance.client.channel('message');
+    try {
+      final myChannel = Supabase.instance.client.channel('message');
+      myChannel.onPostgresChanges(
+        event: PostgresChangeEvent.insert,
+        schema: 'public',
+        filter: PostgresChangeFilter(
+            type: PostgresChangeFilterType.eq,
+            column: 'room_id',
+            value: roomId),
+        table: _table,
+        callback: (payload) async {
+          Message? repliedMessage;
+          if (payload.newRecord.containsKey('replied_message_id') &&
+              payload.newRecord['replied_message_id'] != null) {
+            repliedMessage =
+                await messageById(payload.newRecord['replied_message_id']);
+          }
+          final message = Message.fromJson(payload.newRecord);
 
-    return myChannel
-        .onPostgresChanges(
-          event: PostgresChangeEvent.insert,
-          schema: 'public',
-          filter: PostgresChangeFilter(
-              type: PostgresChangeFilterType.eq,
-              column: 'room_id',
-              value: roomId),
-          table: _table,
-          callback: (payload) async {
-            Message? repliedMessage;
-            if (payload.newRecord.containsKey('replied_message_id') &&
-                payload.newRecord['replied_message_id'] != null) {
-              repliedMessage =
-                  await messageById(payload.newRecord['replied_message_id']);
-            }
-            final message = Message.fromJson(payload.newRecord);
-
-            onMessage(message.copyWith(repliedMessage: repliedMessage));
-          },
-        )
-        .subscribe();
+          onMessage(message.copyWith(repliedMessage: repliedMessage));
+        },
+      );
+      return myChannel;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override

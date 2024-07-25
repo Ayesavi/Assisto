@@ -4,7 +4,6 @@ import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/features/chat/controllers/chat_page_controller.dart';
 import 'package:assisto/features/chat/screens/chat_profile.dart';
-import 'package:assisto/features/chat/screens/payment_page.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:assisto/widgets/text_widgets.dart';
@@ -12,6 +11,7 @@ import 'package:assisto/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chatbook/flutter_chatbook.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
   final int roomId;
@@ -23,26 +23,33 @@ class ChatPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends ConsumerState<ChatPage> {
+class _ChatPageState extends ConsumerState<ChatPage>
+    with WidgetsBindingObserver {
   late ChatController controller;
   late final ChatPageControllerProvider provider;
-
+  final FocusNode _focusNode = FocusNode();
   final analytics = AppAnalytics.instance;
   final analyticsEvents = AnalyticsEvent.taskChat;
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     ChatPage.activeRoom = widget.roomId;
     super.initState();
     provider = chatPageControllerProvider(widget.roomId);
+    controller = ChatController(
+        focusNode: _focusNode,
+        initialMessageList: [],
+        paginationCallback: () async {
+          return await ref.read(provider.notifier).loadChats();
+        },
+        currentUserId:
+            ref.read(authControllerProvider.notifier).user?.id ?? '');
+    ref.read(provider.notifier).addMessageListener(widget.roomId, onMessage);
     ref.listenManual(provider, (prev, next) {
       if (next.isData) {
-        controller = ChatController(
-            initialMessageList: [...(next as ChatPageData).messages],
-            currentUserId:
-                ref.read(authControllerProvider.notifier).user?.id ?? '');
+        controller.loadMoreData((next as ChatPageData).messages);
       }
-    });
-    ref.read(provider.notifier).addMessageListener(widget.roomId, onMessage);
+    }, fireImmediately: true);
   }
 
   onMessage(Message message) {
@@ -54,7 +61,27 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.paused:
+        onBackground();
+        break;
+      default:
+        onBackground();
+        break;
+    }
+  }
+
+  void onBackground() {
+    if (ref.context.mounted) {
+      Navigator.pop(context);
+    }
+  }
+
+  @override
   void dispose() {
+    Supabase.instance.client.removeAllChannels();
     ChatPage.activeRoom = null;
     super.dispose();
   }
@@ -110,7 +137,10 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
           Navigator.push(context, MaterialPageRoute(
             builder: (context) {
-              return ChatProfile(userModel: model,taskId: widget.roomId,);
+              return ChatProfile(
+                userModel: model,
+                taskId: widget.roomId,
+              );
             },
           ));
         },
@@ -137,65 +167,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
         ),
       ),
     );
-
-    // AppBar(
-    //     leadingWidth: 30,
-    //     // automaticallyImplyLeading: false,
-    //     title: ListTile(
-    //       enableFeedback: false,
-    //       onTap: () {
-    //         analytics.logEvent(name: analyticsEvents.chatAppBarPressEvent);
-
-    //         Navigator.push(context, MaterialPageRoute(
-    //           builder: (context) {
-    //             return ChatProfile(userModel: model);
-    //           },
-    //         ));
-    //       },
-    //       contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-    //       leading: UserAvatar(
-    //         imageUrl: model.avatarUrl,
-    //       ),
-    //       title: TitleLarge(text: model.name.capitalize),
-    //       trailing: model.phoneNumber != null
-    //           ? IconButton(
-    //               onPressed: () {},
-    //               icon: Icon(
-    //                 Icons.phone,
-    //                 color: Theme.of(context).colorScheme.primary,
-    //               ))
-    //           : null,
-    //     ));
-  }
-
-  _pushPaymentPage(BuildContext context, PaymentType type, UserModel model) {
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) {
-        return PaymentPage(
-          type: type,
-          userModel: model,
-          onContinue: (amount, type) async {
-            // write future.dealyed of 1 second
-            await Future.delayed(const Duration(seconds: 1));
-
-            /// make payment then
-            final paymentMsg = PaymentMessage(
-                paymentStatus: PaymentStatus.success,
-                paymentType: type,
-                amount: amount,
-                authorId: 'currentUserId',
-                id: 'id',
-                createdAt: DateTime.now(),
-                roomId: widget.roomId);
-            controller.addMessage(paymentMsg);
-            if (context.mounted) {
-              Navigator.pop(context);
-            }
-            return;
-          },
-        );
-      },
-    ));
   }
 
   Widget _buildChatBook(UserModel model, List<Message> messages,
@@ -223,12 +194,12 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             featureActiveConfig: const FeatureActiveConfig(
                 enableSwipeToReply: true, enableSwipeToSeeTime: false),
             sendMessageConfig: SendMessageConfiguration(
-                onPay: () {
-                  _pushPaymentPage(context, PaymentType.payment, model);
-                },
-                onRequest: () {
-                  _pushPaymentPage(context, PaymentType.request, model);
-                },
+                // onPay: () {
+                //   _pushPaymentPage(context, PaymentType.payment, model);
+                // },
+                // onRequest: () {
+                //   _pushPaymentPage(context, PaymentType.request, model);
+                // },
                 textFieldConfig: TextFieldConfiguration(
                     padding: const EdgeInsets.all(2),
                     borderRadius: BorderRadius.circular(16),

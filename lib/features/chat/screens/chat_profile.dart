@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final _phoneNumberProvider =
+final chatUserPhoneNumberProvider =
     FutureProvider.family<String?, ({int taskId, String userId})>(
         (ref, args) async {
   return await AuthRepository()
@@ -31,7 +31,7 @@ class _ChatProfileState extends ConsumerState<ChatProfile> {
 
   @override
   void initState() {
-    provider = _phoneNumberProvider(
+    provider = chatUserPhoneNumberProvider(
         (taskId: widget.taskId, userId: widget.userModel.id));
     super.initState();
   }

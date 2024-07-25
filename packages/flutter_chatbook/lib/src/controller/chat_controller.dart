@@ -33,7 +33,7 @@ class ChatController {
   /// It is initialized in the [initState] method and can be used to control the focus of the input field.
   /// It is typically used in conjunction with [ChatUITextField] widget to determine which input field should receive focus.
 
-  final FocusNode focusNode = FocusNode();
+  final FocusNode focusNode ;
 
   /// TypingIndicator as [ValueNotifier] for [GroupedChatList] widget's typingIndicator [ValueListenableBuilder].
   ///  Use this for listening typing indicators
@@ -63,6 +63,7 @@ class ChatController {
   final Future<List<Message>> Function()? paginationCallback;
 
   ChatController({
+    required this.focusNode,
     AutoScrollController? scrollController,
     required this.initialMessageList,
     required this.currentUserId,
@@ -210,7 +211,7 @@ class ChatController {
   /// The [loadMoreData] function is used to load more data for pagination.
   /// It appends the [messageList] to the [initialMessageList], notifies the [messageStreamController], and refreshes the UI.
   void loadMoreData(List<Message> messageList) {
-    initialMessageList.addAll(messageList.reversed);
+    initialMessageList.addAll(messageList);
     reRender();
   }
 

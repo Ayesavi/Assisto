@@ -21,13 +21,20 @@ class ChatGroupHeader extends StatelessWidget {
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              day.getDay,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 11,
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontWeight: FontWeight.w500),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                // color: groupSeparatorConfig,
+              ),
+              child: Text(
+                day.getDay,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 11,
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontWeight: FontWeight.w500),
+              ),
             ),
           ),
         ]));

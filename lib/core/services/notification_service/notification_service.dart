@@ -34,7 +34,7 @@ class NotificationService {
 
   static initLocalNotificationService() async {
     await AwesomeNotifications().initialize(
-        null,
+        'resource://drawable/notification_icon',
         [
           NotificationChannel(
             channelKey: NotificationChannels.recommendations.name,
