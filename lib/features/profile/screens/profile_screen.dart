@@ -337,6 +337,13 @@ class ProfilePage extends ConsumerWidget {
                     },
                   ),
                   ProfileListItem(
+                    icon: Icons.credit_card,
+                    text: 'Payments',
+                    onTap: () {
+                      const PaymentsPageRoute().go(context);
+                    },
+                  ),
+                  ProfileListItem(
                     icon: Icons.info_outline,
                     text: 'About App',
                     onTap: () async {
@@ -426,7 +433,7 @@ class ProfilePage extends ConsumerWidget {
                   return items[itemIndex];
                 }
               },
-              childCount: 10, // items.length * 2 - 1 (8 items * 2 - 1 = 15)
+              childCount: 12, // items.length * 2 - 1 (8 items * 2 - 1 = 15)
             ),
           ),
         ],

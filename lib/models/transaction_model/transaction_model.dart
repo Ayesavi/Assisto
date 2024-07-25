@@ -1,5 +1,3 @@
-// ignore_for_file: invalid_annotation_target
-
 import 'package:flutter_chatbook/flutter_chatbook.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -14,9 +12,9 @@ class TransactionModel with _$TransactionModel {
     required TransactionUserModel recipient,
     @JsonKey(fromJson: TransactionUserModel.fromSupabase)
     required TransactionUserModel sender,
-    required int amount,
+    @JsonKey(name: 'amt') required int amount,
     @JsonKey(name: 'created_at') required DateTime createdAt,
-    required PaymentStatus paymentStatus,
+    @JsonKey(name: 'status') required PaymentStatus paymentStatus,
   }) = _TransactionModel;
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) =>
@@ -26,7 +24,7 @@ class TransactionModel with _$TransactionModel {
 @freezed
 class TransactionUserModel with _$TransactionUserModel {
   const factory TransactionUserModel({
-    required String name,
+    @JsonKey(name: "full_name") required String name,
     required String id,
     @JsonKey(name: "avatar_url") required String avatarUrl,
   }) = _TransactionUserModel;

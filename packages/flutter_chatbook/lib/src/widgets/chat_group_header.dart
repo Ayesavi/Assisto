@@ -19,9 +19,6 @@ class ChatGroupHeader extends StatelessWidget {
         padding: groupSeparatorConfig?.padding ??
             const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          Expanded(
-              child: Divider(
-                  color: Theme.of(context).colorScheme.secondaryContainer)),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -33,9 +30,6 @@ class ChatGroupHeader extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
           ),
-          Expanded(
-              child: Divider(
-                  color: Theme.of(context).colorScheme.secondaryContainer)),
         ]));
   }
 }

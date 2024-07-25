@@ -23,6 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TaskCreationPage extends ConsumerStatefulWidget {
   final TaskModel? editTaskModel;
@@ -131,40 +132,38 @@ class _TaskCreationPageState extends ConsumerState<TaskCreationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Assisto AI',
+        child: Assets.images.ai.image(width: 20, height: 30),
+        onPressed: () async {
+          showCreateTaskUsingAIBottomSheet(context,
+              controller: TextEditingController(), onTextEntered: (v) async {
+            try {
+              await _askAIAndCreateAssistDraft(v);
+              Navigator.pop(context);
+            } catch (e) {
+              if (context.mounted) {
+                showSnackBar(context, appErrorHandler(e).message);
+              }
+            }
+          });
+        },
+      ),
       appBar: AppBar(
         title: Text(
             widget.editTaskModel != null ? 'Update Assist' : 'Create Assist'),
         actions: [
-          IconButton(
-              icon: Assets.images.ai.image(width: 20, height: 30),
-              onPressed: () async {
-                showCreateTaskUsingAIBottomSheet(context,
-                    controller: TextEditingController(),
-                    onTextEntered: (v) async {
-                  try {
-                    await _askAIAndCreateAssistDraft(v);
-                    Navigator.pop(context);
-                  } catch (e) {
-                    if (context.mounted) {
-                      showSnackBar(context, appErrorHandler(e).message);
-                    }
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+                onPressed: () async {
+                  if (!await launchUrl(
+                      Uri.parse('https://assisto.ayesavi.in/help.html'))) {
+                    throw Exception('Could not launch url');
                   }
-                });
-              }),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: ElevatedButton(
-          //       onPressed: () async {
-          //         analytics.logEvent(
-          //             name: AnalyticsEvent
-          //                 .createTask.helpButtonTaskCreationEvent);
-          //         if (!await launchUrl(
-          //             Uri.parse('https://assisto.ayesavi.in/contact.html'))) {
-          //           throw Exception('Could not launch url');
-          //         }
-          //       },
-          //       child: const Text('Help')),
-          // )
+                },
+                child: const Text('Help')),
+          )
         ],
       ),
       body: Form(

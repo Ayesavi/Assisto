@@ -34,6 +34,7 @@ abstract class AuthRepository {
   Future<void> reactivate({String? phone, String? email});
 
   Future<void> deactivateAccount();
+  Future<String?> getPhoneNumber({required int taskId, required String userId});
 }
 
 class UnAuthenticatedUserException implements Exception {
@@ -211,5 +212,25 @@ class _AuthRepositoryImpl implements AuthRepository {
     } catch (e) {
       throw const AppException('Failed to initiate account deletion');
     }
+  }
+
+  @override
+  Future<String?> getPhoneNumber(
+      {required int taskId, required String userId}) async {
+    try {
+      final response = await _supabase.rpc('get_user_contact_info', params: {
+        'params': {
+          'uid': userId,
+          'task_uid': taskId,
+        }
+      });
+
+      if (response is Map && response['status'] == 'success') {
+        return response['phone'];
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
   }
 }

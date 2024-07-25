@@ -4,32 +4,32 @@ import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'on_map_address_widget.g.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as Gmaps;
 
 typedef OnMapAddressWidgetParam = ({
   String formattedAddress,
   String titleAddress,
-  LatLng latlng
+  Gmaps.LatLng latlng
 });
 
-@riverpod
-FutureOr<OnMapAddressWidgetParam> addressFromLatlng(
-    AddressFromLatlngRef ref, LatLng latlng) async {
-  final data = await GoogleMapRespository().getPlaceAddressFromLatLng(latlng);
-  final titleAddress = data[0].addressComponents[2].longName;
-  final formattedAddress = data[0].formattedAddress ?? data[0].placeId;
-  return (
-    formattedAddress: formattedAddress,
-    titleAddress: titleAddress,
-    latlng: latlng
-  );
-}
+final addressFromLatlngProvider =
+    FutureProvider.family<OnMapAddressWidgetParam, Gmaps.LatLng>(
+  (ref, latlng) async {
+    final data = await ref
+        .read(placesRepositoryProvider)
+        .getPlaceAddressFromLatLng(latlng);
+    final titleAddress = data[0].addressComponents[2].longName;
+    final formattedAddress = data[0].formattedAddress ?? data[0].placeId;
+    return (
+      formattedAddress: formattedAddress,
+      titleAddress: titleAddress,
+      latlng: latlng
+    );
+  },
+);
 
 class OnMapAddressWidget extends ConsumerWidget {
-  final LatLng latlng;
+  final Gmaps.LatLng latlng;
   final AddressModel? editAddressModel;
   final void Function(OnMapAddressWidgetParam param)? onTapContinue;
   const OnMapAddressWidget(

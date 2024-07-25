@@ -104,12 +104,7 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      bottomPadding4,
-                      bottomPadding4,
-                      bottomPadding4,
-                      _bottomPadding,
-                    ),
+                    padding: EdgeInsets.all(6),
                     child: Stack(
                       alignment: Alignment.bottomCenter,
                       children: [
@@ -179,8 +174,8 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
                             ),
                           ]),
                     ),
-                    if (state.type.isPayment)
-                      _paymentReplyView(state as PaymentMessage)
+                    if (state.type.isText)
+                      Text((state as TextMessage).text)
                     else
                       (() {
                         return const SizedBox.shrink();
@@ -196,19 +191,6 @@ class SendMessageWidgetState extends State<SendMessageWidget> {
       },
       valueListenable: _replyMessage,
     );
-  }
-
-  Widget _paymentReplyView(PaymentMessage message) {
-    final isRequest = message.paymentType == PaymentType.request;
-    final isPaymentByYou = message.authorId == currentUserId;
-    final title = isPaymentByYou
-        ? '${isRequest ? 'Request' : 'Payment'} to ${remoteUserName}'
-        : '${isRequest ? 'Request' : 'Payment'} to you';
-    return Text(title,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onPrimaryContainer));
   }
 
   void _assignRepliedMessage() {

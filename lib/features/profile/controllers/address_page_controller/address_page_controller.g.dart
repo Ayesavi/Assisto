@@ -7,7 +7,7 @@ part of 'address_page_controller.dart';
 // **************************************************************************
 
 String _$addressPageControllerHash() =>
-    r'cf51706ee94a9d94f160dcd34290d14c8ba02f8d';
+    r'b8db7e6a9b48074c507001b7afd3570ce60fd127';
 
 /// See also [AddressPageController].
 @ProviderFor(AddressPageController)

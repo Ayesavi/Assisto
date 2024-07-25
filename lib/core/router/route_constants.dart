@@ -30,8 +30,8 @@ class RouteConstants {
     name: 'chat',
   );
 
-  static const chatTransactionsPage = TypedGoRoute<ChatTransactionsPageRoute>(
-      path: 'transactions/:recipientId', name: 'transactions');
+  static const payments = TypedGoRoute<PaymentsPageRoute>(
+      path: 'payments', name: 'payments');
 
   static const fillProfileRoute = TypedGoRoute<FullFillProfileRoute>(
     path: '/fillProfile',
@@ -48,7 +48,7 @@ class RouteConstants {
   static const profileRoute = TypedGoRoute<ProfilePageRoute>(
       path: 'profile',
       name: 'profile',
-      routes: [editProfileRoute, addressesRoute]);
+      routes: [editProfileRoute, addressesRoute, payments]);
 
   static const editProfileRoute = TypedGoRoute<EditProfilePageRoute>(
     path: 'edit',
@@ -85,7 +85,6 @@ class RouteConstants {
   static const feedPageRoute =
       TypedGoRoute<FeedPageRoute>(path: '/home', name: 'home', routes: [
     taskProfile,
-    chatTransactionsPage,
     profileRoute,
     createTaskRoute,
     homeOtpPageRoute,

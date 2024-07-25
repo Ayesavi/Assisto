@@ -1,7 +1,7 @@
 import 'package:assisto/core/controllers/address_controller/address_controller.dart';
-import 'package:assisto/core/controllers/internet_connectivity_provider/internet_connectivity_provider.dart';
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
+import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
+import 'package:assisto/core/respositories/task_repository/task_repository_provider.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -13,7 +13,7 @@ part 'search_task_page_controller_state.dart';
 
 @riverpod
 class SearchTaskPageController extends _$SearchTaskPageController {
-  final _repo = SupabaseTaskRepository();
+  late final BaseTaskRepository _repo;
   int offset = 0;
   final limit = 30;
   LatLng? currentLatlng;
@@ -22,6 +22,7 @@ class SearchTaskPageController extends _$SearchTaskPageController {
 
   @override
   SearchTaskPageState build() {
+    _repo = ref.read(taskRepositoryProvider);
     final currentAddress = ref.watch(addressControllerProvider);
     if (currentAddress.location) {
       currentLatlng = (

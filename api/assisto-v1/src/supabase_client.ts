@@ -29,7 +29,6 @@ function initializePayment() {
     Cashfree.XClientSecret = process.env.CF_API_KEY;
     Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
   } else {
-    console.log(process.env.CF_DEV_APP_ID, process.env.CF_DEV_API_KEY);
     Cashfree.XClientId = process.env.CF_DEV_APP_ID;
     Cashfree.XClientSecret = process.env.CF_DEV_API_KEY;
     Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;

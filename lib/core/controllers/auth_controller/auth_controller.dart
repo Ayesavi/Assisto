@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:assisto/core/respositories/auth_repository.dart';
+import 'package:assisto/core/respositories/address_repository/auth_repository.dart';
 import 'package:assisto/core/utils/utils.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';

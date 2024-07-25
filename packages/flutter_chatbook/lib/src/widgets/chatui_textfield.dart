@@ -105,147 +105,138 @@ class _ChatUITextFieldState extends State<ChatUITextField> {
   Widget build(BuildContext context) {
     return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
       Expanded(
-          child: Material(
-              elevation: .5,
-              child: Row(
-                children: [
-                  // if (showButtons) ...[
-                  //   FilledButton(
-                  //       onPressed: () {
-                  //         sendMessageConfig?.onRequest?.call();
-                  //       },
-                  //       child: Text('Request')),
-                  //   SizedBox(
-                  //     width: 5,
-                  //   ),
-                  //   FilledButton(
-                  //       onPressed: () {
-                  //         sendMessageConfig?.onPay?.call();
-                  //       },
-                  //       child: Text('Pay')),
-                  //   SizedBox(
-                  //     width: 10,
-                  //   ),
-                  // ],
-                  Expanded(
-                    child: Focus(
-                      onFocusChange: (v) {
-                        if (v) {
-                          setState(() {
-                            showButtons = false;
-                          });
-                        }
-                      },
-                      child: Container(
-                        padding: textFieldConfig?.padding ??
-                            const EdgeInsets.symmetric(horizontal: 6),
-                        margin: textFieldConfig?.margin,
-                        decoration: BoxDecoration(
-                          borderRadius: textFieldConfig?.borderRadius ??
-                              BorderRadius.circular(textFieldBorderRadius),
-                          color: Theme.of(context).colorScheme.onInverseSurface,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Column(children: [
-                                    if (widget.threaded != null) ...[
-                                      widget.threaded!
-                                    ],
-                                    TextField(
-                                      focusNode: widget.focusNode,
-                                      controller: widget.textEditingController,
-                                      // style: textFieldConfig?.textStyle ??
-                                      //     const TextStyle(color: Colors.white),
-                                      maxLines: textFieldConfig?.maxLines ?? 5,
-                                      minLines: textFieldConfig?.minLines ?? 1,
-                                      keyboardType:
-                                          textFieldConfig?.textInputType,
-                                      inputFormatters:
-                                          textFieldConfig?.inputFormatters,
-                                      onChanged: _onChanged,
-                                      textCapitalization:
-                                          textFieldConfig?.textCapitalization ??
-                                              TextCapitalization.sentences,
-                                      decoration: InputDecoration(
-                                        hintText: textFieldConfig?.hintText ??
-                                            PackageStrings.message,
-                                        // fillColor: Theme.of(context)
-                                        //     .colorScheme
-                                        //     .surfaceContainerHighest,
-                                        // filled: true,
-                                        hintStyle: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: 0.25,
-                                        ),
-                                        // prefixIcon: IconButton(
-                                        //   constraints: const BoxConstraints(),
-                                        //   onPressed: () {
-                                        //     setState(() {
-                                        //       showButtons = !showButtons;
-                                        //     });
-                                        //   },
-                                        //   icon: Icon(
-                                        //     showButtons
-                                        //         ? Icons.chevron_left
-                                        //         : Icons.chevron_right,
-                                        //   ),
-                                        // ),
-                                        contentPadding:
-                                            textFieldConfig?.contentPadding ??
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 6),
-                                        border: _outLineBorder,
-                                        focusedBorder: _outLineBorder,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Colors.transparent),
-                                          borderRadius:
-                                              textFieldConfig?.borderRadius ??
-                                                  BorderRadius.circular(
-                                                      textFieldBorderRadius),
-                                        ),
-                                      ),
-                                    )
-                                  ]),
+          child: Row(
+        children: [
+          // if (showButtons) ...[
+          //   FilledButton(
+          //       onPressed: () {
+          //         sendMessageConfig?.onRequest?.call();
+          //       },
+          //       child: Text('Request')),
+          //   SizedBox(
+          //     width: 5,
+          //   ),
+          //   FilledButton(
+          //       onPressed: () {
+          //         sendMessageConfig?.onPay?.call();
+          //       },
+          //       child: Text('Pay')),
+          //   SizedBox(
+          //     width: 10,
+          //   ),
+          // ],
+          Expanded(
+            child: Focus(
+              onFocusChange: (v) {
+                if (v) {
+                  setState(() {
+                    showButtons = false;
+                  });
+                }
+              },
+              child: Container(
+                padding: textFieldConfig?.padding ??
+                    const EdgeInsets.symmetric(horizontal: 6),
+                // margin: textFieldConfig?.margin,
+                decoration: BoxDecoration(
+                  borderRadius: textFieldConfig?.borderRadius ??
+                      BorderRadius.circular(textFieldBorderRadius),
+                  color: Theme.of(context).colorScheme.onInverseSurface,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(children: [
+                            if (widget.threaded != null) ...[widget.threaded!],
+                            TextField(
+                              focusNode: widget.focusNode,
+                              controller: widget.textEditingController,
+                              // style: textFieldConfig?.textStyle ??
+                              //     const TextStyle(color: Colors.white),
+                              maxLines: textFieldConfig?.maxLines ?? 5,
+                              minLines: textFieldConfig?.minLines ?? 1,
+                              keyboardType: textFieldConfig?.textInputType,
+                              inputFormatters: textFieldConfig?.inputFormatters,
+                              onChanged: _onChanged,
+                              textCapitalization:
+                                  textFieldConfig?.textCapitalization ??
+                                      TextCapitalization.sentences,
+                              decoration: InputDecoration(
+                                hintText: textFieldConfig?.hintText ??
+                                    PackageStrings.message,
+                                // fillColor: Theme.of(context)
+                                //     .colorScheme
+                                //     .surfaceContainerHighest,
+                                // filled: true,
+                                hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 0.25,
                                 ),
-                                IconButton(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  onPressed: () {
-                                    if (widget.textEditingController.text
-                                        .trim()
-                                        .isNotEmpty) {
-                                      isUserTagging.value = false;
-                                      widget.onPressed();
-                                    }
-                                    widget.textEditingController.clear();
-                                    _inputText.value = '';
-                                  },
-                                  icon: CircleAvatar(
-                                      radius: 16,
-                                      backgroundColor:
-                                          Theme.of(context).colorScheme.primary,
-                                      child:
-                                          sendMessageConfig?.sendButtonIcon ??
-                                              const Icon(
-                                                Icons.send_rounded,
-                                                color: Colors.white,
-                                                size: 18,
-                                              )),
-                                )
-                              ],
-                            ),
-                          ],
+                                // prefixIcon: IconButton(
+                                //   constraints: const BoxConstraints(),
+                                //   onPressed: () {
+                                //     setState(() {
+                                //       showButtons = !showButtons;
+                                //     });
+                                //   },
+                                //   icon: Icon(
+                                //     showButtons
+                                //         ? Icons.chevron_left
+                                //         : Icons.chevron_right,
+                                //   ),
+                                // ),
+                                contentPadding: textFieldConfig
+                                        ?.contentPadding ??
+                                    const EdgeInsets.symmetric(horizontal: 6),
+                                border: _outLineBorder,
+                                focusedBorder: _outLineBorder,
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.transparent),
+                                  borderRadius: textFieldConfig?.borderRadius ??
+                                      BorderRadius.circular(
+                                          textFieldBorderRadius),
+                                ),
+                              ),
+                            )
+                          ]),
                         ),
-                      ),
+                        IconButton(
+                          color: Theme.of(context).colorScheme.primary,
+                          onPressed: () {
+                            if (widget.textEditingController.text
+                                .trim()
+                                .isNotEmpty) {
+                              isUserTagging.value = false;
+                              widget.onPressed();
+                            }
+                            widget.textEditingController.clear();
+                            _inputText.value = '';
+                          },
+                          icon: CircleAvatar(
+                              radius: 16,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              child: sendMessageConfig?.sendButtonIcon ??
+                                  const Icon(
+                                    Icons.send_rounded,
+                                    color: Colors.white,
+                                    size: 18,
+                                  )),
+                        )
+                      ],
                     ),
-                  ),
-                ],
-              ))),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      )),
     ]);
   }
 

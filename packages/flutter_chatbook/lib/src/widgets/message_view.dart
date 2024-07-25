@@ -148,13 +148,12 @@ class _MessageViewState extends State<MessageView> {
           padding: _padding ??
               (
                   // Main bubble padding
-                  const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 12,
-              )),
+                  const EdgeInsets.all(12)),
           margin: _margin ?? EdgeInsets.fromLTRB(5, 0, 6, 2),
           decoration: BoxDecoration(
-              color: widget.shouldHighlight ? widget.highlightColor : _color,
+              color: widget.shouldHighlight
+                  ? Theme.of(context).colorScheme.inversePrimary
+                  : _color,
               borderRadius: BorderRadius.circular(16)),
           child: IntrinsicWidth(
             child: Column(
@@ -214,8 +213,8 @@ class _MessageViewState extends State<MessageView> {
           ),
         ),
         Positioned(
-          bottom: 5,
-          right: 10,
+          bottom: 6,
+          right: 12,
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: MessageTimeWidget(

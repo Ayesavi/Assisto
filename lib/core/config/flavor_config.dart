@@ -34,6 +34,7 @@ class FlavorConfig {
   String get supabaseApiKey => 'SUPABASE_KEY'.fromEnv;
   String get geoApiKey => 'GEO_API_KEY'.fromEnv;
   String get googleClientId => "GOOGLE_SIGN_IN".fromEnv;
+  bool get useFakeRepositories => const bool.fromEnvironment('faker');
   CFEnvironment get paymentEnvironment => _getPaymentEnvironment();
 
   FirebaseOptions get firebaseOptions {

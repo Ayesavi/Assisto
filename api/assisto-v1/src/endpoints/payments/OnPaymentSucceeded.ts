@@ -3,7 +3,10 @@ import { SUPABASE_CLIENT } from "../../supabase_client";
 import getBody from "../mail/HtmlTemplate";
 import sendMail from "../mail/SendMail";
 import sendNotification from "../notify/send_notification";
-import { PaymentWebhookEvents } from "./PaymentConstants";
+import {
+  PaymentWebhookEvents,
+  SupabasePaymentStatus,
+} from "./PaymentConstants";
 
 class PaymentWebhook {
   private supabase: SupabaseClient;
@@ -91,7 +94,6 @@ class PaymentWebhook {
       console.error(`Error updating task status: ${error.message}`);
       return;
     }
-    console.log(event);
 
     const { bidderId, taskName } = event.data.order.order_tags;
 
@@ -120,7 +122,10 @@ class PaymentWebhook {
       },
       tokens: tokens,
     });
-    console.log("bidderId");
+    await this.supabase
+      .from("user_payments")
+      .update({ status: SupabasePaymentStatus.SUCCESS })
+      .eq("id", event.data.order.order_id);
     const { data: userData, error: userError } =
       await this.supabase.auth.admin.getUserById(bidderId);
     if (userError) {
@@ -133,6 +138,7 @@ class PaymentWebhook {
       event.data.order.order_amount,
       event.data.order.order_id
     );
+
     sendMail("Assisto", [userData.user?.email ?? ""], body);
   }
 
@@ -153,6 +159,10 @@ class PaymentWebhook {
       console.error(`Error fetching tokens: ${tokenError.message}`);
       return;
     }
+    await this.supabase
+      .from("user_payments")
+      .update({ status: SupabasePaymentStatus.FAILED })
+      .eq("id", event.data.order.order_id);
 
     const tokens = data.map((e) => e.token);
 

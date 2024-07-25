@@ -1,5 +1,6 @@
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
+import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
+import 'package:assisto/core/respositories/task_repository/task_repository_provider.dart';
 import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -11,10 +12,12 @@ part 'task_bid_widget_controller_state.dart';
 
 @riverpod
 class TaskBidWidgetController extends _$TaskBidWidgetController {
-  final _repository = SupabaseTaskRepository();
+  late final BaseTaskRepository _repository;
 
   @override
   TaskBidWidgetControllerState build(int bidId) {
+    _repository = ref.read(taskRepositoryProvider);
+
     getBids(bidId);
     return const TaskBidWidgetControllerState.loading();
   }

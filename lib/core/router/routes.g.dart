@@ -104,12 +104,6 @@ RouteBase get $homeShellRoute => ShellRouteData.$route(
               factory: $TaskProfileRouteExtension._fromState,
             ),
             GoRouteData.$route(
-              path: 'transactions/:recipientId',
-              name: 'transactions',
-              parentNavigatorKey: ChatTransactionsPageRoute.$parentNavigatorKey,
-              factory: $ChatTransactionsPageRouteExtension._fromState,
-            ),
-            GoRouteData.$route(
               path: 'profile',
               name: 'profile',
               parentNavigatorKey: ProfilePageRoute.$parentNavigatorKey,
@@ -126,6 +120,12 @@ RouteBase get $homeShellRoute => ShellRouteData.$route(
                   name: 'addresses',
                   parentNavigatorKey: AddressesPageRoute.$parentNavigatorKey,
                   factory: $AddressesPageRouteExtension._fromState,
+                ),
+                GoRouteData.$route(
+                  path: 'payments',
+                  name: 'payments',
+                  parentNavigatorKey: PaymentsPageRoute.$parentNavigatorKey,
+                  factory: $PaymentsPageRouteExtension._fromState,
                 ),
               ],
             ),
@@ -221,26 +221,6 @@ extension $TaskProfileRouteExtension on TaskProfileRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ChatTransactionsPageRouteExtension on ChatTransactionsPageRoute {
-  static ChatTransactionsPageRoute _fromState(GoRouterState state) =>
-      ChatTransactionsPageRoute(
-        recipientId: state.pathParameters['recipientId']!,
-      );
-
-  String get location => GoRouteData.$location(
-        '/home/transactions/${Uri.encodeComponent(recipientId)}',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
 extension $ProfilePageRouteExtension on ProfilePageRoute {
   static ProfilePageRoute _fromState(GoRouterState state) =>
       const ProfilePageRoute();
@@ -283,6 +263,24 @@ extension $AddressesPageRouteExtension on AddressesPageRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile/addresses',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $PaymentsPageRouteExtension on PaymentsPageRoute {
+  static PaymentsPageRoute _fromState(GoRouterState state) =>
+      const PaymentsPageRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/profile/payments',
       );
 
   void go(BuildContext context) => context.go(location);

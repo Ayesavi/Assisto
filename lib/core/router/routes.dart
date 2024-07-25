@@ -4,12 +4,12 @@ import 'package:assisto/features/addresses/screens/manage_address_page.dart';
 import 'package:assisto/features/auth/screens/login_screen.dart';
 import 'package:assisto/features/auth/screens/verify_otp_screen.dart';
 import 'package:assisto/features/chat/screens/chat_page.dart';
-import 'package:assisto/features/chat/screens/chat_transactions.dart';
 import 'package:assisto/features/chat/screens/chats_list_page.dart';
 import 'package:assisto/features/home/screens/feed_page.dart';
 import 'package:assisto/features/home/screens/home_screen.dart';
 import 'package:assisto/features/maintainence/screens/maintenance_page.dart';
 import 'package:assisto/features/notifications/screens/notification_page.dart';
+import 'package:assisto/features/payments/screens/payment_screen.dart';
 import 'package:assisto/features/profile/screens/edit_profile_page.dart';
 import 'package:assisto/features/profile/screens/profile_screen.dart';
 import 'package:assisto/features/search_tasks/screens/search_task_screen.dart';
@@ -238,19 +238,16 @@ class ChatPageRoute extends GoRouteData {
       );
 }
 
-class ChatTransactionsPageRoute extends GoRouteData {
-  const ChatTransactionsPageRoute({required this.recipientId});
+class PaymentsPageRoute extends GoRouteData {
+  const PaymentsPageRoute();
 
-  /// The phone number associated with the OTP page.
-  final String recipientId;
+
 
   static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      ChatTransactionsPage(
-        recipientId: recipientId,
-      );
+      const PaymentScreen();
 }
 
 class NotificationPageRoute extends GoRouteData {
