@@ -21,14 +21,14 @@ class ChatPageController extends _$ChatPageController {
 
   int _offset = 0;
   late RealtimeChannel _channel;
-  late final BaseChatRepository _repo;
-  late final BaseTaskRepository _taskRepo;
+  late  BaseChatRepository _repo;
+  late  BaseTaskRepository _taskRepo;
   UserModel? _userModel;
   @override
   ChatPageControllerState build(int roomId) {
     _roomId = roomId;
-    _repo = ref.read(chatRepositoryProvider);
-    _taskRepo = ref.read(taskRepositoryProvider);
+    _repo = ref.watch(chatRepositoryProvider);
+    _taskRepo = ref.watch(taskRepositoryProvider);
     loadData();
     return const ChatPageControllerState.loading();
   }

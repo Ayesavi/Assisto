@@ -12,10 +12,10 @@ part 'task_profile_page_controller_state.dart';
 
 @riverpod
 class TaskProfilePageController extends _$TaskProfilePageController {
-  late final BaseTaskRepository _repository;
+  late BaseTaskRepository _repository;
   @override
   TaskProfilePageState build(int taskId) {
-    _repository = ref.read(taskRepositoryProvider);
+    _repository = ref.watch(taskRepositoryProvider);
 
     getTaskById(taskId);
     return const TaskProfilePageState.loading();

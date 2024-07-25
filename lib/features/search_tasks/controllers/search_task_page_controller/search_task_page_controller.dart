@@ -13,7 +13,7 @@ part 'search_task_page_controller_state.dart';
 
 @riverpod
 class SearchTaskPageController extends _$SearchTaskPageController {
-  late final BaseTaskRepository _repo;
+  late  BaseTaskRepository _repo;
   int offset = 0;
   final limit = 30;
   LatLng? currentLatlng;
@@ -22,7 +22,7 @@ class SearchTaskPageController extends _$SearchTaskPageController {
 
   @override
   SearchTaskPageState build() {
-    _repo = ref.read(taskRepositoryProvider);
+    _repo = ref.watch(taskRepositoryProvider);
     final currentAddress = ref.watch(addressControllerProvider);
     if (currentAddress.location) {
       currentLatlng = (

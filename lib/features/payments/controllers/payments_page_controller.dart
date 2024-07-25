@@ -11,14 +11,14 @@ part 'payments_page_controller_state.dart';
 
 @riverpod
 class PaymentsPageController extends _$PaymentsPageController {
-  late final BasePaymentsRepository _repo;
+  late  BasePaymentsRepository _repo;
   final int _limit = 30;
   int _offset = 0;
   String? _recipientId;
   @override
   PaymentsPageControllerState build(String? recipientId) {
     _recipientId = recipientId;
-    _repo = ref.read(paymentsRepositoryProvider);
+    _repo = ref.watch(paymentsRepositoryProvider);
     loadData();
     return const PaymentsPageControllerState.loading();
   }

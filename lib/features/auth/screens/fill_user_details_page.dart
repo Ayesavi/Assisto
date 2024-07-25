@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class UserDetailsForm extends StatefulWidget {
   final Map<String, dynamic> userMap;
-  
+
   final Function(Map<String, dynamic>) onSubmit;
 
   const UserDetailsForm(
@@ -254,11 +254,13 @@ class SelectableTagList extends StatefulWidget {
   final List<String> tags;
   final List<String> selectedTags;
   final ValueChanged<List<String>>? onChanged;
+  final bool isRow;
 
   const SelectableTagList({
     super.key,
     required this.tags,
     this.onChanged,
+    this.isRow = false,
     required this.selectedTags,
   });
 
@@ -277,31 +279,36 @@ class _SelectableTagListState extends State<SelectableTagList> {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: widget.tags.map((tag) {
-        final isSelected = _selectedTags.contains(tag);
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: ChoiceChip(
-            label: Text(tag.capitalize),
-            selected: isSelected,
-            showCheckmark: false,
-            backgroundColor: isSelected ? Theme.of(context).primaryColor : null,
-            selectedColor: isSelected
-                ? Theme.of(context).colorScheme.inversePrimary
-                : null,
-            onSelected: (value) => setState(() {
-              if (isSelected) {
-                _selectedTags.remove(tag);
-              } else {
-                _selectedTags.add(tag);
-              }
+    final widgets = widget.tags.map((tag) {
+      final isSelected = _selectedTags.contains(tag);
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        child: ChoiceChip(
+          label: Text(tag.capitalize),
+          selected: isSelected,
+          showCheckmark: false,
+          backgroundColor: isSelected ? Theme.of(context).primaryColor : null,
+          selectedColor:
+              isSelected ? Theme.of(context).colorScheme.inversePrimary : null,
+          onSelected: (value) => setState(() {
+            if (isSelected) {
+              _selectedTags.remove(tag);
+            } else {
+              _selectedTags.add(tag);
+            }
 
-              widget.onChanged?.call(_selectedTags.toList());
-            }),
-          ),
-        );
-      }).toList(),
-    );
+            widget.onChanged?.call(_selectedTags.toList());
+          }),
+        ),
+      );
+    }).toList();
+
+    return widget.isRow
+        ? Row(
+            children: [...widgets],
+          )
+        : Wrap(
+            children: [...widgets],
+          );
   }
 }

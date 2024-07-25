@@ -7,7 +7,7 @@ part of 'chats_list_page_controller.dart';
 // **************************************************************************
 
 String _$chatsListPageControllerHash() =>
-    r'bf2e1bf7c5b98060680e9f870c451f69d5f33db8';
+    r'6ef9e0c88d72730adfd47845546872e58934b59f';
 
 /// See also [ChatsListPageController].
 @ProviderFor(ChatsListPageController)

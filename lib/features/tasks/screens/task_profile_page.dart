@@ -388,7 +388,7 @@ class TaskProfilePage extends ConsumerWidget {
     required TaskModel model,
   }) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return TaskCreationPage(
+      return CreateTaskPage(
         editTaskModel: model,
       );
     }));

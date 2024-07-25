@@ -20,7 +20,7 @@ class ChatsListPageController extends _$ChatsListPageController {
   int _offset = 0;
   TaskStatus? _status;
 
-  late final BaseChatRepository _repo;
+  late  BaseChatRepository _repo;
   final TextEditingController searchController = TextEditingController();
 
   final _chats = <ChatRoomModel>[];
@@ -29,7 +29,7 @@ class ChatsListPageController extends _$ChatsListPageController {
   List<ChatRoomModel> get rooms => _chats;
   @override
   ChatsListPageControllerState build() {
-    _repo = ref.read(chatRepositoryProvider);
+    _repo = ref.watch(chatRepositoryProvider);
     loadChatRooms();
     return const ChatsListPageControllerState.loading();
   }

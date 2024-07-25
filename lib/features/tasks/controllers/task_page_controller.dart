@@ -11,11 +11,11 @@ part 'task_page_controller_state.dart';
 
 @riverpod
 class TaskPageController extends _$TaskPageController {
-  late final BaseTaskRepository _repository;
+  late  BaseTaskRepository _repository;
 
   @override
   TaskPageControllerState build() {
-    _repository = ref.read(taskRepositoryProvider);
+    _repository = ref.watch(taskRepositoryProvider);
     return const TaskPageControllerState.loading();
   }
 

@@ -16,11 +16,11 @@ part 'address_page_controller_state.dart';
 @riverpod
 class AddressPageController extends _$AddressPageController {
   List<AddressModel> _addresses = [];
-  late final BaseAddressRepository _repo;
+  late  BaseAddressRepository _repo;
 
   @override
   AddressPageControllerState build() {
-    _repo = ref.read(addressRepositoryProvider);
+    _repo = ref.watch(addressRepositoryProvider);
     ref.watch(internetConnectivityProvider);
     fetchAddresses();
     return const _Loading();

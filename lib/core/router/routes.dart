@@ -241,8 +241,6 @@ class ChatPageRoute extends GoRouteData {
 class PaymentsPageRoute extends GoRouteData {
   const PaymentsPageRoute();
 
-
-
   static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   @override
@@ -283,7 +281,7 @@ class CreateTaskRoute extends GoRouteData {
   static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
 
   @override
-  build(BuildContext context, GoRouterState state) => const TaskCreationPage();
+  build(BuildContext context, GoRouterState state) => const CreateTaskPage();
 }
 
 class SearchPageRoute extends GoRouteData {

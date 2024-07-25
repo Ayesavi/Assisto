@@ -1,6 +1,7 @@
 import 'package:assisto/core/admob/ad_units.dart';
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
+import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
 import 'package:assisto/core/services/permission_service.dart';
@@ -12,6 +13,7 @@ import 'package:assisto/features/home/widgets/task_filter_widget.dart';
 import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/shimmering/shimmering_task_tile.dart';
+import 'package:assisto/widgets/common_error_widget/common_error_widget.dart';
 import 'package:assisto/widgets/common_network_error_widget/common_network_error_widget.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
@@ -269,26 +271,9 @@ class _HomeFeedPageState extends ConsumerState<HomeFeedPage> {
                 error: (e) {
                   return SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 100,
-                          ),
-                          SizedBox.square(
-                            dimension: 200,
-                            child:
-                                SvgPicture.asset('assets/graphics/error.svg'),
-                          ),
-                          kWidgetVerticalGap,
-                          const Text(
-                            'Looks like an error occurred from our side, please try again later',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: CommonErrorWidget(
+                            message: appErrorHandler(e).message)),
                   );
                 },
                 networkError: () {

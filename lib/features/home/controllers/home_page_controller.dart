@@ -16,7 +16,7 @@ part 'home_page_controller_state.dart';
 
 @riverpod
 class HomePageController extends _$HomePageController {
-  late final BaseTaskRepository _repo;
+  late BaseTaskRepository _repo;
   AddressModel? _defaultAddr;
   int offset = 0;
   final limit = 30;
@@ -27,9 +27,10 @@ class HomePageController extends _$HomePageController {
 
   @override
   HomePageControllerState build() {
+    _repo = ref.watch(taskRepositoryProvider);
     final filters = ref.watch(selectedFiltersProvider);
     loadData(filters);
-    _repo = ref.read(taskRepositoryProvider);
+
     final state = ref.watch(addressControllerProvider);
     if (state.location) {
       _defaultAddr = (state as Location).model;

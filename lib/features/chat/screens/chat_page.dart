@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chatbook/flutter_chatbook.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
   final int roomId;
@@ -131,6 +132,36 @@ class _ChatPageState extends ConsumerState<ChatPage>
   PreferredSizeWidget _buildAppBar(BuildContext context, UserModel model) {
     return AppBar(
       automaticallyImplyLeading: false,
+      actions: [
+        Builder(
+          builder: (context) {
+            final phoneNumber = ref.watch(chatUserPhoneNumberProvider(
+                (taskId: widget.roomId, userId: model.id)));
+            return phoneNumber.when(
+              data: (phone) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                      onPressed: () async {
+                        final Uri launchUri = Uri(
+                          scheme: 'tel',
+                          path: phone,
+                        );
+                        await launchUrl(launchUri);
+                      },
+                      icon: const Icon(Icons.phone)),
+                );
+              },
+              error: (error, stackTrace) {
+                return const SizedBox.shrink();
+              },
+              loading: () {
+                return const SizedBox.shrink();
+              },
+            );
+          },
+        )
+      ],
       title: GestureDetector(
         onTap: () {
           analytics.logEvent(name: analyticsEvents.chatAppBarPressEvent);

@@ -33,7 +33,7 @@ mixin _$TaskModel {
   DateTime? get deadline => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  Gender? get gender => throw _privateConstructorUsedError;
+  Gender get gender => throw _privateConstructorUsedError;
   @JsonKey(name: 'age_group')
   String? get ageGroup => throw _privateConstructorUsedError;
   @JsonKey(name: 'expected_price')
@@ -43,9 +43,11 @@ mixin _$TaskModel {
 // id will be assigned by the server.
   @JsonKey(includeToJson: false)
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   BidModel? get bid => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   double? get distance => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', includeToJson: false)
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this TaskModel to a JSON map.
@@ -72,14 +74,14 @@ abstract class $TaskModelCopyWith<$Res> {
       DateTime? deadline,
       String title,
       String description,
-      Gender? gender,
+      Gender gender,
       @JsonKey(name: 'age_group') String? ageGroup,
       @JsonKey(name: 'expected_price') int? expectedPrice,
       TaskStatus status,
       @JsonKey(includeToJson: false) int id,
-      BidModel? bid,
-      double? distance,
-      @JsonKey(name: 'created_at') DateTime? createdAt});
+      @JsonKey(includeToJson: false) BidModel? bid,
+      @JsonKey(includeToJson: false) double? distance,
+      @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt});
 
   $TaskUserCopyWith<$Res> get owner;
   $TaskAddressCopyWith<$Res>? get address;
@@ -108,7 +110,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     Object? deadline = freezed,
     Object? title = null,
     Object? description = null,
-    Object? gender = freezed,
+    Object? gender = null,
     Object? ageGroup = freezed,
     Object? expectedPrice = freezed,
     Object? status = null,
@@ -146,10 +148,10 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      gender: freezed == gender
+      gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as Gender?,
+              as Gender,
       ageGroup: freezed == ageGroup
           ? _value.ageGroup
           : ageGroup // ignore: cast_nullable_to_non_nullable
@@ -237,14 +239,14 @@ abstract class _$$TaskModelImplCopyWith<$Res>
       DateTime? deadline,
       String title,
       String description,
-      Gender? gender,
+      Gender gender,
       @JsonKey(name: 'age_group') String? ageGroup,
       @JsonKey(name: 'expected_price') int? expectedPrice,
       TaskStatus status,
       @JsonKey(includeToJson: false) int id,
-      BidModel? bid,
-      double? distance,
-      @JsonKey(name: 'created_at') DateTime? createdAt});
+      @JsonKey(includeToJson: false) BidModel? bid,
+      @JsonKey(includeToJson: false) double? distance,
+      @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt});
 
   @override
   $TaskUserCopyWith<$Res> get owner;
@@ -274,7 +276,7 @@ class __$$TaskModelImplCopyWithImpl<$Res>
     Object? deadline = freezed,
     Object? title = null,
     Object? description = null,
-    Object? gender = freezed,
+    Object? gender = null,
     Object? ageGroup = freezed,
     Object? expectedPrice = freezed,
     Object? status = null,
@@ -312,10 +314,10 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      gender: freezed == gender
+      gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as Gender?,
+              as Gender,
       ageGroup: freezed == ageGroup
           ? _value.ageGroup
           : ageGroup // ignore: cast_nullable_to_non_nullable
@@ -360,14 +362,14 @@ class _$TaskModelImpl implements _TaskModel {
       this.deadline,
       required this.title,
       required this.description,
-      this.gender,
+      this.gender = Gender.any,
       @JsonKey(name: 'age_group') this.ageGroup,
       @JsonKey(name: 'expected_price') this.expectedPrice,
       this.status = TaskStatus.unassigned,
       @JsonKey(includeToJson: false) this.id = 0,
-      this.bid,
-      this.distance,
-      @JsonKey(name: 'created_at') this.createdAt})
+      @JsonKey(includeToJson: false) this.bid,
+      @JsonKey(includeToJson: false) this.distance,
+      @JsonKey(name: 'created_at', includeToJson: false) this.createdAt})
       : _tags = tags;
 
   factory _$TaskModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -400,7 +402,8 @@ class _$TaskModelImpl implements _TaskModel {
   @override
   final String description;
   @override
-  final Gender? gender;
+  @JsonKey()
+  final Gender gender;
   @override
   @JsonKey(name: 'age_group')
   final String? ageGroup;
@@ -416,11 +419,13 @@ class _$TaskModelImpl implements _TaskModel {
   @JsonKey(includeToJson: false)
   final int id;
   @override
+  @JsonKey(includeToJson: false)
   final BidModel? bid;
   @override
+  @JsonKey(includeToJson: false)
   final double? distance;
   @override
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', includeToJson: false)
   final DateTime? createdAt;
 
   @override
@@ -503,14 +508,14 @@ abstract class _TaskModel implements TaskModel {
       final DateTime? deadline,
       required final String title,
       required final String description,
-      final Gender? gender,
+      final Gender gender,
       @JsonKey(name: 'age_group') final String? ageGroup,
       @JsonKey(name: 'expected_price') final int? expectedPrice,
       final TaskStatus status,
       @JsonKey(includeToJson: false) final int id,
-      final BidModel? bid,
-      final double? distance,
-      @JsonKey(name: 'created_at')
+      @JsonKey(includeToJson: false) final BidModel? bid,
+      @JsonKey(includeToJson: false) final double? distance,
+      @JsonKey(name: 'created_at', includeToJson: false)
       final DateTime? createdAt}) = _$TaskModelImpl;
 
   factory _TaskModel.fromJson(Map<String, dynamic> json) =
@@ -536,7 +541,7 @@ abstract class _TaskModel implements TaskModel {
   @override
   String get description;
   @override
-  Gender? get gender;
+  Gender get gender;
   @override
   @JsonKey(name: 'age_group')
   String? get ageGroup;
@@ -550,11 +555,13 @@ abstract class _TaskModel implements TaskModel {
   @JsonKey(includeToJson: false)
   int get id;
   @override
+  @JsonKey(includeToJson: false)
   BidModel? get bid;
   @override
+  @JsonKey(includeToJson: false)
   double? get distance;
   @override
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', includeToJson: false)
   DateTime? get createdAt;
 
   /// Create a copy of TaskModel

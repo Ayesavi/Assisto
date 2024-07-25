@@ -16,7 +16,7 @@ class TaskBidWidgetController extends _$TaskBidWidgetController {
 
   @override
   TaskBidWidgetControllerState build(int bidId) {
-    _repository = ref.read(taskRepositoryProvider);
+    _repository = ref.watch(taskRepositoryProvider);
 
     getBids(bidId);
     return const TaskBidWidgetControllerState.loading();

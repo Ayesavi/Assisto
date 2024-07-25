@@ -7,7 +7,7 @@ part of 'address_search_controller.dart';
 // **************************************************************************
 
 String _$addressSearchControllerHash() =>
-    r'595200a2520d34e2c65145414f022c5cc916d0ef';
+    r'af59cea5b30c727ef579e15c2a295c478d86cba2';
 
 /// See also [AddressSearchController].
 @ProviderFor(AddressSearchController)
