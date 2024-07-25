@@ -12,7 +12,7 @@ part 'task_bid_widget_controller_state.dart';
 
 @riverpod
 class TaskBidWidgetController extends _$TaskBidWidgetController {
-  late final BaseTaskRepository _repository;
+  late BaseTaskRepository _repository;
 
   @override
   TaskBidWidgetControllerState build(int bidId) {
