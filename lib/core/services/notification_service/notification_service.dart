@@ -48,7 +48,7 @@ class NotificationService {
             defaultPrivacy: NotificationPrivacy.Private,
           ),
           NotificationChannel(
-            channelKey: NotificationChannels.offer.name,
+            channelKey: NotificationChannels.task.name,
             channelName: 'Assist Updates',
             channelDescription:
                 'Stay informed about the status of your Assists ',
