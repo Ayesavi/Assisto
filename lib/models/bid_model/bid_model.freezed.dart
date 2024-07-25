@@ -27,8 +27,12 @@ mixin _$BidModel {
   UserModel get bidder => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
 
+  /// Serializes this BidModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BidModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BidModelCopyWith<BidModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -57,6 +61,8 @@ class _$BidModelCopyWithImpl<$Res, $Val extends BidModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BidModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -85,6 +91,8 @@ class _$BidModelCopyWithImpl<$Res, $Val extends BidModel>
     ) as $Val);
   }
 
+  /// Create a copy of BidModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserModelCopyWith<$Res> get bidder {
@@ -120,6 +128,8 @@ class __$$BidModelImplCopyWithImpl<$Res>
       _$BidModelImpl _value, $Res Function(_$BidModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BidModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -189,11 +199,13 @@ class _$BidModelImpl implements _BidModel {
             (identical(other.amount, amount) || other.amount == amount));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, createdAt, bidder, amount);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BidModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BidModelImplCopyWith<_$BidModelImpl> get copyWith =>
@@ -227,8 +239,11 @@ abstract class _BidModel implements BidModel {
   UserModel get bidder;
   @override
   int get amount;
+
+  /// Create a copy of BidModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BidModelImplCopyWith<_$BidModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

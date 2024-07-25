@@ -95,6 +95,9 @@ class _$TaskProfilePageStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -114,6 +117,9 @@ class __$$TaskProfilePageInitialImplCopyWithImpl<$Res>
       _$TaskProfilePageInitialImpl _value,
       $Res Function(_$TaskProfilePageInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -248,6 +254,8 @@ class __$$TaskProfilePageOwnerDataImplCopyWithImpl<$Res>
       $Res Function(_$TaskProfilePageOwnerDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -261,6 +269,8 @@ class __$$TaskProfilePageOwnerDataImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TaskModelCopyWith<$Res> get model {
@@ -294,7 +304,9 @@ class _$TaskProfilePageOwnerDataImpl extends TaskProfilePageOwnerData {
   @override
   int get hashCode => Object.hash(runtimeType, model);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TaskProfilePageOwnerDataImplCopyWith<_$TaskProfilePageOwnerDataImpl>
@@ -392,7 +404,10 @@ abstract class TaskProfilePageOwnerData extends TaskProfilePageState {
   const TaskProfilePageOwnerData._() : super._();
 
   TaskModel get model;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TaskProfilePageOwnerDataImplCopyWith<_$TaskProfilePageOwnerDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -419,6 +434,8 @@ class __$$TaskProfilePageConsumerDataImplCopyWithImpl<$Res>
       $Res Function(_$TaskProfilePageConsumerDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -437,6 +454,8 @@ class __$$TaskProfilePageConsumerDataImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TaskModelCopyWith<$Res> get model {
@@ -473,7 +492,9 @@ class _$TaskProfilePageConsumerDataImpl extends TaskProfilePageConsumerData {
   @override
   int get hashCode => Object.hash(runtimeType, model, info);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TaskProfilePageConsumerDataImplCopyWith<_$TaskProfilePageConsumerDataImpl>
@@ -573,7 +594,10 @@ abstract class TaskProfilePageConsumerData extends TaskProfilePageState {
 
   TaskModel get model;
   ({int amount, int taskId})? get info;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TaskProfilePageConsumerDataImplCopyWith<_$TaskProfilePageConsumerDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -595,6 +619,8 @@ class __$$TaskProfilePageErrorImplCopyWithImpl<$Res>
       $Res Function(_$TaskProfilePageErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -631,7 +657,9 @@ class _$TaskProfilePageErrorImpl extends TaskProfilePageError {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(error));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TaskProfilePageErrorImplCopyWith<_$TaskProfilePageErrorImpl>
@@ -730,7 +758,10 @@ abstract class TaskProfilePageError extends TaskProfilePageState {
   const TaskProfilePageError._() : super._();
 
   Object get error;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TaskProfilePageErrorImplCopyWith<_$TaskProfilePageErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -752,6 +783,9 @@ class __$$TaskProfilePageNetworkErrorImplCopyWithImpl<$Res>
       _$TaskProfilePageNetworkErrorImpl _value,
       $Res Function(_$TaskProfilePageNetworkErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TaskProfilePageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

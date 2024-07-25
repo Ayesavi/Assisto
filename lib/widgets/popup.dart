@@ -139,7 +139,7 @@ class __PopupTextButtonState extends State<_PopupTextButton> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: _onPressed,
+      onPressed: _isLoading ? null : _onPressed,
       child:
           _isLoading ? const CupertinoActivityIndicator() : Text(widget.label),
     );

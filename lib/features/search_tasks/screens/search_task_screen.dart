@@ -4,6 +4,7 @@ import 'package:assisto/features/search_tasks/controllers/search_task_page_contr
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
+import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -48,7 +49,10 @@ class _SearchTaskScreenState extends ConsumerState<SearchTaskScreen> {
     final state = ref.watch(searchTaskPageControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search'),
+        title: const HeadlineSmall(
+          text: 'Search',
+          weight: FontWeight.bold,
+        ),
       ),
       body: state.when(
         initial: () {
@@ -60,7 +64,9 @@ class _SearchTaskScreenState extends ConsumerState<SearchTaskScreen> {
               ),
               Align(
                 alignment: Alignment.center,
-                child: Lottie.asset(Assets.lottie.searching),
+                child: Lottie.asset(
+                  Assets.lottie.searching,
+                ),
               )
             ],
           );
@@ -218,7 +224,12 @@ class _SearchTaskScreenState extends ConsumerState<SearchTaskScreen> {
               ),
             ),
           ),
-          if (child != null) child,
+          if (child != null) ...[
+            SliverPadding(
+              padding: const EdgeInsets.only(top: 16.0),
+              sliver: child,
+            ),
+          ]
         ],
       ),
     );

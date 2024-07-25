@@ -12,7 +12,7 @@ part 'address_search_controller_state.dart';
 
 @riverpod
 class AddressSearchController extends _$AddressSearchController {
-  final _repo = GoogleMapRespository();
+  late BasePlacesRepository _repo;
 
   final debouncer = Debouncer(delay: const Duration(milliseconds: 800));
 
@@ -20,6 +20,7 @@ class AddressSearchController extends _$AddressSearchController {
 
   @override
   AddressSearchControllerState build() {
+    _repo = ref.watch(placesRepositoryProvider);
     return const AddressSearchControllerState.initial();
   }
 

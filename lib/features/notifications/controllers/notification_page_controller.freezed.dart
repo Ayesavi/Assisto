@@ -79,6 +79,9 @@ class _$NotificationPageStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of NotificationPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -98,6 +101,9 @@ class __$$NotificationPageLoadingStateImplCopyWithImpl<$Res>
       _$NotificationPageLoadingStateImpl _value,
       $Res Function(_$NotificationPageLoadingStateImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of NotificationPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -215,6 +221,8 @@ class __$$NotificationPageDataStateImplCopyWithImpl<$Res>
       $Res Function(_$NotificationPageDataStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NotificationPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -261,7 +269,9 @@ class _$NotificationPageDataStateImpl extends NotificationPageDataState {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_models));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NotificationPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NotificationPageDataStateImplCopyWith<_$NotificationPageDataStateImpl>
@@ -343,7 +353,10 @@ abstract class NotificationPageDataState extends NotificationPageState {
   const NotificationPageDataState._() : super._();
 
   List<NotificationModel> get models;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NotificationPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NotificationPageDataStateImplCopyWith<_$NotificationPageDataStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -368,6 +381,8 @@ class __$$NotificationPageErrorStateImplCopyWithImpl<$Res>
       $Res Function(_$NotificationPageErrorStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NotificationPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -406,7 +421,9 @@ class _$NotificationPageErrorStateImpl extends NotificationPageErrorState {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NotificationPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NotificationPageErrorStateImplCopyWith<_$NotificationPageErrorStateImpl>
@@ -488,7 +505,10 @@ abstract class NotificationPageErrorState extends NotificationPageState {
   const NotificationPageErrorState._() : super._();
 
   AppException get error;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NotificationPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NotificationPageErrorStateImplCopyWith<_$NotificationPageErrorStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

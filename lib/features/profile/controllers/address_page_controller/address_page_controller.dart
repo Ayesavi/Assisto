@@ -1,7 +1,8 @@
 import 'package:assisto/core/controllers/address_controller/address_controller.dart';
 import 'package:assisto/core/controllers/internet_connectivity_provider/internet_connectivity_provider.dart';
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/core/respositories/address_repository.dart';
+import 'package:assisto/core/respositories/address_repository/address_repository_provider.dart';
+import 'package:assisto/core/respositories/address_repository/base_address_repository.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,11 @@ part 'address_page_controller_state.dart';
 @riverpod
 class AddressPageController extends _$AddressPageController {
   List<AddressModel> _addresses = [];
-  final _repo = SupabaseAddressRepository();
+  late  BaseAddressRepository _repo;
 
   @override
   AddressPageControllerState build() {
+    _repo = ref.watch(addressRepositoryProvider);
     ref.watch(internetConnectivityProvider);
     fetchAddresses();
     return const _Loading();

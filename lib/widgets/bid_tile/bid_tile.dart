@@ -17,18 +17,19 @@ class BidTile extends ConsumerWidget {
       onTap: onPressed,
       leading: UserAvatar(
         imageUrl: bidModel.bidder.avatarUrl,
-        radius: 30,
+        radius: 25,
       ),
-      title: TitleMedium(
-        weight: FontWeight.bold,
-        text: bidModel.bidder.name.capitalize,
+      title: Text(
+        bidModel.bidder.name.capitalize,
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: bidModel.bidder.description != null
-          ? LabelLarge(
-              text: bidModel.bidder.description!.capitalize,
-              maxLines: 2,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(.6),
-              weight: FontWeight.w500,
+          ? Text(
+              bidModel.bidder.description!.capitalize,
+              maxLines: 1,
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
             )
           : null,
       trailing: Container(

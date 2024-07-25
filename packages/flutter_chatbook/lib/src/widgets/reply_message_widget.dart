@@ -26,41 +26,46 @@ class ReplyMessageWidget extends StatelessWidget {
     final chatController = ChatBookInheritedWidget.of(context)?.chatController;
     final remoteUserName = ChatBookInheritedWidget.of(context)?.recipientName;
 
-    final messagedUser = message.repliedMessage?.authorId;
+    // todo: use this and show usermessage on reply to
+    // final messagedUser = message.repliedMessage?.authorId;
     final replyBy = replyBySender ? PackageStrings.you : remoteUserName;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        margin: EdgeInsets.symmetric(vertical: 5),
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: ClipPath(
-          child: Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  border: Border(
-                      left: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 8))),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: Text(
-                          replyBy?.toFirstUpper ?? '',
-                          style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).colorScheme.primary),
-                        )),
-                    replyWidget(context, message, textTheme, chatController,
-                        replyBySender, currentUserId, remoteUserName)
-                  ])),
-          clipper: ShapeBorderClipper(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12))),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          margin: EdgeInsets.symmetric(vertical: 5),
+          elevation: 2,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: ClipPath(
+            child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    border: Border(
+                        left: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 8))),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Text(
+                            replyBy?.toFirstUpper ?? '',
+                            style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.primary),
+                          )),
+                      replyWidget(context, message, textTheme, chatController,
+                          replyBySender, currentUserId, remoteUserName)
+                    ])),
+            clipper: ShapeBorderClipper(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12))),
+          ),
         ),
       ),
     );
@@ -84,7 +89,7 @@ class ReplyMessageWidget extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           style: TextStyle(
-              fontSize: 12,
+              fontSize: 14,
               color: Theme.of(context).colorScheme.onSurface,
               fontWeight: FontWeight.w400),
         );

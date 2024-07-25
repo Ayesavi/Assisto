@@ -1,6 +1,6 @@
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
-import 'package:assisto/features/home/screens/home_screen.dart';
+import 'package:assisto/features/home/screens/feed_page.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:assisto/models/user_model/user_model.dart';
@@ -57,7 +57,7 @@ class SupabaseTaskRepository implements BaseTaskRepository {
 
   @override
   Future<void> updateTask(TaskModel newTask) async {
-    final json = newTask.toSupaJson();
+    final json = newTask.toJson();
 
     await _supabase.from(_table).update(json).eq('id', newTask.id).select();
     return;
@@ -96,7 +96,8 @@ class SupabaseTaskRepository implements BaseTaskRepository {
         .select(
             '*,owner:owner_id(id,avatar_url,status),bid:bid_id(*,bidder:bidder_id(*))')
         .eq('owner_id', '${_supabase.auth.currentUser?.id}')
-        .range(offset, offset + limit);
+        .range(offset, offset + limit)
+        .order('created_at', ascending: false);
     return data.map((json) => TaskModel.fromJson(json)).toList();
   }
 

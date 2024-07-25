@@ -1,6 +1,6 @@
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
-import 'package:assisto/core/respositories/task_repository/supabase_task_repository.dart';
+import 'package:assisto/core/respositories/task_repository/task_repository_provider.dart';
 import 'package:assisto/features/home/controllers/home_page_controller.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,9 +12,11 @@ part 'task_profile_page_controller_state.dart';
 
 @riverpod
 class TaskProfilePageController extends _$TaskProfilePageController {
-  final _repository = SupabaseTaskRepository();
+  late BaseTaskRepository _repository;
   @override
   TaskProfilePageState build(int taskId) {
+    _repository = ref.watch(taskRepositoryProvider);
+
     getTaskById(taskId);
     return const TaskProfilePageState.loading();
   }

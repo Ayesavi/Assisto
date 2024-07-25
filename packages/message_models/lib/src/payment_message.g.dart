@@ -37,7 +37,7 @@ Map<String, dynamic> _$PaymentMessageToJson(PaymentMessage instance) =>
 
 const _$PaymentStatusEnumMap = {
   PaymentStatus.pending: 'pending',
-  PaymentStatus.completed: 'completed',
+  PaymentStatus.success: 'completed',
   PaymentStatus.failed: 'failed',
 };
 

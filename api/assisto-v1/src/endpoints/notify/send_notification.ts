@@ -1,7 +1,6 @@
 import { getMessaging, MulticastMessage } from "firebase-admin/messaging";
 
 async function sendNotification(message: MulticastMessage): Promise<void> {
-  console.log(message);
   try {
     if (message.tokens.length > 0) {
       const response = await getMessaging().sendEachForMulticast(message);

@@ -143,7 +143,7 @@ class _PaymentMessageViewState extends State<PaymentMessageView> {
           Icons.close_outlined,
           color: Theme.of(context).colorScheme.error,
         );
-      case PaymentStatus.completed:
+      case PaymentStatus.success:
         return Icon(Icons.check_circle, color: Colors.green);
       case PaymentStatus.pending:
         return Icon(
@@ -154,7 +154,7 @@ class _PaymentMessageViewState extends State<PaymentMessageView> {
 
   String _getStatusText(PaymentStatus status) {
     switch (status) {
-      case PaymentStatus.completed:
+      case PaymentStatus.success:
         return 'Paid';
       case PaymentStatus.failed:
         return 'Failed';
@@ -165,7 +165,7 @@ class _PaymentMessageViewState extends State<PaymentMessageView> {
 
   String _getRequestStatusText(PaymentStatus status) {
     switch (status) {
-      case PaymentStatus.completed:
+      case PaymentStatus.success:
         return 'Paid';
       case PaymentStatus.failed:
         return 'Failed';

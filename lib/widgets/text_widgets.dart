@@ -140,11 +140,8 @@ class TitleMedium extends StatelessWidget {
       textAlign: align,
       overflow: overflow,
       style: style ??
-          Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(color: color, fontWeight: weight,letterSpacing: letterSpacing
-              ),
+          Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: color, fontWeight: weight, letterSpacing: letterSpacing),
     );
   }
 }
@@ -174,12 +171,9 @@ class BodyLarge extends StatelessWidget {
       text,
       maxLines: maxLines,
       overflow: overflow,
-      
       textAlign: align,
-      style: Theme.of(context)
-          .textTheme
-          .bodyLarge
-          ?.copyWith(color: color, fontWeight: weight,letterSpacing: letterSpacing),
+      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+          color: color, fontWeight: weight, letterSpacing: letterSpacing),
     );
   }
 }
@@ -368,10 +362,12 @@ class TitleSmall extends StatelessWidget {
   final String text;
   final TextOverflow overflow;
   final TextStyle? style;
+  final Color? color;
   const TitleSmall(
       {super.key,
       required this.text,
       this.style,
+      this.color,
       this.overflow = TextOverflow.ellipsis});
 
   @override
@@ -379,7 +375,8 @@ class TitleSmall extends StatelessWidget {
     return Text(
       text,
       overflow: overflow,
-      style: style ?? Theme.of(context).textTheme.titleSmall,
+      style: style ??
+          Theme.of(context).textTheme.titleSmall?.copyWith(color: color),
     );
   }
 }

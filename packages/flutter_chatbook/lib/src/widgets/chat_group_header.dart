@@ -19,23 +19,24 @@ class ChatGroupHeader extends StatelessWidget {
         padding: groupSeparatorConfig?.padding ??
             const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          Expanded(
-              child: Divider(
-                  color: Theme.of(context).colorScheme.secondaryContainer)),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              day.getDay,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 11,
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontWeight: FontWeight.w500),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                // color: groupSeparatorConfig,
+              ),
+              child: Text(
+                day.getDay,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 11,
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontWeight: FontWeight.w500),
+              ),
             ),
           ),
-          Expanded(
-              child: Divider(
-                  color: Theme.of(context).colorScheme.secondaryContainer)),
         ]));
   }
 }

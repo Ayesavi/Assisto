@@ -2,12 +2,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Assisto Dev Faker",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "type": "dart",
+            "args": [
+                "--flavor","dev",
+                "--dart-define=faker=true"
+            ]
+        },
+        {
             "name": "Assisto dev",
             "request": "launch",
             "program": "lib/main.dart",
             "type": "dart",
             "args": [
-                "--flavor","dev"
+                "--flavor","dev",
             ]
         },
         {

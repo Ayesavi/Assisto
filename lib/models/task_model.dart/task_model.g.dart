@@ -18,7 +18,8 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['deadline'] as String),
       title: json['title'] as String,
       description: json['description'] as String,
-      gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
+      gender:
+          $enumDecodeNullable(_$GenderEnumMap, json['gender']) ?? Gender.any,
       ageGroup: json['age_group'] as String?,
       expectedPrice: (json['expected_price'] as num?)?.toInt(),
       status: $enumDecodeNullable(_$TaskStatusEnumMap, json['status']) ??
@@ -40,13 +41,10 @@ Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
       'deadline': instance.deadline?.toIso8601String(),
       'title': instance.title,
       'description': instance.description,
-      'gender': _$GenderEnumMap[instance.gender],
+      'gender': _$GenderEnumMap[instance.gender]!,
       'age_group': instance.ageGroup,
       'expected_price': instance.expectedPrice,
       'status': _$TaskStatusEnumMap[instance.status]!,
-      'bid': instance.bid,
-      'distance': instance.distance,
-      'created_at': instance.createdAt?.toIso8601String(),
     };
 
 const _$GenderEnumMap = {

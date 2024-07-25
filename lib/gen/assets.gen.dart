@@ -56,26 +56,41 @@ class $AssetsImagesGen {
   /// File path: assets/images/ai.png
   AssetGenImage get ai => const AssetGenImage('assets/images/ai.png');
 
+  /// File path: assets/images/chat_dark.png
+  AssetGenImage get chatDark =>
+      const AssetGenImage('assets/images/chat_dark.png');
+
+  /// File path: assets/images/chat_light.png
+  AssetGenImage get chatLight =>
+      const AssetGenImage('assets/images/chat_light.png');
+
   /// File path: assets/images/ic_launcher.png
   AssetGenImage get icLauncher =>
       const AssetGenImage('assets/images/ic_launcher.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [ai, icLauncher];
+  List<AssetGenImage> get values => [ai, chatDark, chatLight, icLauncher];
 }
 
 class $AssetsLottieGen {
   const $AssetsLottieGen();
 
+  /// File path: assets/lottie/app_requires_update.json
+  String get appRequiresUpdate => 'assets/lottie/app_requires_update.json';
+
   /// File path: assets/lottie/app_under_maintainence.json
   String get appUnderMaintainence =>
       'assets/lottie/app_under_maintainence.json';
+
+  /// File path: assets/lottie/error_lottie.json
+  String get errorLottie => 'assets/lottie/error_lottie.json';
 
   /// File path: assets/lottie/searching.json
   String get searching => 'assets/lottie/searching.json';
 
   /// List of all assets
-  List<String> get values => [appUnderMaintainence, searching];
+  List<String> get values =>
+      [appRequiresUpdate, appUnderMaintainence, errorLottie, searching];
 }
 
 class Assets {
@@ -94,11 +109,16 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName, {this.size = null});
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  });
 
   final String _assetName;
 
   final Size? size;
+  final Set<String> flavors;
 
   Image image({
     Key? key,

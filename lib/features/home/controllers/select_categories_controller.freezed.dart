@@ -93,6 +93,9 @@ class _$SelectCategoriesControllerStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SelectCategoriesControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -109,6 +112,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SelectCategoriesControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -234,6 +240,8 @@ class __$$DataImplCopyWithImpl<$Res>
   __$$DataImplCopyWithImpl(_$DataImpl _value, $Res Function(_$DataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SelectCategoriesControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -299,7 +307,9 @@ class _$DataImpl extends _Data {
       const DeepCollectionEquality().hash(_categories),
       const DeepCollectionEquality().hash(_selected));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SelectCategoriesControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DataImplCopyWith<_$DataImpl> get copyWith =>
@@ -393,7 +403,10 @@ abstract class _Data extends SelectCategoriesControllerState {
 
   List<ServiceCategoryModel> get categories;
   List<ServiceCategoryModel> get selected;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SelectCategoriesControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DataImplCopyWith<_$DataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -412,6 +425,9 @@ class __$$ErrorImplCopyWithImpl<$Res>
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SelectCategoriesControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -533,6 +549,9 @@ class __$$NetworkErrorImplCopyWithImpl<$Res>
   __$$NetworkErrorImplCopyWithImpl(
       _$NetworkErrorImpl _value, $Res Function(_$NetworkErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SelectCategoriesControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

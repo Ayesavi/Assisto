@@ -10,7 +10,6 @@ class TextMessageView extends StatelessWidget {
     this.chatBubbleMaxWidth,
     this.inComingChatBubbleConfig,
     this.outgoingChatBubbleConfig,
- 
     this.highlightMessage = false,
     this.receiptsBuilderVisibility = true,
     this.highlightColor,
@@ -32,93 +31,45 @@ class TextMessageView extends StatelessWidget {
   /// Provides configuration of chat bubble appearance from current user of chat.
   final ChatBubble? outgoingChatBubbleConfig;
 
-
   /// Represents message should highlight.
   final bool highlightMessage;
 
   /// Allow user to set color of highlighted message.
   final Color? highlightColor;
 
-  /// To controll receiptsBuilderVisibility.
+  /// To control receiptsBuilderVisibility.
   final bool receiptsBuilderVisibility;
 
-  /// Whether message is last or no for displaying receipts
+  /// Whether message is last or not for displaying receipts
   final bool isLastMessage;
 
   /// For [ReadMoreConfig] to access read more configuration.
   final MessageConfiguration? messageConfiguration;
 
-  final ValueNotifier<bool> _isExpanded = ValueNotifier(true);
+  final ValueNotifier<bool> _isExpanded = ValueNotifier(false);
 
   final bool isPrevAuthorSame;
 
-  Widget textWidget(TextTheme textTheme, String text, context) => ParsedText(
-        selectable: false,
-        text: text + "                   ",
-        style: _textStyle ??
-            textTheme.bodyMedium?.copyWith(
-              color: Colors.white,
-              fontSize: 14,
+  Widget textWidget(TextTheme textTheme, String text, context) => RichText(
+        text: TextSpan(
+          children: <TextSpan>[
+            // real message
+            TextSpan(
+              text: text + "    ",
+              style: _textStyle ??
+                  textTheme.bodyMedium?.copyWith(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
             ),
-        parse: [
-          MatchText(
-            pattern: TextMessageParser.bold.pattern,
-            style: TextMessageParser.bold.textStyle,
-            renderText: ({required String str, required String pattern}) => {
-              'display': str.replaceAll(
-                TextMessageParser.bold.from,
-                TextMessageParser.bold.replace.call(str),
-              ),
-            },
-          ),
-          MatchText(
-            pattern: TextMessageParser.italic.pattern,
-            style: TextMessageParser.italic.textStyle,
-            renderText: ({required String str, required String pattern}) => {
-              'display': str.replaceAll(
-                TextMessageParser.italic.from,
-                TextMessageParser.italic.replace.call(str),
-              ),
-            },
-          ),
-          MatchText(
-            pattern: TextMessageParser.lineThrough.pattern,
-            style: (TextMessageParser.lineThrough.textStyle),
-            renderText: ({required String str, required String pattern}) => {
-              'display': str.replaceAll(
-                TextMessageParser.lineThrough.from,
-                TextMessageParser.lineThrough.replace.call(str),
-              ),
-            },
-          ),
-          MatchText(
-            pattern: TextMessageParser.code.pattern,
-            style: (TextMessageParser.code.textStyle),
-            renderText: ({required String str, required String pattern}) {
-              return {
-                'display': str.replaceAll(
-                  TextMessageParser.code.from,
-                  TextMessageParser.code.replace.call(str),
-                ),
-              };
-            },
-          ),
-          ...ChatBookInheritedWidget.of(context)!.textMessageParsers.map(
-                (e) => MatchText(
-                  pattern: e.pattern,
-                  style: (e.textStyle),
-                  onTap: (str) => e.onTap?.call(str),
-                  renderText: ({required String str, required String pattern}) {
-                    return {
-                      'display': str.replaceAll(
-                        e.from,
-                        e.replace.call(str),
-                      ),
-                    };
-                  },
-                ),
-              )
-        ],
+            // fake additionalInfo as placeholder
+            TextSpan(
+                text: DateFormat('hh:mm a').format((message.createdAt)),
+                style: TextStyle(
+                  color: Colors.transparent,
+                )),
+          ],
+        ),
       );
 
   @override
@@ -134,7 +85,7 @@ class TextMessageView extends StatelessWidget {
           child: message.text.length <=
                   (messageConfiguration
                           ?.readMoreConfig?.numOfWordsAfterEnableReadMore ??
-                      400)
+                      50)
               ? textWidget(textTheme, message.text, context)
               : ValueListenableBuilder<bool>(
                   valueListenable: _isExpanded,
@@ -142,42 +93,35 @@ class TextMessageView extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        textWidget(
-                            textTheme,
-                            _isExpanded.value
-                                ? '${message.text.substring(0, messageConfiguration?.readMoreConfig?.numOfWordsAfterEnableReadMore ?? 400)}...'
-                                : message.text,
-                            context),
+                        AnimatedSize(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                          child: textWidget(
+                              textTheme,
+                              _isExpanded.value
+                                  ? message.text
+                                  : '${message.text.substring(0, messageConfiguration?.readMoreConfig?.numOfWordsAfterEnableReadMore ?? 50)}...',
+                              context),
+                        ),
                         messageConfiguration?.readMoreConfig?.readMoreWidget ??
-                            GestureDetector(
-                                onTap: () =>
+                            TextButton(
+                                onPressed: () =>
                                     _isExpanded.value = !_isExpanded.value,
-                                child: Padding(
-                                    padding: const EdgeInsets.all(5),
-                                    child: !_isExpanded.value
-                                        ? Text("Read Less",
-                                            style: _textStyle ??
-                                                textTheme.bodyMedium?.copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                ))
-                                        : Text("Read More",
-                                            style: _textStyle ??
-                                                textTheme.bodyMedium?.copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                ))))
+                                child: Text(
+                                  _isExpanded.value
+                                      ? "Read Less"
+                                      : "Read More...",
+                                  style: _textStyle ??
+                                      textTheme.bodyMedium?.copyWith(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ),
+                                ))
                       ],
                     );
                   },
                 ),
         ),
-        if (receiptsBuilderVisibility) ...[
-          // MessageTimeWidget(
-          //   message,
-          //   isMessageBySender,
-          // )
-        ],
       ],
     );
   }

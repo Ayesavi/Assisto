@@ -5,6 +5,7 @@ import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/tasks/controllers/task_bid/task_bid_widget_controller.dart';
 import 'package:assisto/features/tasks/widgets/bidder_profile_bottomsheet.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
+import 'package:assisto/shimmering/shimmering_bid_tile.dart';
 import 'package:assisto/widgets/bid_tile/bid_tile.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class _BidPageViewState extends ConsumerState<BidPageView> {
               name: AnalyticsEvent.taskProfile.acceptBidPressEvent,
             );
             if (context.mounted) {
-              const HomeRoute().replace(context);
+              FeedPageRoute().replace(context);
             }
             return;
           },
@@ -62,15 +63,24 @@ class _BidPageViewState extends ConsumerState<BidPageView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const TitleLarge(
-          text: 'Offers',
-          weight: FontWeight.bold,
+        const Padding(
+          padding: kWidgetHorizontalPadding,
+          child: TitleLarge(
+            text: 'Offers',
+            weight: FontWeight.bold,
+          ),
         ),
         kWidgetVerticalGap,
         state.when(
           loading: () {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ...List.generate(12, (index) => const ShimmeringBidTile())
+                  ],
+                ),
+              ),
             );
           },
           data: (bids) {
@@ -94,7 +104,7 @@ class _BidPageViewState extends ConsumerState<BidPageView> {
                                       .taskProfile.acceptBidPressEvent,
                                 );
                                 if (context.mounted) {
-                                  const HomeRoute().replace(context);
+                                  FeedPageRoute().replace(context);
                                 }
                                 return;
                               },

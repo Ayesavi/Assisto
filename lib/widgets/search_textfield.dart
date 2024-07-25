@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 class SearchTextField extends StatefulWidget {
   final List<String> hintTexts;
   final bool readOnly;
+  final String? initialSentence;
   final VoidCallback? onPressed;
   final TextEditingController? textController;
   final bool triggerSearchOnChange;
@@ -22,6 +23,7 @@ class SearchTextField extends StatefulWidget {
     ],
     this.readOnly = false,
     this.onPressed,
+    this.initialSentence,
     this.onSearch,
     this.triggerSearchOnChange = false,
     this.textController,
@@ -107,7 +109,9 @@ class _SearchTextFieldState extends State<SearchTextField>
               readOnly: widget.readOnly,
               onTap: widget.onPressed,
               decoration: InputDecoration(
-                hintText: "Try search for '${widget.hintTexts[_hintIndex]}'",
+                hintText: widget.initialSentence != null
+                    ? "${widget.initialSentence} '${widget.hintTexts[_hintIndex]}'"
+                    : "Try search for '${widget.hintTexts[_hintIndex]}'",
                 hintStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),

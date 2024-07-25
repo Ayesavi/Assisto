@@ -1,6 +1,5 @@
 // ignore_for_file: invalid_annotation_target
 
-import 'package:assisto/core/utils/utils.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
@@ -23,7 +22,7 @@ class TaskModel with _$TaskModel {
     DateTime? deadline,
     required String title,
     required String description,
-    Gender? gender,
+    @Default(Gender.any) Gender gender,
     @JsonKey(name: 'age_group') String? ageGroup,
     @JsonKey(name: 'expected_price') int? expectedPrice,
     @Default(TaskStatus.unassigned) TaskStatus status,
@@ -31,9 +30,9 @@ class TaskModel with _$TaskModel {
     // id stays an empty string when a new task is created
     // id will be assigned by the server.
     @JsonKey(includeToJson: false) @Default(0) int id,
-    BidModel? bid,
-    double? distance,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(includeToJson: false) BidModel? bid,
+    @JsonKey(includeToJson: false) double? distance,
+    @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt,
   }) = _TaskModel;
 
   factory TaskModel.fromJson(Map<String, dynamic> json) =>
@@ -57,7 +56,7 @@ class TaskModel with _$TaskModel {
         description: description,
         deadline: deadline,
         createdAt: DateTime.now(),
-        gender: gender,
+        gender: gender ?? Gender.any,
         ageGroup: ageGroup,
         addressId: addressId,
         expectedPrice: expectedPrice);
@@ -98,7 +97,6 @@ class TaskAddress with _$TaskAddress {
 extension SupabaseTask on TaskModel {
   Map<String, dynamic> toSupaJson() {
     var json = toJson();
-    json = ignoreNullFields(json);
     return json;
   }
 

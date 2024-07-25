@@ -5,7 +5,14 @@ import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/features/addresses/data/indian_city_data.dart';
 import 'package:flutter_google_maps_webservices/geocoding.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+final placesRepositoryProvider = Provider<BasePlacesRepository>((ref) {
+  return FlavorConfig().useFakeRepositories
+      ? FakePlacesRepository()
+      : GooglePlacesRepository();
+});
 
 abstract class BasePlacesRepository {
   Future<List<PlacesSearchResult>> getPlacesByText(String searchText);
@@ -59,12 +66,22 @@ class FakePlacesRepository implements BasePlacesRepository {
         geometry: Geometry(location: Location(lat: 2.00, lng: 4.00)),
         placeId: 'xSDF0-WM',
         formattedAddress: list[Random().nextInt(list.length)].formattedAddress,
+      ),
+      GeocodingResult(
+        geometry: Geometry(location: Location(lat: 2.00, lng: 4.00)),
+        placeId: 'xSDF0-WM',
+        formattedAddress: list[Random().nextInt(list.length)].formattedAddress,
+      ),
+      GeocodingResult(
+        geometry: Geometry(location: Location(lat: 2.00, lng: 4.00)),
+        placeId: 'xSDF0-WM',
+        formattedAddress: list[Random().nextInt(list.length)].formattedAddress,
       )
     ];
   }
 }
 
-class GoogleMapRespository implements BasePlacesRepository {
+class GooglePlacesRepository implements BasePlacesRepository {
   final GoogleMapsPlaces _places =
       GoogleMapsPlaces(apiKey: FlavorConfig().geoApiKey);
 

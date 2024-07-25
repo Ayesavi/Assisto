@@ -12,11 +12,13 @@ class TypingTextField extends StatefulWidget {
       this.decoration,
       this.formKey,
       this.validator,
+      this.label,
       this.autofocus = false,
       this.initialValue,
       this.maxLines});
   final bool autofocus;
   final String hintText;
+  final String? label;
   final InputDecoration? decoration;
   final int? maxLines;
   final BoxDecoration? bgDecoration;
@@ -45,7 +47,6 @@ class _TypingTextFieldState extends State<TypingTextField> {
 
   @override
   void dispose() {
-    _controller?.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -78,7 +79,8 @@ class _TypingTextFieldState extends State<TypingTextField> {
             focusNode: _focusNode,
             maxLines: widget.maxLines,
             validator: widget.validator,
-            decoration: widget.decoration?.copyWith(hintText: hintText) ??
+            decoration: widget.decoration
+                    ?.copyWith(hintText: hintText, labelText: widget.label) ??
                 InputDecoration(
                   hintText: hintText,
                   border: InputBorder.none,

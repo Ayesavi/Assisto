@@ -12,15 +12,9 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-   
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
-    // notificationService.handleInitialMessage(context);
     final router = ref.watch(routerProvider);
     ref.watch(notificationServiceProvider);
     final theme = MaterialTheme(Theme.of(context).textTheme);

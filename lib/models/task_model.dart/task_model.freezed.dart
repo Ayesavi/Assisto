@@ -33,7 +33,7 @@ mixin _$TaskModel {
   DateTime? get deadline => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  Gender? get gender => throw _privateConstructorUsedError;
+  Gender get gender => throw _privateConstructorUsedError;
   @JsonKey(name: 'age_group')
   String? get ageGroup => throw _privateConstructorUsedError;
   @JsonKey(name: 'expected_price')
@@ -43,13 +43,19 @@ mixin _$TaskModel {
 // id will be assigned by the server.
   @JsonKey(includeToJson: false)
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   BidModel? get bid => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
   double? get distance => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', includeToJson: false)
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
+  /// Serializes this TaskModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TaskModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TaskModelCopyWith<TaskModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -68,14 +74,14 @@ abstract class $TaskModelCopyWith<$Res> {
       DateTime? deadline,
       String title,
       String description,
-      Gender? gender,
+      Gender gender,
       @JsonKey(name: 'age_group') String? ageGroup,
       @JsonKey(name: 'expected_price') int? expectedPrice,
       TaskStatus status,
       @JsonKey(includeToJson: false) int id,
-      BidModel? bid,
-      double? distance,
-      @JsonKey(name: 'created_at') DateTime? createdAt});
+      @JsonKey(includeToJson: false) BidModel? bid,
+      @JsonKey(includeToJson: false) double? distance,
+      @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt});
 
   $TaskUserCopyWith<$Res> get owner;
   $TaskAddressCopyWith<$Res>? get address;
@@ -92,6 +98,8 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -102,7 +110,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     Object? deadline = freezed,
     Object? title = null,
     Object? description = null,
-    Object? gender = freezed,
+    Object? gender = null,
     Object? ageGroup = freezed,
     Object? expectedPrice = freezed,
     Object? status = null,
@@ -140,10 +148,10 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      gender: freezed == gender
+      gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as Gender?,
+              as Gender,
       ageGroup: freezed == ageGroup
           ? _value.ageGroup
           : ageGroup // ignore: cast_nullable_to_non_nullable
@@ -175,6 +183,8 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     ) as $Val);
   }
 
+  /// Create a copy of TaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TaskUserCopyWith<$Res> get owner {
@@ -183,6 +193,8 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     });
   }
 
+  /// Create a copy of TaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TaskAddressCopyWith<$Res>? get address {
@@ -195,6 +207,8 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     });
   }
 
+  /// Create a copy of TaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BidModelCopyWith<$Res>? get bid {
@@ -225,14 +239,14 @@ abstract class _$$TaskModelImplCopyWith<$Res>
       DateTime? deadline,
       String title,
       String description,
-      Gender? gender,
+      Gender gender,
       @JsonKey(name: 'age_group') String? ageGroup,
       @JsonKey(name: 'expected_price') int? expectedPrice,
       TaskStatus status,
       @JsonKey(includeToJson: false) int id,
-      BidModel? bid,
-      double? distance,
-      @JsonKey(name: 'created_at') DateTime? createdAt});
+      @JsonKey(includeToJson: false) BidModel? bid,
+      @JsonKey(includeToJson: false) double? distance,
+      @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt});
 
   @override
   $TaskUserCopyWith<$Res> get owner;
@@ -250,6 +264,8 @@ class __$$TaskModelImplCopyWithImpl<$Res>
       _$TaskModelImpl _value, $Res Function(_$TaskModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -260,7 +276,7 @@ class __$$TaskModelImplCopyWithImpl<$Res>
     Object? deadline = freezed,
     Object? title = null,
     Object? description = null,
-    Object? gender = freezed,
+    Object? gender = null,
     Object? ageGroup = freezed,
     Object? expectedPrice = freezed,
     Object? status = null,
@@ -298,10 +314,10 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      gender: freezed == gender
+      gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as Gender?,
+              as Gender,
       ageGroup: freezed == ageGroup
           ? _value.ageGroup
           : ageGroup // ignore: cast_nullable_to_non_nullable
@@ -346,14 +362,14 @@ class _$TaskModelImpl implements _TaskModel {
       this.deadline,
       required this.title,
       required this.description,
-      this.gender,
+      this.gender = Gender.any,
       @JsonKey(name: 'age_group') this.ageGroup,
       @JsonKey(name: 'expected_price') this.expectedPrice,
       this.status = TaskStatus.unassigned,
       @JsonKey(includeToJson: false) this.id = 0,
-      this.bid,
-      this.distance,
-      @JsonKey(name: 'created_at') this.createdAt})
+      @JsonKey(includeToJson: false) this.bid,
+      @JsonKey(includeToJson: false) this.distance,
+      @JsonKey(name: 'created_at', includeToJson: false) this.createdAt})
       : _tags = tags;
 
   factory _$TaskModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -386,7 +402,8 @@ class _$TaskModelImpl implements _TaskModel {
   @override
   final String description;
   @override
-  final Gender? gender;
+  @JsonKey()
+  final Gender gender;
   @override
   @JsonKey(name: 'age_group')
   final String? ageGroup;
@@ -402,11 +419,13 @@ class _$TaskModelImpl implements _TaskModel {
   @JsonKey(includeToJson: false)
   final int id;
   @override
+  @JsonKey(includeToJson: false)
   final BidModel? bid;
   @override
+  @JsonKey(includeToJson: false)
   final double? distance;
   @override
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', includeToJson: false)
   final DateTime? createdAt;
 
   @override
@@ -443,7 +462,7 @@ class _$TaskModelImpl implements _TaskModel {
                 other.createdAt == createdAt));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -463,7 +482,9 @@ class _$TaskModelImpl implements _TaskModel {
       distance,
       createdAt);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TaskModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TaskModelImplCopyWith<_$TaskModelImpl> get copyWith =>
@@ -487,14 +508,14 @@ abstract class _TaskModel implements TaskModel {
       final DateTime? deadline,
       required final String title,
       required final String description,
-      final Gender? gender,
+      final Gender gender,
       @JsonKey(name: 'age_group') final String? ageGroup,
       @JsonKey(name: 'expected_price') final int? expectedPrice,
       final TaskStatus status,
       @JsonKey(includeToJson: false) final int id,
-      final BidModel? bid,
-      final double? distance,
-      @JsonKey(name: 'created_at')
+      @JsonKey(includeToJson: false) final BidModel? bid,
+      @JsonKey(includeToJson: false) final double? distance,
+      @JsonKey(name: 'created_at', includeToJson: false)
       final DateTime? createdAt}) = _$TaskModelImpl;
 
   factory _TaskModel.fromJson(Map<String, dynamic> json) =
@@ -502,10 +523,10 @@ abstract class _TaskModel implements TaskModel {
 
   @override
   @JsonKey(includeToJson: false)
-  TaskUser get owner;
-  @override // where the task has to be performed or the assigned
+  TaskUser get owner; // where the task has to be performed or the assigned
 // user has to be report when the task is completed.
 // attachedLocation
+  @override
   @JsonKey(name: 'address_id', includeToJson: true, includeFromJson: false)
   int? get addressId;
   @override
@@ -520,7 +541,7 @@ abstract class _TaskModel implements TaskModel {
   @override
   String get description;
   @override
-  Gender? get gender;
+  Gender get gender;
   @override
   @JsonKey(name: 'age_group')
   String? get ageGroup;
@@ -528,20 +549,25 @@ abstract class _TaskModel implements TaskModel {
   @JsonKey(name: 'expected_price')
   int? get expectedPrice;
   @override
-  TaskStatus get status;
-  @override // id stays an empty string when a new task is created
+  TaskStatus get status; // id stays an empty string when a new task is created
 // id will be assigned by the server.
+  @override
   @JsonKey(includeToJson: false)
   int get id;
   @override
+  @JsonKey(includeToJson: false)
   BidModel? get bid;
   @override
+  @JsonKey(includeToJson: false)
   double? get distance;
   @override
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', includeToJson: false)
   DateTime? get createdAt;
+
+  /// Create a copy of TaskModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TaskModelImplCopyWith<_$TaskModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -556,8 +582,12 @@ mixin _$TaskUser {
   @JsonKey(name: 'avatar_url')
   String? get imageUrl => throw _privateConstructorUsedError;
 
+  /// Serializes this TaskUser to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TaskUser
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TaskUserCopyWith<TaskUser> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -580,6 +610,8 @@ class _$TaskUserCopyWithImpl<$Res, $Val extends TaskUser>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TaskUser
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -618,6 +650,8 @@ class __$$TaskUserImplCopyWithImpl<$Res>
       _$TaskUserImpl _value, $Res Function(_$TaskUserImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TaskUser
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -667,11 +701,13 @@ class _$TaskUserImpl implements _TaskUser {
                 other.imageUrl == imageUrl));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, imageUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TaskUser
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TaskUserImplCopyWith<_$TaskUserImpl> get copyWith =>
@@ -698,8 +734,11 @@ abstract class _TaskUser implements TaskUser {
   @override
   @JsonKey(name: 'avatar_url')
   String? get imageUrl;
+
+  /// Create a copy of TaskUser
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TaskUserImplCopyWith<_$TaskUserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -716,8 +755,12 @@ mixin _$TaskAddress {
   @JsonKey(name: 'house_number')
   String get houseNumber => throw _privateConstructorUsedError;
 
+  /// Serializes this TaskAddress to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TaskAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TaskAddressCopyWith<TaskAddress> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -745,6 +788,8 @@ class _$TaskAddressCopyWithImpl<$Res, $Val extends TaskAddress>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TaskAddress
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -797,6 +842,8 @@ class __$$TaskAddressImplCopyWithImpl<$Res>
       _$TaskAddressImpl _value, $Res Function(_$TaskAddressImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TaskAddress
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -865,12 +912,14 @@ class _$TaskAddressImpl implements _TaskAddress {
                 other.houseNumber == houseNumber));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, latlng, address, houseNumber);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TaskAddress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TaskAddressImplCopyWith<_$TaskAddressImpl> get copyWith =>
@@ -904,8 +953,11 @@ abstract class _TaskAddress implements TaskAddress {
   @override
   @JsonKey(name: 'house_number')
   String get houseNumber;
+
+  /// Create a copy of TaskAddress
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TaskAddressImplCopyWith<_$TaskAddressImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

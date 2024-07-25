@@ -100,22 +100,22 @@ class MessageActionsSheet extends StatelessWidget {
             ),
           ],
           if (message.authorId == currentUserId) ...[
-            ListTile(
-              leading: ActionIcon(
-                icon: SvgPicture.asset(
-                  'packages/flutter_chatbook/assets/graphics/edit_icon.svg',
-                  colorFilter: ColorFilter.mode(
-                      Theme.of(context).colorScheme.primary, BlendMode.srcIn),
-                ),
-              ),
-              title: Text('Edit'),
-              onTap: () {
-                onEdit.call(message);
-                Navigator.pop(context);
+            // ListTile(
+            //   leading: ActionIcon(
+            //     icon: SvgPicture.asset(
+            //       'packages/flutter_chatbook/assets/graphics/edit_icon.svg',
+            //       colorFilter: ColorFilter.mode(
+            //           Theme.of(context).colorScheme.primary, BlendMode.srcIn),
+            //     ),
+            //   ),
+            //   title: Text('Edit'),
+            //   onTap: () {
+            //     onEdit.call(message);
+            //     Navigator.pop(context);
 
-                // Handle edit action
-              },
-            )
+            //     // Handle edit action
+            //   },
+            // )
           ],
           ListTile(
             leading: ActionIcon(
@@ -137,20 +137,20 @@ class MessageActionsSheet extends StatelessWidget {
               }
             },
           ),
-          ListTile(
-            leading: ActionIcon(
-                icon: SvgPicture.asset(
-                  'packages/flutter_chatbook/assets/graphics/delete_icon.svg',
-                ),
-                color: const Color(0xffFFDAD6)),
-            title: Text('Delete'),
-            onTap: () {
-              controller.deleteMessage([message]);
-              Navigator.pop(context);
+          // ListTile(
+          //   leading: ActionIcon(
+          //       icon: SvgPicture.asset(
+          //         'packages/flutter_chatbook/assets/graphics/delete_icon.svg',
+          //       ),
+          //       color: const Color(0xffFFDAD6)),
+          //   title: Text('Delete'),
+          //   onTap: () {
+          //     controller.deleteMessage([message]);
+          //     Navigator.pop(context);
 
-              // Handle delete action
-            },
-          ),
+          //     // Handle delete action
+          //   },
+          // ),
         ],
       ),
     );

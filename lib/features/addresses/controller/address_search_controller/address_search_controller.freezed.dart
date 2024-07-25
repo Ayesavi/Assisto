@@ -94,6 +94,9 @@ class _$AddressSearchControllerStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AddressSearchControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -113,6 +116,9 @@ class __$$AddressSearchControllerInitialImplCopyWithImpl<$Res>
       _$AddressSearchControllerInitialImpl _value,
       $Res Function(_$AddressSearchControllerInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AddressSearchControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -242,6 +248,9 @@ class __$$AddressSearchControllerLoadingImplCopyWithImpl<$Res>
       _$AddressSearchControllerLoadingImpl _value,
       $Res Function(_$AddressSearchControllerLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AddressSearchControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -374,6 +383,8 @@ class __$$AddressSearchControllerErrorImplCopyWithImpl<$Res>
       $Res Function(_$AddressSearchControllerErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AddressSearchControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -412,7 +423,9 @@ class _$AddressSearchControllerErrorImpl extends AddressSearchControllerError {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AddressSearchControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AddressSearchControllerErrorImplCopyWith<
@@ -509,7 +522,10 @@ abstract class AddressSearchControllerError
   const AddressSearchControllerError._() : super._();
 
   AppException get error;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AddressSearchControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AddressSearchControllerErrorImplCopyWith<
           _$AddressSearchControllerErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -532,6 +548,9 @@ class __$$AddressSearchControllerNetworkErrorImplCopyWithImpl<$Res>
       _$AddressSearchControllerNetworkErrorImpl _value,
       $Res Function(_$AddressSearchControllerNetworkErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AddressSearchControllerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -664,6 +683,8 @@ class __$$AddressSearchControllerDataImplCopyWithImpl<$Res>
       $Res Function(_$AddressSearchControllerDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AddressSearchControllerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -710,7 +731,9 @@ class _$AddressSearchControllerDataImpl extends AddressSearchControllerData {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_places));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AddressSearchControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AddressSearchControllerDataImplCopyWith<_$AddressSearchControllerDataImpl>
@@ -807,7 +830,10 @@ abstract class AddressSearchControllerData
   const AddressSearchControllerData._() : super._();
 
   List<PlacesSearchResult> get places;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AddressSearchControllerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AddressSearchControllerDataImplCopyWith<_$AddressSearchControllerDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

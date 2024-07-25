@@ -1,6 +1,8 @@
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/controllers/internet_connectivity_provider/internet_connectivity_provider.dart';
-import 'package:assisto/core/respositories/address_repository.dart';
+import 'package:assisto/core/respositories/address_repository/address_repository_provider.dart';
+import 'package:assisto/core/respositories/address_repository/base_address_repository.dart';
+import 'package:assisto/core/respositories/address_repository/supabase_address_repository.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,7 +13,7 @@ part 'address_controller_state.dart';
 
 @Riverpod(keepAlive: true)
 class AddressController extends _$AddressController {
-  final _repo = SupabaseAddressRepository();
+  late BaseAddressRepository _repo;
 
   var _addresses = <AddressModel>[];
 
@@ -25,6 +27,8 @@ class AddressController extends _$AddressController {
   AddressControllerState build() {
     ref.watch(authStateChangesProvider);
     ref.watch(internetConnectivityProvider);
+    _repo = ref.watch(addressRepositoryProvider);
+
     fetchAddresses();
     return const AddressControllerState.locationNotSet();
   }
