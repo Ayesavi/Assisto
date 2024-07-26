@@ -85,7 +85,6 @@ class _SearchTextFieldState extends State<SearchTextField>
   void dispose() {
     _controller.dispose();
     _timer.cancel();
-    _txtController.dispose();
     super.dispose();
   }
 

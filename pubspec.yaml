@@ -124,21 +124,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/graphics/login_welcome.svg
-    - assets/graphics/success_check_mark.svg
-    - assets/graphics/magic_ai.png
+    - assets/graphics/
     - assets/map_style_dark.json
     - assets/map_style_light.json
-    - assets/graphics/empty_list.svg
-    - assets/graphics/no_offers.svg
-    - assets/graphics/server_down.svg
-    - assets/graphics/error.svg
-    - assets/graphics/empty_addresses.svg
-    - assets/lottie/searching.json
-    - assets/lottie/app_under_maintainence.json
-    - assets/lottie/error_lottie.json
+    - assets/lottie/
     - assets/images/
-    - assets/lottie/app_requires_update.json
     - .env.dev
     - .env.prod
 

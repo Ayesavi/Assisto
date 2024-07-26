@@ -4,6 +4,7 @@ import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
+import 'package:assisto/core/remote_config/remote_config_service.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/profile/controllers/profile_page_controller/profile_page_controller.dart';
@@ -234,23 +235,25 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                       controller: upiIdController,
                       validator: validateBio,
                     ),
-                    kWidgetVerticalGap,
-                    EditTextFieldWidget(
-                      labelText: 'Phone Number',
-                      hintText: 'Enter your phone number', 
-                      onSave: (v) async {
-                        final phone = phoneNumberController.text.trim();
-                        HomeOtpPageRoute(
-                                contact: phone,
-                                verificationType: 'phone',
-                                otpType: OtpType.phoneChange.name)
-                            .go(context);
-                        await authController
-                            .updatePhone(phoneNumberController.text.trim());
-                      },
-                      textEditingController: phoneNumberController,
-                      validator: validateBio,
-                    ),
+                    if (RemoteConfigKeys.enablePhoneAuth.value<bool>()) ...[
+                      kWidgetVerticalGap,
+                      EditTextFieldWidget(
+                        labelText: 'Phone Number',
+                        hintText: 'Enter your phone number',
+                        onSave: (v) async {
+                          final phone = phoneNumberController.text.trim();
+                          HomeOtpPageRoute(
+                                  contact: phone,
+                                  verificationType: 'phone',
+                                  otpType: OtpType.phoneChange.name)
+                              .go(context);
+                          await authController
+                              .updatePhone(phoneNumberController.text.trim());
+                        },
+                        textEditingController: phoneNumberController,
+                        validator: validateBio,
+                      ),
+                    ],
                     kWidgetVerticalGap,
                     TitleMedium(
                       text: 'Tags',

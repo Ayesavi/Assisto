@@ -1,8 +1,9 @@
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
+import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
 import 'package:assisto/core/theme/theme.dart';
+import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
-import 'package:assisto/widgets/loading_alert_dialog/loading_alert_dialog.dart';
 import 'package:assisto/widgets/otp_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -79,10 +80,16 @@ class _EmailPhoneOtpStepperState extends State<EmailPhoneOtpStepper> {
                 child: AppFilledButton(
                     label: 'LogOut',
                     onTap: () async {
-                      ref.read(notificationServiceProvider).removeToken();
-                      final future =
-                          ref.read(authControllerProvider.notifier).signOut();
-                      showLoadingDialog(context, future);
+                      try {
+                        ref.read(notificationServiceProvider).removeToken();
+                        ref.read(authControllerProvider.notifier).signOut();
+                      } catch (e) {
+                        showSnackBar(
+                            context,
+                            appErrorHandler(const AppException(
+                                    'Can\t log out user at the moment, please try again later'))
+                                .message);
+                      }
                     }),
               );
             },
