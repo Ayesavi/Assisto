@@ -8,7 +8,10 @@ void showLoadingDialog(BuildContext context, Future future,
     context: context,
     barrierDismissible: false, // Prevents the dialog from being dismissed
     builder: (BuildContext context) {
-      return _LoadingAlertDialog(future: future);
+      return _LoadingAlertDialog(
+        future: future,
+        onFinish: onFinish,
+      );
     },
   );
 }

@@ -11,11 +11,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinput/pinput.dart';
 
 class EmailPhoneOtpStepper extends StatefulWidget {
-  final Function(String) onSendOtp;
+  final Function(String, VoidCallback onSent) onSendOtp;
   final String? phone;
   final String? email;
   final bool showOtp;
-  final Function(String otp, String phone) onConfirmOtp;
+  final Function(String otp, String phone, VoidCallback onConfirmed)
+      onConfirmOtp;
   final Function(String) onResendOtp;
   final bool isForPhone;
   const EmailPhoneOtpStepper({
@@ -242,23 +243,31 @@ class _EmailPhoneOtpStepperState extends State<EmailPhoneOtpStepper> {
 
   void _sendOtp() {
     if (_formKey.currentState!.validate()) {
-      widget.onSendOtp(widget.isForPhone
-          ? '91${_contactController.text}'
-          : _contactController.text.trim());
-      setState(() {
-        _isOtpSent = true;
-        _currentStep = 1;
+      widget.onSendOtp(
+          widget.isForPhone
+              ? '91${_contactController.text}'
+              : _contactController.text.trim(), () {
+        setState(() {
+          _isOtpSent = true;
+          _currentStep = 1;
+        });
       });
     }
   }
 
-  void _confirmOtp() {
+  void _confirmOtp() async {
     if (_otpFormKey.currentState!.validate()) {
       widget.onConfirmOtp(
           _otpController.text.trim(),
           widget.isForPhone
               ? '91${_contactController.text.trim()}'
-              : _contactController.text.trim());
+              : _contactController.text.trim(), () {
+        if (_currentStep < 1 && _formKey.currentState!.validate()) {
+          setState(() {
+            _currentStep += 1;
+          });
+        }
+      });
     }
   }
 
@@ -273,12 +282,6 @@ class _EmailPhoneOtpStepperState extends State<EmailPhoneOtpStepper> {
       _confirmOtp();
     } else {
       _sendOtp();
-    }
-
-    if (_currentStep < 1 && _formKey.currentState!.validate()) {
-      setState(() {
-        _currentStep += 1;
-      });
     }
   }
 
