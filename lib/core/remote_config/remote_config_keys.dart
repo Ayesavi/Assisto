@@ -2,7 +2,8 @@ part of 'remote_config_service.dart';
 
 enum RemoteConfigKeys {
   isAppOutage('is_app_outage', false),
-  forceUpdateMinVersion('force_update_minimum_version', '0.3.0');
+  isRequiredMinVersion('is_required_min_version', true);
+  enablePhoneAuth('enable_phone_auth',false);
 
   final String keyName;
   final dynamic defaultValue;

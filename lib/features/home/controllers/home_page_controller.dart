@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:assisto/core/controllers/address_controller/address_controller.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
@@ -56,7 +58,7 @@ class HomePageController extends _$HomePageController {
       state = HomePageControllerState.tasks(_models, filters);
     } catch (e) {
       final error = appErrorHandler(e);
-      if (error is NetworkException) {
+      if (error is NetworkException || error is SocketException) {
         state = const HomePageControllerState.networkError();
         return;
       }

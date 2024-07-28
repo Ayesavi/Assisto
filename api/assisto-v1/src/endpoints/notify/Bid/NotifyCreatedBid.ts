@@ -26,13 +26,13 @@ class NotifyCreatedBid {
       .eq("id", this.record.task_id)
       .single();
 
-    var { data: deviceTokens, error } = await this.supabase
-      .from("devices")
-      .select("token")
-      .eq("user_id", taskDetails?.owner_id);
+    // var { data: deviceTokens, error } = await this.supabase
+    //   .from("devices")
+    //   .select("token")
+    //   .eq("user_id", taskDetails?.owner_id);
     let message = {
       ...this._createMessageData(bidder?.full_name, taskDetails?.title),
-      tokens: deviceTokens?.map((e) => e.token) ?? [],
+      tokens: [taskDetails?.owner_id],
     };
     sendNotification(message);
     if (error) {

@@ -185,11 +185,14 @@ class _ChatPageState extends ConsumerState<ChatPage>
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  model.name.capitalize,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 50 / 100,
+                  child: Text(
+                    model.name.capitalize,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

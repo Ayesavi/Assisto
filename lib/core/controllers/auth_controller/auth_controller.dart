@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:assisto/core/remote_config/remote_config_service.dart';
 import 'package:assisto/core/respositories/address_repository/auth_repository.dart';
 import 'package:assisto/core/utils/utils.dart';
 import 'package:assisto/models/user_model/user_model.dart';
@@ -78,18 +79,24 @@ class AuthController extends _$AuthController {
           ? userMetadata!['tags'].map((e) => e.toString()).toList()
           : null;
 
+      final requirePhone = RemoteConfigKeys.enablePhoneAuth.value<bool>();
+
       if ((checkNullOrEmpty([
             name,
             gender,
             dob,
             tags,
             upi,
-            phone,
+            if (requirePhone) ...[phone],
             email
           ])) && // todo: add image url, email
           userMetadata != null) {
         return _IncompleteProfile(userMetadata,
-            isPhoneVerified: phone != null ? isPhoneVerified : null,
+            isPhoneVerified: requirePhone
+                ? phone != null
+                    ? isPhoneVerified
+                    : null
+                : true,
             isEmailVerified: isEmailVerified);
       }
 

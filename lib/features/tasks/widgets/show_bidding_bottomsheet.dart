@@ -1,14 +1,17 @@
+import 'package:assisto/core/utils/string_constants.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 
 class BidBottomSheet extends StatelessWidget {
   final TextEditingController amountController;
+  final int? expectedPrice;
   final Future<void> Function(int) onPriceEntered;
 
   const BidBottomSheet(
       {super.key,
       required this.amountController,
+      this.expectedPrice,
       required this.onPriceEntered});
 
   @override
@@ -27,8 +30,25 @@ class BidBottomSheet extends StatelessWidget {
                 'Enter the bidding amount for the task to be bid, It can not be edited later.'),
           ),
           const SizedBox(height: 16),
-          TextField(
+          TextFormField(
             autofocus: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Amount cannot be empty.';
+              }
+              if (value.length > 10) {
+                return 'Amount should not exceed 4 digits.';
+              }
+              final amt = int.tryParse(value.trim());
+              if (amt != null &&
+                  expectedPrice != null &&
+                  amt > expectedPrice!) {
+                return '${'Amount should not exceed $kRupeeSymbol$expectedPrice'}.';
+              }
+
+              return null;
+            },
             controller: amountController,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
@@ -52,6 +72,7 @@ class BidBottomSheet extends StatelessWidget {
 
 void showBidBottomSheet(BuildContext context,
     {required Future<void> Function(int) onPriceEntered,
+    required int? expectedPrice,
     required TextEditingController amountController}) {
   showModalBottomSheet(
     context: context,
@@ -63,6 +84,7 @@ void showBidBottomSheet(BuildContext context,
           top: 10,
         ),
         child: BidBottomSheet(
+          expectedPrice: expectedPrice,
           onPriceEntered: onPriceEntered,
           amountController: amountController,
         ),

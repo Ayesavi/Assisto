@@ -19,7 +19,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       observers: [AnalyticsRouteObserver()],
       initialLocation: _previousRouter?.routeInformationProvider.value.uri.path,
       redirect: (context, state) {
-        final isOfMinVersion = AppUpdateService.instance.compare();
+        final isOfMinVersion = AppUpdateService.instance.isUpdateMandatory();
 
         if (RemoteConfigKeys.isAppOutage.value()) {
           return '/maintenance';

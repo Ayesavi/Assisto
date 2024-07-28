@@ -84,13 +84,13 @@ class NotifyTaskUpdates {
       .eq("id", this.newRecord.bid_id)
       .single();
 
-    var { data: deviceTokens, error } = await this.supabase
-      .from("devices")
-      .select("token")
-      .eq("user_id", bidder?.bidder_id);
+    // var { data: deviceTokens, error } = await this.supabase
+    //   .from("devices")
+    //   .select("token")
+    //   .eq("user_id", );
     let message = {
       ...this._createMessageData(),
-      tokens: deviceTokens?.map((e) => e.token) ?? [],
+      tokens: [bidder?.bidder_id],
     };
     sendNotification(message);
     if (error) {

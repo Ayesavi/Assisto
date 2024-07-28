@@ -60,7 +60,7 @@ class NotifyTaskRecommendations {
 
   private async _getRecommendedBidderTokens(taskId: number): Promise<string[]> {
     const { data: tokens, error } = await this.supabase.rpc(
-      "get_recommended_task_bidder_tokens",
+      "get_recommended_task_bidder_profiles",
       { task_uid: taskId }
     );
 
@@ -68,8 +68,7 @@ class NotifyTaskRecommendations {
       console.error("Error fetching recommended bidder tokens:", error);
       throw new Error("Failed to fetch recommended bidder tokens");
     }
-    console.log(tokens);
-    return tokens.map((token: any) => token["device_token"]);
+    return tokens.map((token: any) => token["profile_id"]);
   }
 
   private _createMessageData(task: any): BaseMessage {

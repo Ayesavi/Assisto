@@ -79,6 +79,7 @@ class TaskProfilePage extends ConsumerWidget {
                     AppPayments().checkOut(order);
                   }
                 } catch (e) {
+                  showSnackBar(context, "Error occurred: $e");
                   paymentLoadingNotifier.value = false;
                   rethrow;
                 }
@@ -281,13 +282,14 @@ class TaskProfilePage extends ConsumerWidget {
               bidInfo != null ? _getFloatingActionButton(context, model) : null,
           appBar: AppBar(
             actions: [
-              if (!isTaskAssigned)
+              if (!isTaskAssigned && bidInfo == null)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ElevatedButton(
                       style: const ButtonStyle(),
                       onPressed: () {
                         showBidBottomSheet(context,
+                            expectedPrice: model.expectedPrice,
                             amountController: TextEditingController(),
                             onPriceEntered: (v) async {
                           try {
@@ -302,16 +304,13 @@ class TaskProfilePage extends ConsumerWidget {
                             if (context.mounted) {
                               Navigator.pop(context);
                             }
-                          } on PostgrestException {
+                          } on PostgrestException catch (e) {
                             if (context.mounted) {
                               Navigator.pop(context);
 
                               showPopup(context, onConfirm: () async {
                                 Navigator.pop(context);
-                              },
-                                  content:
-                                      'We have identified a bidding earlier by you for this task.',
-                                  title: 'Bidding Exists');
+                              }, content: e.message, title: 'Cant create bid');
                             }
                           } catch (e) {
                             if (context.mounted) {

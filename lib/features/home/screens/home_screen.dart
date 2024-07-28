@@ -2,6 +2,10 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
 import 'package:assisto/core/router/routes.dart';
+import 'package:assisto/core/services/notification_service/notification_service.dart';
+import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
+import 'package:assisto/core/services/permission_service/permission_service_provider.dart';
+import 'package:assisto/shared/show_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,10 +54,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
   }
 
+  late NotificationService _notificationService;
+
   @override
   void initState() {
-    // onTapNavBar();
+    _notificationService = ref.read(notificationServiceProvider);
+    _requestPermissions();
     super.initState();
+  }
+
+  void _requestPermissions() {
+    _notificationService.shareLocation(
+      onGranted: () {},
+      onDenied: () {
+        showSnackBar(
+            context,
+            'Location permission denied, try give us location permission to track your location',
+            SnackBarAction(
+                label: 'Open Settings',
+                onPressed: () {
+                  final permissionService = ref.read(permissionServiceProvider);
+                  permissionService.openSettings();
+                }));
+      },
+    );
+    _notificationService.requestNotificationPermission(
+      onGranted: () {
+        // do nothing
+      },
+      onDenied: () {
+        showSnackBar(
+            context,
+            'Notification permission denied, try give us notification permission to inform you updates',
+            SnackBarAction(
+                label: 'Open Settings',
+                onPressed: () {
+                  final permissionService = ref.read(permissionServiceProvider);
+                  permissionService.openSettings();
+                }));
+      },
+    );
   }
 
   @override

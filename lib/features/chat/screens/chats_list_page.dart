@@ -1,11 +1,13 @@
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/features/chat/controllers/chats_list_page_controller/chats_list_page_controller.dart';
 import 'package:assisto/features/chat/widgets/chat_room_tile.dart';
+import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/shimmering/shimmering_task_tile.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ChatsListPage extends ConsumerStatefulWidget {
   const ChatsListPage({super.key});
@@ -68,12 +70,23 @@ class _ChatsListPageState extends ConsumerState<ChatsListPage> {
             },
             data: (chatRooms) {
               if (chatRooms.isEmpty) {
-                return const SliverFillRemaining(
+                return SliverFillRemaining(
                   hasScrollBody: false,
                   child: Center(
-                    child: Text(
-                      'No chats found',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox.square(
+                            dimension: 250,
+                            child: SvgPicture.asset(Assets.graphics.noChats)),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        const Text(
+                          'No chats found',
+                          style: TextStyle(fontWeight: FontWeight.w400),
+                        ),
+                      ],
                     ),
                   ),
                 );

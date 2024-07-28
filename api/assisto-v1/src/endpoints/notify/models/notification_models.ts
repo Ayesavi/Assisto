@@ -1,11 +1,8 @@
-
-
 enum NotificationChannels {
   TASK = "task",
   RECOMMENDATIONS = "recommendations",
   CHAT = "chat",
   OFFER = "offer",
-
 }
 
 enum RecommendationEvents {
@@ -22,10 +19,14 @@ enum ChatEvents {
   UPDATE = "update",
 }
 
+interface NotificationModel {
+  title: string;
+  body: string;
+  channel?: string;
+  data?: any;
+  url?: string;
+  groupKey?: string;
+  userIds: string[];
+}
 
-export {
-  ChatEvents,
-  NotificationChannels,
-  RecommendationEvents,
-  TaskEvents,
-};
+export { ChatEvents, NotificationChannels, RecommendationEvents, TaskEvents,NotificationModel };

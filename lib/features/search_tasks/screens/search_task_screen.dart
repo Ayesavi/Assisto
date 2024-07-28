@@ -2,6 +2,7 @@ import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
 import 'package:assisto/features/search_tasks/controllers/search_task_page_controller/search_task_page_controller.dart';
 import 'package:assisto/gen/assets.gen.dart';
+import 'package:assisto/widgets/common_network_error_widget/common_network_error_widget.dart';
 import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
 import 'package:assisto/widgets/text_widgets.dart';
@@ -64,8 +65,18 @@ class _SearchTaskScreenState extends ConsumerState<SearchTaskScreen> {
               ),
               Align(
                 alignment: Alignment.center,
-                child: Lottie.asset(
-                  Assets.lottie.searching,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox.square(
+                        dimension: 200,
+                        child: SvgPicture.asset(Assets.graphics.search)),
+                    const SizedBox(height: 30),
+                    Text(
+                      'Waiting for you to search...',
+                      style: TextStyle(color: Theme.of(context).hintColor),
+                    ),
+                  ],
                 ),
               )
             ],
@@ -80,36 +91,32 @@ class _SearchTaskScreenState extends ConsumerState<SearchTaskScreen> {
               ),
               Align(
                 alignment: Alignment.center,
-                child: Lottie.asset(Assets.lottie.searching),
-              )
-            ],
-          );
-        },
-        networkError: () {
-          return Stack(
-            children: [
-              _buildCustomScrollView(
-                controller,
-                state,
-              ),
-              Align(
-                alignment: Alignment.center,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox.square(
-                        dimension: 200,
-                        child: SvgPicture.asset(
-                            'assets/graphics/server_down.svg')),
-                    kWidgetVerticalGap,
-                    const Text(
-                      'Please ensure that you are connected to internet',
+                    Lottie.asset(Assets.lottie.searching),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Searching...',
+                      style: TextStyle(color: Theme.of(context).hintColor),
                     ),
                   ],
                 ),
               )
             ],
           );
+        },
+        networkError: () {
+          return _buildCustomScrollView(controller, state,
+              child: SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(
+                    child: CommonNetworkErrorWidget(
+                      onReload: () {
+                        controller.search(_searchController.text);
+                      },
+                    ),
+                  )));
         },
         error: (error) {
           return Stack(

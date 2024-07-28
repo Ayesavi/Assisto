@@ -22,11 +22,11 @@ class NotifyChats {
     );
     await sendNotification({
       ...messageBody,
-      tokens: tokens,
+      tokens: [tokens],
     });
   }
 
-  private async _getRecipientTokens(): Promise<string[]> {
+  private async _getRecipientTokens(): Promise<string> {
     try {
       const { data: taskData, error: taskError } = await this.supabase
         .from("tasks")
@@ -48,17 +48,17 @@ class NotifyChats {
         throw "Bidder information not found in task data";
       }
 
-      const { data: tokens, error: tokenError } = await this.supabase
-        .from("devices")
-        .select("token")
-        .eq("user_id", recipientId);
+      // const { data: tokens, error: tokenError } = await this.supabase
+      //   .from("devices")
+      //   .select("token")
+      //   .eq("user_id", recipientId);
 
-      if (tokenError) {
-        console.error(tokenError);
-        throw "Failed to load tokens";
-      }
+      // if (tokenError) {
+      //   console.error(tokenError);
+      //   throw "Failed to load tokens";
+      // }
 
-      return tokens?.map((e: any) => e.token);
+      return recipientId;
     } catch (error) {
       console.error("Error in _getRecipientTokens:", error);
       throw error;
@@ -78,11 +78,15 @@ class NotifyChats {
 
   createMessageData(messageAuthorName: string, avatarUrl: string): BaseMessage {
     return {
-      // android: {
-      //   notification: {
-      //     channelId: NotificationChannels.CHAT,
-      //   },
-      // },
+      notification: {
+        title: `${messageAuthorName}`,
+        body: this.record.text,
+      },
+      android: {
+        notification: {
+          channelId: NotificationChannels.CHAT,
+        },
+      },
       data: {
         title: `${messageAuthorName}`,
         user_avatar: `${avatarUrl}`,
