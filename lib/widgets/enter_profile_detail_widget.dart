@@ -91,18 +91,21 @@ class _EnterProfileDetailWidgetState
                   : isPhoneVerified == false
                       ? true
                       : false,
-              onSendOtp: (phone) {
+              onSendOtp: (phone, callback) {
                 final future = ref
                     .read(authControllerProvider.notifier)
                     .updatePhone(phone);
-                showLoadingDialog(context, future, onFinish: () {});
+                showLoadingDialog(context, future, onFinish: callback);
               },
-              onConfirmOtp: (otp, phone) {
+              onConfirmOtp: (otp, phone, callback) async {
                 final future = ref
                     .read(authControllerProvider.notifier)
                     .verifyOtp(
                         token: otp, phone: phone, type: OtpType.phoneChange);
-                showLoadingDialog(context, future);
+                showLoadingDialog(
+                  context,
+                  future,
+                );
               },
               onResendOtp: (e) {
                 final future = ref

@@ -41,7 +41,7 @@ _$TransactionUserModelImpl _$$TransactionUserModelImplFromJson(
     _$TransactionUserModelImpl(
       name: json['full_name'] as String,
       id: json['id'] as String,
-      avatarUrl: json['avatar_url'] as String,
+      avatarUrl: json['avatar_url'] as String?,
     );
 
 Map<String, dynamic> _$$TransactionUserModelImplToJson(

@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.3.2+21
+version: 0.4.0+22
 
 environment:
   sdk: '>=3.3.2 <4.0.0'
@@ -82,6 +82,7 @@ dependencies:
   cached_network_image: ^3.3.1
   animated_bottom_navigation_bar: ^1.3.3
   in_app_update: ^4.2.3
+  onesignal_flutter: ^5.2.2
 
 
 dev_dependencies:
@@ -124,21 +125,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/graphics/login_welcome.svg
-    - assets/graphics/success_check_mark.svg
-    - assets/graphics/magic_ai.png
+    - assets/graphics/
     - assets/map_style_dark.json
     - assets/map_style_light.json
-    - assets/graphics/empty_list.svg
-    - assets/graphics/no_offers.svg
-    - assets/graphics/server_down.svg
-    - assets/graphics/error.svg
-    - assets/graphics/empty_addresses.svg
-    - assets/lottie/searching.json
-    - assets/lottie/app_under_maintainence.json
-    - assets/lottie/error_lottie.json
+    - assets/lottie/
     - assets/images/
-    - assets/lottie/app_requires_update.json
     - .env.dev
     - .env.prod
 

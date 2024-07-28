@@ -1,5 +1,5 @@
 import 'package:assisto/core/error/handler.dart';
-import 'package:assisto/core/services/permission_service.dart';
+import 'package:assisto/core/services/permission_service/permission_service.dart';
 import 'package:assisto/core/utils/utils.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/models/address_model/address_model.dart';
