@@ -4,6 +4,7 @@ import 'package:assisto/core/services/notification_service/notification_service_
 import 'package:assisto/core/theme/theme.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
+import 'package:assisto/widgets/loading_alert_dialog/loading_alert_dialog.dart';
 import 'package:assisto/widgets/otp_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
