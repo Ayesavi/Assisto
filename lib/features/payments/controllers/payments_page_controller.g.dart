@@ -7,7 +7,7 @@ part of 'payments_page_controller.dart';
 // **************************************************************************
 
 String _$paymentsPageControllerHash() =>
-    r'7ed06186e3fcbf6feb7f3f9595cc0d38624e6110';
+    r'addf3997c2c74a83fabf5ff33c4782ec2d61b279';
 
 /// Copied from Dart SDK
 class _SystemHash {

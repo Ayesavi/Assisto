@@ -28,8 +28,14 @@ class $AssetsGraphicsGen {
   AssetGenImage get magicAi =>
       const AssetGenImage('assets/graphics/magic_ai.png');
 
+  /// File path: assets/graphics/no_chats.svg
+  String get noChats => 'assets/graphics/no_chats.svg';
+
   /// File path: assets/graphics/no_offers.svg
   String get noOffers => 'assets/graphics/no_offers.svg';
+
+  /// File path: assets/graphics/search.svg
+  String get search => 'assets/graphics/search.svg';
 
   /// File path: assets/graphics/server_down.svg
   String get serverDown => 'assets/graphics/server_down.svg';
@@ -44,7 +50,9 @@ class $AssetsGraphicsGen {
         error,
         loginWelcome,
         magicAi,
+        noChats,
         noOffers,
+        search,
         serverDown,
         successCheckMark
       ];

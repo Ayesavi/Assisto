@@ -13,7 +13,7 @@ class SupabasePaymentsRepository extends BasePaymentsRepository {
     final response = await supabaseClient
         .from('user_payments')
         .select(
-            'id,created_at,amt,status,recipient:to_user_id(id,full_name,avatar_url),sender:from_user_id(id,full_name,avatar_url)')
+            'id,created_at,amt,status,recipient:to_user_id(id,full_name,avatar_url,status),sender:from_user_id(id,full_name,avatar_url,status)')
         .or('from_user_id.eq.$recipientId,to_user_id.eq.$recipientId')
         .range(offset, limit + offset);
 
@@ -30,7 +30,7 @@ class SupabasePaymentsRepository extends BasePaymentsRepository {
     final response = await supabaseClient
         .from('user_payments')
         .select(
-            'id,created_at,amt,status,recipient:to_user_id(id,full_name,avatar_url),sender:from_user_id(id,full_name,avatar_url)')
+            'id,created_at,amt,status,recipient:to_user_id(id,full_name,avatar_url,status),sender:from_user_id(id,full_name,avatar_url,status)')
         .range(offset, limit + offset);
 
     if (response.isNotEmpty) {

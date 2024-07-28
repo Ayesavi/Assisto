@@ -334,7 +334,7 @@ mixin _$TransactionUserModel {
   String get name => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: "avatar_url")
-  String get avatarUrl => throw _privateConstructorUsedError;
+  String? get avatarUrl => throw _privateConstructorUsedError;
 
   /// Serializes this TransactionUserModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -355,7 +355,7 @@ abstract class $TransactionUserModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "full_name") String name,
       String id,
-      @JsonKey(name: "avatar_url") String avatarUrl});
+      @JsonKey(name: "avatar_url") String? avatarUrl});
 }
 
 /// @nodoc
@@ -376,7 +376,7 @@ class _$TransactionUserModelCopyWithImpl<$Res,
   $Res call({
     Object? name = null,
     Object? id = null,
-    Object? avatarUrl = null,
+    Object? avatarUrl = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -387,10 +387,10 @@ class _$TransactionUserModelCopyWithImpl<$Res,
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      avatarUrl: null == avatarUrl
+      avatarUrl: freezed == avatarUrl
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -406,7 +406,7 @@ abstract class _$$TransactionUserModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: "full_name") String name,
       String id,
-      @JsonKey(name: "avatar_url") String avatarUrl});
+      @JsonKey(name: "avatar_url") String? avatarUrl});
 }
 
 /// @nodoc
@@ -424,7 +424,7 @@ class __$$TransactionUserModelImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? id = null,
-    Object? avatarUrl = null,
+    Object? avatarUrl = freezed,
   }) {
     return _then(_$TransactionUserModelImpl(
       name: null == name
@@ -435,10 +435,10 @@ class __$$TransactionUserModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      avatarUrl: null == avatarUrl
+      avatarUrl: freezed == avatarUrl
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -449,7 +449,7 @@ class _$TransactionUserModelImpl implements _TransactionUserModel {
   const _$TransactionUserModelImpl(
       {@JsonKey(name: "full_name") required this.name,
       required this.id,
-      @JsonKey(name: "avatar_url") required this.avatarUrl});
+      @JsonKey(name: "avatar_url") this.avatarUrl});
 
   factory _$TransactionUserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransactionUserModelImplFromJson(json);
@@ -461,7 +461,7 @@ class _$TransactionUserModelImpl implements _TransactionUserModel {
   final String id;
   @override
   @JsonKey(name: "avatar_url")
-  final String avatarUrl;
+  final String? avatarUrl;
 
   @override
   String toString() {
@@ -505,7 +505,7 @@ abstract class _TransactionUserModel implements TransactionUserModel {
   const factory _TransactionUserModel(
           {@JsonKey(name: "full_name") required final String name,
           required final String id,
-          @JsonKey(name: "avatar_url") required final String avatarUrl}) =
+          @JsonKey(name: "avatar_url") final String? avatarUrl}) =
       _$TransactionUserModelImpl;
 
   factory _TransactionUserModel.fromJson(Map<String, dynamic> json) =
@@ -518,7 +518,7 @@ abstract class _TransactionUserModel implements TransactionUserModel {
   String get id;
   @override
   @JsonKey(name: "avatar_url")
-  String get avatarUrl;
+  String? get avatarUrl;
 
   /// Create a copy of TransactionUserModel
   /// with the given fields replaced by the non-null parameter values.

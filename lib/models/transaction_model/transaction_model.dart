@@ -26,7 +26,7 @@ class TransactionUserModel with _$TransactionUserModel {
   const factory TransactionUserModel({
     @JsonKey(name: "full_name") required String name,
     required String id,
-    @JsonKey(name: "avatar_url") required String avatarUrl,
+    @JsonKey(name: "avatar_url") String? avatarUrl,
   }) = _TransactionUserModel;
 
   factory TransactionUserModel.fromJson(Map<String, dynamic> json) =>
@@ -35,9 +35,9 @@ class TransactionUserModel with _$TransactionUserModel {
   factory TransactionUserModel.fromSupabase(Map<String, dynamic> json) {
     if (json['status'] == 'deleted') {
       return TransactionUserModel(
-        name: json['name'],
+        name: 'User Deleted',
         id: json['id'],
-        avatarUrl: json['avatar_url'],
+        avatarUrl: null,
       );
     }
     return TransactionUserModel.fromJson(json);

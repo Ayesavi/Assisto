@@ -8,7 +8,6 @@ import 'package:assisto/features/profile/controllers/profile_page_controller/pro
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/app_filled_button.dart';
-import 'package:assisto/widgets/loading_alert_dialog/loading_alert_dialog.dart';
 import 'package:assisto/widgets/popup.dart';
 import 'package:assisto/widgets/show_logout_bottomsheet/show_logout_bottomsheet.dart';
 import 'package:assisto/widgets/text_widgets.dart';
@@ -402,14 +401,14 @@ class ProfilePage extends ConsumerWidget {
                     icon: Icons.logout,
                     text: 'Logout',
                     onTap: () {
-                      showLogOutBottomSheet(context, () {
+                      showLogOutBottomSheet(context, () async {
                         analytics.logEvent(
                             name: AnalyticsEvent.auth.logoutEvent);
                         Navigator.pop(context);
 
-                        final future =
-                            ref.read(authControllerProvider.notifier).signOut();
-                        showLoadingDialog(context, future);
+                        await ref
+                            .read(authControllerProvider.notifier)
+                            .signOut();
                       }, () {
                         Navigator.pop(context);
                       });
