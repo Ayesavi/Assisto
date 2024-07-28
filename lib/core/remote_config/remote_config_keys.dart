@@ -2,7 +2,7 @@ part of 'remote_config_service.dart';
 
 enum RemoteConfigKeys {
   isAppOutage('is_app_outage', false),
-  isRequiredMinVersion('is_required_min_version', false);
+  isRequiredMinVersion('is_required_min_version', true);
 
   final String keyName;
   final dynamic defaultValue;
