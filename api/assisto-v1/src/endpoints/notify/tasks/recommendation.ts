@@ -83,7 +83,7 @@ class NotifyTaskRecommendations {
         },
       },
       data: {
-        navigate: `home/taskProfile/${task.id}`,
+        navigate: `/home/taskProfile/${task.id}`,
         channel: NotificationChannels.RECOMMENDATIONS,
       },
     };

@@ -39,6 +39,8 @@ export async function sendOneSignalNotification(
 
     notification.android_group = model.groupKey;
     notification.data = model.data;
+    notification.app_url =
+      "https://assisto.ayesavi.in" + (model.data?.navigate ?? "/");
     // notification.android_channel_id = model.channel;
 
     await NClient.createNotification(notification);
