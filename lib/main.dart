@@ -24,7 +24,6 @@ void main() async {
       url: FlavorConfig().supabaseApiUrl,
       anonKey: FlavorConfig().supabaseApiKey);
   await MobileAds.instance.initialize();
-  await AppUpdateService.instance.initialize();
   Log.intialize();
   RemoteConfigService.initialize();
   if (kReleaseMode) ErrorWidget.builder = (_) => const AppErrorWidget();
