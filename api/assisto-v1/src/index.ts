@@ -9,10 +9,10 @@ import NotifyChats from "./endpoints/notify/chat";
 import NotifyTaskRecommendations from "./endpoints/notify/tasks/recommendation";
 import NotifyTaskUpdates from "./endpoints/notify/tasks/updates";
 import CreateOrder from "./endpoints/payments/CreateOrder";
+import PaymentWebhook from "./endpoints/payments/OnPaymentSucceeded";
 import UserDelete from "./endpoints/user/delete";
 import DisabledReason from "./endpoints/user/disabled-reason";
 import ReactivateUser from "./endpoints/user/reactivate";
-import PaymentWebhook from "./endpoints/payments/OnPaymentSucceeded";
 // Initialize Firebase Admin
 initializeApp({
   credential: applicationDefault(),
@@ -42,6 +42,8 @@ app.post("/notify/chat", async (req, res) => {
   }
 });
 
+
+
 app.post("/user/disabled-reason", async (req, res) => {
   try {
     let deleteUser = new DisabledReason();
@@ -67,7 +69,7 @@ app.post("/assists/createUsingAI", async (req, res) => {
 app.post("/webhook/payments", async (req, res) => {
   try {
     let payment = new PaymentWebhook();
-   
+
     let data = await payment.handle(req.body);
     res.status(200).send(data);
   } catch (error) {

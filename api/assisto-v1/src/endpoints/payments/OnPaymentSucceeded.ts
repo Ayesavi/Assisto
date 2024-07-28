@@ -102,17 +102,17 @@ class PaymentWebhook {
     // Add code to send email, push notification, or send a message here
     // console.log("Payment successful for order:", orderId);
 
-    const { data, error: tokenError } = await this.supabase
-      .from("devices")
-      .select("token")
-      .eq("user_id", bidderId);
+    // const { data, error: tokenError } = await this.supabase
+    //   .from("devices")
+    //   .select("token")
+    //   .eq("user_id", bidderId);
 
-    if (tokenError) {
-      console.error(`Error fetching tokens: ${tokenError.message}`);
-      return;
-    }
+    // if (tokenError) {
+    //   console.error(`Error fetching tokens: ${tokenError.message}`);
+    //   return;
+    // }
 
-    const tokens = data.map((e) => e.token);
+    // const tokens = data.map((e) => e.token);
 
     // send notification to user.
     sendNotification({
@@ -120,7 +120,7 @@ class PaymentWebhook {
         title: `Payment Recieved`,
         body: `You've go paid for your assist ${taskName}`,
       },
-      tokens: tokens,
+      tokens: [bidderId],
     });
     await this.supabase
       .from("user_payments")
@@ -150,21 +150,21 @@ class PaymentWebhook {
 
     const { taskOwnerId, taskName } = event.data.order.order_tags;
 
-    const { data, error: tokenError } = await this.supabase
-      .from("devices")
-      .select("token")
-      .eq("user_id", taskOwnerId);
+    // const { data, error: tokenError } = await this.supabase
+    //   .from("devices")
+    //   .select("token")
+    //   .eq("user_id", taskOwnerId);
 
-    if (tokenError) {
-      console.error(`Error fetching tokens: ${tokenError.message}`);
-      return;
-    }
+    // if (tokenError) {
+    //   console.error(`Error fetching tokens: ${tokenError.message}`);
+    //   return;
+    // }
     await this.supabase
       .from("user_payments")
       .update({ status: SupabasePaymentStatus.FAILED })
       .eq("id", event.data.order.order_id);
 
-    const tokens = data.map((e) => e.token);
+    // const tokens = data.map((e) => e.token);
 
     // send notification to user.
     sendNotification({
@@ -172,7 +172,7 @@ class PaymentWebhook {
         title: `Payment Failed`,
         body: `Payment failed for your assist ${taskName}, if deducted would be back within 2-3 working days`,
       },
-      tokens: tokens,
+      tokens: [taskOwnerId],
     });
 
     const { data: userData, error: userError } =

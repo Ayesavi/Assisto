@@ -79,7 +79,6 @@ class _EmailPhoneOtpStepperState extends State<EmailPhoneOtpStepper> {
                 child: AppFilledButton(
                     label: 'LogOut',
                     onTap: () async {
-                      ref.read(notificationServiceProvider).removeToken();
                       final future =
                           ref.read(authControllerProvider.notifier).signOut();
                       showLoadingDialog(context, future);

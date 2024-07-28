@@ -6,6 +6,7 @@ import 'package:assisto/core/services/api_service.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class AuthRepository {
