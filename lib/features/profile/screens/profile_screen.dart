@@ -4,7 +4,6 @@ import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/router/routes.dart';
-import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
 import 'package:assisto/features/profile/controllers/profile_page_controller/profile_page_controller.dart';
 import 'package:assisto/gen/assets.gen.dart';
 import 'package:assisto/shared/show_snackbar.dart';
@@ -450,7 +449,6 @@ class ProfilePage extends ConsumerWidget {
             AppFilledButton(
               label: "Logout",
               asyncTap: () async {
-                await ref.read(notificationServiceProvider).removeToken();
                 await ref.read(authControllerProvider.notifier).signOut();
                 analytics.logEvent(name: AnalyticsEvent.auth.logoutEvent);
               },

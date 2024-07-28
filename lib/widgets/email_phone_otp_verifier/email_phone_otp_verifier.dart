@@ -81,16 +81,11 @@ class _EmailPhoneOtpStepperState extends State<EmailPhoneOtpStepper> {
                 child: AppFilledButton(
                     label: 'LogOut',
                     onTap: () async {
-                      try {
-                        ref.read(notificationServiceProvider).removeToken();
-                        ref.read(authControllerProvider.notifier).signOut();
-                      } catch (e) {
-                        showSnackBar(
-                            context,
-                            appErrorHandler(const AppException(
-                                    'Can\t log out user at the moment, please try again later'))
-                                .message);
-                      }
+
+                      final future =
+                          ref.read(authControllerProvider.notifier).signOut();
+                      showLoadingDialog(context, future);
+
                     }),
               );
             },

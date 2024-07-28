@@ -10,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -19,6 +20,8 @@ void main() async {
   await Firebase.initializeApp(
     options: FlavorConfig().firebaseOptions,
   );
+  //Remove this method to stop OneSignal Debugging
+
   await NotificationService.initLocalNotificationService();
   await Supabase.initialize(
       url: FlavorConfig().supabaseApiUrl,
@@ -26,9 +29,14 @@ void main() async {
   await MobileAds.instance.initialize();
   await AppUpdateService.instance.initialize();
   Log.intialize();
+
   RemoteConfigService.initialize();
   if (kReleaseMode) ErrorWidget.builder = (_) => const AppErrorWidget();
-
+  if (kDebugMode) {
+    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  }
+  OneSignal.initialize(FlavorConfig().oneSignalAppId);
+  await OneSignal.Notifications.requestPermission(true);
   // HttpService().usingEmulator(5001);
 
   runApp(const ProviderScope(child: MyApp()));

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/respositories/address_repository/auth_repository.dart';
 import 'package:assisto/core/services/image_service/image_service.dart';
-import 'package:assisto/core/services/permission_service.dart';
+import 'package:assisto/core/services/permission_service/permission_service.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:flutter_chatbook/flutter_chatbook.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
