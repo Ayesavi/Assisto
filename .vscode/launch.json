@@ -49,6 +49,10 @@
             "request": "launch",
             "program": "lib/main.dart",
             "type": "dart",
+            "env":{
+                "GEO_API_KEY":"AIzaSyDKibchKanVYFM7k0Arns5PiSDT3eJedeE",
+                "AD_MOBS_KEY":"ca-app-pub-8578806247574371~2276089526"
+            },
             "args": [
                 "--flavor", "prod",
                 "--dart-define=GOOGLE_SIGN_IN=955105553521-5u9qdspk80jv79955q4t0jong2bhthre.apps.googleusercontent.com",
