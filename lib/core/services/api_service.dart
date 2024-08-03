@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:assisto/core/extensions/string_extension.dart';
+import 'package:assisto/core/config/flavor_config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HttpService {
   late Dio _dio;
-  final String _baseUrl = "HTTP_URL".fromEnv;
+  final String _baseUrl = FlavorConfig().httpUrl;
 
   static final HttpService _instance = HttpService._internal();
 

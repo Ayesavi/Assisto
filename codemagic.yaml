@@ -10,6 +10,13 @@ workflows:
         - "dev"
       vars:
         FIREBASE_APP_ID: 1:347795434098:android:560c3601c069ce305330eb
+        GEO_API_KEY: $GEO_API_KEY
+        AD_MOBS_KEY: $AD_MOBS_KEY
+        GOOGLE_SIGN_IN: $GOOGLE_SIGN_IN
+        SUPABASE_URL: $SUPABASE_URL
+        SUPABASE_KEY: $SUPABASE_KEY
+        HTTP_URL: $HTTP_URL
+        ONE_SIGNAL_APP_ID: $ONE_SIGNAL_APP_ID
         
       flutter: master
       java: 17
@@ -17,7 +24,6 @@ workflows:
         - default-reference
     
     scripts:
-   
     - name: Install dependencies
       script: flutter pub get
     - name: Decode Google credentials
@@ -25,7 +31,14 @@ workflows:
           echo $FIREBASE_SERVICE_ACCOUNT_CREDENTIALS 
     - name: Build AAB with Flutter
       script: | 
-        flutter build appbundle --flavor dev --release 
+        flutter build appbundle --flavor dev --release \
+          --dart-define=GEO_API_KEY=$GEO_API_KEY \
+          --dart-define=AD_MOBS_KEY=$AD_MOBS_KEY \
+          --dart-define=GOOGLE_SIGN_IN=$GOOGLE_SIGN_IN \
+          --dart-define=SUPABASE_URL=$SUPABASE_URL \
+          --dart-define=SUPABASE_KEY=$SUPABASE_KEY \
+          --dart-define=HTTP_URL=$HTTP_URL \
+          --dart-define=ONE_SIGNAL_APP_ID=$ONE_SIGNAL_APP_ID
 
     - name: Build universal apk
       script: | 
@@ -70,6 +83,12 @@ workflows:
           - "prod"
         vars:
           FIREBASE_APP_ID: 1:955105553521:android:6914dd603b3a7dc95fbfd0
+          GEO_API_KEY: $GEO_API_KEY
+          GOOGLE_SIGN_IN: $GOOGLE_SIGN_IN
+          SUPABASE_URL: $SUPABASE_URL
+          SUPABASE_KEY: $SUPABASE_KEY
+          HTTP_URL: $HTTP_URL
+          ONE_SIGNAL_APP_ID: $ONE_SIGNAL_APP_ID
           
         flutter: master
         java: 17
@@ -77,7 +96,6 @@ workflows:
           - default-reference
       
       scripts:
-    
       - name: Install dependencies
         script: flutter pub get
       - name: Decode Google credentials
@@ -85,7 +103,13 @@ workflows:
             echo $FIREBASE_SERVICE_ACCOUNT_CREDENTIALS 
       - name: Build AAB with Flutter
         script: | 
-          flutter build appbundle --flavor prod --release 
+          flutter build appbundle --flavor prod --release \
+            --dart-define=GEO_API_KEY=$GEO_API_KEY \
+            --dart-define=GOOGLE_SIGN_IN=$GOOGLE_SIGN_IN \
+            --dart-define=SUPABASE_URL=$SUPABASE_URL \
+            --dart-define=SUPABASE_KEY=$SUPABASE_KEY \
+            --dart-define=HTTP_URL=$HTTP_URL \
+            --dart-define=ONE_SIGNAL_APP_ID=$ONE_SIGNAL_APP_ID
 
       - name: Build universal apk
         script: | 
@@ -94,7 +118,8 @@ workflows:
             --ks $CM_KEYSTORE_PATH \
             --ks-pass $CM_KEYSTORE_PASSWORD \
             --ks-key-alias $CM_KEY_ALIAS \
-            --key-pass $CM_KEY_PASSWORD
+            --key-pass $CM_KEY_PASSWORD \
+
       artifacts:
         - build/**/outputs/**/*.aab
         - build/**/outputs/**/mapping.txt

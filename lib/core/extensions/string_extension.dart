@@ -1,11 +1,7 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 extension StringExtensions on String {
-  /// Get an environment variable value from .env file
-  String get fromEnv {
-    return dotenv.env[this] ?? '';
-  }
+
 
   /// Capitalize the first letter of the string
   String get capitalize {

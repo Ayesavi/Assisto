@@ -6,9 +6,20 @@
             "request": "launch",
             "program": "lib/main.dart",
             "type": "dart",
+            
+            "env":{
+                "GEO_API_KEY":"AIzaSyDKibchKanVYFM7k0Arns5PiSDT3eJedeE",
+                "AD_MOBS_KEY":"ca-app-pub-8578806247574371~2276089526"
+            },
             "args": [
                 "--flavor","dev",
-                "--dart-define=faker=true"
+                "--dart-define=faker=true",
+                "--dart-define=GOOGLE_SIGN_IN=347795434098-he73aektve7ib2bmsrbuh3oenthtrsqf.apps.googleusercontent.com",
+                "--dart-define=SUPABASE_URL=https://ovzuzdeyvlhiukwrbmxc.supabase.co",
+                "--dart-define=SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92enV6ZGV5dmxoaXVrd3JibXhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTY3NTk3MjAsImV4cCI6MjAzMjMzNTcyMH0.kHCTV43OW7kuAFIPRUxajCi03CIwdT2WzEJ79jQ4PR0",
+                "--dart-define=HTTP_URL=https://asia-south1-assisto-dev-52a1d.cloudfunctions.net",
+                "--dart-define=GEO_API_KEY=AIzaSyDKibchKanVYFM7k0Arns5PiSDT3eJedeE",
+                "--dart-define=ONE_SIGNAL_APP_ID=200b31bd-ba6a-43b1-8b27-3d6179ea48c1"
             ]
         },
         {
@@ -16,27 +27,36 @@
             "request": "launch",
             "program": "lib/main.dart",
             "type": "dart",
+            "env":{
+                "GEO_API_KEY":"AIzaSyDKibchKanVYFM7k0Arns5PiSDT3eJedeE",
+                "AD_MOBS_KEY":"ca-app-pub-8578806247574371~2276089526"
+            },
             "args": [
-                "--flavor","dev",
+                "--flavor", "dev",
+                "--dart-define=GOOGLE_SIGN_IN=347795434098-he73aektve7ib2bmsrbuh3oenthtrsqf.apps.googleusercontent.com",
+                "--dart-define=SUPABASE_URL=https://ovzuzdeyvlhiukwrbmxc.supabase.co",
+                "--dart-define=SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92enV6ZGV5dmxoaXVrd3JibXhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTY3NTk3MjAsImV4cCI6MjAzMjMzNTcyMH0.kHCTV43OW7kuAFIPRUxajCi03CIwdT2WzEJ79jQ4PR0",
+                "--dart-define=HTTP_URL=https://asia-south1-assisto-dev-52a1d.cloudfunctions.net",
+                "--dart-define=GEO_API_KEY=AIzaSyDKibchKanVYFM7k0Arns5PiSDT3eJedeE",
+                "--dart-define=ONE_SIGNAL_APP_ID=200b31bd-ba6a-43b1-8b27-3d6179ea48c1",
+                "--dart-define=AD_MOBS_KEY=ca-app-pub-8578806247574371~2276089526"
+
             ]
-        },
-        {
-            "name": "Assisto dev release",
-            "request": "launch",
-            "program": "lib/main.dart",
-            "type": "dart",
-            "args": [
-                "--flavor","dev",
-                "--release"
-            ]
-        },
+        },        
+
         {
             "name": "Assisto Production",
             "request": "launch",
             "program": "lib/main.dart",
             "type": "dart",
             "args": [
-                "--flavor","prod"
+                "--flavor", "prod",
+                "--dart-define=GOOGLE_SIGN_IN=955105553521-5u9qdspk80jv79955q4t0jong2bhthre.apps.googleusercontent.com",
+                "--dart-define=SUPABASE_URL=https://npiriwozktzensfmtfoz.supabase.co",
+                "--dart-define=SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5waXJpd296a3R6ZW5zZm10Zm96Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM0MjkxODAsImV4cCI6MjAyOTAwNTE4MH0.MhAr3wOKBcJwzv_xsGw1wGP7f5d1OjLWKtlGgOw-uG8",
+                "--dart-define=HTTP_URL=https://asia-south1-dev-assisto.cloudfunctions.net",
+                "--dart-define=GEO_API_KEY=AIzaSyDKibchKanVYFM7k0Arns5PiSDT3eJedeE",
+                "--dart-define=ONE_SIGNAL_APP_ID=843976c7-95ea-4426-bff7-bca4c2732a8a"
             ]
         },
         {
