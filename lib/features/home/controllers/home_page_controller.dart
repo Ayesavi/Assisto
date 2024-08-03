@@ -20,6 +20,7 @@ part 'home_page_controller_state.dart';
 class HomePageController extends _$HomePageController {
   late BaseTaskRepository _repo;
   AddressModel? _defaultAddr;
+
   int offset = 0;
   final limit = 30;
   LatLng? currentLatlng;
@@ -31,12 +32,19 @@ class HomePageController extends _$HomePageController {
   HomePageControllerState build() {
     _repo = ref.watch(taskRepositoryProvider);
     final filters = ref.watch(selectedFiltersProvider);
-    loadData(filters);
 
-    final state = ref.watch(addressControllerProvider);
-    if (state.location) {
-      _defaultAddr = (state as Location).model;
-    }
+    final addr = ref.watch(addressControllerProvider);
+
+    addr.when(
+      locationNotSet: () {
+        loadData(filters);
+      },
+      locationPermissionDisabled: () {},
+      location: (address) {
+        _defaultAddr = address;
+        loadData(filters);
+      },
+    );
 
     return const HomePageControllerState.loading();
   }

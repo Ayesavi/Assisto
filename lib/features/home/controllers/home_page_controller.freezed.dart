@@ -47,24 +47,24 @@ mixin _$HomePageControllerState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Tasks value) tasks,
+    required TResult Function(HomePageStateLoading value) loading,
+    required TResult Function(HomePageStateTasks value) tasks,
     required TResult Function(_Error value) error,
     required TResult Function(_NetworkError value) networkError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Tasks value)? tasks,
+    TResult? Function(HomePageStateLoading value)? loading,
+    TResult? Function(HomePageStateTasks value)? tasks,
     TResult? Function(_Error value)? error,
     TResult? Function(_NetworkError value)? networkError,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Tasks value)? tasks,
+    TResult Function(HomePageStateLoading value)? loading,
+    TResult Function(HomePageStateTasks value)? tasks,
     TResult Function(_Error value)? error,
     TResult Function(_NetworkError value)? networkError,
     required TResult orElse(),
@@ -95,18 +95,19 @@ class _$HomePageControllerStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$LoadingImplCopyWith<$Res> {
-  factory _$$LoadingImplCopyWith(
-          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
-      __$$LoadingImplCopyWithImpl<$Res>;
+abstract class _$$HomePageStateLoadingImplCopyWith<$Res> {
+  factory _$$HomePageStateLoadingImplCopyWith(_$HomePageStateLoadingImpl value,
+          $Res Function(_$HomePageStateLoadingImpl) then) =
+      __$$HomePageStateLoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$HomePageControllerStateCopyWithImpl<$Res, _$LoadingImpl>
-    implements _$$LoadingImplCopyWith<$Res> {
-  __$$LoadingImplCopyWithImpl(
-      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+class __$$HomePageStateLoadingImplCopyWithImpl<$Res>
+    extends _$HomePageControllerStateCopyWithImpl<$Res,
+        _$HomePageStateLoadingImpl>
+    implements _$$HomePageStateLoadingImplCopyWith<$Res> {
+  __$$HomePageStateLoadingImplCopyWithImpl(_$HomePageStateLoadingImpl _value,
+      $Res Function(_$HomePageStateLoadingImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of HomePageControllerState
@@ -115,8 +116,8 @@ class __$$LoadingImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadingImpl implements _Loading {
-  const _$LoadingImpl();
+class _$HomePageStateLoadingImpl implements HomePageStateLoading {
+  const _$HomePageStateLoadingImpl();
 
   @override
   String toString() {
@@ -126,7 +127,8 @@ class _$LoadingImpl implements _Loading {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadingImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$HomePageStateLoadingImpl);
   }
 
   @override
@@ -176,8 +178,8 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Tasks value) tasks,
+    required TResult Function(HomePageStateLoading value) loading,
+    required TResult Function(HomePageStateTasks value) tasks,
     required TResult Function(_Error value) error,
     required TResult Function(_NetworkError value) networkError,
   }) {
@@ -187,8 +189,8 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Tasks value)? tasks,
+    TResult? Function(HomePageStateLoading value)? loading,
+    TResult? Function(HomePageStateTasks value)? tasks,
     TResult? Function(_Error value)? error,
     TResult? Function(_NetworkError value)? networkError,
   }) {
@@ -198,8 +200,8 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Tasks value)? tasks,
+    TResult Function(HomePageStateLoading value)? loading,
+    TResult Function(HomePageStateTasks value)? tasks,
     TResult Function(_Error value)? error,
     TResult Function(_NetworkError value)? networkError,
     required TResult orElse(),
@@ -211,25 +213,26 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements HomePageControllerState {
-  const factory _Loading() = _$LoadingImpl;
+abstract class HomePageStateLoading implements HomePageControllerState {
+  const factory HomePageStateLoading() = _$HomePageStateLoadingImpl;
 }
 
 /// @nodoc
-abstract class _$$TasksImplCopyWith<$Res> {
-  factory _$$TasksImplCopyWith(
-          _$TasksImpl value, $Res Function(_$TasksImpl) then) =
-      __$$TasksImplCopyWithImpl<$Res>;
+abstract class _$$HomePageStateTasksImplCopyWith<$Res> {
+  factory _$$HomePageStateTasksImplCopyWith(_$HomePageStateTasksImpl value,
+          $Res Function(_$HomePageStateTasksImpl) then) =
+      __$$HomePageStateTasksImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<TaskModel> models, List<TaskFilterType> filters});
 }
 
 /// @nodoc
-class __$$TasksImplCopyWithImpl<$Res>
-    extends _$HomePageControllerStateCopyWithImpl<$Res, _$TasksImpl>
-    implements _$$TasksImplCopyWith<$Res> {
-  __$$TasksImplCopyWithImpl(
-      _$TasksImpl _value, $Res Function(_$TasksImpl) _then)
+class __$$HomePageStateTasksImplCopyWithImpl<$Res>
+    extends _$HomePageControllerStateCopyWithImpl<$Res,
+        _$HomePageStateTasksImpl>
+    implements _$$HomePageStateTasksImplCopyWith<$Res> {
+  __$$HomePageStateTasksImplCopyWithImpl(_$HomePageStateTasksImpl _value,
+      $Res Function(_$HomePageStateTasksImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of HomePageControllerState
@@ -240,7 +243,7 @@ class __$$TasksImplCopyWithImpl<$Res>
     Object? models = null,
     Object? filters = null,
   }) {
-    return _then(_$TasksImpl(
+    return _then(_$HomePageStateTasksImpl(
       null == models
           ? _value._models
           : models // ignore: cast_nullable_to_non_nullable
@@ -255,8 +258,8 @@ class __$$TasksImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$TasksImpl implements _Tasks {
-  const _$TasksImpl(
+class _$HomePageStateTasksImpl implements HomePageStateTasks {
+  const _$HomePageStateTasksImpl(
       final List<TaskModel> models, final List<TaskFilterType> filters)
       : _models = models,
         _filters = filters;
@@ -286,7 +289,7 @@ class _$TasksImpl implements _Tasks {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TasksImpl &&
+            other is _$HomePageStateTasksImpl &&
             const DeepCollectionEquality().equals(other._models, _models) &&
             const DeepCollectionEquality().equals(other._filters, _filters));
   }
@@ -302,8 +305,9 @@ class _$TasksImpl implements _Tasks {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$TasksImplCopyWith<_$TasksImpl> get copyWith =>
-      __$$TasksImplCopyWithImpl<_$TasksImpl>(this, _$identity);
+  _$$HomePageStateTasksImplCopyWith<_$HomePageStateTasksImpl> get copyWith =>
+      __$$HomePageStateTasksImplCopyWithImpl<_$HomePageStateTasksImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -349,8 +353,8 @@ class _$TasksImpl implements _Tasks {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Tasks value) tasks,
+    required TResult Function(HomePageStateLoading value) loading,
+    required TResult Function(HomePageStateTasks value) tasks,
     required TResult Function(_Error value) error,
     required TResult Function(_NetworkError value) networkError,
   }) {
@@ -360,8 +364,8 @@ class _$TasksImpl implements _Tasks {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Tasks value)? tasks,
+    TResult? Function(HomePageStateLoading value)? loading,
+    TResult? Function(HomePageStateTasks value)? tasks,
     TResult? Function(_Error value)? error,
     TResult? Function(_NetworkError value)? networkError,
   }) {
@@ -371,8 +375,8 @@ class _$TasksImpl implements _Tasks {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Tasks value)? tasks,
+    TResult Function(HomePageStateLoading value)? loading,
+    TResult Function(HomePageStateTasks value)? tasks,
     TResult Function(_Error value)? error,
     TResult Function(_NetworkError value)? networkError,
     required TResult orElse(),
@@ -384,10 +388,10 @@ class _$TasksImpl implements _Tasks {
   }
 }
 
-abstract class _Tasks implements HomePageControllerState {
-  const factory _Tasks(
+abstract class HomePageStateTasks implements HomePageControllerState {
+  const factory HomePageStateTasks(
           final List<TaskModel> models, final List<TaskFilterType> filters) =
-      _$TasksImpl;
+      _$HomePageStateTasksImpl;
 
   List<TaskModel> get models;
   List<TaskFilterType> get filters;
@@ -395,7 +399,7 @@ abstract class _Tasks implements HomePageControllerState {
   /// Create a copy of HomePageControllerState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TasksImplCopyWith<_$TasksImpl> get copyWith =>
+  _$$HomePageStateTasksImplCopyWith<_$HomePageStateTasksImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -506,8 +510,8 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Tasks value) tasks,
+    required TResult Function(HomePageStateLoading value) loading,
+    required TResult Function(HomePageStateTasks value) tasks,
     required TResult Function(_Error value) error,
     required TResult Function(_NetworkError value) networkError,
   }) {
@@ -517,8 +521,8 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Tasks value)? tasks,
+    TResult? Function(HomePageStateLoading value)? loading,
+    TResult? Function(HomePageStateTasks value)? tasks,
     TResult? Function(_Error value)? error,
     TResult? Function(_NetworkError value)? networkError,
   }) {
@@ -528,8 +532,8 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Tasks value)? tasks,
+    TResult Function(HomePageStateLoading value)? loading,
+    TResult Function(HomePageStateTasks value)? tasks,
     TResult Function(_Error value)? error,
     TResult Function(_NetworkError value)? networkError,
     required TResult orElse(),
@@ -635,8 +639,8 @@ class _$NetworkErrorImpl implements _NetworkError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Tasks value) tasks,
+    required TResult Function(HomePageStateLoading value) loading,
+    required TResult Function(HomePageStateTasks value) tasks,
     required TResult Function(_Error value) error,
     required TResult Function(_NetworkError value) networkError,
   }) {
@@ -646,8 +650,8 @@ class _$NetworkErrorImpl implements _NetworkError {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Tasks value)? tasks,
+    TResult? Function(HomePageStateLoading value)? loading,
+    TResult? Function(HomePageStateTasks value)? tasks,
     TResult? Function(_Error value)? error,
     TResult? Function(_NetworkError value)? networkError,
   }) {
@@ -657,8 +661,8 @@ class _$NetworkErrorImpl implements _NetworkError {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Tasks value)? tasks,
+    TResult Function(HomePageStateLoading value)? loading,
+    TResult Function(HomePageStateTasks value)? tasks,
     TResult Function(_Error value)? error,
     TResult Function(_NetworkError value)? networkError,
     required TResult orElse(),

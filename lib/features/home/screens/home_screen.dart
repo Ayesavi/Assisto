@@ -1,11 +1,14 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
+import 'package:assisto/core/controllers/address_controller/address_controller.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/services/notification_service/notification_service.dart';
 import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
+import 'package:assisto/core/services/permission_service/permission_service.dart';
 import 'package:assisto/core/services/permission_service/permission_service_provider.dart';
 import 'package:assisto/shared/show_snackbar.dart';
+import 'package:assisto/widgets/popup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,20 +30,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  // late int _selectedIndex;
-
-  // void _onItemTapped(int index) {
-  //   setState(() {
-  //     _selectedIndex = index;
-  //   });
-  // }
-
-  // final _widgets = [
-  //   const HomeFeedPage(),
-  //   const SearchTaskScreen(),
-  //   const ChatsListPage(),
-  // ];
-
   onTapNavBar(int index) {
     switch (index) {
       case 0:
@@ -67,15 +56,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _notificationService.shareLocation(
       onGranted: () {},
       onDenied: () {
-        showSnackBar(
-            context,
-            'Location permission denied, try give us location permission to track your location',
-            SnackBarAction(
-                label: 'Open Settings',
-                onPressed: () {
-                  final permissionService = ref.read(permissionServiceProvider);
-                  permissionService.openSettings();
-                }));
+        showPopup(context, cancelTitle: "Settings", confirmTitle: "Retry",
+            onCancel: () {
+          PermissionService().openSettings();
+        }, onConfirm: () async {
+          final isLocationObtained = await ref
+              .read(addressControllerProvider.notifier)
+              .setCurrentLocation();
+
+          if (isLocationObtained) {
+            Navigator.pop(context);
+          }
+          return;
+        },
+            isDismissable: false,
+            content:
+                'Location permission not granted, some assists may not be visible.',
+            title: 'Location Permission');
       },
     );
     _notificationService.requestNotificationPermission(

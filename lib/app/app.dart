@@ -26,6 +26,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     final router = ref.watch(routerProvider);
     final theme = MaterialTheme(Theme.of(context).textTheme);
     return MaterialApp.router(
+      
       debugShowCheckedModeBanner: false,
       theme: theme.light(),
       darkTheme: theme.dark(),

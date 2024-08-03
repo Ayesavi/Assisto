@@ -6,6 +6,7 @@ import 'package:assisto/features/addresses/data/indian_city_data.dart';
 import 'package:flutter_google_maps_webservices/geocoding.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 final placesRepositoryProvider = Provider<BasePlacesRepository>((ref) {
@@ -17,6 +18,7 @@ final placesRepositoryProvider = Provider<BasePlacesRepository>((ref) {
 abstract class BasePlacesRepository {
   Future<List<PlacesSearchResult>> getPlacesByText(String searchText);
   Future<List<GeocodingResult>> getPlaceAddressFromLatLng(LatLng latLng);
+  Future<LatLng> getCurrentLocation();
 }
 
 // Fake implementation
@@ -79,17 +81,23 @@ class FakePlacesRepository implements BasePlacesRepository {
       )
     ];
   }
+
+  @override
+  Future<LatLng> getCurrentLocation() async {
+    // Returning a hardcoded Position object for testing purposes
+    return const LatLng(21.1458, 79.0882);
+  }
 }
 
 class GooglePlacesRepository implements BasePlacesRepository {
-  final GoogleMapsPlaces _places =
+  final GoogleMapsPlaces places =
       GoogleMapsPlaces(apiKey: FlavorConfig().geoApiKey);
 
-  final GoogleMapsGeocoding _geolocation =
+  final GoogleMapsGeocoding geolocation =
       GoogleMapsGeocoding(apiKey: FlavorConfig().geoApiKey);
   @override
   Future<List<PlacesSearchResult>> getPlacesByText(String searchText) async {
-    final response = await _places.searchByText(searchText);
+    final response = await places.searchByText(searchText);
     if (response.hasNoResults) {
       return [];
     }
@@ -101,7 +109,7 @@ class GooglePlacesRepository implements BasePlacesRepository {
 
   @override
   Future<List<GeocodingResult>> getPlaceAddressFromLatLng(LatLng latLng) async {
-    final response = (await _geolocation.searchByLocation(
+    final response = (await geolocation.searchByLocation(
         Location(lat: latLng.latitude, lng: latLng.longitude)));
 
     if (response.hasNoResults) {
@@ -111,5 +119,21 @@ class GooglePlacesRepository implements BasePlacesRepository {
       throw const AppException('Invalid Search result');
     }
     return (response.results);
+  }
+
+  @override
+  Future<LatLng> getCurrentLocation() async {
+    bool serviceEnabled;
+
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled, don't continue
+      return Future.error('Location services are disabled.');
+    }
+
+    final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    return LatLng(position.latitude, position.longitude);
   }
 }

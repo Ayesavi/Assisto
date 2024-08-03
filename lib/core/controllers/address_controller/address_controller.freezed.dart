@@ -19,21 +19,21 @@ mixin _$AddressControllerState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() locationNotSet,
-    required TResult Function() empty,
+    required TResult Function() locationPermissionDisabled,
     required TResult Function(AddressModel model) location,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? locationNotSet,
-    TResult? Function()? empty,
+    TResult? Function()? locationPermissionDisabled,
     TResult? Function(AddressModel model)? location,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? locationNotSet,
-    TResult Function()? empty,
+    TResult Function()? locationPermissionDisabled,
     TResult Function(AddressModel model)? location,
     required TResult orElse(),
   }) =>
@@ -41,21 +41,24 @@ mixin _$AddressControllerState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) locationNotSet,
-    required TResult Function(_Empty value) empty,
+    required TResult Function(LocationPermissionDisabled value)
+        locationPermissionDisabled,
     required TResult Function(Location value) location,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? locationNotSet,
-    TResult? Function(_Empty value)? empty,
+    TResult? Function(LocationPermissionDisabled value)?
+        locationPermissionDisabled,
     TResult? Function(Location value)? location,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? locationNotSet,
-    TResult Function(_Empty value)? empty,
+    TResult Function(LocationPermissionDisabled value)?
+        locationPermissionDisabled,
     TResult Function(Location value)? location,
     required TResult orElse(),
   }) =>
@@ -126,7 +129,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() locationNotSet,
-    required TResult Function() empty,
+    required TResult Function() locationPermissionDisabled,
     required TResult Function(AddressModel model) location,
   }) {
     return locationNotSet();
@@ -136,7 +139,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? locationNotSet,
-    TResult? Function()? empty,
+    TResult? Function()? locationPermissionDisabled,
     TResult? Function(AddressModel model)? location,
   }) {
     return locationNotSet?.call();
@@ -146,7 +149,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? locationNotSet,
-    TResult Function()? empty,
+    TResult Function()? locationPermissionDisabled,
     TResult Function(AddressModel model)? location,
     required TResult orElse(),
   }) {
@@ -160,7 +163,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) locationNotSet,
-    required TResult Function(_Empty value) empty,
+    required TResult Function(LocationPermissionDisabled value)
+        locationPermissionDisabled,
     required TResult Function(Location value) location,
   }) {
     return locationNotSet(this);
@@ -170,7 +174,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? locationNotSet,
-    TResult? Function(_Empty value)? empty,
+    TResult? Function(LocationPermissionDisabled value)?
+        locationPermissionDisabled,
     TResult? Function(Location value)? location,
   }) {
     return locationNotSet?.call(this);
@@ -180,7 +185,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? locationNotSet,
-    TResult Function(_Empty value)? empty,
+    TResult Function(LocationPermissionDisabled value)?
+        locationPermissionDisabled,
     TResult Function(Location value)? location,
     required TResult orElse(),
   }) {
@@ -196,18 +202,21 @@ abstract class _Initial implements AddressControllerState {
 }
 
 /// @nodoc
-abstract class _$$EmptyImplCopyWith<$Res> {
-  factory _$$EmptyImplCopyWith(
-          _$EmptyImpl value, $Res Function(_$EmptyImpl) then) =
-      __$$EmptyImplCopyWithImpl<$Res>;
+abstract class _$$LocationPermissionDisabledImplCopyWith<$Res> {
+  factory _$$LocationPermissionDisabledImplCopyWith(
+          _$LocationPermissionDisabledImpl value,
+          $Res Function(_$LocationPermissionDisabledImpl) then) =
+      __$$LocationPermissionDisabledImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$EmptyImplCopyWithImpl<$Res>
-    extends _$AddressControllerStateCopyWithImpl<$Res, _$EmptyImpl>
-    implements _$$EmptyImplCopyWith<$Res> {
-  __$$EmptyImplCopyWithImpl(
-      _$EmptyImpl _value, $Res Function(_$EmptyImpl) _then)
+class __$$LocationPermissionDisabledImplCopyWithImpl<$Res>
+    extends _$AddressControllerStateCopyWithImpl<$Res,
+        _$LocationPermissionDisabledImpl>
+    implements _$$LocationPermissionDisabledImplCopyWith<$Res> {
+  __$$LocationPermissionDisabledImplCopyWithImpl(
+      _$LocationPermissionDisabledImpl _value,
+      $Res Function(_$LocationPermissionDisabledImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of AddressControllerState
@@ -216,18 +225,19 @@ class __$$EmptyImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$EmptyImpl implements _Empty {
-  const _$EmptyImpl();
+class _$LocationPermissionDisabledImpl implements LocationPermissionDisabled {
+  const _$LocationPermissionDisabledImpl();
 
   @override
   String toString() {
-    return 'AddressControllerState.empty()';
+    return 'AddressControllerState.locationPermissionDisabled()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$EmptyImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$LocationPermissionDisabledImpl);
   }
 
   @override
@@ -237,32 +247,32 @@ class _$EmptyImpl implements _Empty {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() locationNotSet,
-    required TResult Function() empty,
+    required TResult Function() locationPermissionDisabled,
     required TResult Function(AddressModel model) location,
   }) {
-    return empty();
+    return locationPermissionDisabled();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? locationNotSet,
-    TResult? Function()? empty,
+    TResult? Function()? locationPermissionDisabled,
     TResult? Function(AddressModel model)? location,
   }) {
-    return empty?.call();
+    return locationPermissionDisabled?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? locationNotSet,
-    TResult Function()? empty,
+    TResult Function()? locationPermissionDisabled,
     TResult Function(AddressModel model)? location,
     required TResult orElse(),
   }) {
-    if (empty != null) {
-      return empty();
+    if (locationPermissionDisabled != null) {
+      return locationPermissionDisabled();
     }
     return orElse();
   }
@@ -271,39 +281,42 @@ class _$EmptyImpl implements _Empty {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) locationNotSet,
-    required TResult Function(_Empty value) empty,
+    required TResult Function(LocationPermissionDisabled value)
+        locationPermissionDisabled,
     required TResult Function(Location value) location,
   }) {
-    return empty(this);
+    return locationPermissionDisabled(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? locationNotSet,
-    TResult? Function(_Empty value)? empty,
+    TResult? Function(LocationPermissionDisabled value)?
+        locationPermissionDisabled,
     TResult? Function(Location value)? location,
   }) {
-    return empty?.call(this);
+    return locationPermissionDisabled?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? locationNotSet,
-    TResult Function(_Empty value)? empty,
+    TResult Function(LocationPermissionDisabled value)?
+        locationPermissionDisabled,
     TResult Function(Location value)? location,
     required TResult orElse(),
   }) {
-    if (empty != null) {
-      return empty(this);
+    if (locationPermissionDisabled != null) {
+      return locationPermissionDisabled(this);
     }
     return orElse();
   }
 }
 
-abstract class _Empty implements AddressControllerState {
-  const factory _Empty() = _$EmptyImpl;
+abstract class LocationPermissionDisabled implements AddressControllerState {
+  const factory LocationPermissionDisabled() = _$LocationPermissionDisabledImpl;
 }
 
 /// @nodoc
@@ -387,7 +400,7 @@ class _$LocationImpl implements Location {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() locationNotSet,
-    required TResult Function() empty,
+    required TResult Function() locationPermissionDisabled,
     required TResult Function(AddressModel model) location,
   }) {
     return location(model);
@@ -397,7 +410,7 @@ class _$LocationImpl implements Location {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? locationNotSet,
-    TResult? Function()? empty,
+    TResult? Function()? locationPermissionDisabled,
     TResult? Function(AddressModel model)? location,
   }) {
     return location?.call(model);
@@ -407,7 +420,7 @@ class _$LocationImpl implements Location {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? locationNotSet,
-    TResult Function()? empty,
+    TResult Function()? locationPermissionDisabled,
     TResult Function(AddressModel model)? location,
     required TResult orElse(),
   }) {
@@ -421,7 +434,8 @@ class _$LocationImpl implements Location {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) locationNotSet,
-    required TResult Function(_Empty value) empty,
+    required TResult Function(LocationPermissionDisabled value)
+        locationPermissionDisabled,
     required TResult Function(Location value) location,
   }) {
     return location(this);
@@ -431,7 +445,8 @@ class _$LocationImpl implements Location {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? locationNotSet,
-    TResult? Function(_Empty value)? empty,
+    TResult? Function(LocationPermissionDisabled value)?
+        locationPermissionDisabled,
     TResult? Function(Location value)? location,
   }) {
     return location?.call(this);
@@ -441,7 +456,8 @@ class _$LocationImpl implements Location {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? locationNotSet,
-    TResult Function(_Empty value)? empty,
+    TResult Function(LocationPermissionDisabled value)?
+        locationPermissionDisabled,
     TResult Function(Location value)? location,
     required TResult orElse(),
   }) {
