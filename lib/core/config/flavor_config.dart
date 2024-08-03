@@ -1,10 +1,8 @@
-import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/flavors/dev/dev_options.dart' as dev;
 import 'package:assisto/flavors/prod/prod_options.dart' as prod;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cashfree_pg_sdk/utils/cfenums.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum AppFlavors { prod, dev }
 
@@ -30,11 +28,14 @@ class FlavorConfig {
     }
   }
 
-  String get supabaseApiUrl => 'SUPABASE_URL'.fromEnv;
-  String get supabaseApiKey => 'SUPABASE_KEY'.fromEnv;
-  String get geoApiKey => 'GEO_API_KEY'.fromEnv;
-  String get googleClientId => "GOOGLE_SIGN_IN".fromEnv;
-  String get oneSignalAppId => "ONE_SIGNAL_APP_ID".fromEnv;
+  String get supabaseApiUrl => const String.fromEnvironment('SUPABASE_URL');
+  String get supabaseApiKey => const String.fromEnvironment('SUPABASE_KEY');
+  String get geoApiKey => const String.fromEnvironment('GEO_API_KEY');
+  String get googleClientId => const String.fromEnvironment("GOOGLE_SIGN_IN");
+  String get oneSignalAppId =>
+      const String.fromEnvironment("ONE_SIGNAL_APP_ID");
+
+  String get httpUrl => const String.fromEnvironment("HTTP_URL");
 
   bool get useFakeRepositories => const bool.fromEnvironment('faker');
   CFEnvironment get paymentEnvironment => _getPaymentEnvironment();
@@ -55,10 +56,5 @@ class FlavorConfig {
       default:
         return CFEnvironment.SANDBOX;
     }
-  }
-
-  Future<void> loadEnv() async {
-    const fileName = '.env.$appFlavor';
-    await dotenv.load(fileName: fileName);
   }
 }
