@@ -109,7 +109,7 @@ class _PaymentMessageViewState extends State<PaymentMessageView> {
         Text(
           ' • ' +
               DateFormat('dd MMM yyyy', 'en_US')
-                  .format(widget.message.createdAt.toLocal()),
+                  .format(widget.message.createdAt),
           style: statusTextStyle,
         ),
       ],
@@ -129,7 +129,7 @@ class _PaymentMessageViewState extends State<PaymentMessageView> {
         Text(
           ' • ' +
               DateFormat('dd MMM yyyy', 'en_US')
-                  .format(widget.message.createdAt.toLocal()),
+                  .format(widget.message.createdAt),
           style: statusTextStyle,
         ),
       ],

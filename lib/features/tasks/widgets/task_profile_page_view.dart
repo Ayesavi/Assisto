@@ -122,7 +122,7 @@ class _TaskProfilePageViewState extends ConsumerState<TaskProfilePageView> {
                     CupertinoListTile(
                       backgroundColor: Theme.of(context).colorScheme.surface,
                       padding: const EdgeInsets.all(5),
-                      leading: Icon(Icons.person_outline_outlined,
+                      leading: Icon(Icons.credit_card,
                           color: Theme.of(context).colorScheme.primary),
                       title: const TitleMedium(text: 'Max Budget'),
                       additionalInfo: BodyLarge(
@@ -205,7 +205,6 @@ class _TaskProfilePageViewState extends ConsumerState<TaskProfilePageView> {
               ),
           ],
         ),
-
       ),
     );
   }

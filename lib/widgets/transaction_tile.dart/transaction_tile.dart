@@ -61,7 +61,7 @@ class TransactionTile extends ConsumerWidget {
         txnModel.recipient.id != userId ? txnModel.recipient : txnModel.sender;
 
     final String formattedDateTime =
-        DateFormat('MMMM yyyy, hh:mm a').format(txnModel.createdAt.toLocal());
+        DateFormat('MMMM yyyy, hh:mm a').format(txnModel.createdAt);
     return ListTile(
       onTap: onPress,
       leading: UserAvatar(

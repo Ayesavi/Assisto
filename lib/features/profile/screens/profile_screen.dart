@@ -1,5 +1,6 @@
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
+import 'package:assisto/core/config/flavor_config.dart';
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/extensions/string_extension.dart';
@@ -13,6 +14,7 @@ import 'package:assisto/widgets/show_logout_bottomsheet/show_logout_bottomsheet.
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -113,7 +115,43 @@ class ProfilePage extends ConsumerWidget {
                                   dimension: 50,
                                   child: Assets.images.icLauncher.image()),
                               applicationName: packageInfo.appName,
-                              applicationVersion: packageInfo.version);
+                              applicationVersion: packageInfo.version,
+                              children: [
+                                if (FlavorConfig().fid != null)
+                                  GestureDetector(
+                                    onTap: () {
+                                      Clipboard.setData(ClipboardData(
+                                          text: FlavorConfig().fid!));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'FID copied to clipboard')),
+                                      );
+                                    },
+                                    child: RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: 'FID: ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface),
+                                          ),
+                                          TextSpan(
+                                            text: FlavorConfig().fid,
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ]);
                         }
                       } catch (e) {
                         if (context.mounted) {

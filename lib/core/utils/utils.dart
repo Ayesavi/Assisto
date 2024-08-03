@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 const kCenterLatlng = LatLng(21.2514, 81.6296);
@@ -30,6 +31,28 @@ bool checkNullOrEmpty(List<dynamic> params) {
     }
   }
   return false; // Return false if all parameters are non-null and non-empty
+}
+
+T? findItem<T>(List<T> items, bool Function(T) predicate) {
+  try {
+    return items.firstWhere(predicate);
+  } catch (e) {
+    // If no item matches the predicate, return null
+    return null;
+  }
+}
+
+/// Converts a nullable [DateTime] object to a nullable [TimeOfDay] object.
+TimeOfDay? dateTimeToTimeOfDay(DateTime? dateTime) {
+  // Return null if the DateTime is null
+  if (dateTime == null) {
+    return null;
+  }
+
+  return TimeOfDay(
+    hour: dateTime.hour,
+    minute: dateTime.minute,
+  );
 }
 
 int calculateAgeFromString(String birthDateString) {

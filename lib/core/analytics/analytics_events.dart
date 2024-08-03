@@ -62,6 +62,10 @@ class _HomeEvents {
 
   /// When a user presses on FAB to create a new task
   final createTaskFABEvent = "create_task_fab_event";
+
+  /// When a user presses on home task tile
+  final homeOnPressTaskEvent = "home_on_press_task_event";
+
 }
 
 class _TaskCreationEvents {
