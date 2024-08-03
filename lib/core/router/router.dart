@@ -8,9 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter? _previousRouter;
+final GlobalKey<NavigatorState> navKey = rootNavigatorKey;
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final GlobalKey<NavigatorState> navKey = rootNavigatorKey;
   final appState = ref.watch(authControllerProvider);
   ref.watch(remoteConfigUpdateProvider);
   _previousRouter = GoRouter(

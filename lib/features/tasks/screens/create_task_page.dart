@@ -154,6 +154,8 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
         tooltip: 'Assisto AI',
         child: Assets.images.ai.image(width: 20, height: 30),
         onPressed: () async {
+          analytics.logEvent(
+              name: AnalyticsEvent.createTask.createTaskWithAiEvent);
           showCreateTaskUsingAIBottomSheet(context,
               controller: TextEditingController(), onTextEntered: (v) async {
             try {

@@ -124,10 +124,18 @@ class ManageAddressPage extends ConsumerWidget {
                                 Assets.graphics.emptyAddresses),
                           ),
                           kWidgetVerticalGap,
-                          const Text(
-                            "You have no saved addresses yet. To add a new address, simply tap on the \"Add Address\" button below.",
-                            // maxLines: 3,
-                            textAlign: TextAlign.center,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "You have no saved addresses yet. To add a new address, simply tap on the \"Add Address\" button below.",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).dividerColor,
+                              ),
+                              // maxLines: 3,
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ],
                       )),

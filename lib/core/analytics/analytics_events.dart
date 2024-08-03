@@ -70,6 +70,9 @@ class _TaskCreationEvents {
   /// When a task is created
   final createTaskEvent = "create_task_event";
 
+  /// When a task is created
+  final createTaskWithAiEvent = "create_task_with_ai_event";
+
   /// When a task is updated
   final updateTaskEvent = "update_task_event";
 
@@ -141,7 +144,6 @@ class _TaskProfile {
   final blockTaskPressEvent = "block_task_press_event";
 
   final payTaskBidderEvent = "pay_task_bidder";
-
 
   /// When a user presses on place bid button
   final placeBidPressEvent = "place_bid_press_event";

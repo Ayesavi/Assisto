@@ -21,6 +21,16 @@
             ]
         },
         {
+            "name": "Assisto dev release",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "type": "dart",
+            "args": [
+                "--flavor","dev",
+                "--release"
+            ]
+        },
+        {
             "name": "Assisto Production",
             "request": "launch",
             "program": "lib/main.dart",

@@ -55,12 +55,20 @@ class LogoutPopup extends StatelessWidget {
 Future<void> showPopup(BuildContext context,
     {required Future<void> Function() onConfirm,
     required String content,
+    bool isDismissable = true,
+    String? confirmTitle,
+    VoidCallback? onCancel,
+    String? cancelTitle,
     required String title}) async {
   return await showDialog(
     context: context,
+    barrierDismissible: isDismissable,
     builder: (BuildContext context) {
       return Popup(
+        cancelTitle: cancelTitle,
+        confirmTitle: confirmTitle,
         title: title,
+        onCancel: onCancel,
         content: content,
         onConfirmPopup: () async {
           await onConfirm();
@@ -73,11 +81,17 @@ Future<void> showPopup(BuildContext context,
 
 class Popup extends StatelessWidget {
   final Future<void> Function()? onConfirmPopup;
+  final String? confirmTitle;
+  final String? cancelTitle;
+  final VoidCallback? onCancel;
   final String content;
   final String title;
   const Popup(
       {super.key,
       this.onConfirmPopup,
+      this.confirmTitle,
+      this.onCancel,
+      this.cancelTitle,
       required this.content,
       required this.title});
 
@@ -91,12 +105,14 @@ class Popup extends StatelessWidget {
       content: Text(content),
       actions: <Widget>[
         TextButton(
-          onPressed: () {
-            Navigator.of(context).pop(); // Close the dialog
-          },
-          child: const Text('Cancel'),
+          onPressed: onCancel ??
+              () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+          child: Text(cancelTitle ?? 'Cancel'),
         ),
-        _PopupTextButton(callback: onConfirmPopup, label: 'Confirm')
+        _PopupTextButton(
+            callback: onConfirmPopup, label: confirmTitle ?? 'Confirm')
       ],
     );
   }
