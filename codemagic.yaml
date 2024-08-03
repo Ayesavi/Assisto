@@ -10,14 +10,6 @@ workflows:
         - "dev"
       vars:
         FIREBASE_APP_ID: 1:347795434098:android:560c3601c069ce305330eb
-        GEO_API_KEY: $GEO_API_KEY
-        AD_MOBS_KEY: $AD_MOBS_KEY
-        GOOGLE_SIGN_IN: $GOOGLE_SIGN_IN
-        SUPABASE_URL: $SUPABASE_URL
-        SUPABASE_KEY: $SUPABASE_KEY
-        HTTP_URL: $HTTP_URL
-        ONE_SIGNAL_APP_ID: $ONE_SIGNAL_APP_ID
-        
       flutter: master
       java: 17
       android_signing:
@@ -92,12 +84,6 @@ workflows:
           - "prod"
         vars:
           FIREBASE_APP_ID: 1:955105553521:android:6914dd603b3a7dc95fbfd0
-          GEO_API_KEY: $GEO_API_KEY
-          GOOGLE_SIGN_IN: $GOOGLE_SIGN_IN
-          SUPABASE_URL: $SUPABASE_URL
-          SUPABASE_KEY: $SUPABASE_KEY
-          HTTP_URL: $HTTP_URL
-          ONE_SIGNAL_APP_ID: $ONE_SIGNAL_APP_ID
           
         flutter: master
         java: 17
