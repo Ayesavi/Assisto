@@ -7,20 +7,16 @@ extension CustomDateTimeFormatting on DateTime {
     final yesterday = DateTime(now.year, now.month, now.day - 1);
     final tomorrow = DateTime(now.year, now.month, now.day + 1);
 
-    final localDateTime = toLocal();
-
-    if (localDateTime.day == today.day &&
-        localDateTime.month == today.month &&
-        localDateTime.year == today.year) {
-      return 'Today ${DateFormat('hh:mm a').format(localDateTime)}';
-    } else if (localDateTime.isAtSameMomentAs(yesterday)) {
-      return 'Yesterday ${DateFormat('hh:mm a').format(localDateTime)}';
-    } else if (localDateTime.day == tomorrow.day &&
-        localDateTime.month == tomorrow.month &&
-        localDateTime.year == tomorrow.year) {
-      return 'Tomorrow ${DateFormat('hh:mm a').format(localDateTime)}';
+    if (day == today.day && month == today.month && year == today.year) {
+      return 'Today ${DateFormat('hh:mm a').format(this)}';
+    } else if (isAtSameMomentAs(yesterday)) {
+      return 'Yesterday ${DateFormat('hh:mm a').format(this)}';
+    } else if (day == tomorrow.day &&
+        month == tomorrow.month &&
+        year == tomorrow.year) {
+      return 'Tomorrow ${DateFormat('hh:mm a').format(this)}';
     } else {
-      return DateFormat('dd MMM yyyy hh:mm a').format(localDateTime);
+      return DateFormat('dd MMM yyyy hh:mm a').format(this);
     }
   }
 }

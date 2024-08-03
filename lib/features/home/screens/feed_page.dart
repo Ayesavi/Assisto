@@ -227,6 +227,9 @@ class _HomeFeedPageState extends ConsumerState<HomeFeedPage> {
                               }
                             },
                             onPressed: () {
+                              analytics.logEvent(
+                                  name:
+                                      AnalyticsEvent.home.homeOnPressTaskEvent);
                               TaskProfileRoute(taskId: data[itemIndex].id)
                                   .go(ctx);
                             },
@@ -238,6 +241,9 @@ class _HomeFeedPageState extends ConsumerState<HomeFeedPage> {
                                 ? TileStatusWidget(data[itemIndex].status)
                                 : null,
                             onPressed: () {
+                              analytics.logEvent(
+                                  name:
+                                      AnalyticsEvent.home.homeOnPressTaskEvent);
                               TaskProfileRoute(taskId: data[itemIndex].id)
                                   .go(ctx);
                             },

@@ -6,6 +6,7 @@ import 'package:assisto/core/extensions/string_extension.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/services/app_functions.dart';
 import 'package:assisto/core/theme/theme_constants.dart';
+import 'package:assisto/core/utils/utils.dart';
 import 'package:assisto/features/auth/screens/fill_user_details_page.dart';
 import 'package:assisto/features/home/repositories/categories_repository.dart';
 import 'package:assisto/features/profile/controllers/address_page_controller/address_page_controller.dart';
@@ -35,7 +36,10 @@ class CreateTaskPage extends ConsumerStatefulWidget {
 class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  final List<String> _tags = [];
+  final Set<String> _tags = {};
+
+  final Set<String> _selectedCategories = {};
+
   final _tagController = TextEditingController();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -56,13 +60,16 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
       _descriptionController.text = widget.editTaskModel!.description;
       _budgetController.text =
           widget.editTaskModel!.expectedPrice?.toString() ?? '';
-
+      _locationId = widget.editTaskModel!.addressId;
       _deadlineController.text = widget.editTaskModel?.deadline != null
           ? DateFormat('dd MMM yyyy hh:mm a')
               .format(widget.editTaskModel!.deadline!)
           : '';
 
+      _locationId = widget.editTaskModel?.address?.id;
+      _deadline = widget.editTaskModel?.deadline;
       _tags.addAll(widget.editTaskModel!.tags);
+      _gender = widget.editTaskModel?.gender;
       _ageGroupController.text = widget.editTaskModel?.ageGroup ?? '';
     }
   }
@@ -78,11 +85,13 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
   }
 
   TaskModel getTaskModel() {
-    if ((_formKey.currentState?.validate() ?? false) && _tags.length > 4) {
+    final selectedTagsCategories = [..._tags, ..._selectedCategories];
+    if ((_formKey.currentState?.validate() ?? false) &&
+        selectedTagsCategories.length > 4) {
       if (widget.editTaskModel != null) {
         return TaskModel(
             owner: widget.editTaskModel!.owner,
-            tags: _tags,
+            tags: selectedTagsCategories.toList(),
             id: widget.editTaskModel!.id,
             bid: widget.editTaskModel!.bid,
             address: widget.editTaskModel!.address,
@@ -100,7 +109,7 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
                 : int.tryParse(_budgetController.text));
       } else {
         return TaskModel.partial(
-            tags: _tags,
+            tags: _tags.toList(),
             title: _titleController.text.trim(),
             description: _descriptionController.text.trim(),
             deadline: _deadline,
@@ -114,7 +123,7 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
                 : int.tryParse(_budgetController.text));
       }
     }
-    if (_tags.length < 5) {
+    if (selectedTagsCategories.length < 5) {
       throw const AppException('Add atleast 5 tags');
     }
     throw const AppException('Enter data fields appropriately');
@@ -178,9 +187,10 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
                 if (widget.editTaskModel != null) {
                   analytics.logEvent(
                       name: AnalyticsEvent.createTask.updateTaskEvent);
+                  final task = getTaskModel();
                   await ref
                       .read(taskPageControllerProvider.notifier)
-                      .updateTask(getTaskModel());
+                      .updateTask(task);
                 } else {
                   analytics.logEvent(
                       name: AnalyticsEvent.createTask.createTaskEvent);
@@ -269,7 +279,7 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
                 scrollDirection: Axis.horizontal,
                 child: SelectableTagList(
                   onChanged: (value) {
-                    _tags.addAll(value);
+                    _selectedCategories.addAll(value);
                   },
                   isRow: true,
                   tags: FakeCategoriesRepository()
@@ -331,6 +341,7 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
                       const SizedBox(height: 16),
                       CustomDropdown(
                         hintText: 'Select a Gender (Optional)',
+                        initialItem: _gender?.name.capitalize,
                         decoration: CustomDropdownDecoration(
                             closedBorderRadius: BorderRadius.circular(12),
                             expandedFillColor:
@@ -370,15 +381,33 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
                           if (value == null || value.isEmpty) {
                             return null;
                           }
-                          // Check if value is null or not exactly 5 characters long
+
+                          // Check if value is exactly 5 characters long
                           if (value.length != 5) {
                             return 'Age group must be 5 characters long';
                           }
 
                           // Regular expression to check if value is in the format "22-25"
-                          RegExp regExp = RegExp(r'^\d{2}-\d{2}$');
+                          RegExp regExp = RegExp(r'^(\d{2})-(\d{2})$');
                           if (!regExp.hasMatch(value)) {
                             return 'Age group must be in the format "22-25"';
+                          }
+
+                          // Extract the two numbers from the match
+                          final match = regExp.firstMatch(value);
+                          if (match != null) {
+                            final start = int.parse(match.group(1)!);
+                            final end = int.parse(match.group(2)!);
+
+                            // Check if both numbers are the same
+                            if (start == end) {
+                              return 'Both numbers in the age group cannot be the same';
+                            }
+
+                            // Check if starting number is less than ending number
+                            if (start >= end) {
+                              return 'Starting number must be less than the ending number';
+                            }
                           }
 
                           return null; // If all checks pass, return null
@@ -394,14 +423,17 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
                         onPress: () async {
                           final DateTime? pickedDate = await showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
+                            initialDate: widget.editTaskModel?.deadline ??
+                                DateTime.now(),
                             firstDate: DateTime.now(),
                             lastDate: DateTime(DateTime.now().year + 1),
                           );
                           if (pickedDate != null && context.mounted) {
                             final TimeOfDay? pickedTime = await showTimePicker(
                               context: context,
-                              initialTime: TimeOfDay.now(),
+                              initialTime: dateTimeToTimeOfDay(
+                                      widget.editTaskModel?.deadline) ??
+                                  TimeOfDay.now(),
                             );
                             if (pickedTime != null) {
                               final pickedDateTime = DateTime(
@@ -411,7 +443,7 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
                                 pickedTime.hour,
                                 pickedTime.minute,
                               );
-                              _deadline = pickedDate;
+                              _deadline = pickedDateTime;
                               _deadlineController.text =
                                   DateFormat('dd MMM yyyy hh:mm a')
                                       .format(pickedDateTime);
@@ -442,9 +474,8 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
                     showAdvancedOptions = !showAdvancedOptions;
                   });
                 },
-                child: Text(!showAdvancedOptions
-                    ? 'Show Advanced Options'
-                    : 'Hide Advanced Option'),
+                child: Text(
+                    !showAdvancedOptions ? 'Show filters' : 'Hide filters'),
               ),
             ],
           ),
@@ -464,9 +495,12 @@ class _TaskCreationPageState extends ConsumerState<CreateTaskPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               state.when(data: (data) {
+                final selectedAddress = findItem(
+                    data, (e) => e.id == widget.editTaskModel?.address?.id);
                 return CustomDropdown<AddressModel>(
                   hintText: 'Select address (Optional)',
                   items: data,
+                  initialItem: selectedAddress,
                   onChanged: (value) {
                     _locationId = value?.id;
                   },
@@ -565,6 +599,7 @@ class ReusableTextField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
+            autovalidateMode: AutovalidateMode.onUnfocus,
             maxLength: length,
             readOnly: readOnly,
             onTap: onPress,
