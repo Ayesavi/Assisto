@@ -26,13 +26,13 @@ workflows:
     scripts:
     - name: Echo environment variables
       script: |
-        echo "GEO_API_KEY=$GEO_API_KEY"
-        echo "AD_MOBS_KEY=$AD_MOBS_KEY"
-        echo "GOOGLE_SIGN_IN=$GOOGLE_SIGN_IN"
-        echo "SUPABASE_URL=$SUPABASE_URL"
-        echo "SUPABASE_KEY=$SUPABASE_KEY"
-        echo "HTTP_URL=$HTTP_URL"
-        echo "ONE_SIGNAL_APP_ID=$ONE_SIGNAL_APP_ID"
+        echo $GEO_API_KEY
+        echo $AD_MOBS_KEY
+        echo $GOOGLE_SIGN_IN
+        echo $SUPABASE_URL
+        echo $SUPABASE_KEY
+        echo $HTTP_URL
+        echo $ONE_SIGNAL_APP_ID
     - name: Install dependencies
       script: flutter pub get
     - name: Decode Google credentials
@@ -107,13 +107,12 @@ workflows:
       scripts:
       - name: Echo environment variables
         script: |
-          echo "GEO_API_KEY=$GEO_API_KEY"
-          echo "AD_MOBS_KEY=$AD_MOBS_KEY"
-          echo "GOOGLE_SIGN_IN=$GOOGLE_SIGN_IN"
-          echo "SUPABASE_URL=$SUPABASE_URL"
-          echo "SUPABASE_KEY=$SUPABASE_KEY"
-          echo "HTTP_URL=$HTTP_URL"
-          echo "ONE_SIGNAL_APP_ID=$ONE_SIGNAL_APP_ID"
+          echo $GEO_API_KEY
+          echo $GOOGLE_SIGN_IN
+          echo $SUPABASE_URL
+          echo $SUPABASE_KEY
+          echo $HTTP_URL
+          echo $ONE_SIGNAL_APP_ID
       - name: Install dependencies
         script: flutter pub get
       - name: Decode Google credentials
