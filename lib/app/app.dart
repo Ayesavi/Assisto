@@ -1,9 +1,6 @@
+import 'package:assisto/core/remote_config/remote_config_service.dart';
 import 'package:assisto/core/router/router.dart';
-import 'package:assisto/core/services/notification_service/notification_service.dart';
-import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
-import 'package:assisto/core/services/permission_service/permission_service_provider.dart';
 import 'package:assisto/core/theme/theme.dart';
-import 'package:assisto/shared/show_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,7 +14,6 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
-  
     super.initState();
   }
 
@@ -26,10 +22,10 @@ class _MyAppState extends ConsumerState<MyApp> {
     final router = ref.watch(routerProvider);
     final theme = MaterialTheme(Theme.of(context).textTheme);
     return MaterialApp.router(
-      
       debugShowCheckedModeBanner: false,
       theme: theme.light(),
-      darkTheme: theme.dark(),
+      darkTheme:
+          RemoteConfigKeys.enableDarkMode.value<bool>() ? theme.dark() : null,
       routerConfig: router,
     );
   }

@@ -39,7 +39,9 @@ class HomePageController extends _$HomePageController {
       locationNotSet: () {
         loadData(filters);
       },
-      locationPermissionDisabled: () {},
+      locationPermissionDisabled: () {
+        loadData(filters);
+      },
       location: (address) {
         _defaultAddr = address;
         loadData(filters);

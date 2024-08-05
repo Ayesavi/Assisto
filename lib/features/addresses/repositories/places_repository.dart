@@ -124,8 +124,8 @@ class GooglePlacesRepository implements BasePlacesRepository {
   @override
   Future<LatLng> getCurrentLocation() async {
     bool serviceEnabled;
-
     // Check if location services are enabled
+
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // Location services are not enabled, don't continue

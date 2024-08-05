@@ -57,20 +57,25 @@ class AddressController extends _$AddressController {
   }
 
   Future<bool> setCurrentLocation() async {
-    final status = await _permissionService
-        .requestPermissionIfNeeded(DevicePermission.location);
-    if ([DevicePermissionStatus.granted, DevicePermissionStatus.limited]
-        .contains(status)) {
-      final pos = await _placesRepository.getCurrentLocation();
-      final addr = AddressModel(
-          address: "Your current location",
-          latlng: (lat: pos.latitude, lng: pos.longitude),
-          label: "You",
-          houseNumber: "44",
-          id: 0);
-      setLocation(addr);
-      return true;
-    } else {
+    try {
+      final status = await _permissionService
+          .requestPermissionIfNeeded(DevicePermission.location);
+      if ([DevicePermissionStatus.granted, DevicePermissionStatus.limited]
+          .contains(status)) {
+        final pos = await _placesRepository.getCurrentLocation();
+        final addr = AddressModel(
+            address: "Your current location",
+            latlng: (lat: pos.latitude, lng: pos.longitude),
+            label: "You",
+            houseNumber: "44",
+            id: 0);
+        setLocation(addr);
+        return true;
+      } else {
+        state = const AddressControllerState.locationPermissionDisabled();
+        return false;
+      }
+    } catch (e) {
       state = const AddressControllerState.locationPermissionDisabled();
       return false;
     }

@@ -14,26 +14,33 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+      debug: kReleaseMode ? false : true,
+      url: FlavorConfig().supabaseApiUrl,
+      anonKey: FlavorConfig().supabaseApiKey);
   // Initialize Firebase
   await Firebase.initializeApp(
     options: FlavorConfig().firebaseOptions,
   );
   //Remove this method to stop OneSignal Debugging
 
-  await NotificationService.initLocalNotificationService();
-  await Supabase.initialize(
-      url: FlavorConfig().supabaseApiUrl,
-      anonKey: FlavorConfig().supabaseApiKey);
-  await MobileAds.instance.initialize();
+  MobileAds.instance.initialize();
+  NotificationService.initLocalNotificationService();
+
   Log.intialize();
 
   RemoteConfigService.initialize();
   if (kReleaseMode) ErrorWidget.builder = (_) => const AppErrorWidget();
+  
   if (kDebugMode) {
-    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+    OneSignal.Debug.setLogLevel(OSLogLevel.debug);
+  }
+    if (kReleaseMode) {
+    OneSignal.Debug.setLogLevel(OSLogLevel.none);
   }
   OneSignal.initialize(FlavorConfig().oneSignalAppId);
-  await OneSignal.Notifications.requestPermission(true);
+  OneSignal.Notifications.requestPermission(true);
   // HttpService().usingEmulator(5001);
 
   runApp(const ProviderScope(child: MyApp()));

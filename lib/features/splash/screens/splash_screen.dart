@@ -23,7 +23,9 @@ class SplashScreen extends ConsumerWidget {
                 onTap: () {
                   // const AuthRoute().go(context);
                 },
-                child: const Text("Loading..."))),
+                child: CircularProgressIndicator(
+                  backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                ))),
       ),
     );
   }

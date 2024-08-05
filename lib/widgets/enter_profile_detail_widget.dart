@@ -1,4 +1,5 @@
 import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
+import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/features/auth/screens/fill_user_details_page.dart';
 import 'package:assisto/models/user_model/user_model.dart';
@@ -68,20 +69,24 @@ class _EnterProfileDetailWidgetState
               body: UserDetailsForm(
                   userMap: userDetails,
                   onSubmit: (userMap) async {
-                    final future = ref
-                        .read(authControllerProvider.notifier)
-                        .updateProfile(UserModel(
-                          id: '',
-                          description: userMap["description"],
-                          tags: userMap['tags'],
-                          name: userMap['full_name'],
-                          avatarUrl: userMap['avatar_url'],
-                          gender: userMap['gender'],
-                          dob: userMap['dob'],
-                          upiId: userMap['upi_id'],
-                        ));
+                    try {
+                      final future = ref
+                          .read(authControllerProvider.notifier)
+                          .updateProfile(UserModel(
+                            id: '',
+                            description: userMap["description"],
+                            tags: <String>[...userMap["tags"]],
+                            name: userMap['full_name'],
+                            avatarUrl: userMap['avatar_url'],
+                            gender: userMap['gender'],
+                            dob: userMap['dob'],
+                            upiId: userMap['upi_id'],
+                          ));
 
-                    showLoadingDialog(context, future);
+                      showLoadingDialog(context, future);
+                    } catch (e) {
+                      showSnackBar(context, appErrorHandler(e).message);
+                    }
                   }))
           : EmailPhoneOtpStepper(
               phone: isPhoneVerified != null ? userDetails['phone'] : null,

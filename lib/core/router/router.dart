@@ -3,6 +3,7 @@ import 'package:assisto/core/remote_config/remote_config_service.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/services/app_update_service/app_update_service.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,7 +16,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   ref.watch(remoteConfigUpdateProvider);
   _previousRouter = GoRouter(
       navigatorKey: navKey,
-      debugLogDiagnostics: true,
+      debugLogDiagnostics: kReleaseMode ? false : true,
       observers: [AnalyticsRouteObserver()],
       initialLocation: _previousRouter?.routeInformationProvider.value.uri.path,
       redirect: (context, state) {

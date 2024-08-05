@@ -2,9 +2,8 @@ import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/services/permission_service/permission_service.dart';
 import 'package:assisto/models/user_model/user_model.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 enum NotificationChannels { task, recommendations, chat, offer }
@@ -109,16 +108,7 @@ class NotificationService {
           defaultPrivacy: NotificationPrivacy.Private,
         ),
       ],
-      debug: true,
+      debug: kReleaseMode ? false : true,
     );
-  }
-
-  void handleOnClickOneSignalNotification(
-    BuildContext context,
-    OSNotificationClickEvent event,
-  ) {
-    Future.delayed(const Duration(milliseconds: 500), () {
-      context.go(event.notification.additionalData!['navigate']);
-    });
   }
 }
