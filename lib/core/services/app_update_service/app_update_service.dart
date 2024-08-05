@@ -17,8 +17,8 @@ class AppUpdateService {
   }
 
   bool isUpdateMandatory() {
-    final value = RemoteConfigKeys.isRequiredMinVersion.value<bool>();
-    return !value;
+    final value = RemoteConfigKeys.showUpdatePage.value<bool>();
+    return value;
   }
 
   void immediateUpdate() async {

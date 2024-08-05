@@ -2,7 +2,7 @@ part of 'remote_config_service.dart';
 
 enum RemoteConfigKeys {
   isAppOutage('is_app_outage', false),
-  isRequiredMinVersion('is_required_min_version', true),
+  showUpdatePage('show_update_page', false),
   enablePhoneAuth('enable_phone_auth',false),
   enableDarkMode('enable_dark_mode',false);
 
