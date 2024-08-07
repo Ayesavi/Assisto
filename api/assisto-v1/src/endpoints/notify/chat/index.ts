@@ -79,7 +79,7 @@ class NotifyChats {
   createMessageData(messageAuthorName: string, avatarUrl: string): BaseMessage {
     return {
       notification: {
-        title: `${messageAuthorName}`,
+        title: `${messageAuthorName} Sent you a message`,
         body: this.record.text,
       },
       android: {

@@ -49,13 +49,13 @@ function getOneSignalConfig(): OneSignalConfig {
   if (process.env.GCLOUD_PROJECT == "dev-assisto") {
     return {
       appId: process.env.ONE_SIGNAL_PROD_APP_ID || "",
-      userAuthKey: process.env.ONE_SIGNAL_DEV_USER_ID || "",
+      userAuthKey: process.env.ONE_SIGNAL_PROD_USER_ID || "",
       restApiKey: process.env.ONE_SIGNAL_PROD_API_KEY || "",
     };
   } else {
     return {
       appId: process.env.ONE_SIGNAL_DEV_APP_ID || "",
-      userAuthKey: process.env.ONE_SIGNAL_PROD_USER_ID || "",
+      userAuthKey: process.env.ONE_SIGNAL_DEV_USER_ID || "",
       restApiKey: process.env.ONE_SIGNAL_DEV_API_KEY || "",
     };
   }

@@ -42,7 +42,6 @@ export async function sendOneSignalNotification(
     notification.app_url =
       "https://assisto.ayesavi.in" + (model.data?.navigate ?? "/");
     // notification.android_channel_id = model.channel;
-
     await NClient.createNotification(notification);
   } catch (error) {
     console.error("Error sending OneSignal notification:", error);
