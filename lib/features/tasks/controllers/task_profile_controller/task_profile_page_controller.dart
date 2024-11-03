@@ -1,7 +1,7 @@
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
 import 'package:assisto/core/respositories/task_repository/task_repository_provider.dart';
-import 'package:assisto/features/home/controllers/home_page_controller.dart';
+import 'package:assisto/features/home/controllers/view_tasks_controller/view_tasks_page_controller.dart';
 import 'package:assisto/models/task_model.dart/task_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -50,13 +50,13 @@ class TaskProfilePageController extends _$TaskProfilePageController {
   }
 
   Future<void> cancelTask(int taskId) async {
-    ref.invalidate(homePageControllerProvider);
+    ref.invalidate(viewTasksPageControllerProvider);
 
     await _repository.blockTask(taskId);
   }
 
   Future<void> completeTask(int taskId) async {
     await _repository.updateTaskStatus(taskId, TaskStatus.completed);
-    ref.invalidate(homePageControllerProvider);
+    ref.invalidate(viewTasksPageControllerProvider);
   }
 }

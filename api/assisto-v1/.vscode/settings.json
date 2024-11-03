@@ -1,3 +1,7 @@
 {
-    "yaml.schemaStore.enable": false
+    "yaml.schemaStore.enable": false,
+    "files.associations": {
+        "*.mdx": "markdown",
+        "file": "c"
+    }
 }

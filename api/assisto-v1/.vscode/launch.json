@@ -1,0 +1,94 @@
+{
+    "configurations": [
+        {
+            "name": "Development",
+            "type": "cloudcode.cloudrun",
+            "request": "launch",
+           
+            "build": {
+                
+                "docker": {
+                    
+                    "path": "Dockerfile.nginx",
+                    "buildArgs": {
+                     
+                    },
+                   
+                }
+            },
+            "image": "assisto-v1",
+            "service": {
+                
+                "env": [
+                    {
+                        "name": "CMS_API_URL",
+                        "value": "https://q1gi10dd.api.sanity.io/v2021-06-07/data/query/development"
+                    }
+                    ,{
+                        "name": "CLOUD_FN_URL",
+                        "value": "https://asia-south1-assisto-dev-52a1d.cloudfunctions.net/apiv1"
+                    }
+                   
+                  
+                ],
+                "name": "assisto-v1",
+                "containerPort": 8080,
+                "resources": {
+                    "limits": {
+                        "memory": "256Mi"
+                    }
+                }
+            },
+        
+            "target": {
+                "minikube": {}
+            },
+            "watch": true
+        },
+        {
+            "name": "Production",
+            "type": "cloudcode.cloudrun",
+            "request": "launch",
+           
+            "build": {
+                
+                "docker": {
+                    
+                    "path": "Dockerfile.nginx",
+                    "buildArgs": {
+                     
+                    },
+                   
+                }
+            },
+            "image": "assisto-v1",
+            "service": {
+                "env": [
+                    {
+                        "name": "CMS_API_URL",
+                        "value": "https://q1gi10dd.api.sanity.io/v2021-06-07/data/query/production"
+                    }
+                    ,{
+                        "name": "CLOUD_FN_URL",
+                        "value": "https://asia-south1-dev-assisto.cloudfunctions.net/apiv1"
+                    }
+                   
+                  
+                ],
+                "name": "assisto-v1",
+                "containerPort": 8080,
+                "resources": {
+                    "limits": {
+                        "memory": "256Mi"
+                    }
+                }
+            },
+        
+            "target": {
+                "minikube": {}
+            },
+            "watch": true
+        },
+        
+    ]
+}

@@ -13,5 +13,5 @@
   "compileOnSave": true,
   "include": [
     "src"
-  ]
+, "../notification-service/src/mail"  ]
 }

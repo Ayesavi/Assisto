@@ -1,5 +1,5 @@
 import 'package:assisto/core/services/app_functions.dart';
-import 'package:assisto/features/home/controllers/select_categories_controller.dart';
+import 'package:assisto/features/home/controllers/select_catoegories_controller/select_categories_controller.dart';
 import 'package:assisto/models/service_category/service_category_model.dart';
 import 'package:assisto/shared/show_snackbar.dart';
 import 'package:assisto/widgets/app_filled_button.dart';

@@ -1,8 +1,8 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { BaseMessage } from "firebase-admin/messaging";
 import { SUPABASE_CLIENT } from "../../../supabase_client";
 import { NotificationChannels } from "../models/notification_models";
-import sendNotification from "../send_notification";
+import sendNotification, { UserMessage } from "../send_notification";
+import { logger } from "firebase-functions/v1";
 
 class NotifyTaskUpdates {
   private supabase: SupabaseClient;
@@ -78,28 +78,29 @@ class NotifyTaskUpdates {
    */
 
   public async call() {
-    var { data: bidder, error } = await this.supabase
-      .from("bidding")
-      .select("bidder_id")
-      .eq("id", this.newRecord.bid_id)
-      .single();
+    if (this.newRecord.bid_id) {
+      // Perform the query asynchronously without awaiting
+      this.supabase
+        .from("bidding")
+        .select("bidder_id")
+        .eq("id", this.newRecord.bid_id)
+        .single()
+        .then(({ data, error }) => {
+          let message = this._createMessageData(data?.bidder_id);
+          sendNotification(message);
 
-    // var { data: deviceTokens, error } = await this.supabase
-    //   .from("devices")
-    //   .select("token")
-    //   .eq("user_id", );
-    let message = {
-      ...this._createMessageData(),
-      tokens: [bidder?.bidder_id],
-    };
-    sendNotification(message);
-    if (error) {
-      console.error(error);
-      throw "Failed to load tokens";
+          if (error) {
+            console.error(error);
+            throw "Failed to load tokens";
+          }
+        });
+    } else {
+      logger.info("No bidding found")
+      return;
     }
   }
 
-  private _createMessageData(): BaseMessage {
+  private _createMessageData(assignedUserId: string): UserMessage {
     if (this.isUpdateForAssigningUser) {
       return {
         notification: {
@@ -115,6 +116,7 @@ class NotifyTaskUpdates {
           navigate: `/home/taskProfile/${this.newRecord.id}`,
           channel: NotificationChannels.TASK,
         },
+        recipientIds: [assignedUserId],
       };
     } else {
       return {
@@ -131,6 +133,7 @@ class NotifyTaskUpdates {
           navigate: `/home/taskProfile/${this.newRecord.id}`,
           channel: NotificationChannels.TASK,
         },
+        recipientIds: [this.newRecord.owner_id, assignedUserId],
       };
     }
   }

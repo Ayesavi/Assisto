@@ -1,0 +1,8 @@
+{
+  "notification": {
+    "title": "Hello, World!",
+    "body": "This is a notification from your Node.js server."
+  },
+  "recipientIds": ["08a03434-b5ef-436c-a23a-412a27c56ed1"],
+  "subscriptions": "push"
+}

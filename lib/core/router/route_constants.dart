@@ -22,6 +22,10 @@ class RouteConstants {
   static const taskProfile = TypedGoRoute<TaskProfileRoute>(
       path: 'taskProfile/:taskId', name: 'taskProfile');
 
+  static const viewTaskProfile = TypedGoRoute<ViewTaskProfileRoute>(
+      path: 'viewTaskProfile/:taskId', name: 'viewTaskProfile');
+
+
   static const taskProfileOffers = TypedGoRoute<TaskProfileOffersRoute>(
       path: 'taskProfile/:taskId/offers/:offerId', name: 'taskProfileOffers');
 
@@ -30,8 +34,8 @@ class RouteConstants {
     name: 'chat',
   );
 
-  static const payments = TypedGoRoute<PaymentsPageRoute>(
-      path: 'payments', name: 'payments');
+  static const payments =
+      TypedGoRoute<PaymentsPageRoute>(path: 'payments', name: 'payments');
 
   static const fillProfileRoute = TypedGoRoute<FullFillProfileRoute>(
     path: '/fillProfile',
@@ -60,6 +64,14 @@ class RouteConstants {
     name: 'search',
   );
 
+  static const viewAllTasksRoute = TypedGoRoute<ViewTasksPageRoute>(
+    path: '/home/viewTasks',
+    name: 'viewTasks',
+    routes: [
+      viewTaskProfile
+    ]
+  );
+
   static const notificationPageRoute = TypedGoRoute<NotificationPageRoute>(
     path: 'notifications',
     name: 'notifications',
@@ -71,14 +83,20 @@ class RouteConstants {
   static const appRequiresUpdate = TypedGoRoute<ForceUpdatePageRoute>(
       path: '/appRequiresUpdate', name: 'appRequiresUpdate');
 
+  static const ourServices = TypedGoRoute<OurServicesPageRoute>(
+      path: 'ourServices', name: 'ourServices');
+
   static const createTaskRoute = TypedGoRoute<CreateTaskRoute>(
     path: 'createTask',
     name: 'createTask',
   );
 
+  
+
   static const homeShellRoute = TypedShellRoute<HomeShellRoute>(routes: [
     feedPageRoute,
     searchTasksRoute,
+    viewAllTasksRoute,
     chatsListPageRoute,
   ]);
 
@@ -86,9 +104,12 @@ class RouteConstants {
       TypedGoRoute<FeedPageRoute>(path: '/home', name: 'home', routes: [
     taskProfile,
     profileRoute,
+    
     createTaskRoute,
+    ourServices,
     homeOtpPageRoute,
     taskProfileOffers,
+  
     notificationPageRoute,
   ]);
 }

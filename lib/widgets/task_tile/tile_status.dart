@@ -40,19 +40,10 @@ class TileStatusWidget extends StatelessWidget {
         return MaterialTheme.yellow.light;
       case TaskStatus.completed:
         if (isDarkTheme) {
-          final scheme = MaterialTheme.darkScheme();
-          return ColorFamily(
-              color: scheme.primary,
-              onColor: scheme.onPrimary,
-              colorContainer: scheme.primaryContainer,
-              onColorContainer: scheme.onPrimaryContainer);
+          return MaterialTheme.yellow.dark;
         }
-        final scheme = MaterialTheme.lightScheme();
-        return ColorFamily(
-            color: scheme.primary,
-            onColor: scheme.onPrimary,
-            colorContainer: scheme.primaryContainer,
-            onColorContainer: scheme.onPrimaryContainer);
+        return MaterialTheme.yellow.light;
+
       case TaskStatus.paid:
         if (isDarkTheme) {
           return MaterialTheme.green.dark;

@@ -13,32 +13,42 @@ class NotifyCreatedBid {
     this.supabase = SUPABASE_CLIENT();
   }
 
-  public async call() {
-    var { data: bidder, error } = await this.supabase
+  public call() {
+    // Fetch bidder's name asynchronously without awaiting
+    this.supabase
       .from("profiles")
       .select("full_name")
       .eq("id", this.record.bidder_id)
-      .single();
+      .single()
+      .then(async ({ data: bidder, error }) => {
+        if (error) {
+          console.error(error);
+          throw "Failed to load bidder profile";
+        }
 
-    var { data: taskDetails, error } = await this.supabase
-      .from("tasks")
-      .select("title,owner_id")
-      .eq("id", this.record.task_id)
-      .single();
+        // Fetch task details asynchronously without awaiting
+        return this.supabase
+          .from("tasks")
+          .select("title,owner_id")
+          .eq("id", this.record.task_id)
+          .single()
+          .then(({ data: taskDetails, error }) => {
+            if (error) {
+              console.error(error);
+              throw "Failed to load task details";
+            }
+            
+            // Create the message data
+            let message = {
+              ...this._createMessageData(bidder?.full_name, taskDetails?.title),
+              recipientIds: [taskDetails?.owner_id],
+            };
 
-    // var { data: deviceTokens, error } = await this.supabase
-    //   .from("devices")
-    //   .select("token")
-    //   .eq("user_id", taskDetails?.owner_id);
-    let message = {
-      ...this._createMessageData(bidder?.full_name, taskDetails?.title),
-      tokens: [taskDetails?.owner_id],
-    };
-    sendNotification(message);
-    if (error) {
-      console.error(error);
-      throw "Failed to load tokens";
-    }
+            // Send the notification asynchronously
+            sendNotification(message);
+          });
+      })
+      
   }
 
   private _createMessageData(name: string, taskTitle: string): BaseMessage {

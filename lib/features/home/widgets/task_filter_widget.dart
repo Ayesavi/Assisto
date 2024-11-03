@@ -10,7 +10,7 @@ class TaskFilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return FilterWidget(
       filters: const [
-        TaskFilterType.all,
+        TaskFilterType.recommended,
         TaskFilterType.you,
         TaskFilterType.bidded
       ],
@@ -19,8 +19,8 @@ class TaskFilterWidget extends StatelessWidget {
           case TaskFilterType.bidded:
             return 'Bidded';
 
-          case TaskFilterType.all:
-            return 'All';
+          case TaskFilterType.recommended:
+            return 'recommended';
           case TaskFilterType.you:
             return 'By you';
           default:
@@ -30,9 +30,9 @@ class TaskFilterWidget extends StatelessWidget {
       allowMultipleSelection: true,
       onSelected: onSelected,
       collisionMap: const {
-        TaskFilterType.you: [TaskFilterType.all, TaskFilterType.bidded],
-        TaskFilterType.all: [TaskFilterType.you, TaskFilterType.bidded],
-        TaskFilterType.bidded: [TaskFilterType.you, TaskFilterType.all]
+        TaskFilterType.you: [TaskFilterType.recommended, TaskFilterType.bidded],
+        TaskFilterType.recommended: [TaskFilterType.you, TaskFilterType.bidded],
+        TaskFilterType.bidded: [TaskFilterType.you, TaskFilterType.recommended]
       },
     );
   }

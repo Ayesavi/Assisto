@@ -1,52 +1,10 @@
-import 'package:assisto/core/controllers/auth_controller/auth_controller.dart';
 import 'package:assisto/core/services/permission_service/permission_service.dart';
-import 'package:assisto/models/user_model/user_model.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 enum NotificationChannels { task, recommendations, chat, offer }
 
 class NotificationService {
-  final Ref ref;
-
-  NotificationService(this.ref) {
-    _initialize();
-  }
-
-  void _initialize() {
-    ref.listen<AuthControllerState>(authControllerProvider, (previous, next) {
-      next.maybeWhen(
-        authenticated: (userModel) => _oneSignalLogin(userModel),
-        unAuthenticated: () => _oneSignalLogout(),
-        orElse: () => null,
-      );
-    });
-  }
-
-  void _oneSignalLogin(UserModel userModel) async {
-    await OneSignal.login(userModel.id);
-  }
-
-  void _oneSignalLogout() {
-    OneSignal.logout();
-  }
-
-  Future<void> shareLocation({
-    required VoidCallback onGranted,
-    required VoidCallback onDenied,
-  }) async {
-    final permission = await PermissionService()
-        .requestPermissionIfNeeded(DevicePermission.location);
-    if ([DevicePermissionStatus.granted, DevicePermissionStatus.limited]
-        .contains(permission)) {
-      await OneSignal.Location.setShared(true);
-    } else {
-      onDenied();
-    }
-  }
-
   Future<void> requestNotificationPermission({
     required VoidCallback onGranted,
     required VoidCallback onDenied,

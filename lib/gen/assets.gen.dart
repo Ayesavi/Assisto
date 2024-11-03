@@ -104,8 +104,6 @@ class $AssetsLottieGen {
 class Assets {
   Assets._();
 
-  static const String aEnv = '.env.dev';
-  static const String eEnv = '.env.prod';
   static const $AssetsGraphicsGen graphics = $AssetsGraphicsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLottieGen lottie = $AssetsLottieGen();
@@ -113,7 +111,7 @@ class Assets {
   static const String mapStyleLight = 'assets/map_style_light.json';
 
   /// List of all assets
-  static List<String> get values => [aEnv, aEnv, mapStyleDark, mapStyleLight];
+  static List<String> get values => [mapStyleDark, mapStyleLight];
 }
 
 class AssetGenImage {

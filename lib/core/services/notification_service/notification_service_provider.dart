@@ -6,7 +6,7 @@ part 'notification_service_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 NotificationService notificationService(NotificationServiceRef ref) {
-  return NotificationService(ref);
+  return NotificationService();
 }
 
 @Riverpod(keepAlive: true)

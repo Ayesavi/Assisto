@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Create a StateProvider for managing selected filters
 final selectedFiltersProvider =
-    StateProvider<List<TaskFilterType>>((ref) => [TaskFilterType.all]);
+    StateProvider<List<TaskFilterType>>((ref) => [TaskFilterType.recommended]);
 
 class FilterWidget extends ConsumerWidget {
   final List<TaskFilterType> filters;

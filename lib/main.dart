@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -32,15 +31,7 @@ void main() async {
 
   RemoteConfigService.initialize();
   if (kReleaseMode) ErrorWidget.builder = (_) => const AppErrorWidget();
-  
-  if (kDebugMode) {
-    OneSignal.Debug.setLogLevel(OSLogLevel.debug);
-  }
-    if (kReleaseMode) {
-    OneSignal.Debug.setLogLevel(OSLogLevel.none);
-  }
-  OneSignal.initialize(FlavorConfig().oneSignalAppId);
-  OneSignal.Notifications.requestPermission(true);
+
   // HttpService().usingEmulator(5001);
 
   runApp(const ProviderScope(child: MyApp()));

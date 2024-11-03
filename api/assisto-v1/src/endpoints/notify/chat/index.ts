@@ -14,56 +14,20 @@ class NotifyChats {
   }
 
   async call() {
-    let tokens = await this._getRecipientTokens();
+    let recipientId = await this.fetchMessageRecipientId(this.record.room_id, this.record.author_id);
     let messageAuthor = await this._getMessageAuthor();
     let messageBody = this.createMessageData(
       messageAuthor?.full_name,
       messageAuthor?.avatar_url
     );
+    /// sending to the recipient only...
     await sendNotification({
       ...messageBody,
-      tokens: [tokens],
+      recipientIds:[recipientId]
     });
   }
 
-  private async _getRecipientTokens(): Promise<string> {
-    try {
-      const { data: taskData, error: taskError } = await this.supabase
-        .from("tasks")
-        .select("owner_id,bidder:bid_id(bidder_id)")
-        .eq("id", this.record.room_id)
-        .limit(1)
-        .single();
 
-      const assignedUserId = (taskData?.bidder as any)?.bidder_id;
-      const ownerId = taskData?.owner_id;
-      const recipientId =
-        this.record.author_id == ownerId ? assignedUserId : ownerId;
-      if (taskError) {
-        console.error(taskError);
-        throw "Failed to load task";
-      }
-
-      if (!taskData || !taskData.bidder) {
-        throw "Bidder information not found in task data";
-      }
-
-      // const { data: tokens, error: tokenError } = await this.supabase
-      //   .from("devices")
-      //   .select("token")
-      //   .eq("user_id", recipientId);
-
-      // if (tokenError) {
-      //   console.error(tokenError);
-      //   throw "Failed to load tokens";
-      // }
-
-      return recipientId;
-    } catch (error) {
-      console.error("Error in _getRecipientTokens:", error);
-      throw error;
-    }
-  }
 
   async _getMessageAuthor() {
     return (
@@ -74,6 +38,33 @@ class NotifyChats {
         .limit(1)
         .single()
     ).data;
+  }
+
+  async  fetchChatSenderName(userId: string): Promise<string> {
+    var { data, error } = await this.supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", userId)
+      .single();
+    if (error) {
+      throw new Error("Error fetching assigned user name");
+    }
+    return data?.full_name;
+  }
+  
+  async fetchMessageRecipientId(
+    taskId: string,
+    authorId: string
+  ): Promise<string> {
+    var { data, error } = await this.supabase.rpc("get_recipient_id", {
+      task_id: taskId,
+      author_uid: authorId,
+    });
+  
+    if (error) {
+      throw new Error("Error fetching recipient id");
+    }
+    return data;
   }
 
   createMessageData(messageAuthorName: string, avatarUrl: string): BaseMessage {

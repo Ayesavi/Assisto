@@ -1,7 +1,7 @@
 import 'package:assisto/core/error/handler.dart';
 import 'package:assisto/core/respositories/task_repository/base_task_repository.dart';
 import 'package:assisto/core/respositories/task_repository/task_repository_provider.dart';
-import 'package:assisto/features/home/controllers/home_page_controller.dart';
+import 'package:assisto/features/home/controllers/view_tasks_controller/view_tasks_page_controller.dart';
 import 'package:assisto/models/bid_model/bid_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -38,7 +38,7 @@ class TaskBidWidgetController extends _$TaskBidWidgetController {
   Future<void> acceptBid(int bidId) async {
     try {
       await _repository.acceptBid(bidId);
-      ref.invalidate(homePageControllerProvider);
+      ref.invalidate(viewTasksPageControllerProvider);
       return;
     } catch (e) {
       throw const AppException(

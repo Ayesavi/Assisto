@@ -47,18 +47,13 @@ class OnMapAddressWidget extends ConsumerWidget {
         padding: const EdgeInsets.only(
           bottom: 16.0,
         ),
-        child:
-            // const Column(
-            //   mainAxisSize: MainAxisSize.min,
-            //   children: [LinearProgressIndicator(), ShimmeringOnMapAddressWidget()],
-            // )
-
-            param.when(
+        child: param.when(
           data: (data) {
             return Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const SizedBox(height: 16.0),
                 ListTile(
                   leading: Icon(
                     Icons.near_me_outlined,
@@ -102,6 +97,7 @@ class OnMapAddressWidget extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 LinearProgressIndicator(),
+                SizedBox(height: 16.0),
                 ShimmeringOnMapAddressWidget()
               ],
             );

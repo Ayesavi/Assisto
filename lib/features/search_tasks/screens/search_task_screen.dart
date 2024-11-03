@@ -7,6 +7,7 @@ import 'package:assisto/widgets/search_textfield.dart';
 import 'package:assisto/widgets/task_tile/task_tile.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
@@ -50,6 +51,7 @@ class _SearchTaskScreenState extends ConsumerState<SearchTaskScreen> {
     final state = ref.watch(searchTaskPageControllerProvider);
     return Scaffold(
       appBar: AppBar(
+        
         title: const HeadlineSmall(
           text: 'Search',
           weight: FontWeight.bold,

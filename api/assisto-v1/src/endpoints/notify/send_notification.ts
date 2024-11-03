@@ -1,51 +1,55 @@
-import * as OneSignal from "@onesignal/node-onesignal";
-import { MulticastMessage } from "firebase-admin/messaging";
-import { getOneSignalConfig, NClient } from "../../supabase_client";
-import { NotificationModel } from "./models/notification_models";
+import { PubSub } from "@google-cloud/pubsub";
+import { BaseMessage } from "firebase-admin/messaging";
 
-async function sendNotification(message: MulticastMessage): Promise<void> {
+// Initialize the Pub/Sub client
+const pubSubClient = new PubSub();
+
+export interface UserMessage extends BaseMessage {
+  recipientIds: string[];
+  navigateTo?: string;
+  subscriptions?: "push" | "email" | NotificationSubscriptions[];
+}
+
+export interface DatabaseWebhook {
+  record: any;
+  old_record: any;
+  type: "INSERT" | "UPDATE" | "DELETE";
+  table: string;
+}
+
+export enum NotificationSubscriptions {
+  PUSH = "push",
+  EMAIL = "email",
+}
+
+async function sendNotification(message: UserMessage): Promise<void> {
   try {
-    sendOneSignalNotification({
-      userIds: message.tokens,
-      title: message.notification!.title!,
-      body: message.notification!.body!,
-      groupKey: message.data?.groupKey,
-      channel: message.android?.notification?.channelId,
-      data: message.data,
-    });
+    console.log(message);
+    // Modify the message data
+    let notification: UserMessage = {
+      ...message,
+      data: {
+        ...message.data,
+        navigate:
+          "https://assisto.ayesavi.in/" + (message.data?.navigate ?? "/"),
+      },
+      subscriptions: message.subscriptions ?? "push",
+    };
+
+    // Convert message to JSON format
+    const messageData = JSON.stringify(notification);
+
+    // Publish message to the Pub/Sub topic
+    const topicName = "user-notifications";
+    const dataBuffer = Buffer.from(messageData);
+
+    await pubSubClient.topic(topicName).publishMessage({ data: dataBuffer });
+
+    console.log(`Notification published to topic ${topicName}.`);
   } catch (error) {
     console.error("Error sending notification:", error);
   }
 }
 
-export async function sendOneSignalNotification(
-  model: NotificationModel
-): Promise<void> {
-  try {
-    const notification = new OneSignal.Notification();
-    notification.app_id = getOneSignalConfig().appId;
-    notification.target_channel = "push";
-    notification.include_aliases = {
-      external_id: model.userIds,
-    };
-
-    notification.headings = {
-      en: model.title,
-    };
-
-    notification.contents = {
-      en: model.body,
-    };
-
-    notification.android_group = model.groupKey;
-    notification.data = model.data;
-    notification.app_url =
-      "https://assisto.ayesavi.in" + (model.data?.navigate ?? "/");
-    // notification.android_channel_id = model.channel;
-    await NClient.createNotification(notification);
-  } catch (error) {
-    console.error("Error sending OneSignal notification:", error);
-  }
-}
-
 export default sendNotification;
+

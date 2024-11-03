@@ -87,7 +87,7 @@ class ProfilePage extends ConsumerWidget {
                 final items = [
                   ProfileListItem(
                     icon: Icons.near_me_outlined,
-                    text: 'Addresses',
+                    text: 'Manage Addresses',
                     onTap: () {
                       const AddressesPageRoute().go(context);
                     },

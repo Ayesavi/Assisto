@@ -41,6 +41,21 @@
       "ignore": [
         "node_modules",
         ".git",
+        ".env",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    },
+    {
+      "source": "api/notification-service",
+      "codebase": "notification-service",
+      "ignore": [
+        "node_modules",
+        ".git",
+        ".env",
         "firebase-debug.log",
         "firebase-debug.*.log"
       ],

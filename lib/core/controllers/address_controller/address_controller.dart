@@ -8,6 +8,7 @@ import 'package:assisto/features/addresses/repositories/places_repository.dart';
 import 'package:assisto/models/address_model/address_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'address_controller.freezed.dart';
 part 'address_controller.g.dart';
@@ -27,6 +28,7 @@ class AddressController extends _$AddressController {
 
   List<AddressModel> get address => _addresses;
 
+  late SharedPreferences _sharedPreferences;
   @override
   AddressControllerState build() {
     ref.watch(authStateChangesProvider);
@@ -42,17 +44,28 @@ class AddressController extends _$AddressController {
   void setLocation(AddressModel addrModel) {
     state = Location(addrModel);
     _defaultAddress = addrModel;
+    _sharedPreferences.setInt("default_address_id", addrModel.id);
   }
 
   void fetchAddresses() async {
     final addrs = await _repo.fetchAddresses();
-
+    _sharedPreferences = await SharedPreferences.getInstance();
+    final defaultAddrId = _sharedPreferences.getInt("default_address_id");
     _addresses = addrs;
     if (addrs.isNotEmpty) {
-      state = Location(addrs[0]);
-    }
-    if (addrs.isEmpty) {
-      await setCurrentLocation();
+      if (defaultAddrId != null) {
+        _defaultAddress =
+            addrs.firstWhere((e) => e.id == defaultAddrId, orElse: () {
+          return _addresses[0];
+        });
+        state = AddressControllerState.location(_defaultAddress!);
+      } else {
+        _defaultAddress = _addresses[0];
+        state = AddressControllerState.location(_addresses[0]);
+      }
+      if (addrs.isEmpty) {
+        await setCurrentLocation();
+      }
     }
   }
 

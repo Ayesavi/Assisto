@@ -1,4 +1,3 @@
-import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,13 +27,6 @@ class AppFilledButton extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: FilledButton(
-          style: ButtonStyle(
-            shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12))),
-            padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(vertical: 16),
-            ),
-          ),
           onPressed: isDisabled
               ? null
               : () async {
@@ -69,9 +61,8 @@ class AppFilledButton extends ConsumerWidget {
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TitleLarge(
-                      text: label,
-                      color: Theme.of(context).colorScheme.onPrimary,
+                    Text(
+                      label,
                     ),
                     const SizedBox(width: 10),
                     SizedBox(
@@ -83,9 +74,8 @@ class AppFilledButton extends ConsumerWidget {
                     ),
                   ],
                 ) // Show progress row if in progress
-              : TitleLarge(
-                  text: label,
-                  color: Theme.of(context).colorScheme.onPrimary,
+              : Text(
+                  label,
                 ) // Show label if not in progress
 
           ),

@@ -1,9 +1,10 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { BaseMessage } from "firebase-admin/messaging";
 import { SUPABASE_CLIENT } from "../../../supabase_client";
 import { NotificationChannels } from "../models/notification_models";
-import sendNotification from "../send_notification";
-
+import sendNotification, {
+  DatabaseWebhook,
+  UserMessage,
+} from "../send_notification";
 class NotifyTaskRecommendations {
   private supabase: SupabaseClient;
 
@@ -38,40 +39,38 @@ class NotifyTaskRecommendations {
 }
    * ```
   */
-  async sendRecommendations(task: any): Promise<void> {
-    try {
-      console.log(task);
-      const tokens = await this._getRecommendedBidderTokens(task.id);
-      if (tokens.length === 0) {
-        console.log("No recommended bidders found.");
-        return;
-      }
+  async sendRecommendations(webhook: DatabaseWebhook): Promise<void> {
+    const recipientsPromise = this._getRecommendedUserIds(webhook.record.id);
+    recipientsPromise
+      .then((recipients) => {
+        if (recipients.length === 0) {
+          console.log("No recommended bidders found.");
+          return;
+        }
 
-      const message = {
-        ...this._createMessageData(task),
-        tokens: tokens,
-      };
-      await sendNotification(message);
-    } catch (error) {
-      console.error("Error sending recommendations:", error);
-      throw new Error("Failed to send recommendations");
-    }
+        let message = this._createMessageData(webhook.record, recipients);
+        sendNotification(message);
+      })
+      .catch((error) => {
+        console.error("Error sending recommendations:", error);
+        throw new Error("Failed to send recommendations");
+      });
+    // .catch(error){
   }
 
-  private async _getRecommendedBidderTokens(taskId: number): Promise<string[]> {
-    const { data: tokens, error } = await this.supabase.rpc(
-      "get_recommended_task_bidder_profiles",
-      { task_uid: taskId }
-    );
-
-    if (error) {
-      console.error("Error fetching recommended bidder tokens:", error);
-      throw new Error("Failed to fetch recommended bidder tokens");
-    }
-    return tokens.map((token: any) => token["profile_id"]);
+  private async _getRecommendedUserIds(taskId: number): Promise<string[]> {
+    return this.supabase
+      .rpc("get_recommended_task_bidder_profiles", { task_uid: taskId })
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Error fetching recommended bidder ids:", error);
+          throw new Error("Failed to fetch recommended bidder ids");
+        }
+        return data.map((profile: any) => profile.profile_id);
+      });
   }
 
-  private _createMessageData(task: any): BaseMessage {
+  private _createMessageData(task: any, recipientIds: string[]): UserMessage {
     return {
       notification: {
         title: "Here's a new buzz for you",
@@ -86,6 +85,7 @@ class NotifyTaskRecommendations {
         navigate: `/home/taskProfile/${task.id}`,
         channel: NotificationChannels.RECOMMENDATIONS,
       },
+      recipientIds: recipientIds,
     };
   }
 }

@@ -13,6 +13,7 @@ import PaymentWebhook from "./endpoints/payments/OnPaymentSucceeded";
 import UserDelete from "./endpoints/user/delete";
 import DisabledReason from "./endpoints/user/disabled-reason";
 import ReactivateUser from "./endpoints/user/reactivate";
+import NotificationService from "./PullNotifications";
 // Initialize Firebase Admin
 initializeApp({
   credential: applicationDefault(),
@@ -32,6 +33,11 @@ app.get("/", (req, res) => {
   res.send({ data: "working" });
 });
 
+app.get("/sendNotification", (req, res) => {
+  new NotificationService("processed-notifications-topic-sub").pullMessages();
+  res.send({ data: "working" });
+});
+
 app.post("/notify/chat", async (req, res) => {
   try {
     let notifyMessage = new NotifyChats(req.body.record);
@@ -41,8 +47,6 @@ app.post("/notify/chat", async (req, res) => {
     res.status(400).send();
   }
 });
-
-
 
 app.post("/user/disabled-reason", async (req, res) => {
   try {
@@ -159,6 +163,8 @@ app.post("/notify/tasks/recommendation", async (req, res) => {
     res.status(500).send("An error has occurred while sending notifications");
   }
 });
+
+// pullMessages();
 
 // Define a 404 route handler
 app.use((req, res) => {

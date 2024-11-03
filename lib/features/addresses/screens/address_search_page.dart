@@ -5,6 +5,7 @@ import 'package:assisto/features/addresses/controller/address_search_controller/
 import 'package:assisto/features/addresses/repositories/places_repository.dart';
 import 'package:assisto/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_google_maps_webservices/places.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -23,73 +24,40 @@ class AddressSearchPage extends ConsumerWidget {
     final cityData = FakePlacesRepository().list;
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Search Locations'),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(65),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Hero(
-                tag: 'searchBar',
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onInverseSurface,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: controller.controller,
-                            textInputAction: TextInputAction.search,
-                            keyboardType: TextInputType.text,
-                            onSubmitted: (searchQuery) {
-                              if (searchQuery.trim().isNotEmpty) {
-                                controller.debouncer.call(() {
-                                  analytics.logEvent(
-                                      name: AnalyticsEvent.manageAddresses
-                                          .searchAddressPressEvent,
-                                      parameters: {'key': searchQuery.trim()});
-                                  controller.searchPlaces(searchQuery);
-                                });
-                              }
-                            },
-                            onChanged: (searchQuery) {
-                              if (searchQuery.trim().isNotEmpty) {
-                                controller.debouncer.call(() {
-                                  controller.searchPlaces(searchQuery);
-                                });
-                              }
-                            },
-                            decoration: InputDecoration(
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(fontWeight: FontWeight.w400),
-                              hintText: "Search Here...",
-                              filled: true,
-                              fillColor: Theme.of(context)
-                                  .colorScheme
-                                  .onInverseSurface,
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Icon(Icons.search),
-                        const SizedBox(
-                          width: 20,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Theme.of(context).colorScheme.surface),
+        backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+        title: Hero(
+          tag: 'searchBar',
+          child: TextField(
+            autofocus: true,
+            controller: controller.controller,
+            decoration: const InputDecoration(
+              hintText: 'Search...',
+              filled: false,
+              border: InputBorder.none,
             ),
-          )),
+            onSubmitted: (searchQuery) {
+              if (searchQuery.trim().isNotEmpty) {
+                controller.debouncer.call(() {
+                  analytics.logEvent(
+                      name: AnalyticsEvent
+                          .manageAddresses.searchAddressPressEvent,
+                      parameters: {'key': searchQuery.trim()});
+                  controller.searchPlaces(searchQuery);
+                });
+              }
+            },
+            onChanged: (searchQuery) {
+              if (searchQuery.trim().isNotEmpty) {
+                controller.debouncer.call(() {
+                  controller.searchPlaces(searchQuery);
+                });
+              }
+            },
+          ),
+        ),
+      ),
       // backgroundColor: Colors.grey,
       body: Column(
         children: [

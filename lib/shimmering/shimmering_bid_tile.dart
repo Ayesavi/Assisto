@@ -14,34 +14,10 @@ class ShimmeringBidTile extends StatelessWidget {
     return Shimmer.fromColors(
       baseColor: baseColor,
       highlightColor: highlightColor,
-      child: ListTile(
-        leading: const CircleAvatar(
-          backgroundColor: Colors.white,
-          radius: 30,
-        ),
-        title: Container(
-          width: 100,
-          height: 20,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        subtitle: Container(
-          width: 100,
-          height: 14,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        trailing: Container(
-          width: 80,
-          height: 30,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+          // color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
         ),
       ),
     );

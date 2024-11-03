@@ -32,7 +32,7 @@ workflows:
           echo $FIREBASE_SERVICE_ACCOUNT_CREDENTIALS 
     - name: Build AAB with Flutter
       script: | 
-        flutter build appbundle --flavor dev --release \
+        flutter build appbundle --flavor dev --release --build-number=$PROJECT_BUILD_NUMBER \
           --dart-define=GEO_API_KEY=$GEO_API_KEY \
           --dart-define=AD_MOBS_KEY=$AD_MOBS_KEY \
           --dart-define=GOOGLE_SIGN_IN=$GOOGLE_SIGN_IN \
@@ -106,7 +106,7 @@ workflows:
             echo $FIREBASE_SERVICE_ACCOUNT_CREDENTIALS 
       - name: Build AAB with Flutter
         script: | 
-          flutter build appbundle --flavor prod --release \
+          flutter build appbundle --flavor prod --release --build-number=$PROJECT_BUILD_NUMBER \
             --dart-define=GEO_API_KEY=$GEO_API_KEY \
             --dart-define=GOOGLE_SIGN_IN=$GOOGLE_SIGN_IN \
             --dart-define=SUPABASE_URL=$SUPABASE_URL \

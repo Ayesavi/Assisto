@@ -1,12 +1,11 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { SUPABASE_CLIENT } from "../../supabase_client";
-import getBody from "../mail/HtmlTemplate";
-import sendMail from "../mail/SendMail";
 import sendNotification from "../notify/send_notification";
 import {
   PaymentWebhookEvents,
   SupabasePaymentStatus,
 } from "./PaymentConstants";
+import getBody from "../mail/HtmlTemplate";
 
 class PaymentWebhook {
   private supabase: SupabaseClient;
@@ -15,7 +14,7 @@ class PaymentWebhook {
     this.supabase = SUPABASE_CLIENT();
   }
 
-  async handle(event: any) {
+  handle(event: any) {
     // Process the payment and update the status of the order in your database
     switch (event.type) {
       case PaymentWebhookEvents.PAYMENT_SUCCESS_WEBHOOK:
@@ -27,183 +26,133 @@ class PaymentWebhook {
     }
   }
 
-  /**
-   * {
-  "data": {
-    "order": {
-      "order_id": "order_102302032jKXvDUSlqhOUDkBoiZLHooFN7D",
-      "order_amount": 185,
-      "order_currency": "INR",
-      "order_tags": {
-        "bidderId": "0b47cd5f-996a-4013-9efb-18ace7366086",
-        "ownerId": "997b0272-0ef2-443b-8cbe-e41982ef77a9",
-        "taskId": "26"
-      }
-    },
-    "payment": {
-      "cf_payment_id": 5114910666357,
-      "payment_status": "SUCCESS",
-      "payment_amount": 185,
-      "payment_currency": "INR",
-      "payment_message": null,
-      "payment_time": "2024-07-16T19:06:26+05:30",
-      "bank_reference": null,
-      "auth_id": null,
-      "payment_method": {
-        "app": {
-          "channel": "AmazonPay",
-          "upi_id": null,
-          "provider": "AmazonPay"
-        }
-      },
-      "payment_group": "wallet"
-    },
-    "customer_details": {
-      "customer_name": "Yogesh Dubey",
-      "customer_id": "0b47cd5f-996a-4013-9efb-18ace7366086",
-      "customer_email": "yogesh.dubey.0804@gmail.com",
-      "customer_phone": "9999999999"
-    },
-    "payment_gateway_details": {
-      "gateway_name": "CASHFREE",
-      "gateway_order_id": "2183078476",
-      "gateway_payment_id": "5114910666357",
-      "gateway_status_code": null,
-      "gateway_settlement": "CASHFREE"
-    },
-    "payment_offers": null
-  },
-  "event_time": "2024-07-16T19:06:36+05:30",
-  "type": "PAYMENT_SUCCESS_WEBHOOK"
-}
-   */
-
-  // handle the success event
-  // Update the status of the tasks to paid
-  // Notify sender and reciever
-  private async _handleSuccess(event: any) {
+  private _handleSuccess(event: any) {
     // Extract relevant data from the event
 
-    // // Update the status of the tasks to paid in your database
-    const { error } = await this.supabase
+    // Update the status of the tasks to paid in your database
+    this.supabase
       .from("tasks")
       .update({ status: "paid" })
-      .eq("id", Number.parseInt(event.data.order.order_tags.taskId));
+      .eq("id", Number.parseInt(event.data.order.order_tags.taskId))
+      .then(({ error }) => {
+        if (error) {
+          console.error(`Error updating task status: ${error.message}`);
+          return;
+        }
 
-    if (error) {
-      console.error(`Error updating task status: ${error.message}`);
-      return;
-    }
+        const { bidderId, taskName } = event.data.order.order_tags;
 
-    const { bidderId, taskName } = event.data.order.order_tags;
+        // Notify sender and receiver
+        sendNotification({
+          notification: {
+            title: `Payment Received`,
+            body: `You've been paid for your assist ${taskName}`,
+          },
+          recipientIds: [bidderId],
+        });
 
-    // Notify sender and receiver
-    // Send email, push notification, or send a message to the sender and receiver
-    // Add code to send email, push notification, or send a message here
-    // console.log("Payment successful for order:", orderId);
+        this.supabase
+          .from("user_payments")
+          .update({ status: SupabasePaymentStatus.SUCCESS })
+          .eq("id", event.data.order.order_id)
+          .then(({ error }) => {
+            if (error) {
+              console.error(`Error updating payment status: ${error.message}`);
+              return;
+            }
 
-    // const { data, error: tokenError } = await this.supabase
-    //   .from("devices")
-    //   .select("token")
-    //   .eq("user_id", bidderId);
+            this.supabase.auth.admin
+              .getUserById(bidderId)
+              .then(({ data: userData, error: userError }) => {
+                if (userError) {
+                  console.error(
+                    `Error fetching user data: ${userError.message}`
+                  );
+                  return;
+                }
 
-    // if (tokenError) {
-    //   console.error(`Error fetching tokens: ${tokenError.message}`);
-    //   return;
-    // }
+                let body = this._getSuccessMailBody(
+                  taskName,
+                  event.data.order.order_tags.taskId,
+                  event.data.order.order_amount,
+                  event.data.order.order_id
+                );
 
-    // const tokens = data.map((e) => e.token);
-
-    // send notification to user.
-    sendNotification({
-      notification: {
-        title: `Payment Recieved`,
-        body: `You've go paid for your assist ${taskName}`,
-      },
-      tokens: [bidderId],
-    });
-    await this.supabase
-      .from("user_payments")
-      .update({ status: SupabasePaymentStatus.SUCCESS })
-      .eq("id", event.data.order.order_id);
-    const { data: userData, error: userError } =
-      await this.supabase.auth.admin.getUserById(bidderId);
-    if (userError) {
-      console.error(`Error fetching user data: ${userError.message}`);
-      return;
-    }
-    let body = this._getSuccessMailBody(
-      taskName,
-      event.data.order.order_tags.taskId,
-      event.data.order.order_amount,
-      event.data.order.order_id
-    );
-
-    sendMail("Assisto", [userData.user?.email ?? ""], body);
+                sendNotification({
+                  notification: {
+                    title: `Assisto`,
+                    body: body,
+                  },
+                  recipientIds: [bidderId],
+                  subscriptions: "email",
+                });
+              });
+          });
+      });
   }
 
-  private async _handleFailure(event: any) {
-    // handle the failure event
+  private _handleFailure(event: any) {
+    // Handle the failure event
     // Notify sender and receiver
-    // Add code to send email, push notification, or send a message here
     console.log("Payment failed for order:", event.data.order.order_id);
 
     const { taskOwnerId, taskName } = event.data.order.order_tags;
 
-    // const { data, error: tokenError } = await this.supabase
-    //   .from("devices")
-    //   .select("token")
-    //   .eq("user_id", taskOwnerId);
-
-    // if (tokenError) {
-    //   console.error(`Error fetching tokens: ${tokenError.message}`);
-    //   return;
-    // }
-    await this.supabase
+    this.supabase
       .from("user_payments")
       .update({ status: SupabasePaymentStatus.FAILED })
-      .eq("id", event.data.order.order_id);
+      .eq("id", event.data.order.order_id)
+      .then(({ error }) => {
+        if (error) {
+          console.error(`Error updating payment status: ${error.message}`);
+          return;
+        }
 
-    // const tokens = data.map((e) => e.token);
+        sendNotification({
+          notification: {
+            title: `Payment Failed`,
+            body: `Payment failed for your assist ${taskName}. If any amount was deducted, it will be refunded within 2-3 working days.`,
+          },
+          recipientIds: [taskOwnerId],
+        });
 
-    // send notification to user.
-    sendNotification({
-      notification: {
-        title: `Payment Failed`,
-        body: `Payment failed for your assist ${taskName}, if deducted would be back within 2-3 working days`,
-      },
-      tokens: [taskOwnerId],
-    });
+        this.supabase.auth.admin
+          .getUserById(taskOwnerId)
+          .then(({ data: userData, error: userError }) => {
+            if (userError) {
+              console.error(`Error fetching user data: ${userError.message}`);
+              return;
+            }
 
-    const { data: userData, error: userError } =
-      await this.supabase.auth.admin.getUserById(taskOwnerId);
-
-    if (userError) {
-      console.error(`Error fetching user data: ${userError.message}`);
-      return;
-    }
-
-    let body = this._getFailedMailBody(
-      taskName,
-      event.data.order.order_tags.taskId,
-      event.data.order.order_amount,
-      event.data.order.order_id
-    );
-    sendMail("Assisto", [userData.user?.email ?? ""], body);
+            let body = this._getFailedMailBody(
+              taskName,
+              event.data.order.order_tags.taskId,
+              event.data.order.order_amount,
+              event.data.order.order_id
+            );
+            sendNotification({
+              notification: {
+                title: `Assisto`,
+                body: body,
+              },
+              recipientIds: [taskOwnerId],
+              subscriptions: "email",
+            });
+          });
+      });
   }
 
   _getFailedMailBody(
     taskName: string,
     taskId: string,
     taskAmount: string,
-    // order id is txn id
     txnID: string
   ): string {
     return getBody({
       body: `We regret to inform you that the payment for your assist ${taskName} (#${taskId}) of ${taskAmount} INR has failed. If any amount was deducted from your account, it will be refunded within 2-3 working days.
      
      <p> Please note your transaction ID for reference: ${txnID}.</p>
-    <p>  If you have any questions or need further assistance, please do not hesitate to contact us at <a href="mailto:assisto@ayesavi.in">assisto@ayesavi.in</a></p>.
+    <p> If you have any questions or need further assistance, please do not hesitate to contact us at <a href="mailto:assisto@ayesavi.in">assisto@ayesavi.in</a></p>.
       
      <p> Thank you for your understanding and patience<p>.  
     `,
@@ -215,7 +164,6 @@ class PaymentWebhook {
     taskName: string,
     taskId: string,
     taskAmount: string,
-    // order id is txn id
     txnID: string
   ) {
     return getBody({

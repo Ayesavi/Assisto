@@ -1,23 +1,13 @@
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:animations/animations.dart';
 import 'package:assisto/core/analytics/analytics_events.dart';
 import 'package:assisto/core/analytics/app_analytics.dart';
-import 'package:assisto/core/controllers/address_controller/address_controller.dart';
 import 'package:assisto/core/router/routes.dart';
 import 'package:assisto/core/services/notification_service/notification_service.dart';
 import 'package:assisto/core/services/notification_service/notification_service_provider.dart';
-import 'package:assisto/core/services/permission_service/permission_service.dart';
 import 'package:assisto/core/services/permission_service/permission_service_provider.dart';
 import 'package:assisto/shared/show_snackbar.dart';
-import 'package:assisto/widgets/popup.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-enum HomePageBars {
-  feed,
-  search,
-  chats,
-}
 
 class HomeScreen extends ConsumerStatefulWidget {
   final Widget destination;
@@ -35,8 +25,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       case 0:
         return FeedPageRoute().go(context);
       case 1:
-        return const SearchPageRoute().go(context);
+        return const ViewTasksPageRoute().go(context);
       case 2:
+        return const SearchPageRoute().go(context);
+      case 3:
         return const ChatsListPageRoute().go(context);
       default:
         return FeedPageRoute().go(context);
@@ -53,28 +45,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _requestPermissions() {
-    _notificationService.shareLocation(
-      onGranted: () {},
-      onDenied: () {
-        showPopup(context, cancelTitle: "Settings", confirmTitle: "Retry",
-            onCancel: () {
-          PermissionService().openSettings();
-        }, onConfirm: () async {
-          final isLocationObtained = await ref
-              .read(addressControllerProvider.notifier)
-              .setCurrentLocation();
-
-          if (isLocationObtained) {
-            Navigator.pop(context);
-          }
-          return;
-        },
-            isDismissable: false,
-            content:
-                'Location permission not granted, some assists may not be visible.',
-            title: 'Location Permission');
-      },
-    );
     _notificationService.requestNotificationPermission(
       onGranted: () {
         // do nothing
@@ -97,31 +67,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final analytics = AppAnalytics.instance;
     const analyticsEvents = AnalyticsEvent.home;
+
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          analytics.logEvent(name: analyticsEvents.createTaskFABEvent);
-          const CreateTaskRoute().go(context);
-        },
-        tooltip: 'Create Assist',
-        child: const Icon(Icons.add_rounded),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      body: widget.destination,
-      bottomNavigationBar: AnimatedBottomNavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        icons: const [
-          CupertinoIcons.home,
-          CupertinoIcons.search,
-          CupertinoIcons.chat_bubble_text,
-        ],
-        activeIndex: widget.index,
-        gapLocation: GapLocation.end,
-        activeColor: Theme.of(context).primaryColor,
-        notchSmoothness: NotchSmoothness.defaultEdge,
-        onTap: onTapNavBar,
-        //other params
-      ),
-    );
+        floatingActionButton: widget.index == 0
+            ? FadeScaleTransition(
+                animation: const AlwaysStoppedAnimation(1.0),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    analytics.logEvent(
+                        name: analyticsEvents.createTaskFABEvent);
+                    const CreateTaskRoute().go(context);
+                  },
+                  tooltip: 'Create Assist',
+                  child: const Icon(Icons.add_rounded),
+                ),
+              )
+            : null,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        body: widget.destination,
+        bottomNavigationBar: NavigationBar(
+          destinations: const <NavigationDestination>[
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.task_alt_outlined),
+              selectedIcon: Icon(Icons.task_alt_sharp),
+              label: 'Tasks',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.search),
+              selectedIcon: Icon(Icons.search_rounded),
+              label: 'Search',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          selectedIndex: widget.index,
+          onDestinationSelected: onTapNavBar,
+        ));
   }
 }

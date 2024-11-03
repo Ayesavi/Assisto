@@ -49,26 +49,10 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
   @override
   void initState() {
     super.initState();
+
     provider = selectAddressPageControllerProvider(context,
         editAddressModel: widget.addressModel);
     analytics.logScreen(name: 'select_address_page');
-
-    // if (widget.addressModel == null) {
-    //   ref.read(provider.notifier).requestLocationPermission(
-    //     onDenied: () {
-    //       showSnackBar(context, 'Location permission is denied');
-    //     },
-    //     onPermanentlyDenied: () {
-    //       showPopup(context,
-    //           title: 'Permission Denied',
-    //           content:
-    //               'Permission for location is denied enable in app settings',
-    //           onConfirm: () async {
-    //         PermissionService().openSettings();
-    //       });
-    //     },
-    //   );
-    // }
   }
 
   /// Builds the user interface for the SelectAddressPage widget.
@@ -209,26 +193,49 @@ class _SelectAddressPageState extends ConsumerState<SelectAddressPage> {
   /// Builds the search bar widget.
   AppBar _buildAppBar(SelectAddressPageController controller) {
     return AppBar(
-      title: const Text('Search Address'),
-      actions: [
-        IconButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  analytics.logScreen(name: 'address_search_page');
-                  return AddressSearchPage(
-                    onLocationSelected: (result, position) {
-                      Navigator.pop(context);
-                      controller.animateCamera(position);
-                      _searchController.text =
-                          result.formattedAddress ?? result.name;
-                    },
-                  );
-                },
-              ));
-            },
-            icon: const Icon(Icons.search))
-      ],
+      backgroundColor: Colors.transparent,
+      automaticallyImplyLeading: false,
+      bottom: const PreferredSize(
+          preferredSize: Size(double.infinity, 5),
+          child: SizedBox(
+            height: 0,
+          )),
+      title: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Theme.of(context).colorScheme.onInverseSurface),
+        child: Row(
+          children: [
+            const BackButton(),
+            Expanded(
+              child: Hero(
+                tag: "search",
+                child: TextField(
+                    readOnly: true,
+                    decoration: const InputDecoration(hintText: "Search"),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          analytics.logScreen(name: 'address_search_page');
+                          return AddressSearchPage(
+                            onLocationSelected: (result, position) {
+                              Navigator.pop(context);
+                              controller.animateCamera(position);
+                              _searchController.text =
+                                  result.formattedAddress ?? result.name;
+                            },
+                          );
+                        },
+                      ));
+                    }),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

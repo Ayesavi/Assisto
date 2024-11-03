@@ -1,15 +1,9 @@
-import * as OneSignal from "@onesignal/node-onesignal";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { Cashfree } from "cashfree-pg";
 
-const configuration = OneSignal.createConfiguration({
-  restApiKey: getOneSignalConfig().restApiKey,
-  userAuthKey: getOneSignalConfig().userAuthKey,
-});
 /**
  * OneSignal Notification client
  */
-const NClient = new OneSignal.DefaultApi(configuration);
 
 function _SUPABASE_KEY(): string {
   return process.env.GCLOUD_PROJECT == "dev-assisto" // this one is actually assisto-prod
@@ -24,6 +18,7 @@ function _SUPABASE_URL(): string {
 }
 
 function SUPABASE_CLIENT(): SupabaseClient {
+  console.log(_SUPABASE_URL())
   return createClient(_SUPABASE_URL(), _SUPABASE_KEY());
 }
 
@@ -45,32 +40,4 @@ function initializePayment() {
   }
 }
 
-function getOneSignalConfig(): OneSignalConfig {
-  if (process.env.GCLOUD_PROJECT == "dev-assisto") {
-    return {
-      appId: process.env.ONE_SIGNAL_PROD_APP_ID || "",
-      userAuthKey: process.env.ONE_SIGNAL_PROD_USER_ID || "",
-      restApiKey: process.env.ONE_SIGNAL_PROD_API_KEY || "",
-    };
-  } else {
-    return {
-      appId: process.env.ONE_SIGNAL_DEV_APP_ID || "",
-      userAuthKey: process.env.ONE_SIGNAL_DEV_USER_ID || "",
-      restApiKey: process.env.ONE_SIGNAL_DEV_API_KEY || "",
-    };
-  }
-}
-
-interface OneSignalConfig {
-  appId: string;
-  userAuthKey: string;
-  restApiKey: string;
-}
-
-export {
-  getOneSignalConfig,
-  initializePayment,
-  JWT_SECRET,
-  NClient,
-  SUPABASE_CLIENT,
-};
+export { initializePayment, JWT_SECRET, SUPABASE_CLIENT };
