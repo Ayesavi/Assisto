@@ -17,5 +17,3 @@
 * ONE_SIGNAL_APP_ID
 * AD_MOBS_KEY
 
-
-## Fake Commit!
